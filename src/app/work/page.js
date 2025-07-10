@@ -14,9 +14,8 @@ const categoryDisplayNames = {
   'Video-Motion-Graphics': 'Video & Motion Graphics'
 };
 
-const getProjects = () => {
+const getProjects = async () => {
   try {
-    // Read pre-computed metadata
     const metadataPath = path.join(process.cwd(), 'src', 'data', 'media-metadata.json');
     
     if (!fs.existsSync(metadataPath)) {
@@ -24,17 +23,25 @@ const getProjects = () => {
       return [];
     }
     
-    const metadataFile = fs.readFileSync(metadataPath, 'utf8');
-    const metadata = JSON.parse(metadataFile);
+    const metadataFile = await fs.promises.readFile(metadataPath, 'utf8');
+    const allProjects = JSON.parse(metadataFile);
     
-    // Transform categories data for the UI
+    const projectsByCategory = {};
+    Object.values(allProjects).forEach(project => {
+      if (project.category) {
+        if (!projectsByCategory[project.category]) {
+          projectsByCategory[project.category] = [];
+        }
+        projectsByCategory[project.category].push(project);
+      }
+    });
+
     const categorizedProjects = Object.entries(categoryDisplayNames).map(([categoryKey, displayName]) => {
-      const projects = (metadata.categories[categoryKey] || []).map(project => ({
+      const projects = (projectsByCategory[categoryKey] || []).map(project => ({
         ...project,
         category: displayName,
       }));
       
-      // Sort projects by title
       const sortedProjects = projects.sort((a, b) => a.title.localeCompare(b.title));
       
       return {
@@ -43,7 +50,6 @@ const getProjects = () => {
       };
     });
     
-    // Filter out empty categories
     return categorizedProjects.filter(category => category.projects.length > 0);
     
   } catch (error) {
@@ -53,6 +59,6 @@ const getProjects = () => {
 };
 
 export default async function WorkPage() {
-  const projects = getProjects();
+  const projects = await getProjects();
   return <WorkClientPage projects={projects} />;
 }
