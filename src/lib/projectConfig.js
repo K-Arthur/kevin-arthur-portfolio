@@ -265,20 +265,51 @@ export const PROJECT_CONFIG = {
     category: 'Graphic-Design-Branding',
     type: 'brand-identity',
     preferredThumbnail: 'agromyx-brand.png',
-    description: 'Agricultural technology brand identity',
-    tags: ['Branding', 'Agriculture', 'Technology', 'Identity']
+    description: 'Branding for an agricultural technology company.',
+    tags: ['Branding', 'Agrotech', 'Identity']
   },
 
-  // Video & Motion Graphics (Category-level entry)
-  'video-motion-graphics': {
-    folder: null, // Special case for category
-    title: 'Video & Motion Graphics',
+  // Video & Motion Graphics Projects
+  'casting-africa-video': {
+    folder: 'Casting Africa',
+    title: 'Casting Africa - Motion Graphics',
     category: 'Video-Motion-Graphics',
-    type: 'video-category',
-    preferredThumbnail: null,
-    description: 'Collection of video and motion graphics projects',
-    tags: ['Video', 'Motion Graphics', 'Animation', 'Visual Effects']
-  }
+    type: 'video',
+    description: 'Promotional motion graphics for the Casting Africa platform.',
+    tags: ['Video', 'Motion Graphics', 'Promo', 'Animation']
+  },
+  'stridd-video': {
+    folder: 'Stridd',
+    title: 'Stridd - Brand Video',
+    category: 'Video-Motion-Graphics',
+    type: 'video',
+    description: 'Brand video for the Stridd platform.',
+    tags: ['Video', 'Brand Film', 'Animation']
+  },
+  'mike-plein-video': {
+    folder: 'Mike Plein',
+    title: 'Mike Plein Showreel',
+    category: 'Video-Motion-Graphics',
+    type: 'video',
+    description: 'A showreel for video editor Mike Plein.',
+    tags: ['Video', 'Showreel', 'Video Editing']
+  },
+  'moremi-ai-video': {
+    folder: 'Moremi AI',
+    title: 'Moremi AI - Product Demo',
+    category: 'Video-Motion-Graphics',
+    type: 'video',
+    description: 'Product demonstration video for the Moremi AI application.',
+    tags: ['Video', 'Product Demo', 'AI', 'Animation']
+  },
+  'crimson-hive-video': {
+    folder: 'Crimson Hive',
+    title: 'Crimson Hive - Explainer Video',
+    category: 'Video-Motion-Graphics',
+    type: 'video',
+    description: 'Explainer video for the Crimson Hive tech startup.',
+    tags: ['Video', 'Explainer', 'Animation', 'Startup']
+  },
 };
 
 // Helper function to get project config by slug

@@ -17,11 +17,9 @@
 .DS_Store
 *.pem
 
-# Local .env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# environment variables
+.env
+.env*.local
 
 # Log files
 npm-debug.log*
@@ -37,3 +35,9 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Large media files (hosted externally)
+/public/images/work/Video-Motion-Graphics/
+/public/images/work/Video-Motion-Graphics/Mike Plein/Mike Plein - Girl You Fine.mp4
+/public/images/work/Video-Motion-Graphics/Moremi AI/Moremi Collaborate.mp4
+/public/images/work/Video-Motion-Graphics/Mike Plein/Mike Plein - Don't Go.mp4

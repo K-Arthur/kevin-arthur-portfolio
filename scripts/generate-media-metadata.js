@@ -1,9 +1,17 @@
 #!/usr/bin/env node
 
+require('dotenv').config();
+const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 const path = require('path');
-const sharp = require('sharp');
-const { getPlaiceholder } = require('plaiceholder');
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
 // Import project configuration
 const projectConfigPath = path.join(__dirname, '../src/lib/projectConfig.js');
@@ -25,60 +33,40 @@ const ASSET_CATEGORIES = {
 };
 
 // Helper functions
-const getBasicMediaType = (filename) => {
-  const ext = filename.split('.').pop()?.toLowerCase();
+const getBasicMediaType = (public_id) => {
+  const format = public_id.split('.').pop()?.toLowerCase();
   
-  if (['mp4', 'mov', 'avi', 'webm', 'm4v'].includes(ext)) {
+  if (['mp4', 'mov', 'avi', 'webm', 'm4v'].includes(format)) {
     return MEDIA_TYPES.VIDEO;
   }
   
-  if (['pdf'].includes(ext)) {
+  if (['pdf'].includes(format)) {
     return MEDIA_TYPES.PDF;
-  }
-  
-  if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(ext)) {
-    return MEDIA_TYPES.IMAGE;
   }
   
   return MEDIA_TYPES.IMAGE;
 };
 
-const categorizeImageAsset = (dimensions, filename, category, projectType = null) => {
-  const { width, height } = dimensions;
+const categorizeImageAsset = (resource, category, projectType = null) => {
+  const { width, height, public_id } = resource;
   const aspectRatio = width / height;
   const isPortrait = aspectRatio < 1;
   const isLandscape = aspectRatio > 1.5;
+  const filename = public_id.split('/').pop();
   
   if (category === ASSET_CATEGORIES.UIUX) {
-    if (projectType === 'mobile-app') {
-      return MEDIA_TYPES.MOBILE_MOCKUP;
-    }
+    if (projectType === 'mobile-app') return MEDIA_TYPES.MOBILE_MOCKUP;
+    if (projectType === 'web-app' || projectType === 'website') return MEDIA_TYPES.DESKTOP_MOCKUP;
     
-    if (projectType === 'web-app' || projectType === 'website') {
-      return MEDIA_TYPES.DESKTOP_MOCKUP;
-    }
-    
-    // Mobile mockup detection
     if (isPortrait && (
       filename.toLowerCase().includes('mobile') ||
-      filename.toLowerCase().includes('phone') ||
-      filename.toLowerCase().includes('ios') ||
-      filename.toLowerCase().includes('android') ||
-      filename.toLowerCase().includes('app') ||
-      (width < 600 && height > 800) ||
       (aspectRatio >= 0.4 && aspectRatio <= 0.7)
     )) {
       return MEDIA_TYPES.MOBILE_MOCKUP;
     }
     
-    // Desktop mockup detection
     if (isLandscape || (
       filename.toLowerCase().includes('desktop') ||
-      filename.toLowerCase().includes('web') ||
-      filename.toLowerCase().includes('website') ||
-      filename.toLowerCase().includes('dashboard') ||
-      filename.toLowerCase().includes('interface') ||
-      (width > 1000 && height > 600) ||
       (aspectRatio >= 1.3 && aspectRatio <= 2.0)
     )) {
       return MEDIA_TYPES.DESKTOP_MOCKUP;
@@ -90,440 +78,129 @@ const categorizeImageAsset = (dimensions, filename, category, projectType = null
   return MEDIA_TYPES.GRAPHIC;
 };
 
-const getThumbnailConfig = (mediaType, dimensions) => {
-  const { width, height } = dimensions;
+const getThumbnailUrl = (publicId, mediaType, dimensions) => {
+  const transformations = {
+    [MEDIA_TYPES.MOBILE_MOCKUP]: { width: 250, height: 400, crop: 'fill', gravity: 'north' },
+    [MEDIA_TYPES.DESKTOP_MOCKUP]: { width: 500, height: 350, crop: 'fill', gravity: 'north' },
+    [MEDIA_TYPES.VIDEO]: { width: 500, height: 280, crop: 'fill', gravity: 'center' },
+    [MEDIA_TYPES.GRAPHIC]: (dims) => {
+      const aspectRatio = dims.width / dims.height;
+      if (aspectRatio > 1.5) return { width: 400, height: 250, crop: 'fill' };
+      if (aspectRatio < 0.8) return { width: 300, height: 400, crop: 'fill' };
+      return { width: 350, height: 350, crop: 'fill' };
+    },
+    default: { width: 350, height: 350, crop: 'fill' },
+  };
+
+  let transform = transformations[mediaType] || transformations.default;
+  if (typeof transform === 'function') {
+    transform = transform(dimensions);
+  }
+
+  return cloudinary.url(publicId, {
+    transformation: [{ ...transform, quality: 'auto', fetch_format: 'auto' }],
+  });
+};
+
+const fetchCloudinaryResources = async (folder) => {
+  try {
+    const { resources } = await cloudinary.search
+      .expression(`folder:"${folder}"`)
+      .with_field('tags')
+      .with_field('context')
+      .max_results(500)
+      .execute();
+    return resources;
+  } catch (error) {
+    console.error(`Error fetching resources from Cloudinary folder "${folder}":`, error);
+    return [];
+  }
+};
+
+const getBlurPlaceholder = (publicId, width, height) => {
+  return cloudinary.url(publicId, {
+    transformation: [
+      { width: 100, crop: 'scale' },
+      { effect: 'blur:1000', quality: 1 }
+    ]
+  });
+};
+
+const processProject = async (slug, config) => {
+  console.log(`\nProcessing project: ${config.title}`);
+
+  const cloudinaryBaseFolder = process.env.CLOUDINARY_BASE_FOLDER;
+  const projectFolder = config.folder || config.title; // Use folder property, fallback to title
+  const cloudinaryFolder = [cloudinaryBaseFolder, config.category, projectFolder].filter(Boolean).join('/');
+  const resources = await fetchCloudinaryResources(cloudinaryFolder);
   
-  switch (mediaType) {
-    case MEDIA_TYPES.MOBILE_MOCKUP:
-      return {
-        width: 250,
-        height: 400,
-        fit: 'cover',
-        position: 'top',
-        quality: 90,
-        aspectRatio: '5/8'
-      };
-      
-    case MEDIA_TYPES.DESKTOP_MOCKUP:
-      return {
-        width: 500,
-        height: 350,
-        fit: 'cover',
-        position: 'top',
-        quality: 90,
-        aspectRatio: '16/11'
-      };
-      
-    case MEDIA_TYPES.VIDEO:
-      return {
-        width: 500,
-        height: 280,
-        fit: 'cover',
-        position: 'center',
-        quality: 85,
-        aspectRatio: '16/9'
-      };
-      
-    case MEDIA_TYPES.GRAPHIC:
-      const aspectRatio = width / height;
-      if (aspectRatio > 1.5) {
-        return {
-          width: 400,
-          height: 250,
-          fit: 'cover',
-          position: 'center',
-          quality: 90,
-          aspectRatio: '8/5'
-        };
-      } else if (aspectRatio < 0.8) {
-        return {
-          width: 300,
-          height: 400,
-          fit: 'cover',
-          position: 'center',
-          quality: 90,
-          aspectRatio: '3/4'
-        };
-      } else {
-        return {
-          width: 350,
-          height: 350,
-          fit: 'cover',
-          position: 'center',
-          quality: 90,
-          aspectRatio: '1/1'
-        };
-      }
-      
-    default:
-      return {
-        width: 350,
-        height: 350,
-        fit: 'cover',
-        position: 'center',
-        quality: 85,
-        aspectRatio: '1/1'
-      };
-  }
-};
-
-const getAllFiles = (dirPath, arrayOfFiles = []) => {
-  try {
-    const files = fs.readdirSync(dirPath, { withFileTypes: true });
-
-    files.forEach(file => {
-      const fullPath = path.join(dirPath, file.name);
-      if (file.isDirectory()) {
-        arrayOfFiles = getAllFiles(fullPath, arrayOfFiles);
-      } else {
-        arrayOfFiles.push(fullPath);
-      }
-    });
-
-    return arrayOfFiles;
-  } catch (error) {
-    console.warn('Error reading directory:', dirPath, error);
-    return arrayOfFiles;
-  }
-};
-
-const getImageDimensions = async (imagePath) => {
-  try {
-    const metadata = await sharp(imagePath).metadata();
-    return {
-      width: metadata.width || 0,
-      height: metadata.height || 0,
-      format: metadata.format || 'unknown'
-    };
-  } catch (error) {
-    console.warn('Could not get image dimensions for:', imagePath, error.message);
-    return { width: 0, height: 0, format: 'unknown' };
-  }
-};
-
-const generateBlurPlaceholder = async (imagePath) => {
-  try {
-    const buffer = fs.readFileSync(imagePath);
-    const { base64 } = await getPlaiceholder(buffer);
-    return base64;
-  } catch (error) {
-    console.warn('Could not generate blur placeholder for:', imagePath, error.message);
-    return null;
-  }
-};
-
-const getVideoMetadata = async (videoPath) => {
-  try {
-    const stats = fs.statSync(videoPath);
-    return {
-      size: stats.size,
-      format: path.extname(videoPath).substring(1).toLowerCase()
-    };
-  } catch (error) {
-    console.warn('Could not get video metadata for:', videoPath, error.message);
-    return { size: 0, format: 'unknown' };
-  }
-};
-
-const findBestThumbnail = (files, preferredThumbnail = null) => {
-  const imageFiles = files.filter(file => 
-    ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(
-      path.extname(file).toLowerCase()
-    )
-  );
-
-  if (imageFiles.length === 0) return null;
-
-  // If preferred thumbnail is specified, look for it
-  if (preferredThumbnail) {
-    const preferred = imageFiles.find(file => 
-      path.basename(file, path.extname(file)) === path.basename(preferredThumbnail, path.extname(preferredThumbnail))
-    );
-    if (preferred) return preferred;
-  }
-
-  // Fallback priority order
-  const priorities = [
-    /^(hero|main|cover|thumbnail|preview)/i,
-    /^(home|landing|dashboard|interface)/i,
-    /^(app|screen|mockup)/i,
-    /^(brand|logo|identity)/i,
-    /\.(jpg|jpeg)$/i,
-    /\.(png)$/i
-  ];
-
-  for (const priority of priorities) {
-    const match = imageFiles.find(file => {
-      const fileName = path.basename(file, path.extname(file));
-      return priority.test(fileName) || priority.test(file);
-    });
-    if (match) return match;
-  }
-
-  return imageFiles[0];
-};
-
-// Main processing function
-const processProject = async (slug, config, projectsRoot) => {
-  console.log(`Processing project: ${slug}`);
-  
-  const categoryPath = path.join(projectsRoot, config.category);
-  
-  if (!fs.existsSync(categoryPath)) {
-    console.warn(`Category path does not exist: ${categoryPath}`);
+  if (resources.length === 0) {
+    console.warn(`No media assets found in Cloudinary folder: ${cloudinaryFolder}`);
     return null;
   }
 
-  let project = {
+  let media = resources.map(resource => {
+    const basicType = getBasicMediaType(resource.public_id);
+    const mediaType = basicType === 'image'
+      ? categorizeImageAsset(resource, config.category, config.projectType)
+      : basicType;
+
+    const thumbnailUrl = getThumbnailUrl(resource.public_id, mediaType, { width: resource.width, height: resource.height });
+    const blurPlaceholder = getBlurPlaceholder(resource.public_id, resource.width, resource.height);
+
+    return {
+      id: resource.asset_id,
+      publicId: resource.public_id,
+      title: resource.context?.title || path.basename(resource.public_id, path.extname(resource.public_id)),
+      description: resource.context?.description || '',
+      url: resource.secure_url,
+      mediaType: mediaType,
+      category: config.category,
+      tags: resource.tags || [],
+      width: resource.width,
+      height: resource.height,
+      aspectRatio: resource.width / resource.height,
+      format: resource.format,
+      thumbnailUrl,
+      blurPlaceholder,
+    };
+  });
+
+  const heroAsset = config.hero
+    ? media.find(m => m.publicId.includes(config.hero)) || media[0]
+    : media[0];
+
+  return {
+    ...config,
     slug,
-    title: config.title,
-    category: config.category.replace(/-/g, ' ').replace(/([A-Z])/g, ' $1').trim(),
-    description: config.description,
-    tags: config.tags,
-    type: config.type,
-    groupedMedia: {},
-    thumbnail: null,
-    mediaCount: 0,
-    hasVideos: false
+    media,
+    heroAsset,
   };
-
-  // Handle individual project
-  if (config.folder) {
-    const projectPath = path.join(categoryPath, config.folder);
-    
-    if (!fs.existsSync(projectPath)) {
-      console.warn(`Project path does not exist: ${projectPath}`);
-      return null;
-    }
-
-    const allFiles = getAllFiles(projectPath);
-    const mediaItems = [];
-    
-    // Sort files for better ordering
-    const sortedFiles = allFiles.sort((a, b) => {
-      const aName = path.basename(a, path.extname(a)).toLowerCase();
-      const bName = path.basename(b, path.extname(b)).toLowerCase();
-      
-      if (config.preferredThumbnail) {
-        const preferredBase = path.basename(config.preferredThumbnail, path.extname(config.preferredThumbnail)).toLowerCase();
-        if (aName === preferredBase) return -1;
-        if (bName === preferredBase) return 1;
-      }
-      
-      const priorities = ['hero', 'main', 'cover', 'thumbnail', 'home', 'landing', 'dashboard', 'interface'];
-      const aIndex = priorities.findIndex(p => aName.includes(p));
-      const bIndex = priorities.findIndex(p => bName.includes(p));
-      
-      if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
-      if (aIndex !== -1) return -1;
-      if (bIndex !== -1) return 1;
-      
-      return aName.localeCompare(bName);
-    });
-    
-    for (const filePath of sortedFiles) {
-      const ext = path.extname(filePath).toLowerCase();
-      if (!['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.mp4', '.mov', '.avi', '.webm', '.pdf'].includes(ext)) {
-        continue;
-      }
-      
-      const filename = path.basename(filePath);
-      const relativePath = path.relative(categoryPath, filePath);
-      const publicPath = `/images/work/${config.category}/${relativePath.replace(/\\/g, '/')}`;
-      
-      const basicType = getBasicMediaType(filename);
-      let detailedType = basicType;
-      let metadata = {};
-      let blurPlaceholder = null;
-      
-      if (basicType === MEDIA_TYPES.IMAGE) {
-        const dimensions = await getImageDimensions(filePath);
-        
-        if (config.type === 'mobile-app') {
-          detailedType = MEDIA_TYPES.MOBILE_MOCKUP;
-        } else if (config.type === 'web-app' || config.type === 'website') {
-          detailedType = MEDIA_TYPES.DESKTOP_MOCKUP;
-        } else {
-          detailedType = categorizeImageAsset(dimensions, filename, config.category, config.type);
-        }
-        
-        metadata = {
-          ...dimensions,
-          thumbnailConfig: getThumbnailConfig(detailedType, dimensions)
-        };
-        
-        // Generate blur placeholder
-        blurPlaceholder = await generateBlurPlaceholder(filePath);
-      } else if (basicType === MEDIA_TYPES.VIDEO) {
-        metadata = await getVideoMetadata(filePath);
-        project.hasVideos = true;
-      }
-      
-      const mediaItem = {
-        src: publicPath,
-        type: detailedType,
-        title: filename.replace(/\.[^/.]+$/, '').replace(/-/g, ' ').replace(/_/g, ' '),
-        alt: `${detailedType.replace('_', ' ')} - ${filename}`,
-        metadata,
-        blurPlaceholder
-      };
-      
-      mediaItems.push(mediaItem);
-    }
-    
-    if (mediaItems.length > 0) {
-      project.groupedMedia[config.title] = mediaItems;
-      project.mediaCount = mediaItems.length;
-      
-      // Set thumbnail from first media item or best thumbnail
-      const bestThumbnail = findBestThumbnail(allFiles, config.preferredThumbnail);
-      if (bestThumbnail) {
-        const relativePath = path.relative(categoryPath, bestThumbnail);
-        project.thumbnail = `/images/work/${config.category}/${relativePath.replace(/\\/g, '/')}`;
-      } else if (mediaItems.length > 0) {
-        project.thumbnail = mediaItems[0].src;
-      }
-    }
-    
-    return project;
-  }
-
-  // Handle category requests (Video & Motion Graphics)
-  if (config.category === ASSET_CATEGORIES.VIDEO) {
-    const allFiles = getAllFiles(categoryPath);
-    const videoFiles = allFiles.filter(filePath => 
-      ['.mp4', '.mov', '.avi', '.webm', '.m4v'].includes(path.extname(filePath).toLowerCase())
-    );
-    
-    const videoGroups = {};
-    const allVideosGroup = [];
-    
-    for (const videoFile of videoFiles) {
-      const relativePath = path.relative(categoryPath, videoFile);
-      const folder = path.dirname(relativePath);
-      const folderName = folder === '.' ? 'Root' : folder;
-      
-      if (!videoGroups[folderName]) {
-        videoGroups[folderName] = [];
-      }
-      
-      const videoMetadata = await getVideoMetadata(videoFile);
-      const publicPath = `/images/work/${config.category}/${relativePath.replace(/\\/g, '/')}`;
-      
-      const baseName = path.basename(videoFile, path.extname(videoFile));
-      const thumbnailFile = allFiles.find(f => {
-        const fExt = path.extname(f).toLowerCase();
-        const fBase = path.basename(f, fExt);
-        return fBase === baseName && ['.jpg', '.jpeg', '.png', '.webp'].includes(fExt);
-      });
-      
-      let thumbnail = null;
-      if (thumbnailFile) {
-        const thumbnailRelativePath = path.relative(categoryPath, thumbnailFile);
-        thumbnail = `/images/work/${config.category}/${thumbnailRelativePath.replace(/\\/g, '/')}`;
-      }
-      
-      const videoItem = {
-        src: publicPath,
-        type: MEDIA_TYPES.VIDEO,
-        title: baseName.replace(/-/g, ' ').replace(/_/g, ' '),
-        thumbnail: thumbnail,
-        metadata: {
-          ...videoMetadata,
-          category: folderName,
-          projectFolder: folderName
-        }
-      };
-      
-      videoGroups[folderName].push(videoItem);
-      allVideosGroup.push(videoItem);
-    }
-    
-    if (allVideosGroup.length > 0) {
-      project.groupedMedia = { 'All Videos': allVideosGroup, ...videoGroups };
-      project.mediaCount = videoFiles.length;
-      project.hasVideos = true;
-      
-      // Set thumbnail from first video thumbnail
-      const firstVideoWithThumbnail = allVideosGroup.find(v => v.thumbnail);
-      if (firstVideoWithThumbnail) {
-        project.thumbnail = firstVideoWithThumbnail.thumbnail;
-      }
-    } else {
-      project.groupedMedia = videoGroups;
-    }
-    
-    project.totalVideos = videoFiles.length;
-    project.projects = Object.keys(videoGroups).length;
-    
-    return project;
-  }
-  
-  return project;
 };
 
-// Main execution
 const main = async () => {
-  console.log('🚀 Starting media metadata generation...');
-  
-  const projectsRoot = path.join(__dirname, '../public/images/work');
-  const outputPath = path.join(__dirname, '../src/data/media-metadata.json');
-  
-  // Ensure output directory exists
-  const outputDir = path.dirname(outputPath);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-  
-  const metadata = {
-    generated: new Date().toISOString(),
-    projects: {},
-    categories: {}
-  };
-  
-  console.log('📁 Processing projects...');
-  
-  // Process all projects
+  console.log('Starting media metadata generation from Cloudinary...');
+  let allMediaData = {};
+
   for (const [slug, config] of Object.entries(PROJECT_CONFIG)) {
-    try {
-      const project = await processProject(slug, config, projectsRoot);
-      if (project) {
-        metadata.projects[slug] = project;
-        
-        // Group by category for main work page
-        const categoryKey = config.category;
-        if (!metadata.categories[categoryKey]) {
-          metadata.categories[categoryKey] = [];
-        }
-        
-        metadata.categories[categoryKey].push({
-          slug,
-          title: config.title,
-          category: project.category,
-          description: config.description,
-          tags: config.tags,
-          thumbnail: project.thumbnail || '/images/placeholder.png',
-          mediaCount: project.mediaCount,
-          hasVideos: project.hasVideos,
-          type: config.type
-        });
-      }
-    } catch (error) {
-      console.error(`❌ Error processing project ${slug}:`, error);
+    const projectData = await processProject(slug, config);
+    if (projectData) {
+      allMediaData[slug] = projectData;
     }
   }
+
+  const outputPath = path.join(__dirname, '../src/data/media-metadata.json');
+  try {
+    fs.writeFileSync(outputPath, JSON.stringify(allMediaData, null, 2));
+    console.log(`\nSuccessfully generated media metadata at: ${outputPath}`);
+  } catch (error) {
+    console.error('Error writing media metadata file:', error);
+  }
   
-  // Write metadata to file
-  fs.writeFileSync(outputPath, JSON.stringify(metadata, null, 2));
-  
-  console.log(`✅ Generated metadata for ${Object.keys(metadata.projects).length} projects`);
-  console.log(`📄 Metadata saved to: ${outputPath}`);
-  console.log('🎉 Media metadata generation complete!');
+  console.log('Finished generating media metadata.');
 };
 
-// Run the script
-if (require.main === module) {
-  main().catch(console.error);
-}
-
-module.exports = { main }; 
+main().catch(error => {
+  console.error('An unexpected error occurred:', error);
+  process.exit(1);
+}); 
