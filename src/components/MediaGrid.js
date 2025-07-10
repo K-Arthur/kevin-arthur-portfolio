@@ -90,6 +90,9 @@ const MediaGrid = ({
   const getMediaIcon = (item) => {
     const mediaType = item.type || item.mediaType;
     switch (mediaType) {
+      case MEDIA_TYPES.VIDEO:
+      case 'video':
+        return <Video size={24} className={styles.mediaIcon} />;
       case MEDIA_TYPES.PDF:
       case 'pdf':
         return <FileText size={24} className={styles.mediaIcon} />;
@@ -156,15 +159,25 @@ const MediaGrid = ({
       );
     }
 
-    // Video player for videos
+    // For videos, show thumbnail with play icon overlay instead of inline player
     if (mediaType === MEDIA_TYPES.VIDEO || mediaType === 'video') {
       return (
-        <VideoPlayer 
-          src={item.src || item.url}
-          poster={getThumbnailSrc(item)}
-          className={styles.videoPlayerInGrid}
-          aria-label={ariaLabels.label}
-        />
+        <div className={styles.videoThumbnailWrapper} role={ariaLabels.role} aria-label={ariaLabels.label}>
+          <Image
+            src={getThumbnailSrc(item)}
+            alt={ariaLabels.label}
+            fill
+            className={styles.image}
+            style={{ objectFit: 'cover' }}
+            onError={(e) => {
+              e.target.src = '/images/video-placeholder.svg';
+            }}
+          />
+          {/* Play button overlay */}
+          <div className={styles.playButtonOverlay}>
+            <Play size={48} className={styles.playIcon} />
+          </div>
+        </div>
       );
     }
 
@@ -312,8 +325,8 @@ const MediaGrid = ({
                   {renderThumbnailContent(item, isLoaded, index)}
                 </div>
 
-                {/* Media Type Overlay - Exclude for videos */}
-                {mediaType !== MEDIA_TYPES.IMAGE && mediaType !== MEDIA_TYPES.VIDEO && mediaType !== 'video' && (
+                {/* Media Type Overlay - Show for videos and other non-image types */}
+                {mediaType !== MEDIA_TYPES.IMAGE && (
                   <div className={styles.mediaOverlay}>
                     {getMediaIcon(item)}
                     <span className={styles.mediaTypeLabel}>
@@ -329,7 +342,7 @@ const MediaGrid = ({
                     e.stopPropagation(); // Prevent grid click from firing
                     if (item.externalLink) {
                       window.open(item.externalLink, '_blank', 'noopener,noreferrer');
-                                          } else if (mediaType !== MEDIA_TYPES.VIDEO && mediaType !== 'video') {
+                    } else {
                       openLightbox(index);
                     }
                   }}

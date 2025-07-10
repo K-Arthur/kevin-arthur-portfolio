@@ -199,6 +199,51 @@
   border-radius: inherit;
 }
 
+.videoThumbnailWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playButtonOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: hsla(var(--background) / 0.8);
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border: 2px solid hsl(var(--primary));
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.playIcon {
+  color: hsl(var(--primary));
+  margin-left: 2px; /* Slight offset for visual centering */
+}
+
+@media (hover: hover) {
+  .mediaItem:hover .playButtonOverlay {
+    background: hsl(var(--primary));
+    border-color: hsl(var(--primary));
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  
+  .mediaItem:hover .playIcon {
+    color: hsl(var(--primary-foreground));
+  }
+}
+
 .videoContainer {
   position: relative;
   width: 100%;
