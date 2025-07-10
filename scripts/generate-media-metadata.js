@@ -79,6 +79,7 @@ const categorizeImageAsset = (resource, category, projectType = null) => {
 };
 
 const getThumbnailUrl = (publicId, mediaType, dimensions) => {
+  const isVideo = mediaType === MEDIA_TYPES.VIDEO;
   const transformations = {
     [MEDIA_TYPES.MOBILE_MOCKUP]: { width: 250, height: 400, crop: 'fill', gravity: 'north' },
     [MEDIA_TYPES.DESKTOP_MOCKUP]: { width: 500, height: 350, crop: 'fill', gravity: 'north' },
@@ -95,6 +96,14 @@ const getThumbnailUrl = (publicId, mediaType, dimensions) => {
   let transform = transformations[mediaType] || transformations.default;
   if (typeof transform === 'function') {
     transform = transform(dimensions);
+  }
+
+  if (isVideo) {
+    return cloudinary.url(publicId, {
+      resource_type: 'video',
+      transformation: [{ ...transform, quality: 'auto' }],
+      format: 'jpg',
+    });
   }
 
   return cloudinary.url(publicId, {
@@ -130,7 +139,7 @@ const processProject = async (slug, config) => {
   console.log(`\nProcessing project: ${config.title}`);
 
   const cloudinaryBaseFolder = process.env.CLOUDINARY_BASE_FOLDER;
-  const projectFolder = config.folder || config.title; // Use folder property, fallback to title
+  const projectFolder = config.folder || config.title;
   const cloudinaryFolder = [cloudinaryBaseFolder, config.category, projectFolder].filter(Boolean).join('/');
   const resources = await fetchCloudinaryResources(cloudinaryFolder);
   
@@ -141,11 +150,15 @@ const processProject = async (slug, config) => {
 
   let media = resources.map(resource => {
     const basicType = getBasicMediaType(resource.public_id);
-    const mediaType = basicType === 'image'
-      ? categorizeImageAsset(resource, config.category, config.projectType)
-      : basicType;
+    let mediaType = basicType;
 
-    const thumbnailUrl = getThumbnailUrl(resource.public_id, mediaType, { width: resource.width, height: resource.height });
+    if (basicType === 'image') {
+      mediaType = categorizeImageAsset(resource, config.category, config.projectType);
+    } else if (basicType === 'video') {
+      mediaType = MEDIA_TYPES.GRAPHIC;
+    }
+
+    const thumbnailUrl = getThumbnailUrl(resource.public_id, basicType, { width: resource.width, height: resource.height });
     const blurPlaceholder = getBlurPlaceholder(resource.public_id, resource.width, resource.height);
 
     return {

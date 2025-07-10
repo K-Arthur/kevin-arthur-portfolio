@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import WorkClientPage from '@/components/WorkClientPage';
+import VideoDetails from './VideoDetails';
 
 export const metadata = {
   title: 'Work - Kevin Arthur',
@@ -13,6 +14,7 @@ const categoryDisplayNames = {
   'UI-UX-Design': 'UI/UX Design',
   'Video-Motion-Graphics': 'Video & Motion Graphics'
 };
+
 
 const getProjects = async () => {
   try {

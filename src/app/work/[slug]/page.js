@@ -9,6 +9,12 @@ import MediaGrid from '@/components/MediaGrid';
 import { MEDIA_TYPES, getOptimalGridLayout } from '@/lib/mediaUtils';
 import VideoDetails from './VideoDetails';
 
+const categoryDisplayNames = {
+  'Graphic-Design-Branding': 'Graphic Design & Branding',
+  'UI-UX-Design': 'UI/UX Design',
+  'Video-Motion-Graphics': 'Video & Motion Graphics'
+};
+
 // Modular components for better organization
 const ProjectHeader = ({ project, isVideoProject }) => (
   <div className="mb-8 md:mb-12">
@@ -18,7 +24,7 @@ const ProjectHeader = ({ project, isVideoProject }) => (
           {project.title}
         </h1>
         <p className="text-md sm:text-lg text-muted-foreground mt-2">
-          {project.category}
+          {categoryDisplayNames[project.category] || project.category}
         </p>
       </div>
     </div>
@@ -329,7 +335,7 @@ export default function ProjectPage({ params }) {
                 groupName={activeGroup}
                 mediaItems={project.groupedMedia[activeGroup]}
                 getFormattedMedia={getFormattedMedia}
-                getMediaTypeStats={getMediaTypeStats}
+                getMediaTypeStats={getMediaType_stats}
                 getMediaTypeLabel={getMediaTypeLabel}
               />
             )
