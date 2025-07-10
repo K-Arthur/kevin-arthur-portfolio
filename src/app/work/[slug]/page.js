@@ -157,10 +157,14 @@ export default function ProjectPage({ params }) {
         const data = await res.json();
         console.log('Project data received:', data);
         
-        // Manually create groupedMedia if it doesn't exist
-        if (data && data.media && !data.groupedMedia) {
+        // Manually create groupedMedia and map properties
+        if (data && data.media) {
           data.groupedMedia = {
-            'All Media': data.media
+            'All Media': data.media.map(item => ({
+              ...item,
+              type: item.mediaType, // Map mediaType to type
+              src: item.url // Map url to src
+            }))
           };
         }
         
@@ -208,7 +212,7 @@ export default function ProjectPage({ params }) {
     if (!mediaItems || mediaItems.length === 0) return {};
     
     return mediaItems.reduce((stats, item) => {
-      const type = item.type || 'unknown';
+      const type = item.mediaType || 'unknown';
       stats[type] = (stats[type] || 0) + 1;
       return stats;
     }, {});
