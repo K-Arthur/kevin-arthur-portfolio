@@ -15,6 +15,13 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
     ? allProjects
     : categorizedProjects.find(c => c.name === activeCategory)?.projects || [];
 
+  // Debug logging for video projects
+  console.log('Filtered projects:', filteredProjects.filter(p => p.category === 'Video & Motion Graphics').map(p => ({
+    title: p.title,
+    heroAsset: p.heroAsset,
+    thumbnailUrl: p.heroAsset?.thumbnailUrl
+  })));
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
@@ -103,17 +110,22 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
                   {/* Project Image */}
                   <div className="relative aspect-[4/3] overflow-hidden w-full">
                     <Image
-                      src={project.heroAsset.thumbnailUrl}
+                      src={project.heroAsset?.thumbnailUrl || project.heroAsset?.url || '/images/placeholder.png'}
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      placeholder={project.heroAsset?.blurPlaceholder ? 'blur' : 'empty'}
+                      blurDataURL={project.heroAsset?.blurPlaceholder}
+                      onError={(e) => {
+                        e.target.src = '/images/placeholder.png';
+                      }}
                     />
                     
                     {/* Video indicator */}
-                    {project.hasVideos && (
+                    {(project.hasVideos || project.category === 'Video & Motion Graphics') && (
                       <div className="absolute top-4 right-4 bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
-                        {project.mediaCount} Videos
+                        {project.mediaCount || project.media?.length || 0} Videos
                       </div>
                     )}
                   </div>
