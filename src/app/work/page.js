@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import WorkClientPage from '@/components/WorkClientPage';
-import VideoDetails from './VideoDetails';
 
 export const metadata = {
   title: 'Work - Kevin Arthur',
