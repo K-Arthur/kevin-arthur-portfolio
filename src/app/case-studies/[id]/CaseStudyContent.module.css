@@ -1,0 +1,312 @@
+.caseStudyContent {
+  /* Typography Scale */
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  
+  /* Spacing */
+  --spacing-list-indent: 1.25rem;
+  --spacing-list-block-top: 1.5rem;
+  --spacing-section: 2.5rem;
+  
+  /* Enhanced Colors with better contrast */
+  --color-heading: var(--text-high-contrast);
+  --color-subheading: var(--text-medium-contrast);
+  --color-label: var(--text-high-contrast);
+  --color-label-bg: var(--muted);
+  --color-bullet: var(--primary);
+  --color-number: var(--primary);
+  --color-accent: var(--primary);
+  --color-border: var(--border);
+  
+  max-width: 48rem; /* ~768px */
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+  font-size: var(--text-base);
+  color: hsl(var(--text-high-contrast));
+}
+
+.caseStudyContent h1,
+.caseStudyContent h2,
+.caseStudyContent h3 {
+  font-family: var(--font-sans);
+  color: hsl(var(--color-heading));
+  scroll-margin-top: 2rem;
+}
+
+.caseStudyContent h1 {
+  font-size: 2.75rem;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid hsl(var(--color-border));
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  position: relative;
+}
+
+.caseStudyContent h2 {
+  font-size: var(--text-3xl);
+  line-height: 1.3;
+  margin: 3.5rem 0 1.5rem 0;
+  font-weight: 700;
+  color: hsl(var(--color-heading));
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.caseStudyContent h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3rem;
+  height: 3px;
+  background: hsl(var(--color-accent));
+  border-radius: 2px;
+}
+
+.caseStudyContent h3 {
+  font-size: var(--text-2xl);
+  line-height: 1.4;
+  margin: 2rem 0 1rem 0;
+  font-weight: 600;
+  color: hsl(var(--color-heading));
+}
+
+.caseStudyContent strong {
+  font-weight: 600;
+  color: hsl(var(--text-high-contrast));
+  padding: 0.1rem 0;
+}
+
+.caseStudyContent p {
+  margin: 1.5rem 0;
+  color: hsl(var(--text-medium-contrast));
+  line-height: 1.7;
+}
+
+/* Base list styles */
+.caseStudyContent ul,
+.caseStudyContent ol {
+  margin: var(--spacing-list-block-top) 0;
+  padding-left: var(--spacing-list-indent);
+  color: hsl(var(--text-medium-contrast));
+}
+
+/* Unordered lists */
+.caseStudyContent ul {
+  list-style: none;
+}
+
+.caseStudyContent ul li {
+  position: relative;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+}
+
+.caseStudyContent ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: hsl(var(--color-bullet));
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1;
+  top: 0.1em;
+}
+
+/* Ordered lists */
+.caseStudyContent ol {
+  list-style: none;
+  counter-reset: list-counter;
+}
+
+.caseStudyContent ol li {
+  position: relative;
+  margin-bottom: 0.75rem;
+  padding-left: 2rem;
+  line-height: 1.6;
+  counter-increment: list-counter;
+}
+
+.caseStudyContent ol li::before {
+  content: counter(list-counter) '.';
+  position: absolute;
+  left: 0;
+  color: hsl(var(--color-number));
+  font-weight: 600;
+  font-size: 0.9em;
+  line-height: 1.6;
+  min-width: 1.5rem;
+}
+
+/* Nested lists */
+.caseStudyContent ul ul,
+.caseStudyContent ol ol,
+.caseStudyContent ul ol,
+.caseStudyContent ol ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+/* Blockquotes */
+.caseStudyContent blockquote {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  border-left: 4px solid hsl(var(--color-accent));
+  background: hsl(var(--muted) / 0.3);
+  border-radius: 0 0.75rem 0.75rem 0;
+  font-style: italic;
+  color: hsl(var(--text-medium-contrast));
+}
+
+.caseStudyContent blockquote p {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: 1.6;
+}
+
+/* Code blocks */
+.caseStudyContent code {
+  background: hsl(var(--muted) / 0.5);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: hsl(var(--text-high-contrast));
+  border: 1px solid hsl(var(--border) / 0.5);
+}
+
+.caseStudyContent pre {
+  background: hsl(var(--muted) / 0.3);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid hsl(var(--border) / 0.3);
+}
+
+.caseStudyContent pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  font-size: 0.875rem;
+  color: hsl(var(--text-high-contrast));
+}
+
+/* Links */
+.caseStudyContent a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary) / 0.3);
+  text-underline-offset: 0.2em;
+  transition: all 0.2s ease;
+}
+
+.caseStudyContent a:hover {
+  color: hsl(var(--primary) / 0.8);
+  text-decoration-color: hsl(var(--primary) / 0.6);
+}
+
+/* Images */
+.caseStudyContent img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Tables */
+.caseStudyContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.caseStudyContent th,
+.caseStudyContent td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+}
+
+.caseStudyContent th {
+  background: hsl(var(--muted) / 0.5);
+  font-weight: 600;
+  color: hsl(var(--text-high-contrast));
+}
+
+.caseStudyContent td {
+  color: hsl(var(--text-medium-contrast));
+}
+
+/* Horizontal rules */
+.caseStudyContent hr {
+  border: none;
+  height: 1px;
+  background: hsl(var(--border));
+  margin: 3rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .caseStudyContent {
+    max-width: 100%;
+    font-size: 0.95rem;
+  }
+  
+  .caseStudyContent h1 {
+    font-size: 2.25rem;
+  }
+  
+  .caseStudyContent h2 {
+    font-size: 1.75rem;
+  }
+  
+  .caseStudyContent h3 {
+    font-size: 1.5rem;
+  }
+  
+  .caseStudyContent ul li,
+  .caseStudyContent ol li {
+    padding-left: 1.25rem;
+  }
+  
+  .caseStudyContent blockquote {
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .caseStudyContent {
+    --color-heading: var(--foreground);
+    --color-subheading: var(--foreground);
+    --color-label: var(--foreground);
+  }
+  
+  .caseStudyContent h1,
+  .caseStudyContent h2,
+  .caseStudyContent h3 {
+    color: hsl(var(--foreground));
+  }
+  
+  .caseStudyContent p {
+    color: hsl(var(--foreground));
+  }
+  
+  .caseStudyContent ul,
+  .caseStudyContent ol {
+    color: hsl(var(--foreground));
+  }
+}
