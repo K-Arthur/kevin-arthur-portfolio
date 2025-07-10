@@ -87,12 +87,16 @@ const MediaGrid = ({
   };
 
   const getMediaIcon = (item) => {
-    switch (item.type) {
+    const mediaType = item.type || item.mediaType;
+    switch (mediaType) {
       case MEDIA_TYPES.PDF:
+      case 'pdf':
         return <FileText size={24} className={styles.mediaIcon} />;
       case MEDIA_TYPES.MOBILE_MOCKUP:
+      case 'mobile_mockup':
         return <Smartphone size={24} className={styles.mediaIcon} />;
       case MEDIA_TYPES.DESKTOP_MOCKUP:
+      case 'desktop_mockup':
         return <Monitor size={24} className={styles.mediaIcon} />;
       default:
         return null;
@@ -102,14 +106,19 @@ const MediaGrid = ({
   const getMediaTypeLabel = (type) => {
     switch (type) {
       case MEDIA_TYPES.VIDEO:
+      case 'video':
         return 'VIDEO';
       case MEDIA_TYPES.PDF:
+      case 'pdf':
         return 'PDF';
       case MEDIA_TYPES.MOBILE_MOCKUP:
+      case 'mobile_mockup':
         return 'MOBILE';
       case MEDIA_TYPES.DESKTOP_MOCKUP:
+      case 'desktop_mockup':
         return 'DESKTOP';
       case MEDIA_TYPES.GRAPHIC:
+      case 'graphic':
         return 'GRAPHIC';
       default:
         return 'IMAGE';
@@ -117,12 +126,22 @@ const MediaGrid = ({
   };
 
   const getThumbnailSrc = (item) => {
+    const mediaType = item.type || item.mediaType;
+    
     // For images, use the src directly
-    if (item.type === MEDIA_TYPES.IMAGE || 
-        item.type === MEDIA_TYPES.GRAPHIC || 
-        item.type === MEDIA_TYPES.MOBILE_MOCKUP || 
-        item.type === MEDIA_TYPES.DESKTOP_MOCKUP) {
-      return item.src;
+    if (mediaType === MEDIA_TYPES.IMAGE || 
+        mediaType === MEDIA_TYPES.GRAPHIC || 
+        mediaType === MEDIA_TYPES.MOBILE_MOCKUP || 
+        mediaType === MEDIA_TYPES.DESKTOP_MOCKUP ||
+        mediaType === 'graphic' ||
+        mediaType === 'mobile_mockup' ||
+        mediaType === 'desktop_mockup') {
+      return item.src || item.url;
+    }
+    
+    // For videos, use thumbnailUrl if available
+    if (item.thumbnailUrl) {
+      return item.thumbnailUrl;
     }
     
     // For videos and PDFs, use thumbnail if available
@@ -131,7 +150,7 @@ const MediaGrid = ({
     }
     
     // Fallback placeholders
-    if (item.type === MEDIA_TYPES.VIDEO) {
+    if (mediaType === MEDIA_TYPES.VIDEO || mediaType === 'video') {
       return '/images/video-placeholder.svg';
     }
     
@@ -140,10 +159,11 @@ const MediaGrid = ({
 
   const getItemClassName = (item) => {
     const baseClass = `${styles.mediaItem}`;
+    const mediaType = item.type || item.mediaType;
     
     // Add media type class
-    if (item.type) {
-      const typeClass = `type${item.type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('')}`;
+    if (mediaType) {
+      const typeClass = `type${mediaType.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('')}`;
       return `${baseClass} ${styles[typeClass]}`;
     }
     
@@ -151,7 +171,8 @@ const MediaGrid = ({
   };
 
   const renderThumbnailContent = (item, isLoaded, index) => {
-    const ariaLabels = getARIALabels(item.type, index, media.length, item.title);
+    const mediaType = item.type || item.mediaType;
+    const ariaLabels = getARIALabels(mediaType, index, media.length, item.title);
     
     if (!isLoaded) {
       return (
@@ -162,10 +183,10 @@ const MediaGrid = ({
     }
 
     // Video player for videos
-    if (item.type === MEDIA_TYPES.VIDEO) {
+    if (mediaType === MEDIA_TYPES.VIDEO || mediaType === 'video') {
       return (
         <VideoPlayer 
-          src={item.src}
+          src={item.src || item.url}
           poster={getThumbnailSrc(item)}
           className={styles.videoPlayerInGrid}
           aria-label={ariaLabels.label}
@@ -174,7 +195,7 @@ const MediaGrid = ({
     }
 
     // PDF preview
-    if (item.type === MEDIA_TYPES.PDF && !item.thumbnail) {
+    if ((mediaType === MEDIA_TYPES.PDF || mediaType === 'pdf') && !item.thumbnail && !item.thumbnailUrl) {
       return (
         <div className={styles.pdfPreview} role={ariaLabels.role} aria-label={ariaLabels.label}>
           <FileText size={48} className={styles.pdfIcon} />
@@ -184,7 +205,7 @@ const MediaGrid = ({
     }
 
     // Video placeholder
-    if (item.type === MEDIA_TYPES.VIDEO && !item.thumbnail) {
+    if ((mediaType === MEDIA_TYPES.VIDEO || mediaType === 'video') && !item.thumbnail && !item.thumbnailUrl) {
       return (
         <div className={styles.videoPreview} role={ariaLabels.role} aria-label={ariaLabels.label}>
           <Video size={48} className={styles.videoIcon} />
@@ -219,9 +240,9 @@ const MediaGrid = ({
     }
 
     // Set object-fit based on media type
-    if (item.type === MEDIA_TYPES.MOBILE_MOCKUP) {
+    if (mediaType === MEDIA_TYPES.MOBILE_MOCKUP || mediaType === 'mobile_mockup') {
       imageProps.style = { objectFit: 'contain' };
-    } else if (item.type === MEDIA_TYPES.DESKTOP_MOCKUP) {
+    } else if (mediaType === MEDIA_TYPES.DESKTOP_MOCKUP || mediaType === 'desktop_mockup') {
       imageProps.style = { objectFit: 'cover', objectPosition: 'top' };
     } else {
       imageProps.style = { objectFit: 'cover' };
@@ -232,7 +253,7 @@ const MediaGrid = ({
         {...imageProps}
         onError={(e) => {
           // Fallback for broken images
-          if (item.type === MEDIA_TYPES.VIDEO) {
+          if (mediaType === MEDIA_TYPES.VIDEO || mediaType === 'video') {
             e.target.src = '/images/video-placeholder.svg';
           } else {
             e.target.src = '/images/placeholder.png';
@@ -280,7 +301,8 @@ const MediaGrid = ({
       >
         {media.map((item, index) => {
           const isLoaded = loadedItems.has(index);
-          const ariaLabels = getARIALabels(item.type, index, media.length, item.title);
+          const mediaType = item.type || item.mediaType;
+          const ariaLabels = getARIALabels(mediaType, index, media.length, item.title);
           
           return (
             <div
@@ -317,11 +339,11 @@ const MediaGrid = ({
                 </div>
 
                 {/* Media Type Overlay - Exclude for videos */}
-                {item.type !== MEDIA_TYPES.IMAGE && item.type !== MEDIA_TYPES.VIDEO && (
+                {mediaType !== MEDIA_TYPES.IMAGE && mediaType !== MEDIA_TYPES.VIDEO && mediaType !== 'video' && (
                   <div className={styles.mediaOverlay}>
                     {getMediaIcon(item)}
                     <span className={styles.mediaTypeLabel}>
-                      {getMediaTypeLabel(item.type)}
+                      {getMediaTypeLabel(mediaType)}
                     </span>
                   </div>
                 )}
@@ -333,14 +355,14 @@ const MediaGrid = ({
                     e.stopPropagation(); // Prevent grid click from firing
                     if (item.externalLink) {
                       window.open(item.externalLink, '_blank', 'noopener,noreferrer');
-                    } else if (item.type !== MEDIA_TYPES.VIDEO) {
+                                          } else if (mediaType !== MEDIA_TYPES.VIDEO && mediaType !== 'video') {
                       openLightbox(index);
                     }
                   }}
                 >
                   <div className={styles.hoverContent}>
                     <ExternalLink size={20} />
-                    <span>View {item.type === MEDIA_TYPES.VIDEO ? 'in Lightbox' : getMediaTypeLabel(item.type).toLowerCase()}</span>
+                    <span>View {mediaType === MEDIA_TYPES.VIDEO || mediaType === 'video' ? 'in Lightbox' : getMediaTypeLabel(mediaType).toLowerCase()}</span>
                   </div>
                 </div>
 
@@ -376,7 +398,7 @@ const MediaGrid = ({
                 )}
 
                 {/* Video Duration Overlay */}
-                {item.type === MEDIA_TYPES.VIDEO && item.metadata?.duration && (
+                {(mediaType === MEDIA_TYPES.VIDEO || mediaType === 'video') && item.metadata?.duration && (
                   <div className={styles.durationOverlay}>
                     {formatDuration(item.metadata.duration)}
                   </div>

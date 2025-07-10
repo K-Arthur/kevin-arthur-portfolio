@@ -168,8 +168,9 @@ export default function ProjectPage({ params }) {
           data.groupedMedia = {
             'All Media': data.media.map(item => ({
               ...item,
-              type: item.mediaType, // Map mediaType to type
-              src: item.url // Map url to src
+              type: item.format === 'mp4' ? 'video' : item.mediaType, // Map mediaType to type, detect videos
+              src: item.url, // Map url to src
+              mediaType: item.format === 'mp4' ? 'video' : item.mediaType // Ensure proper video detection
             }))
           };
         }
@@ -201,7 +202,9 @@ export default function ProjectPage({ params }) {
     return Object.entries(groupedMedia).flatMap(([groupName, items]) => {
       return items.map(item => ({
         ...item,
-        group: groupName
+        group: groupName,
+        // Ensure proper video detection
+        mediaType: item.format === 'mp4' ? 'video' : item.mediaType
       }));
     });
   };
@@ -235,6 +238,16 @@ export default function ProjectPage({ params }) {
       case MEDIA_TYPES.GRAPHIC:
         return 'Graphic';
       case MEDIA_TYPES.PDF:
+        return 'PDF';
+      case 'mobile_mockup':
+        return 'Mobile Mockup';
+      case 'desktop_mockup':
+        return 'Desktop Mockup';
+      case 'video':
+        return 'Video';
+      case 'graphic':
+        return 'Graphic';
+      case 'pdf':
         return 'PDF';
       default:
         return 'Image';
@@ -335,7 +348,7 @@ export default function ProjectPage({ params }) {
                 groupName={activeGroup}
                 mediaItems={project.groupedMedia[activeGroup]}
                 getFormattedMedia={getFormattedMedia}
-                getMediaTypeStats={getMediaType_stats}
+                getMediaTypeStats={getMediaTypeStats}
                 getMediaTypeLabel={getMediaTypeLabel}
               />
             )
