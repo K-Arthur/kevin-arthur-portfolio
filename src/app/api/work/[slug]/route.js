@@ -21,7 +21,7 @@ export async function GET(request, { params }) {
     }
     
     // Find the project in pre-computed metadata
-    const project = metadata.projects[slug];
+    const project = metadata[slug];
     
     if (!project) {
       console.error('Project not found in metadata:', slug);
