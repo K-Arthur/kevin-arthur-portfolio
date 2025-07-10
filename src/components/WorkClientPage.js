@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaBriefcase, FaFilter } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getThumbnailUrl } from '@/lib/cloudinaryUtils';
 
 const WorkClientPage = ({ projects: categorizedProjects }) => {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -15,12 +16,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
     ? allProjects
     : categorizedProjects.find(c => c.name === activeCategory)?.projects || [];
 
-  // Debug logging for video projects
-  console.log('Filtered projects:', filteredProjects.filter(p => p.category === 'Video & Motion Graphics').map(p => ({
-    title: p.title,
-    heroAsset: p.heroAsset,
-    thumbnailUrl: p.heroAsset?.thumbnailUrl
-  })));
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
@@ -110,7 +106,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
                   {/* Project Image */}
                   <div className="relative aspect-[4/3] overflow-hidden w-full">
                     <Image
-                      src={project.heroAsset?.thumbnailUrl || project.heroAsset?.url || '/images/placeholder.png'}
+                      src={getThumbnailUrl(project.heroAsset || {})}
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"

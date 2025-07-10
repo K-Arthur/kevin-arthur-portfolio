@@ -6,6 +6,7 @@ import { Play, FileText, ExternalLink, Video, Smartphone, Monitor } from 'lucide
 import MediaLightbox from './MediaLightbox';
 import VideoPlayer from './VideoPlayer';
 import { getOptimalGridLayout, getARIALabels, MEDIA_TYPES } from '@/lib/mediaUtils';
+import { getThumbnailUrl } from '@/lib/cloudinaryUtils';
 import styles from './MediaGrid.module.css';
 
 const MediaGrid = ({ 
@@ -126,35 +127,8 @@ const MediaGrid = ({
   };
 
   const getThumbnailSrc = (item) => {
-    const mediaType = item.type || item.mediaType;
-    
-    // For images, use the src directly
-    if (mediaType === MEDIA_TYPES.IMAGE || 
-        mediaType === MEDIA_TYPES.GRAPHIC || 
-        mediaType === MEDIA_TYPES.MOBILE_MOCKUP || 
-        mediaType === MEDIA_TYPES.DESKTOP_MOCKUP ||
-        mediaType === 'graphic' ||
-        mediaType === 'mobile_mockup' ||
-        mediaType === 'desktop_mockup') {
-      return item.src || item.url;
-    }
-    
-    // For videos, use thumbnailUrl if available
-    if (item.thumbnailUrl) {
-      return item.thumbnailUrl;
-    }
-    
-    // For videos and PDFs, use thumbnail if available
-    if (item.thumbnail) {
-      return item.thumbnail;
-    }
-    
-    // Fallback placeholders
-    if (mediaType === MEDIA_TYPES.VIDEO || mediaType === 'video') {
-      return '/images/video-placeholder.svg';
-    }
-    
-    return '/images/placeholder.png';
+    // Use the Cloudinary utility for proper thumbnail generation
+    return getThumbnailUrl(item);
   };
 
   const getItemClassName = (item) => {
