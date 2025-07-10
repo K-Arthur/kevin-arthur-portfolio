@@ -156,6 +156,14 @@ export default function ProjectPage({ params }) {
         }
         const data = await res.json();
         console.log('Project data received:', data);
+        
+        // Manually create groupedMedia if it doesn't exist
+        if (data && data.media && !data.groupedMedia) {
+          data.groupedMedia = {
+            'All Media': data.media
+          };
+        }
+        
         setProject(data);
         
         // Set the first group as active by default
