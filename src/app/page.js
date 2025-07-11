@@ -129,7 +129,7 @@ export default function Home() {
           >
             {/* Email Card */}
             <motion.a 
-              href="mailto:arthurkevin27@gmail.com"
+              href="mailto:hello@kevinarthur.design"
               className="card-enhanced group p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline"
               variants={cardVariants}
               whileHover="hover"
@@ -139,7 +139,7 @@ export default function Home() {
                 <FaEnvelope className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
               </div>
               <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Email Me</h3>
-              <p className="text-muted-enhanced mb-4 text-sm sm:text-base">arthurkevin27@gmail.com</p>
+              <p className="text-muted-enhanced mb-4 text-sm sm:text-base">hello@kevinarthur.design</p>
               <span className="font-semibold text-primary group-hover:underline">
                 Send a message
               </span>

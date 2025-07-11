@@ -5,7 +5,7 @@ import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
 export const personalInfo = {
   name: 'Kevin Arthur',
   location: 'Vancouver, Canada',
-  email: 'arthurkevin27@gmail.com',
+  email: 'hello@kevinarthur.design',
   phone: '+1 (236) 833-7610',
   summary: "I'm a designer and developer who bridges the gap between creative vision and technical execution. With a foundation in Computer Science and a passion for user-centered design, I transform complex problems into intuitive, beautiful, and functional digital experiences. My journey has taken me from leading design at an AI healthcare startup to pursuing a Master's degree to deepen my technical expertise. I thrive on solving real-world challenges and creating products that people genuinely love to use.",
 };
