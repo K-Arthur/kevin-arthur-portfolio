@@ -11,7 +11,7 @@ export const personalInfo = {
 };
 
 export const socialProfiles = {
-  linkedin: 'https://www.linkedin.com/in/kevin-arthur-bb2235ba/',
+  linkedin: 'https://www.linkedin.com/in/kevinoarthur/',
   behance: 'https://www.behance.net/arthurkevin',
 };
 

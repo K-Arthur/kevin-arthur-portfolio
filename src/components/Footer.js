@@ -2,7 +2,7 @@ import { FaLinkedin, FaBehanceSquare } from 'react-icons/fa';
 
 const socialLinks = [
   {
-    href: 'https://www.linkedin.com/in/kevin-arthur-bb2235ba/',
+    href: 'https://www.linkedin.com/in/kevinoarthur/',
     label: 'LinkedIn',
     icon: FaLinkedin,
   },

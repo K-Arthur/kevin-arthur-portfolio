@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
   const postData = await getCaseStudyData(params.id);
   return {
     title: `${postData.title} - Kevin Arthur`,
-    description: postData.summary,
+    description: postData.metaDescription || postData.summary,
   };
 }
 
@@ -111,7 +111,7 @@ export default async function CaseStudyPage({ params }) {
         <div className="mt-20 pt-10 border-t border-border/50 text-center">
           <a 
             href="/case-studies"
-            className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 shadow-lg"
+            className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             <svg 
               className="w-5 h-5 mr-3" 

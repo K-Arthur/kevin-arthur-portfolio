@@ -147,7 +147,7 @@ export default function Home() {
 
             {/* LinkedIn Card */}
             <motion.a 
-              href="https://www.linkedin.com/in/kevin-arthur-bb2235ba/"
+              href="https://www.linkedin.com/in/kevinoarthur/"
               target="_blank" 
               rel="noopener noreferrer"
               className="card-enhanced group p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline"
