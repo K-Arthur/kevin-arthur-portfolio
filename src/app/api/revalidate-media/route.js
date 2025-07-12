@@ -29,9 +29,10 @@ export async function POST(request) {
     
     console.log('Script stdout:', stdout);
     
-    // Revalidate the work pages
+    // Revalidate the work pages - both the main gallery and individual project pages
     revalidatePath('/work');
     revalidatePath('/work/[slug]', 'page');
+    console.log('Pages revalidated: /work and /work/[slug]');
     
     return NextResponse.json({ 
       success: true, 

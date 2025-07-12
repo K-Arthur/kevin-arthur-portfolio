@@ -55,9 +55,10 @@ export async function POST(request) {
       env: process.env
     }).then(() => {
       console.log('Media metadata regenerated successfully');
-      // Revalidate pages
+      // Revalidate pages - both the main gallery and individual project pages
       revalidatePath('/work');
       revalidatePath('/work/[slug]', 'page');
+      console.log('Pages revalidated: /work and /work/[slug]');
     }).catch(error => {
       console.error('Error regenerating metadata:', error);
     });
