@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaBriefcase, FaFilter } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { getThumbnailUrl } from '@/lib/cloudinaryUtils';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
-const WorkClientPage = ({ projects: categorizedProjects }) => {
+const WorkClientPage = ({ categorizedProjects }) => {
   const [activeCategory, setActiveCategory] = useState('All');
 
   const allProjects = categorizedProjects.flatMap(category => category.projects);
@@ -34,7 +36,6 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <FaBriefcase className="text-primary text-2xl" />
             <span className="text-primary font-semibold text-lg">Portfolio</span>
           </motion.div>
           
@@ -53,8 +54,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            A curated selection of design projects showcasing my skills in UI/UX, 
-            branding, and visual design across various industries.
+            A curated collection of my projects across UI/UX, branding, and motion graphics.
           </motion.p>
         </motion.div>
 
@@ -66,7 +66,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <div className="flex items-center justify-center gap-3 mb-8">
-            <FaFilter className="text-muted-enhanced" />
+            {/* Removed FaFilter icon as it's no longer imported */}
             <span className="text-muted-enhanced font-medium">Filter by category</span>
           </div>
           
@@ -121,7 +121,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
                     {/* Video indicator */}
                     {(project.hasVideos || project.category === 'Video & Motion Graphics') && (
                       <div className="absolute top-4 right-4 bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
-                        {project.mediaCount || project.media?.length || 0} Videos
+                        {project.mediaCount || project.media?.length || 0} items
                       </div>
                     )}
                   </div>
