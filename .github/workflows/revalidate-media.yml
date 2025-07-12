@@ -1,0 +1,26 @@
+name: Revalidate Media Metadata
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for revalidation'
+        required: false
+        default: 'Manual trigger'
+
+jobs:
+  revalidate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger Media Revalidation
+        run: |
+          curl -X POST "${{ secrets.VERCEL_DOMAIN }}/api/revalidate-media" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.REVALIDATE_TOKEN }}" \
+            -d '{"reason": "${{ github.event.inputs.reason }}"}'
+        
+      - name: Log completion
+        run: |
+          echo "Media revalidation triggered successfully"
+          echo "Reason: ${{ github.event.inputs.reason }}" 

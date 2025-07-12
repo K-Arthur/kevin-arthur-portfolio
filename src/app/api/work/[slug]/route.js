@@ -1,12 +1,36 @@
 import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { isMetadataStale, getFreshProjectData } from '@/lib/mediaUtils';
+import { PROJECT_CONFIG } from '@/lib/projectConfig';
 
 export async function GET(request, { params }) {
   try {
     const { slug } = params;
     
-    // Read pre-computed metadata
+    // Check if we should fetch fresh data
+    const forceRefresh = new URL(request.url).searchParams.get('refresh') === 'true';
+    const isStale = await isMetadataStale(30); // Check if older than 30 minutes
+    
+    if (forceRefresh || isStale) {
+      console.log('Fetching fresh data from Cloudinary for:', slug);
+      
+      // Get project config
+      const config = PROJECT_CONFIG[slug];
+      if (!config) {
+        return NextResponse.json({ error: 'Project not found' }, { status: 404 });
+      }
+      
+      // Try to get fresh data
+      const freshData = await getFreshProjectData(slug, config);
+      if (freshData) {
+        return NextResponse.json(freshData);
+      }
+      
+      console.log('Failed to fetch fresh data, falling back to cached data');
+    }
+    
+    // Read pre-computed metadata as fallback
     const metadataPath = path.join(process.cwd(), 'src', 'data', 'media-metadata.json');
     
     let metadata;
@@ -28,7 +52,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
     
-    console.log('Serving pre-computed project data for:', slug);
+    console.log('Serving cached project data for:', slug);
     
     return NextResponse.json(project);
     
