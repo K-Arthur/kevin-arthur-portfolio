@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { isMetadataStale, getFreshProjectData } from '@/lib/mediaUtils';
+import { isMetadataStale, getFreshProjectData } from '@/lib/serverUtils';
 import { PROJECT_CONFIG } from '@/lib/projectConfig';
 
 export async function GET(request, { params }) {

@@ -1,64 +1,143 @@
-// Server-side media utilities (Node.js only)
-import fs, { promises as fsPromises } from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
-import { getPlaiceholder } from 'plaiceholder';
+import cloudinary from 'cloudinary';
 
-// Helper function to get image dimensions
-export async function getImageDimensions(imagePath) {
+// Configure Cloudinary
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
+
+export const MEDIA_TYPES = {
+  VIDEO: 'video',
+  IMAGE: 'image',
+  PDF: 'pdf',
+  DESKTOP_MOCKUP: 'desktop_mockup',
+  MOBILE_MOCKUP: 'mobile_mockup',
+  GRAPHIC: 'graphic'
+};
+
+// Check if metadata file is stale (older than X minutes)
+export const isMetadataStale = async (maxAgeMinutes = 30) => {
   try {
-    const sharp = require('sharp');
-    const metadata = await sharp(imagePath).metadata();
-    return {
-      width: metadata.width,
-      height: metadata.height,
-      format: metadata.format
-    };
+    const metadataPath = path.join(process.cwd(), 'src', 'data', 'media-metadata.json');
+    const stats = await fs.stat(metadataPath);
+    const fileAge = Date.now() - stats.mtime.getTime();
+    const maxAge = maxAgeMinutes * 60 * 1000; // Convert to milliseconds
+    
+    return fileAge > maxAge;
   } catch (error) {
-    console.warn('Could not get image dimensions:', error);
-    return { width: 0, height: 0, format: 'unknown' };
+    // If file doesn't exist or other error, assume it's stale
+    return true; 
   }
-}
+};
 
-// Helper function to get video metadata
-export async function getVideoMetadata(videoPath) {
-  // For now, return basic metadata
-  // In production, you might want to use ffprobe or similar
-  const stats = await fsPromises.stat(videoPath);
-  return {
-    size: stats.size,
-    format: path.extname(videoPath).substring(1).toLowerCase()
-  };
-}
-
-// Generate blur placeholder for images
-export async function generateBlurPlaceholder(imagePath) {
+// Get fresh project data from Cloudinary
+export const getFreshProjectData = async (slug, config) => {
   try {
-    const buffer = await fsPromises.readFile(imagePath);
-    const { base64 } = await getPlaiceholder(buffer);
-    return base64;
+    const cloudinaryBaseFolder = process.env.CLOUDINARY_BASE_FOLDER;
+    const projectFolder = config.folder || config.title;
+    const cloudinaryFolder = [cloudinaryBaseFolder, config.category, projectFolder].filter(Boolean).join('/');
+    
+    const { resources } = await cloudinary.v2.search
+      .expression(`folder:"${cloudinaryFolder}"`)
+      .with_field('tags')
+      .with_field('context')
+      .max_results(500)
+      .execute();
+    
+    if (resources.length === 0) {
+      return null;
+    }
+    
+    const media = resources.map(resource => ({
+      id: resource.asset_id,
+      publicId: resource.public_id,
+      title: resource.context?.title || path.basename(resource.public_id, path.extname(resource.public_id)),
+      description: resource.context?.description || '',
+      url: resource.secure_url,
+      mediaType: getMediaType(resource),
+      category: config.category,
+      tags: resource.tags || [],
+      width: resource.width,
+      height: resource.height,
+      aspectRatio: resource.width / resource.height,
+      format: resource.format,
+      thumbnailUrl: getThumbnailUrl(resource.public_id, getMediaType(resource)),
+      blurPlaceholder: getBlurPlaceholder(resource.public_id)
+    }));
+    
+    const heroAsset = config.hero
+      ? media.find(m => m.publicId.includes(config.hero)) || media[0]
+      : media[0];
+    
+    return {
+      ...config,
+      slug,
+      media,
+      heroAsset,
+      lastUpdated: new Date().toISOString()
+    };
+    
   } catch (error) {
-    console.warn('Could not generate blur placeholder:', error);
+    console.error(`Error fetching fresh project data for ${slug}:`, error);
     return null;
   }
-}
+};
 
-// Helper function to recursively get all files (synchronous)
-export function getAllFiles(dirPath, arrayOfFiles = []) {
-  try {
-    const files = fs.readdirSync(dirPath, { withFileTypes: true });
-
-    files.forEach(file => {
-      const fullPath = path.join(dirPath, file.name);
-      if (file.isDirectory()) {
-        arrayOfFiles = getAllFiles(fullPath, arrayOfFiles);
-      } else {
-        arrayOfFiles.push(fullPath);
-      }
-    });
-
-    return arrayOfFiles;
-  } catch (error) {
-    console.warn('Error reading directory:', dirPath, error);
-    return arrayOfFiles;
+// Helper functions
+const getMediaType = (resource) => {
+  const format = resource.format?.toLowerCase();
+  
+  if (['mp4', 'mov', 'avi', 'webm', 'm4v'].includes(format)) {
+    return MEDIA_TYPES.VIDEO;
   }
-} 
+  
+  if (['pdf'].includes(format)) {
+    return MEDIA_TYPES.PDF;
+  }
+  
+  const aspectRatio = resource.width / resource.height;
+  if (aspectRatio < 1 && resource.width < 800) {
+    return MEDIA_TYPES.MOBILE_MOCKUP;
+  } else if (aspectRatio > 1.3 && resource.width > 1000) {
+    return MEDIA_TYPES.DESKTOP_MOCKUP;
+  }
+  
+  return MEDIA_TYPES.GRAPHIC;
+};
+
+const getThumbnailUrl = (publicId, mediaType) => {
+  const transformations = {
+    [MEDIA_TYPES.MOBILE_MOCKUP]: { width: 250, height: 400, crop: 'fill', gravity: 'north' },
+    [MEDIA_TYPES.DESKTOP_MOCKUP]: { width: 500, height: 350, crop: 'fill', gravity: 'north' },
+    [MEDIA_TYPES.VIDEO]: { width: 500, height: 280, crop: 'fill', gravity: 'center' },
+    [MEDIA_TYPES.GRAPHIC]: { width: 350, height: 350, crop: 'fill' },
+    default: { width: 350, height: 350, crop: 'fill' }
+  };
+  
+  const transform = transformations[mediaType] || transformations.default;
+  
+  if (mediaType === MEDIA_TYPES.VIDEO) {
+    return cloudinary.v2.url(publicId, {
+      resource_type: 'video',
+      transformation: [{ ...transform, quality: 'auto' }],
+      format: 'jpg',
+    });
+  }
+  
+  return cloudinary.v2.url(publicId, {
+    transformation: [{ ...transform, quality: 'auto', fetch_format: 'auto' }],
+  });
+};
+
+const getBlurPlaceholder = (publicId) => {
+  return cloudinary.v2.url(publicId, {
+    transformation: [
+      { width: 100, crop: 'scale' },
+      { effect: 'blur:1000', quality: 1 }
+    ]
+  });
+}; 
