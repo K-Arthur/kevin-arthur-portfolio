@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+import { onCLS, onFID, onFCP, onLCP, onTTFB } from 'web-vitals';
 
 export function WebVitals() {
   useEffect(() => {
@@ -22,11 +22,11 @@ export function WebVitals() {
       };
 
       // Register web vitals
-      getCLS(reportWebVitals);
-      getFID(reportWebVitals);
-      getFCP(reportWebVitals);
-      getLCP(reportWebVitals);
-      getTTFB(reportWebVitals);
+      onCLS(reportWebVitals);
+      onFID(reportWebVitals);
+      onFCP(reportWebVitals);
+      onLCP(reportWebVitals);
+      onTTFB(reportWebVitals);
     }
   }, []);
 
