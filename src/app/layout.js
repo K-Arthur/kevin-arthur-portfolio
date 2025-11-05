@@ -3,6 +3,12 @@ import { Jost, Fira_Code } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
+
+// Dynamically import WebVitals with no SSR
+const WebVitals = dynamic(() => import('@/components/WebVitals'), {
+  ssr: false,
+});
 
 // Load fonts
 const jost = Jost({ 
@@ -73,6 +79,7 @@ export default function RootLayout({ children }) {
               {children}
             </main>
             <Footer />
+            {process.env.NODE_ENV === 'production' && <WebVitals />}
           </div>
         </ThemeProvider>
       </body>

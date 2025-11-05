@@ -2,8 +2,23 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Scene from '@/components/Scene';
+import dynamic from 'next/dynamic';
+import { Suspense, useState, useEffect } from 'react';
 import { FaArrowRight, FaEnvelope, FaLinkedin } from 'react-icons/fa';
+
+// Lazy load 3D Scene component with no SSR
+const Scene = dynamic(() => import('@/components/Scene'), {
+  ssr: false,
+  loading: () => <SceneLoadingFallback />
+});
+
+// Lightweight loading fallback
+function SceneLoadingFallback() {
+  return (
+    <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 animate-pulse" 
+         aria-hidden="true" />
+  );
+}
 
 const cardContainerVariants = {
   hidden: { opacity: 0 },
@@ -35,24 +50,42 @@ const cardVariants = {
 
 
 export default function Home() {
+  const [isClient, setIsClient] = useState(false);
+  const [shouldLoadScene, setShouldLoadScene] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    
+    // Delay 3D scene loading until critical content is rendered
+    const timer = setTimeout(() => {
+      setShouldLoadScene(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
       {/* Hero Section */}
       <div className="relative flex flex-col items-center justify-center text-center flex-grow py-20 md:py-32 overflow-hidden">
-        <Scene />
+        {isClient && shouldLoadScene && (
+          <Suspense fallback={<SceneLoadingFallback />}>
+            <Scene />
+          </Suspense>
+        )}
 
         <div className="relative z-10 container-responsive space-y-12">
           <motion.div
             className="space-y-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
               Hey, I'm{" "}
               <span className="gradient-text-brand inline-block">
@@ -65,7 +98,7 @@ export default function Home() {
               className="space-y-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
               <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
                 <span className="block">I design digital experiences</span>
@@ -82,7 +115,7 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-4 justify-center px-4 sm:px-0"
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
             <Link 
               href="/case-studies" 

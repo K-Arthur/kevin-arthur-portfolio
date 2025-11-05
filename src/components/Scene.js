@@ -6,6 +6,47 @@ import { Sphere, Torus, Environment } from '@react-three/drei';
 import { useRef, useMemo, useEffect, useState, Suspense } from 'react';
 import { Color, Vector3 } from 'three';
 
+// Detect device capabilities for adaptive quality
+const getDeviceQuality = () => {
+  if (typeof window === 'undefined') return 'medium';
+  
+  // Check for mobile devices
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  // Check for performance indicators
+  const hasGoodPerformance = navigator.hardwareConcurrency >= 4;
+  const hasHighDPI = window.devicePixelRatio > 1.5;
+  
+  if (isMobile) return 'low';
+  if (hasGoodPerformance && hasHighDPI) return 'high';
+  return 'medium';
+};
+
+// Quality presets for geometry
+const QUALITY_PRESETS = {
+  low: {
+    sphereSegments: [24, 24],
+    orbitSphereSegments: [32, 32],
+    torusSegments: [12, 64],
+    dpr: 1,
+    antialias: false,
+  },
+  medium: {
+    sphereSegments: [32, 32],
+    orbitSphereSegments: [48, 48],
+    torusSegments: [16, 80],
+    dpr: 1.5,
+    antialias: false,
+  },
+  high: {
+    sphereSegments: [48, 48],
+    orbitSphereSegments: [64, 64],
+    torusSegments: [16, 100],
+    dpr: 2,
+    antialias: true,
+  },
+};
+
 // Helper to read CSS variables safely on the client and format for Three.js
 const getHslColorFromCSSVar = (variable, fallback) => {
   if (typeof window === 'undefined') return fallback;
@@ -23,7 +64,7 @@ const getHslColorFromCSSVar = (variable, fallback) => {
 };
 
 // Main component containing the 3D scene logic
-const SceneContent = ({ theme }) => {
+const SceneContent = ({ theme, quality }) => {
   const colors = useMemo(() => {
     const primary = new Color(getHslColorFromCSSVar('--p', 'hsl(210, 90%, 55%)'));
     const secondary = new Color(getHslColorFromCSSVar('--s', 'hsl(280, 80%, 60%)'));
@@ -34,22 +75,36 @@ const SceneContent = ({ theme }) => {
     return { primary, secondary };
   }, [theme]);
 
+  // Check if scene is in viewport
+  const [isInView, setIsInView] = useState(true);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsInView(!document.hidden);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
+
   return (
     <>
       <CustomLighting primaryColor={colors.primary} secondaryColor={colors.secondary} />
-      <GlassSphere color={colors.primary} theme={theme} />
-      <OrbitingSphere offset={3.5} color={colors.primary} speed={0.5} size={0.3} theme={theme} />
-      <OrbitingSphere offset={4.5} color={colors.secondary} speed={0.3} size={0.2} theme={theme} />
-      <AnimatedTorus color={colors.secondary} theme={theme} />
-      <Suspense fallback={null}>
-        <Environment preset="city" blur={0.8} />
-      </Suspense>
+      <GlassSphere color={colors.primary} theme={theme} quality={quality} isActive={isInView} />
+      <OrbitingSphere offset={3.5} color={colors.primary} speed={0.5} size={0.3} theme={theme} quality={quality} isActive={isInView} />
+      <OrbitingSphere offset={4.5} color={colors.secondary} speed={0.3} size={0.2} theme={theme} quality={quality} isActive={isInView} />
+      <AnimatedTorus color={colors.secondary} theme={theme} quality={quality} isActive={isInView} />
+      {quality !== 'low' && (
+        <Suspense fallback={null}>
+          <Environment preset="city" blur={0.8} />
+        </Suspense>
+      )}
     </>
   );
 };
 
 // Glassy central sphere with mouse follow
-const GlassSphere = ({ color, theme }) => {
+const GlassSphere = ({ color, theme, quality, isActive }) => {
   const sphereRef = useRef();
   const { viewport } = useThree();
   const target = useMemo(() => new Vector3(), []);
@@ -57,9 +112,12 @@ const GlassSphere = ({ color, theme }) => {
   const frameCount = useRef(0);
 
   useFrame(({ mouse, clock }) => {
-    // Throttle updates for better performance
+    if (!isActive || !sphereRef.current) return;
+    
+    // Throttle updates based on quality
     const now = clock.getElapsedTime();
-    if (now - lastUpdate.current < 0.016) return; // ~60fps
+    const updateInterval = quality === 'low' ? 0.033 : 0.016; // 30fps for low, 60fps otherwise
+    if (now - lastUpdate.current < updateInterval) return;
     lastUpdate.current = now;
 
     const x = (mouse.x * viewport.width) / 4;
@@ -75,6 +133,19 @@ const GlassSphere = ({ color, theme }) => {
 
   // Optimize: Memoize material props to prevent recreation on each render
   const materialProps = useMemo(() => {
+    // Simplified material for low quality
+    if (quality === 'low') {
+      return {
+        color: color,
+        metalness: 0.3,
+        roughness: 0.2,
+        transparent: true,
+        opacity: 0.8,
+        emissive: color,
+        emissiveIntensity: theme === 'dark' ? 0.1 : 0.05,
+      };
+    }
+    
     const baseProps = {
       transmission: 1,
       opacity: 1,
@@ -82,9 +153,9 @@ const GlassSphere = ({ color, theme }) => {
       roughness: 0.02,
       thickness: 0.2,
       envMapIntensity: theme === 'dark' ? 1.2 : 1.8,
-      clearcoat: 1,
+      clearcoat: quality === 'high' ? 1 : 0.7,
       clearcoatRoughness: 0.1,
-      iridescence: 1,
+      iridescence: quality === 'high' ? 1 : 0.7,
       iridescenceIOR: 1.7,
       iridescenceThicknessRange: [100, 600],
       color: color,
@@ -108,13 +179,14 @@ const GlassSphere = ({ color, theme }) => {
       specularIntensity: 0.8,
       specularColor: new Color('#FFFFFF'),
     };
-  }, [color, theme]);
+  }, [color, theme, quality]);
 
+  const segments = QUALITY_PRESETS[quality].sphereSegments;
 
   return (
     <Sphere 
       ref={sphereRef} 
-      args={[1, 48, 48]} // Reduced geometry for better performance
+      args={[1, ...segments]}
       scale={2.5}
     >
       <meshPhysicalMaterial {...materialProps} />
@@ -123,10 +195,11 @@ const GlassSphere = ({ color, theme }) => {
 };
 
 // Orbiting spheres with iridescent material
-const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme }) => {
+const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme, quality, isActive }) => {
   const sphereRef = useRef();
   const timeOffset = useRef(Math.random() * Math.PI * 2);
   const initialPosition = useRef(new Vector3());
+  const lastUpdate = useRef(0);
   
   // Initialize position once on mount
   useEffect(() => {
@@ -139,9 +212,15 @@ const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme }) => {
   }, [offset]);
 
   useFrame(({ clock }) => {
-    if (!sphereRef.current) return;
+    if (!sphereRef.current || !isActive) return;
     
-    const time = clock.getElapsedTime() * speed;
+    // Throttle based on quality
+    const now = clock.getElapsedTime();
+    const updateInterval = quality === 'low' ? 0.033 : 0.016;
+    if (now - lastUpdate.current < updateInterval) return;
+    lastUpdate.current = now;
+    
+    const time = now * speed;
     
     // Smooth, consistent movement using initial position as base
     sphereRef.current.position.x = initialPosition.current.x + Math.cos(time) * 0.1;
@@ -158,51 +237,95 @@ const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme }) => {
     return c;
   }, [color, theme]);
 
+  const materialProps = useMemo(() => {
+    if (quality === 'low') {
+      return {
+        color: adjustedColor,
+        roughness: 0.2,
+        metalness: 0.3,
+        transparent: true,
+        opacity: theme === 'dark' ? 0.5 : 0.6,
+        emissive: adjustedColor,
+        emissiveIntensity: theme === 'dark' ? 0.05 : 0.03,
+      };
+    }
+    
+    return {
+      color: adjustedColor,
+      roughness: 0.05,
+      metalness: 0.1,
+      transmission: 0.9,
+      opacity: theme === 'dark' ? 0.6 : 0.7,
+      transparent: true,
+      emissive: adjustedColor,
+      emissiveIntensity: theme === 'dark' ? 0.1 : 0.07,
+      iridescence: quality === 'high' ? 1 : 0.6,
+      iridescenceIOR: 1.6,
+      iridescenceThicknessRange: [100, 800],
+      clearcoat: quality === 'high' ? 0.8 : 0.5,
+      clearcoatRoughness: 0.2,
+    };
+  }, [adjustedColor, theme, quality]);
+
+  const segments = QUALITY_PRESETS[quality].orbitSphereSegments;
+
   return (
-    <Sphere ref={sphereRef} args={[1, 64, 64]} scale={size}>
-      <meshPhysicalMaterial
-        color={adjustedColor}
-        roughness={0.05}
-        metalness={0.1}
-        transmission={0.9}
-        opacity={theme === 'dark' ? 0.6 : 0.7}
-        transparent={true}
-        emissive={adjustedColor}
-        emissiveIntensity={theme === 'dark' ? 0.1 : 0.07}
-        iridescence={1}
-        iridescenceIOR={1.6}
-        iridescenceThicknessRange={[100, 800]}
-        clearcoat={0.8}
-        clearcoatRoughness={0.2}
-      />
+    <Sphere ref={sphereRef} args={[1, ...segments]} scale={size}>
+      <meshPhysicalMaterial {...materialProps} />
     </Sphere>
   );
 };
 
 // Rotating torus with iridescent material
-const AnimatedTorus = ({ color, theme }) => {
+const AnimatedTorus = ({ color, theme, quality, isActive }) => {
   const torusRef = useRef();
+  const lastUpdate = useRef(0);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
+    if (!torusRef.current || !isActive) return;
+    
+    const now = clock.getElapsedTime();
+    const updateInterval = quality === 'low' ? 0.033 : 0.016;
+    if (now - lastUpdate.current < updateInterval) return;
+    lastUpdate.current = now;
+    
     torusRef.current.rotation.x += 0.002;
     torusRef.current.rotation.y += 0.003;
   });
 
+  const materialProps = useMemo(() => {
+    if (quality === 'low') {
+      return {
+        color: color,
+        roughness: 0.3,
+        metalness: 0.3,
+        transparent: true,
+        opacity: theme === 'dark' ? 0.2 : 0.3,
+        emissive: color,
+        emissiveIntensity: theme === 'dark' ? 0.01 : 0.02,
+      };
+    }
+    
+    return {
+      color: color,
+      roughness: 0.1,
+      metalness: 0.5,
+      transmission: 0.7,
+      opacity: theme === 'dark' ? 0.3 : 0.4,
+      transparent: true,
+      emissive: color,
+      emissiveIntensity: theme === 'dark' ? 0.02 : 0.04,
+      iridescence: quality === 'high' ? (theme === 'dark' ? 0.6 : 0.8) : 0.4,
+      iridescenceIOR: 1.5,
+      iridescenceThicknessRange: [100, 800],
+    };
+  }, [color, theme, quality]);
+
+  const segments = QUALITY_PRESETS[quality].torusSegments;
+
   return (
-    <Torus ref={torusRef} args={[4, 0.05, 16, 100]} rotation={[Math.PI / 2, 0, 0]}>
-      <meshPhysicalMaterial
-        color={color}
-        roughness={0.1}
-        metalness={0.5}
-        transmission={0.7}
-        opacity={theme === 'dark' ? 0.3 : 0.4}
-        transparent={true}
-        emissive={color}
-        emissiveIntensity={theme === 'dark' ? 0.02 : 0.04}
-        iridescence={theme === 'dark' ? 0.6 : 0.8}
-        iridescenceIOR={1.5}
-        iridescenceThicknessRange={[100, 800]}
-      />
+    <Torus ref={torusRef} args={[4, 0.05, ...segments]} rotation={[Math.PI / 2, 0, 0]}>
+      <meshPhysicalMaterial {...materialProps} />
     </Torus>
   );
 };
@@ -256,11 +379,13 @@ const CustomLighting = ({ primaryColor, secondaryColor }) => {
 const Scene = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [quality, setQuality] = useState('medium');
   const canvasRef = useRef();
 
-  // Performance optimization: Debounce theme changes
+  // Performance optimization: Detect device quality
   useEffect(() => {
     setMounted(true);
+    setQuality(getDeviceQuality());
     
     // Cleanup on unmount
     return () => {
@@ -278,9 +403,9 @@ const Scene = () => {
   // Performance optimization: Skip unnecessary renders
   const memoizedScene = useMemo(() => (
     <Suspense fallback={null}>
-      <SceneContent theme={resolvedTheme} />
+      <SceneContent theme={resolvedTheme} quality={quality} />
     </Suspense>
-  ), [resolvedTheme]);
+  ), [resolvedTheme, quality]);
 
   // Add ARIA attributes for accessibility
   const ariaProps = {
@@ -301,7 +426,7 @@ const Scene = () => {
     >
       <Canvas 
         ref={canvasRef}
-        key={resolvedTheme}
+        key={`${resolvedTheme}-${quality}`}
         camera={{ 
           position: [0, 0, 10], 
           fov: 50,
@@ -309,22 +434,25 @@ const Scene = () => {
           far: 1000
         }}
         gl={{
-          antialias: true,
+          antialias: QUALITY_PRESETS[quality].antialias,
           alpha: true,
           powerPreference: 'high-performance',
           stencil: false,
           depth: true,
-          antialias: false // Disabled for better performance
         }}
-        dpr={Math.min(1.5, typeof window !== 'undefined' ? window.devicePixelRatio : 1)}
+        dpr={Math.min(QUALITY_PRESETS[quality].dpr, typeof window !== 'undefined' ? window.devicePixelRatio : 1)}
         performance={{ 
-          min: 0.5,
-          max: 1,
-          debounce: 200
+          min: quality === 'low' ? 0.3 : 0.5,
+          max: quality === 'high' ? 1 : 0.8,
+          debounce: quality === 'low' ? 300 : 200
         }}
-        onCreated={({ gl }) => {
+        frameloop="demand" // Only render when needed
+        onCreated={({ gl, performance }) => {
           gl.setClearColor(0x000000, 0);
-          gl.setPixelRatio(Math.min(1.5, window.devicePixelRatio));
+          gl.setPixelRatio(Math.min(QUALITY_PRESETS[quality].dpr, window.devicePixelRatio));
+          
+          // Adaptive performance monitoring
+          performance.regress();
         }}
       >
         <color attach="background" args={resolvedTheme === 'dark' ? ['#0a0a0a'] : ['#f8fafc']} />
