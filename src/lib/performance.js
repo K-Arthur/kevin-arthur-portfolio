@@ -1,4 +1,4 @@
-import { onCLS, onFID, onFCP, onLCP, onTTFB } from 'web-vitals';
+import { onCLS, onINP, onFCP, onLCP, onTTFB } from 'web-vitals';
 
 // Export the report function
 export function reportWebVitals(metric) {
@@ -18,7 +18,7 @@ export function reportWebVitals(metric) {
 export function initWebVitals() {
   if (typeof window !== 'undefined') {
     onCLS(reportWebVitals);
-    onFID(reportWebVitals);
+    onINP(reportWebVitals); // INP replaced FID in web-vitals v3+
     onFCP(reportWebVitals);
     onLCP(reportWebVitals);
     onTTFB(reportWebVitals);
