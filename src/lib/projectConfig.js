@@ -1,108 +1,36 @@
 import path from 'path';
 
-// Centralized project configuration
-// This eliminates the need to manually update API routes when adding new projects
+// Centralized project configuration for My UI Engineering Portfolio
+// Focused on high-value product case studies that demonstrate UI Engineering expertise
 
 export const PROJECT_CONFIG = {
-  // UI/UX Design Projects
-  'moremi-ai-v1': {
-    folder: 'Moremi AI V1 (minoChat)',
-    title: 'Moremi AI V1 (minoChat)',
-    category: 'UI-UX-Design',
-    type: 'mobile-app',
-    preferredThumbnail: 'hero.png', // Preferred thumbnail filename
-    description: 'AI-powered chat application with modern mobile interface',
-    tags: ['Mobile App', 'AI', 'Chat Interface', 'iOS', 'Android']
+  // Featured Case Studies - Focused on UI Engineering Impact
+  'moremi-ai-collaborate': {
+    folder: 'Moremi AI Collaborate',
+    title: 'Moremi AI - Collaborative AI Platform',
+    category: 'Case-Studies',
+    type: 'web-app',
+    preferredThumbnail: 'main-interface.png',
+    description: 'Led end-to-end design and frontend development of an AI collaboration platform',
+    tags: ['React', 'Next.js', 'TypeScript', 'Figma', 'AI/ML', 'SaaS']
   },
   'minohealth-radiology': {
     folder: 'MinoHealth Radiology Platform',
-    title: 'MinoHealth Radiology Platform',
-    category: 'UI-UX-Design',
+    title: 'MinoHealth - Radiology AI Platform',
+    category: 'Case-Studies',
     type: 'web-app',
     preferredThumbnail: 'dashboard.png',
-    description: 'Medical radiology platform with comprehensive dashboard',
-    tags: ['Web App', 'Healthcare', 'Dashboard', 'Medical']
+    description: 'Designed and implemented the UI for an AI-powered radiology platform',
+    tags: ['React', 'TypeScript', 'Figma', 'Healthcare', 'AI/ML', 'Dashboard']
   },
-  'moremi-ai-collaborate': {
-    folder: 'Moremi AI Collaborate',
-    title: 'Moremi AI Collaborate',
-    category: 'UI-UX-Design',
-    type: 'web-app',
-    preferredThumbnail: 'main-interface.png',
-    description: 'Collaborative AI platform for team productivity',
-    tags: ['Web App', 'AI', 'Collaboration', 'SaaS']
-  },
-  'true-sms': {
-    folder: 'True SMS',
-    title: 'True SMS',
-    category: 'UI-UX-Design',
-    type: 'web-app',
-    preferredThumbnail: 'landing.png',
-    description: 'SMS marketing platform with analytics dashboard',
-    tags: ['Web App', 'Marketing', 'SMS', 'Analytics']
-  },
-  'recipemania': {
-    folder: 'Recipemania',
-    title: 'Recipemania',
-    category: 'UI-UX-Design',
-    type: 'mobile-app',
-    preferredThumbnail: 'app-screens.png',
-    description: 'Recipe sharing and cooking mobile application',
-    tags: ['Mobile App', 'Food', 'Social', 'Recipe']
-  },
-  'furniture-app': {
-    folder: 'Furniture App',
-    title: 'Furniture App',
-    category: 'UI-UX-Design',
-    type: 'mobile-app',
-    preferredThumbnail: 'home-screen.png',
-    description: 'E-commerce furniture shopping mobile app',
-    tags: ['Mobile App', 'E-commerce', 'Furniture', 'Shopping']
-  },
-  'vieu': {
-    folder: 'Vieu',
-    title: 'Vieu',
-    category: 'UI-UX-Design',
-    type: 'web-app',
-    preferredThumbnail: 'dashboard.png',
-    description: 'Video analytics and management platform',
-    tags: ['Web App', 'Video', 'Analytics', 'SaaS']
-  },
-  'agent-direct': {
-    folder: 'Agent Direct',
-    title: 'Agent Direct',
-    category: 'UI-UX-Design',
-    type: 'web-app',
-    preferredThumbnail: 'interface.png',
-    description: 'Real estate agent management platform',
-    tags: ['Web App', 'Real Estate', 'CRM', 'Management']
-  },
-  'rise-app-redesign': {
-    folder: 'Rise App Redesign',
-    title: 'Rise App Redesign',
-    category: 'UI-UX-Design',
-    type: 'mobile-app',
-    preferredThumbnail: 'redesign-showcase.png',
-    description: 'Complete redesign of Rise investment app',
-    tags: ['Mobile App', 'Fintech', 'Investment', 'Redesign']
-  },
-  'minohealth-blog': {
-    folder: 'MinoHealth Blog',
-    title: 'MinoHealth Blog',
-    category: 'UI-UX-Design',
-    type: 'website',
-    preferredThumbnail: 'blog-home.png',
-    description: 'Healthcare blog platform with modern design',
-    tags: ['Website', 'Blog', 'Healthcare', 'Content']
-  },
-  'snackbox': {
+  'snackbox-404': {
     folder: 'Snackbox',
-    title: 'Snackbox',
-    category: 'UI-UX-Design',
+    title: 'SnackBox 404 - Interactive Experience',
+    category: 'Case-Studies',
     type: 'web-app',
-    preferredThumbnail: 'main-app.png',
-    description: 'Snack subscription and delivery platform',
-    tags: ['Web App', 'E-commerce', 'Subscription', 'Food']
+    preferredThumbnail: '404-page.png',
+    description: 'Designed and developed an engaging 404 page with 3D interactions',
+    tags: ['React', 'Three.js', 'Framer Motion', 'Figma', '3D Design']
   },
 
   // Graphic Design & Branding Projects

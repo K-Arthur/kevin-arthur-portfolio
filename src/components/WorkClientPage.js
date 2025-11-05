@@ -1,21 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaBriefcase, FaFilter } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
+import { FaCode, FaFigma } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import { getThumbnailUrl } from '@/lib/cloudinaryUtils';
 
 const WorkClientPage = ({ projects: categorizedProjects }) => {
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const allProjects = categorizedProjects.flatMap(category => category.projects);
-
-  const filteredProjects = activeCategory === 'All'
-    ? allProjects
-    : categorizedProjects.find(c => c.name === activeCategory)?.projects || [];
-
+  // We only have one category now (Case Studies)
+  const caseStudies = categorizedProjects[0]?.projects || [];
 
 
   return (
@@ -23,100 +16,70 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
         {/* Hero Section */}
         <motion.div 
-          className="text-center mb-20"
+          className="text-center mb-16 md:mb-24"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <motion.div
-            className="inline-flex items-center gap-3 mb-6 p-4 bg-primary/10 rounded-2xl border border-primary/20"
+            className="inline-flex items-center gap-3 mb-6 p-3 bg-primary/10 rounded-xl border border-primary/20"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <FaBriefcase className="text-primary text-2xl" />
-            <span className="text-primary font-semibold text-lg">Portfolio</span>
+            <FaCode className="text-primary text-xl" />
+            <span className="text-primary font-medium">UI Engineering</span>
           </motion.div>
           
           <motion.h1 
-            className="font-bold tracking-tight mb-8 gradient-text-enhanced text-hero"
+            className="font-bold tracking-tight mb-6 gradient-text-enhanced text-4xl sm:text-5xl md:text-6xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            My Work
+            Case Studies
           </motion.h1>
           
           <motion.p 
-            className="text-subtitle text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light"
+            className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            A curated selection of design projects showcasing my skills in UI/UX, 
-            branding, and visual design across various industries.
+            Selected projects showcasing my expertise in building beautiful, 
+            accessible, and performant user interfaces with React and modern web technologies.
           </motion.p>
         </motion.div>
 
-        {/* Filter Section */}
+        {/* Case Studies Grid */}
         <motion.div 
-          className="mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <FaFilter className="text-muted-enhanced" />
-            <span className="text-muted-enhanced font-medium">Filter by category</span>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-3">
-            {['All', ...categorizedProjects.map(cat => cat.name)].map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-4 sm:px-6 py-3 rounded-full font-medium transition-all duration-300 min-h-[44px] touch-manipulation ${
-                  activeCategory === category
-                    ? 'bg-primary text-primary-foreground shadow-lg transform scale-105'
-                    : 'bg-card/60 text-foreground hover:bg-card/80 border border-border/30'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Projects Grid */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
+          className="grid grid-cols-1 gap-16 max-w-4xl mx-auto"
           layout
         >
-          {filteredProjects.map((project, index) => (
-            <motion.div
+          {caseStudies.map((project, index) => (
+            <motion.article
               key={project.slug}
-              className="group"
-              initial={{ opacity: 0, y: 20 }}
+              className="group relative"
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              layout
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              whileHover={{ y: -5 }}
             >
-              <Link href={`/work/${project.slug}`}>
-                <div className="relative overflow-hidden rounded-2xl shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/20 transform group-hover:scale-105 h-full flex flex-col">
-                  {/* Project Image */}
-                  <div className="relative aspect-[4/3] overflow-hidden w-full">
-                    <Image
-                      src={getThumbnailUrl(project.heroAsset || {})}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      placeholder={project.heroAsset?.blurPlaceholder ? 'blur' : 'empty'}
-                      blurDataURL={project.heroAsset?.blurPlaceholder}
-                      onError={(e) => {
-                        e.target.src = '/images/placeholder.png';
-                      }}
-                    />
+              <Link href={`/work/${project.slug}`} className="block">
+                <div className="relative overflow-hidden rounded-2xl mb-6 aspect-video bg-muted/20 border border-border/30">
+                  <Image
+                    src={getThumbnailUrl(project.thumbnail, 1200, 800, 'fill', 'crop')}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 80vw"
+                    priority={index < 3}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <div className="flex items-center gap-2 text-sm text-foreground/80">
+                      <FaFigma className="text-foreground/60" />
+                      <span>View Case Study</span>
+                    </div>
                     
                     {/* Video indicator */}
                     {(project.hasVideos || project.category === 'Video & Motion Graphics') && (
@@ -144,16 +107,16 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
                     </div>
                   </div>
                   
-                  {/* Border Accent - This can be removed if the new design doesn't need it. For now, I'll leave it */}
+                  {/* Border Accent */}
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               </Link>
-            </motion.div>
+            </motion.article>
           ))}
         </motion.div>
         
         {/* Empty State */}
-        {filteredProjects.length === 0 && (
+        {caseStudies.length === 0 && (
           <motion.div 
             className="text-center py-20"
             initial={{ opacity: 0 }}

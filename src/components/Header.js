@@ -7,9 +7,8 @@ import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
-  { href: '/about', label: 'About Me' },
+  { href: '/about', label: 'About' },
   { href: '/case-studies', label: 'Case Studies' },
-  { href: '/work', label: 'Work' },
   { href: '/contact', label: 'Contact' },
 ];
 

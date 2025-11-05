@@ -5,15 +5,13 @@ import { isMetadataStale, getFreshProjectData } from '@/lib/serverUtils';
 import { PROJECT_CONFIG } from '@/lib/projectConfig';
 
 export const metadata = {
-  title: 'Work - Kevin Arthur',
-  description: 'A showcase of UI/UX, graphic design, and branding projects by Kevin Arthur.',
+  title: 'Case Studies - Kevin Arthur',
+  description: 'Selected case studies showcasing UI Engineering and product design work by Kevin Arthur.',
 };
 
-// Map folder names to display names
+// We're focusing on case studies only
 const categoryDisplayNames = {
-  'Graphic-Design-Branding': 'Graphic Design & Branding',
-  'UI-UX-Design': 'UI/UX Design',
-  'Video-Motion-Graphics': 'Video & Motion Graphics'
+  'Case-Studies': 'Case Studies'
 };
 
 const getFreshProjects = async () => {
@@ -75,21 +73,19 @@ const getProjects = async () => {
       }
     });
 
-    const categorizedProjects = Object.entries(categoryDisplayNames).map(([categoryKey, displayName]) => {
-      const projects = (projectsByCategory[categoryKey] || []).map(project => ({
+    // Get all case studies and sort them by title
+    const caseStudies = (projectsByCategory['Case-Studies'] || [])
+      .map(project => ({
         ...project,
-        category: displayName,
-      }));
-      
-      const sortedProjects = projects.sort((a, b) => a.title.localeCompare(b.title));
-      
-      return {
-        name: displayName,
-        projects: sortedProjects
-      };
-    });
+        category: 'Case Studies',
+      }))
+      .sort((a, b) => a.title.localeCompare(b.title));
     
-    return categorizedProjects.filter(category => category.projects.length > 0);
+    // Return a single category with all case studies
+    return [{
+      name: 'Case Studies',
+      projects: caseStudies
+    }];
     
   } catch (error) {
     console.error('Error loading projects:', error);
