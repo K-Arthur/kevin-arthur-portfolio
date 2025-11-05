@@ -85,7 +85,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <Link 
-              href="/work" 
+              href="/case-studies" 
               className="group inline-flex items-center justify-center gap-3 btn-primary-enhanced font-bold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105"
             >
               View My Work
