@@ -423,6 +423,18 @@
     }
   }
 
+  /* 3D Canvas Optimizations */
+  canvas {
+    /* Enable GPU acceleration for smooth rendering */
+    transform: translateZ(0);
+    will-change: transform;
+    /* Ensure pointer events work correctly */
+    pointer-events: auto;
+    /* Optimize for performance */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
   /* Fluid Typography Utilities */
   .text-hero {
     font-size: clamp(3rem, 8vw, 6rem);

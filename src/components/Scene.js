@@ -114,16 +114,19 @@ const GlassSphere = ({ color, theme, quality, isActive }) => {
   useFrame(({ mouse, clock }) => {
     if (!isActive || !sphereRef.current) return;
     
-    // Throttle updates based on quality
+    // Improved throttling - only skip frames for low quality
     const now = clock.getElapsedTime();
-    const updateInterval = quality === 'low' ? 0.033 : 0.016; // 30fps for low, 60fps otherwise
-    if (now - lastUpdate.current < updateInterval) return;
-    lastUpdate.current = now;
+    if (quality === 'low') {
+      const updateInterval = 0.033; // 30fps for low quality
+      if (now - lastUpdate.current < updateInterval) return;
+      lastUpdate.current = now;
+    }
 
+    // Smooth mouse following with responsive lerp
     const x = (mouse.x * viewport.width) / 4;
     const y = (mouse.y * viewport.height) / 4;
     target.set(x, y, 0);
-    sphereRef.current.position.lerp(target, 0.05);
+    sphereRef.current.position.lerp(target, 0.08); // Increased from 0.05 for more responsive feel
     
     // Subtle rotation for dynamic feel
     frameCount.current += 0.005;
@@ -214,11 +217,13 @@ const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme, quality, isAc
   useFrame(({ clock }) => {
     if (!sphereRef.current || !isActive) return;
     
-    // Throttle based on quality
+    // Reduced throttling for smoother orbital motion
     const now = clock.getElapsedTime();
-    const updateInterval = quality === 'low' ? 0.033 : 0.016;
-    if (now - lastUpdate.current < updateInterval) return;
-    lastUpdate.current = now;
+    if (quality === 'low') {
+      const updateInterval = 0.033;
+      if (now - lastUpdate.current < updateInterval) return;
+      lastUpdate.current = now;
+    }
     
     const time = now * speed;
     
@@ -284,10 +289,13 @@ const AnimatedTorus = ({ color, theme, quality, isActive }) => {
   useFrame(({ clock }) => {
     if (!torusRef.current || !isActive) return;
     
+    // Simplified throttling for torus rotation
     const now = clock.getElapsedTime();
-    const updateInterval = quality === 'low' ? 0.033 : 0.016;
-    if (now - lastUpdate.current < updateInterval) return;
-    lastUpdate.current = now;
+    if (quality === 'low') {
+      const updateInterval = 0.033;
+      if (now - lastUpdate.current < updateInterval) return;
+      lastUpdate.current = now;
+    }
     
     torusRef.current.rotation.x += 0.002;
     torusRef.current.rotation.y += 0.003;
@@ -442,11 +450,11 @@ const Scene = () => {
         }}
         dpr={Math.min(QUALITY_PRESETS[quality].dpr, typeof window !== 'undefined' ? window.devicePixelRatio : 1)}
         performance={{ 
-          min: quality === 'low' ? 0.3 : 0.5,
-          max: quality === 'high' ? 1 : 0.8,
-          debounce: quality === 'low' ? 300 : 200
+          min: quality === 'low' ? 0.5 : 0.75,
+          max: 1,
+          debounce: quality === 'low' ? 200 : 100
         }}
-        frameloop="demand" // Only render when needed
+        frameloop="always" // Critical: Enable continuous rendering for mouse interactions
         onCreated={({ gl, performance }) => {
           gl.setClearColor(0x000000, 0);
           gl.setPixelRatio(Math.min(QUALITY_PRESETS[quality].dpr, window.devicePixelRatio));
@@ -454,6 +462,8 @@ const Scene = () => {
           // Adaptive performance monitoring
           performance.regress();
         }}
+        onPointerMissed={() => {}} // Enable pointer event handling
+        style={{ touchAction: 'none' }} // Improve touch responsiveness
       >
         <color attach="background" args={resolvedTheme === 'dark' ? ['#0a0a0a'] : ['#f8fafc']} />
         {memoizedScene}
