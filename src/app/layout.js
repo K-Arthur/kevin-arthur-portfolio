@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import dynamic from 'next/dynamic';
+import Script from 'next/script';
 
 // Dynamically import WebVitals with no SSR
 const WebVitals = dynamic(() => import('@/components/WebVitals'), {
