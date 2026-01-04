@@ -20,20 +20,22 @@ const ContactPage = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-16 px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
       {/* Hero Section */}
-      <motion.div
-        className="text-center space-y-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
-          Let's Create Something
-          <span className="block text-primary">Amazing Together</span>
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Ready to bring your vision to life? I'm here to help you create exceptional digital experiences that make an impact.
-        </p>
-      </motion.div>
+      <Parallax offset={-20}>
+        <motion.div
+          className="text-center space-y-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
+            Let's Create Something
+            <span className="block text-primary">Amazing Together</span>
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Ready to bring your vision to life? I'm here to help you create exceptional digital experiences that make an impact.
+          </p>
+        </motion.div>
+      </Parallax>
 
       <div className="grid lg:grid-cols-2 gap-16">
         {/* Contact Information */}

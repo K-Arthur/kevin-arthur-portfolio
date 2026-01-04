@@ -137,67 +137,69 @@ export default function Home() {
       {/* Quick Contact Section */}
       <section className="py-20 md:py-32 bg-card/20" aria-labelledby="quick-contact-heading">
         <div className="container-responsive text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 id="quick-contact-heading" className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-              Let's connect and create
-              <br/> 
-              something <span className="text-primary">amazing together</span>
-            </h2>
-            <p className="text-lg text-muted-enhanced max-w-2xl mx-auto mb-10">
-              I'm always excited to discuss new projects and opportunities.
-            </p>
-          </motion.div>
-          
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto px-4 sm:px-0"
-            variants={cardContainerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.4 }}
-          >
-            {/* Email Card */}
-            <motion.a 
-              href="mailto:hello@kevinarthur.design"
-              className="card-enhanced group p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline"
-              variants={cardVariants}
-              whileHover="hover"
-              whileTap="tap"
+          <Parallax offset={20}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
             >
-              <div className="bg-primary/10 p-3 sm:p-4 rounded-full mb-4">
-                <FaEnvelope className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Email Me</h3>
-              <p className="text-muted-enhanced mb-4 text-sm sm:text-base">hello@kevinarthur.design</p>
-              <span className="font-semibold text-primary group-hover:underline">
-                Send a message
-              </span>
-            </motion.a>
+              <h2 id="quick-contact-heading" className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+                Let's connect and create
+                <br/> 
+                something <span className="text-primary">amazing together</span>
+              </h2>
+              <p className="text-lg text-muted-enhanced max-w-2xl mx-auto mb-10">
+                I'm always excited to discuss new projects and opportunities.
+              </p>
+            </motion.div>
+            
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto px-4 sm:px-0"
+              variants={cardContainerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.4 }}
+            >
+              {/* Email Card */}
+              <motion.a 
+                href="mailto:hello@kevinarthur.design"
+                className="card-enhanced group p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline"
+                variants={cardVariants}
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <div className="bg-primary/10 p-3 sm:p-4 rounded-full mb-4">
+                  <FaEnvelope className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Email Me</h3>
+                <p className="text-muted-enhanced mb-4 text-sm sm:text-base">hello@kevinarthur.design</p>
+                <span className="font-semibold text-primary group-hover:underline">
+                  Send a message
+                </span>
+              </motion.a>
 
-            {/* LinkedIn Card */}
-            <motion.a 
-              href="https://www.linkedin.com/in/kevinoarthur/"
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="card-enhanced group p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline"
-              variants={cardVariants}
-              whileHover="hover"
-              whileTap="tap"
-            >
-              <div className="bg-primary/10 p-3 sm:p-4 rounded-full mb-4">
-                <FaLinkedin className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Kevin Arthur</h3>
-              <p className="text-muted-enhanced mb-4 text-sm sm:text-base">Connect professionally</p>
-              <span className="font-semibold text-primary group-hover:underline">
-                View my profile
-              </span>
-            </motion.a>
-          </motion.div>
+              {/* LinkedIn Card */}
+              <motion.a 
+                href="https://www.linkedin.com/in/kevinoarthur/"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="card-enhanced group p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline"
+                variants={cardVariants}
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <div className="bg-primary/10 p-3 sm:p-4 rounded-full mb-4">
+                  <FaLinkedin className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Kevin Arthur</h3>
+                <p className="text-muted-enhanced mb-4 text-sm sm:text-base">Connect professionally</p>
+                <span className="font-semibold text-primary group-hover:underline">
+                  View my profile
+                </span>
+              </motion.a>
+            </motion.div>
+          </Parallax>
         </div>
       </section>
 

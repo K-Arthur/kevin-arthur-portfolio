@@ -77,66 +77,70 @@ const AboutPage = () => {
       <Section>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
           <div className="lg:col-span-2 space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+            <Parallax offset={-20}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
+                  A bit more
+                  <span className="block text-primary">about me</span>
+                </h1>
+                <div className="space-y-6 text-lg leading-relaxed text-muted-enhanced">
+                  <p className="text-xl leading-relaxed">
+                    {personalInfo.summary}
+                  </p>
+                  <p className="text-lg leading-relaxed border-l-4 border-primary/30 pl-6 bg-card/20 py-4 rounded-r-xl">
+                    I believe great design happens when strategy meets creativity. Every project I take on 
+                    is an opportunity to solve real problems and create meaningful impact through thoughtful, 
+                    user-centered design.
+                  </p>
+                </div>
+              </motion.div>
+            </Parallax>
+          </div>
+          <Parallax offset={30} className="w-full">
+            <motion.div 
+              className="relative w-full h-96 md:h-[30rem] lg:h-96 md:max-w-sm lg:max-w-none md:mx-auto lg:mx-0 group"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              whileHover={{ scale: 1.03, rotate: -2 }}
             >
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
-                A bit more
-                <span className="block text-primary">about me</span>
-              </h1>
-              <div className="space-y-6 text-lg leading-relaxed text-muted-enhanced">
-                <p className="text-xl leading-relaxed">
-                  {personalInfo.summary}
-                </p>
-                <p className="text-lg leading-relaxed border-l-4 border-primary/30 pl-6 bg-card/20 py-4 rounded-r-xl">
-                  I believe great design happens when strategy meets creativity. Every project I take on 
-                  is an opportunity to solve real problems and create meaningful impact through thoughtful, 
-                  user-centered design.
-                </p>
+              <motion.div
+                className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl"
+                animate={{ 
+                  y: [0, -10, 0], 
+                  x: [0, 5, 0],
+                  scale: [1, 1.05, 1],
+                }}
+                transition={{ duration: 8, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
+              ></motion.div>
+              <motion.div
+                className="absolute -top-8 -left-8 w-28 h-28 bg-secondary/10 rounded-full blur-3xl"
+                animate={{ 
+                  y: [0, 10, 0], 
+                  x: [0, -5, 0],
+                  scale: [1, 1.05, 1],
+                }}
+                transition={{ duration: 10, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut', delay: 1 }}
+              ></motion.div>
+              
+              <div className="relative card-enhanced h-full w-full bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 p-2 shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/10 rounded-3xl">
+                <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
+                <div className="relative h-full w-full overflow-hidden rounded-2xl">
+              <Image
+                    src="/images/profile-image.jpg"
+                alt="Kevin Arthur"
+                fill
+                    className="object-cover object-top lg:object-center transition-transform duration-500 group-hover:scale-105"
+                priority
+              />
+                </div>
               </div>
             </motion.div>
-          </div>
-          <motion.div 
-            className="relative w-full h-96 md:h-[30rem] lg:h-96 md:max-w-sm lg:max-w-none md:mx-auto lg:mx-0 group"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            whileHover={{ scale: 1.03, rotate: -2 }}
-          >
-            <motion.div
-              className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl"
-              animate={{ 
-                y: [0, -10, 0], 
-                x: [0, 5, 0],
-                scale: [1, 1.05, 1],
-              }}
-              transition={{ duration: 8, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
-            ></motion.div>
-            <motion.div
-              className="absolute -top-8 -left-8 w-28 h-28 bg-secondary/10 rounded-full blur-3xl"
-              animate={{ 
-                y: [0, 10, 0], 
-                x: [0, -5, 0],
-                scale: [1, 1.05, 1],
-              }}
-              transition={{ duration: 10, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut', delay: 1 }}
-            ></motion.div>
-            
-            <div className="relative card-enhanced h-full w-full bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 p-2 shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/10 rounded-3xl">
-              <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
-              <div className="relative h-full w-full overflow-hidden rounded-2xl">
-            <Image
-                  src="/images/profile-image.jpg"
-              alt="Kevin Arthur"
-              fill
-                  className="object-cover object-top lg:object-center transition-transform duration-500 group-hover:scale-105"
-              priority
-            />
-              </div>
-            </div>
-          </motion.div>
+          </Parallax>
         </div>
       </Section>
 
