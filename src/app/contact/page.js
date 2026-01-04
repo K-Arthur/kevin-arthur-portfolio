@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { FaLinkedin, FaBehanceSquare, FaEnvelope, FaPaperPlane, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import { personalInfo } from '@/data/portfolio-data';
+import Parallax from '@/components/Parallax';
 
 const contactInfo = [
   { label: 'Email', value: personalInfo.email, icon: <FaEnvelope /> },
