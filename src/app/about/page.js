@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { personalInfo, skills, education, professionalExperience } from '@/data/portfolio-data';
 import { FaBriefcase, FaGraduationCap, FaTools } from 'react-icons/fa';
 import { useState } from 'react';
+import Parallax from '@/components/Parallax';
 
 const Section = ({ children, delay = 0 }) => (
   <motion.section 

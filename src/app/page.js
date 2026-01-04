@@ -5,6 +5,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Suspense, useState, useEffect } from 'react';
 import { FaArrowRight, FaEnvelope, FaLinkedin } from 'react-icons/fa';
+import Parallax from '@/components/Parallax';
 
 // Lazy load 3D Scene component with no SSR
 const Scene = dynamic(() => import('@/components/Scene'), {
