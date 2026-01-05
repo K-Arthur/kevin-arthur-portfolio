@@ -28,6 +28,9 @@ export const metadata = {
   title: 'Kevin Arthur - Product & UI/UX Designer',
   description: 'Crafting intuitive digital experiences for AI, fintech, and social media.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  alternates: {
+    canonical: './',
+  },
   openGraph: {
     title: 'Kevin Arthur - Product & UI/UX Designer',
     description: 'Crafting intuitive digital experiences for AI, fintech, and social media.',

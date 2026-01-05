@@ -16,6 +16,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${postData.title} - Kevin Arthur`,
     description: postData.metaDescription || postData.summary,
+    alternates: {
+      canonical: `/case-studies/${params.id}`,
+    },
   };
 }
 
