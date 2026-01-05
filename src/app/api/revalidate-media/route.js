@@ -7,11 +7,16 @@ const execAsync = promisify(exec);
 
 export async function POST(request) {
   try {
-    // Check for authorization (optional but recommended)
+    // Check for authorization
     const authHeader = request.headers.get('authorization');
     const expectedToken = process.env.REVALIDATE_TOKEN;
+
+    if (!expectedToken) {
+      console.error('REVALIDATE_TOKEN environment variable is not set');
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    }
     
-    if (expectedToken && authHeader !== `Bearer ${expectedToken}`) {
+    if (!authHeader || authHeader !== `Bearer ${expectedToken}`) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

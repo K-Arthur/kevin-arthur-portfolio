@@ -1,9 +1,9 @@
-import path from 'path';
+const path = require('path');
 
 // Centralized project configuration for My UI Engineering Portfolio
 // Focused on high-value product case studies that demonstrate UI Engineering expertise
 
-export const PROJECT_CONFIG = {
+const PROJECT_CONFIG = {
   // Featured Case Studies - Focused on UI Engineering Impact
   'moremi-ai-collaborate': {
     folder: 'Moremi AI Collaborate',
@@ -241,19 +241,19 @@ export const PROJECT_CONFIG = {
 };
 
 // Helper function to get project config by slug
-export const getProjectConfig = (slug) => {
+const getProjectConfig = (slug) => {
   return PROJECT_CONFIG[slug] || null;
 };
 
 // Helper function to get all projects by category
-export const getProjectsByCategory = (category) => {
+const getProjectsByCategory = (category) => {
   return Object.entries(PROJECT_CONFIG)
     .filter(([_, config]) => config.category === category)
     .map(([slug, config]) => ({ slug, ...config }));
 };
 
 // Helper function to generate slug from folder name (fallback)
-export const generateSlug = (folderName) => {
+const generateSlug = (folderName) => {
   return folderName
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
@@ -263,8 +263,8 @@ export const generateSlug = (folderName) => {
 };
 
 // Helper function to find best thumbnail
-export const findBestThumbnail = (files, preferredThumbnail = null) => {
-  const imageFiles = files.filter(file => 
+const findBestThumbnail = (files, preferredThumbnail = null) => {
+  const imageFiles = files.filter(file =>
     ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(
       file.ext?.toLowerCase() || path.extname(file).toLowerCase()
     )
@@ -274,7 +274,7 @@ export const findBestThumbnail = (files, preferredThumbnail = null) => {
 
   // If preferred thumbnail is specified, look for it
   if (preferredThumbnail) {
-    const preferred = imageFiles.find(file => 
+    const preferred = imageFiles.find(file =>
       (file.name || path.basename(file, path.extname(file))) === path.basename(preferredThumbnail, path.extname(preferredThumbnail))
     );
     if (preferred) return preferred;
@@ -301,4 +301,12 @@ export const findBestThumbnail = (files, preferredThumbnail = null) => {
 
   // Return first image as final fallback
   return imageFiles[0];
+};
+
+module.exports = {
+  PROJECT_CONFIG,
+  getProjectConfig,
+  getProjectsByCategory,
+  generateSlug,
+  findBestThumbnail
 }; 
