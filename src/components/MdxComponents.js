@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ResultsHighlight from './ResultsHighlight';
 
 // Custom component to replace the default <img> tag in MDX content
 const MdxImage = (props) => (
@@ -15,5 +16,6 @@ const MdxImage = (props) => (
 
 export const mdxComponents = {
   img: MdxImage,
+  ResultsHighlight,
   // You can add other custom components here as well
 };

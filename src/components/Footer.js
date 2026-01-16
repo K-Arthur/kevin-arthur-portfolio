@@ -1,4 +1,7 @@
+'use client';
+
 import { FaLinkedin, FaBehanceSquare } from 'react-icons/fa';
+import { usePathname } from 'next/navigation';
 
 const socialLinks = [
   {
@@ -13,11 +16,20 @@ const socialLinks = [
   },
 ];
 
-const Footer = () => {
+const Footer = ({ transparent = false }) => {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
 
+  // Hide the global footer on homepage since it has its own inline footer with shader
+  if (!transparent && pathname === '/') {
+    return null;
+  }
+
   return (
-    <footer className="bg-background/80 backdrop-blur-sm border-t border-border/50 mt-24" aria-label="Footer">
+    <footer
+      className={`${transparent ? 'bg-transparent border-t-0 mt-0 relative z-10' : 'bg-background/80 backdrop-blur-sm border-t border-border/50 mt-24'}`}
+      aria-label="Footer"
+    >
       <div className="container-responsive py-12">
         <div className="flex flex-col items-center gap-6">
           {/* Social Links */}

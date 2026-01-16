@@ -2,12 +2,21 @@
 
 import { motion } from 'framer-motion';
 import { personalInfo, skills, education, professionalExperience } from '@/data/portfolio-data';
-import { FaBriefcase, FaGraduationCap, FaTools } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSyncAlt, FaBullhorn, FaPaintBrush, FaFigma, FaCode, FaVideo, FaDatabase } from 'react-icons/fa';
 import { useState } from 'react';
+import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
+import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
+import dynamic from 'next/dynamic';
 import Parallax from '@/components/Parallax';
 
+// Dynamically import the RadialOrbitalTimeline to avoid SSR issues
+const RadialOrbitalTimeline = dynamic(
+  () => import('@/components/ui/radial-orbital-timeline'),
+  { ssr: false }
+);
+
 const Section = ({ children, delay = 0 }) => (
-  <motion.section 
+  <motion.section
     initial={{ opacity: 1, y: 0 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ type: 'spring', damping: 15, stiffness: 100, duration: 0.5, delay }}
@@ -25,15 +34,97 @@ const SectionTitle = ({ icon, children }) => (
 
 import Image from 'next/image';
 
+// Icon mapping for timeline data
+const iconMap = {
+  'User-centered Design': FaUsers,
+  'Wireframing & Prototyping': BsDiagram3,
+  'User Research': FaUsers,
+  'Usability Testing': FaVial,
+  'Heuristic Evaluation': FaBrain,
+  'Agile Methodology': FaSyncAlt,
+  'Digital Marketing & Brand Strategy': FaBullhorn,
+  'Visual Design': FaPaintBrush,
+  'Figma': FaFigma,
+  'Adobe Suite': SiAdobecreativecloud,
+  'HTML, CSS, & JavaScript': FaCode,
+  'PHP': SiPhp,
+  'Database Management (MySQL, PostgreSQL)': FaDatabase,
+  'Version Control (Git, GitHub)': BsGit,
+  'Video Editing': FaVideo,
+  'Cross-platform OS (Windows, Linux, MacOS)': BsWindow,
+};
+
+// Convert skills to timeline format
+const createTimelineData = () => {
+  const allSkills = [];
+  let id = 1;
+
+  // Core Competencies
+  skills['Core Competencies'].forEach((skill, index) => {
+    allSkills.push({
+      id: id++,
+      title: skill.name,
+      date: 'Core',
+      content: `Core competency in ${skill.name.toLowerCase()} for building effective digital products.`,
+      category: 'Core Competencies',
+      icon: iconMap[skill.name] || FaUsers,
+      relatedIds: [],
+      status: 'completed',
+      energy: 85 + Math.floor(Math.random() * 15),
+    });
+  });
+
+  // Technical Skills
+  skills['Technical Skills'].forEach((skill, index) => {
+    allSkills.push({
+      id: id++,
+      title: skill.name,
+      date: 'Technical',
+      content: `Technical proficiency in ${skill.name.toLowerCase()} for implementation and development.`,
+      category: 'Technical Skills',
+      icon: iconMap[skill.name] || FaCode,
+      relatedIds: [],
+      status: 'completed',
+      energy: 80 + Math.floor(Math.random() * 20),
+    });
+  });
+
+  // Add some related skill connections
+  allSkills.forEach((skill, index) => {
+    // Connect some logically related skills
+    if (skill.title === 'User-centered Design') {
+      skill.relatedIds = [3, 4]; // User Research, Usability Testing
+    } else if (skill.title === 'User Research') {
+      skill.relatedIds = [1, 4]; // User-centered Design, Usability Testing
+    } else if (skill.title === 'Wireframing & Prototyping') {
+      skill.relatedIds = [9]; // Figma
+    } else if (skill.title === 'Figma') {
+      skill.relatedIds = [2, 8]; // Wireframing, Visual Design
+    } else if (skill.title === 'HTML, CSS, & JavaScript') {
+      skill.relatedIds = [12]; // PHP
+    } else if (skill.title === 'Database Management (MySQL, PostgreSQL)') {
+      skill.relatedIds = [12, 14]; // PHP, Version Control
+    }
+  });
+
+  return allSkills;
+};
+
 const SkillsSection = () => {
-  const [activeTab, setActiveTab] = useState(Object.keys(skills)[0]);
+  const [activeTab, setActiveTab] = useState('Core Competencies');
+  const allTimelineData = createTimelineData();
+
+  // Filter data based on active tab
+  const activeData = allTimelineData.filter(item => item.category === activeTab);
 
   return (
     <Section delay={0.2}>
       <SectionTitle icon={<FaTools />}>Skills & Tools</SectionTitle>
-      <div className="flex justify-center mb-8 -mx-6 sm:mx-0">
+
+      {/* Category Tabs */}
+      <div className="flex justify-center mb-10 -mx-6 sm:mx-0">
         <div className="bg-muted/50 p-1.5 rounded-full flex gap-2 overflow-x-auto px-4">
-          {Object.keys(skills).map((category) => (
+          {['Core Competencies', 'Technical Skills'].map((category) => (
             <button
               key={category}
               onClick={() => setActiveTab(category)}
@@ -52,20 +143,13 @@ const SkillsSection = () => {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        {skills[activeTab].map((skill, index) => (
-          <motion.div
-            key={`${activeTab}-${index}`}
-            className="card-enhanced flex flex-col items-center justify-center p-4 md:p-6 bg-card/50 rounded-xl shadow-md"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, type: 'spring', damping: 15, stiffness: 200 }}
-            whileHover={{ scale: 1.05, y: -5, boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
-          >
-            <div className="text-4xl text-primary mb-3">{skill.icon}</div>
-            <span className="text-base md:text-lg text-foreground text-center">{skill.name}</span>
-          </motion.div>
-        ))}
+
+      <p className="text-muted-foreground text-center mb-6 max-w-2xl mx-auto">
+        Click on any skill to explore details and discover related competencies
+      </p>
+
+      <div key={activeTab} className="transition-all duration-500 ease-in-out">
+        <RadialOrbitalTimeline timelineData={activeData} />
       </div>
     </Section>
   );
@@ -93,8 +177,8 @@ const AboutPage = () => {
                     {personalInfo.summary}
                   </p>
                   <p className="text-lg leading-relaxed border-l-4 border-primary/30 pl-6 bg-card/20 py-4 rounded-r-xl">
-                    I believe great design happens when strategy meets creativity. Every project I take on 
-                    is an opportunity to solve real problems and create meaningful impact through thoughtful, 
+                    I believe great design happens when strategy meets creativity. Every project I take on
+                    is an opportunity to solve real problems and create meaningful impact through thoughtful,
                     user-centered design.
                   </p>
                 </div>
@@ -102,7 +186,7 @@ const AboutPage = () => {
             </Parallax>
           </div>
           <Parallax offset={30} className="w-full">
-            <motion.div 
+            <motion.div
               className="relative w-full h-96 md:h-[30rem] lg:h-96 md:max-w-sm lg:max-w-none md:mx-auto lg:mx-0 group"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -111,8 +195,8 @@ const AboutPage = () => {
             >
               <motion.div
                 className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl"
-                animate={{ 
-                  y: [0, -10, 0], 
+                animate={{
+                  y: [0, -10, 0],
                   x: [0, 5, 0],
                   scale: [1, 1.05, 1],
                 }}
@@ -120,24 +204,24 @@ const AboutPage = () => {
               ></motion.div>
               <motion.div
                 className="absolute -top-8 -left-8 w-28 h-28 bg-secondary/10 rounded-full blur-3xl"
-                animate={{ 
-                  y: [0, 10, 0], 
+                animate={{
+                  y: [0, 10, 0],
                   x: [0, -5, 0],
                   scale: [1, 1.05, 1],
                 }}
                 transition={{ duration: 10, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut', delay: 1 }}
               ></motion.div>
-              
+
               <div className="relative card-enhanced h-full w-full bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 p-2 shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/10 rounded-3xl">
                 <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
                 <div className="relative h-full w-full overflow-hidden rounded-2xl">
-              <Image
+                  <Image
                     src="/images/profile-image.jpg"
-                alt="Kevin Arthur"
-                fill
+                    alt="Kevin Arthur, Design Engineer and AI Interface Design Expert based in Vancouver, Canada"
+                    fill
                     className="object-cover object-top lg:object-center transition-transform duration-500 group-hover:scale-105"
-                priority
-              />
+                    priority
+                  />
                 </div>
               </div>
             </motion.div>
@@ -177,11 +261,11 @@ const AboutPage = () => {
         <div className="relative">
           {/* Timeline Line */}
           <div className="absolute left-32 md:left-40 top-0 bottom-0 w-0.5 bg-border/40"></div>
-          
+
           <div className="space-y-8 md:space-y-12">
             {professionalExperience.map((job, index) => (
               <motion.div
-                key={index} 
+                key={index}
                 className="relative flex items-start gap-4 md:gap-8"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -190,13 +274,13 @@ const AboutPage = () => {
               >
                 {/* Timeline Dot */}
                 <div className="absolute left-32 md:left-40 top-2 w-3 h-3 md:w-4 md:h-4 bg-background border-2 border-primary rounded-full transform -translate-x-1/2 z-10"></div>
-                
+
                 <div className="w-28 md:w-36 text-right text-xs md:text-sm font-medium text-muted-enhanced shrink-0 pt-2">
                   {job.period.split(' - ').map((part, i) => (
                     <span key={i} className="block whitespace-nowrap">{part}</span>
                   ))}
                 </div>
-                
+
                 <div className="flex-grow card-enhanced bg-card/80 p-4 md:p-6 rounded-lg ml-4 md:ml-8">
                   <h3 className="text-lg md:text-xl font-bold text-foreground">{job.role}</h3>
                   <p className="text-primary font-semibold mb-2 text-sm md:text-base">{job.company}</p>

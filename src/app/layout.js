@@ -3,8 +3,11 @@ import { Jost, Fira_Code } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import StickyCTA from '@/components/StickyCTA';
+import { CursorProvider } from '@/components/CursorProvider';
 import dynamic from 'next/dynamic';
 import Script from 'next/script';
+import { personSchema, websiteSchema } from '@/lib/structured-data';
 
 // Dynamically import WebVitals with no SSR
 const WebVitals = dynamic(() => import('@/components/WebVitals'), {
@@ -12,30 +15,34 @@ const WebVitals = dynamic(() => import('@/components/WebVitals'), {
 });
 
 // Load fonts
-const jost = Jost({ 
-  subsets: ['latin'], 
+const jost = Jost({
+  subsets: ['latin'],
   variable: '--font-jost',
   display: 'swap'
 });
 
-const firaCode = Fira_Code({ 
-  subsets: ['latin'], 
+const firaCode = Fira_Code({
+  subsets: ['latin'],
   variable: '--font-fira-code',
   display: 'swap'
 });
 
 export const metadata = {
-  title: 'Kevin Arthur - Product & UI/UX Designer',
-  description: 'Crafting intuitive digital experiences for AI, fintech, and social media.',
+  title: {
+    default: 'Kevin Arthur | Design Engineer & AI Interface Design Expert | Vancouver',
+    template: '%s | Kevin Arthur Design'
+  },
+  description: 'Design Engineer and SaaS Product Designer in Vancouver specializing in AI interface design. Case studies: 97% diagnostic accuracy, 500+ healthcare facilities. Expert in healthcare UX and data-heavy platforms.',
+  keywords: ['Design Engineer Portfolio', 'SaaS Product Designer Vancouver', 'AI Interface Design Expert', 'Healthcare UX Designer', 'Product Designer', 'Design Systems'],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   alternates: {
     canonical: './',
   },
   openGraph: {
-    title: 'Kevin Arthur - Product & UI/UX Designer',
-    description: 'Crafting intuitive digital experiences for AI, fintech, and social media.',
+    title: 'Kevin Arthur | Design Engineer & AI Interface Design Expert',
+    description: 'Vancouver-based Design Engineer creating AI-powered healthcare interfaces. 97% diagnostic accuracy. 500+ facilities served.',
     url: '/',
-    siteName: 'Kevin Arthur',
+    siteName: 'Kevin Arthur Design Portfolio',
     locale: 'en_US',
     type: 'website',
   },
@@ -51,8 +58,9 @@ export const metadata = {
     },
   },
   twitter: {
-    title: 'Kevin Arthur',
+    title: 'Kevin Arthur | Design Engineer & AI Interface Expert',
     card: 'summary_large_image',
+    description: 'Design Engineer specializing in AI interface design | Healthcare UX | Vancouver',
   },
 };
 
@@ -65,11 +73,21 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
         <link rel="manifest" href="/site.webmanifest" />
-        
+
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+
         {process.env.NODE_ENV === 'production' && (
-          <script 
-            defer 
-            data-domain="kevinarthur.design" 
+          <script
+            defer
+            data-domain="kevinarthur.design"
             src="https://plausible.io/js/script.js"
             data-api="https://plausible.io/api/event"
           ></script>
@@ -88,14 +106,17 @@ export default function RootLayout({ children }) {
           `}
         </Script>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main id="main-content" className="flex-grow">
-              {children}
-            </main>
-            <Footer />
-            {process.env.NODE_ENV === 'production' && <WebVitals />}
-          </div>
+          <CursorProvider>
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main id="main-content" className="flex-grow">
+                {children}
+              </main>
+              <Footer />
+              <StickyCTA />
+              {process.env.NODE_ENV === 'production' && <WebVitals />}
+            </div>
+          </CursorProvider>
         </ThemeProvider>
       </body>
     </html>

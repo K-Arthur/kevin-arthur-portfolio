@@ -15,7 +15,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
         {/* Hero Section */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16 md:mb-24"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -30,8 +30,8 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
             <FaCode className="text-primary text-xl" />
             <span className="text-primary font-medium">UI Engineering</span>
           </motion.div>
-          
-          <motion.h1 
+
+          <motion.h1
             className="font-bold tracking-tight mb-6 gradient-text-enhanced text-4xl sm:text-5xl md:text-6xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -39,20 +39,20 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
           >
             Case Studies
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            Selected projects showcasing my expertise in building beautiful, 
+            Selected projects showcasing my expertise in building beautiful,
             accessible, and performant user interfaces with React and modern web technologies.
           </motion.p>
         </motion.div>
 
         {/* Case Studies Grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 gap-16 max-w-4xl mx-auto"
           layout
         >
@@ -61,9 +61,10 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
               key={project.slug}
               className="group relative"
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              whileHover={{ y: -5 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -8, transition: { type: "spring", stiffness: 300 } }}
             >
               <Link href={`/work/${project.slug}`} className="block">
                 <div className="relative overflow-hidden rounded-2xl mb-6 aspect-video bg-muted/20 border border-border/30">
@@ -80,7 +81,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
                       <FaFigma className="text-foreground/60" />
                       <span>View Case Study</span>
                     </div>
-                    
+
                     {/* Video indicator */}
                     {(project.hasVideos || project.category === 'Video & Motion Graphics') && (
                       <div className="absolute top-4 right-4 bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
@@ -88,7 +89,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Project Info */}
                   <div className="p-4 sm:p-6 flex-grow flex flex-col justify-end bg-card/60">
                     <div>
@@ -106,7 +107,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Border Accent */}
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
@@ -114,10 +115,10 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
             </motion.article>
           ))}
         </motion.div>
-        
+
         {/* Empty State */}
         {caseStudies.length === 0 && (
-          <motion.div 
+          <motion.div
             className="text-center py-20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
