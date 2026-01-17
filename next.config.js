@@ -77,9 +77,9 @@ const nextConfig = {
     return config;
   },
 
-  // Add experimental features for better video handling
+  // Add experimental features for better video handling and bundle optimization
   experimental: {
-    optimizePackageImports: ['lucide-react'],
+    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei'],
   },
 
   // Add redirects for video format fallbacks

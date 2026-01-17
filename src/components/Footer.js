@@ -2,6 +2,7 @@
 
 import { FaLinkedin, FaBehanceSquare } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
+import FooterLeadMagnet from './FooterLeadMagnet';
 
 const socialLinks = [
   {
@@ -16,7 +17,7 @@ const socialLinks = [
   },
 ];
 
-const Footer = ({ transparent = false }) => {
+const Footer = ({ transparent = false, showLeadMagnet = true }) => {
   const pathname = usePathname();
   const currentYear = new Date().getFullYear();
 
@@ -25,11 +26,19 @@ const Footer = ({ transparent = false }) => {
     return null;
   }
 
+  // Don't show lead magnet on lab page (already has them) or contact page
+  const hideLeadMagnet = pathname === '/lab' || pathname === '/contact';
+
   return (
     <footer
       className={`${transparent ? 'bg-transparent border-t-0 mt-0 relative z-10' : 'bg-background/80 backdrop-blur-sm border-t border-border/50 mt-24'}`}
       aria-label="Footer"
     >
+      {/* Lead Magnet Section */}
+      {showLeadMagnet && !hideLeadMagnet && !transparent && (
+        <FooterLeadMagnet />
+      )}
+
       <div className="container-responsive py-12">
         <div className="flex flex-col items-center gap-6">
           {/* Social Links */}

@@ -9,6 +9,7 @@ import { motion, AnimatePresence, useDragControls, useReducedMotion } from 'fram
 const navLinks = [
   { href: '/about', label: 'About', icon: '👤' },
   { href: '/case-studies', label: 'Case Studies', icon: '📁' },
+  { href: '/lab', label: 'Lab', icon: '🧪' },
   { href: '/contact', label: 'Contact', icon: '✉️' },
 ];
 

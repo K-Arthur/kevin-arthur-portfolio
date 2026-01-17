@@ -25,6 +25,7 @@
     "dotenv": "^17.2.0",
     "framer-motion": "^11.2.10",
     "gray-matter": "^4.0.3",
+    "jspdf": "^4.0.0",
     "lucide-react": "^0.395.0",
     "next": "^14.2.33",
     "next-mdx-remote": "^5.0.0",

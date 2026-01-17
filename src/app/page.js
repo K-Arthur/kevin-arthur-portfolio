@@ -65,12 +65,28 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true);
 
-    // Delay 3D scene loading until critical content is rendered
-    const timer = setTimeout(() => {
+    // Load 3D scene only after LCP is guaranteed (scroll or 5s delay)
+    let loaded = false;
+    const loadScene = () => {
+      if (loaded) return;
+      loaded = true;
       setShouldLoadScene(true);
-    }, 100);
+      window.removeEventListener('scroll', handleScroll);
+    };
 
-    return () => clearTimeout(timer);
+    // Load on first scroll (user engaged, LCP done)
+    const handleScroll = () => {
+      if (window.scrollY > 50) loadScene();
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Fallback: load after 5 seconds regardless (LCP definitely done by then)
+    const timer = setTimeout(loadScene, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
@@ -84,31 +100,17 @@ export default function Home() {
         )}
 
         <div className="relative z-10 container-responsive space-y-12">
-          <motion.div
-            className="space-y-8"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            <motion.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
+          {/* Critical LCP content - NO Framer Motion, uses CSS animations for instant render */}
+          <div className="space-y-8 animate-fade-in-up">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground animate-fade-in-up">
               Hey, I'm{" "}
               <span className="gradient-text-brand inline-block">
                 Kevin!
               </span>{" "}
               <span className="inline-block animate-wave">👋</span>
-            </motion.h1>
+            </h1>
 
-            <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
+            <div className="space-y-6 animate-fade-in-up animation-delay-200">
               <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
                 <span className="block">I design scalable systems that bridge</span>
                 <span className="text-primary block">complex AI and human intuition.</span>
@@ -116,8 +118,8 @@ export default function Home() {
               <p className="text-lg md:text-xl lg:text-2xl text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light">
                 Product Designer specializing in data-heavy SaaS platforms and design systems.
               </p>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           <motion.div
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 w-full sm:w-auto"

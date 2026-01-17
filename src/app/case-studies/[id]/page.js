@@ -1,4 +1,5 @@
 import { getCaseStudyData, getAllCaseStudyIds } from '@/lib/case-studies';
+import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { mdxComponents } from '@/components/MdxComponents';
 import { FaCalendarAlt, FaUserTie, FaTools, FaChartLine } from 'react-icons/fa';
@@ -7,6 +8,7 @@ import Parallax from '@/components/Parallax';
 import { getCaseStudySchema } from '@/lib/structured-data';
 import ContextualCTA from '@/components/ContextualCTA';
 import { DottedGlowBackground } from '@/components/ui/dotted-glow-background';
+import CaseStudyPopupWrapper from './CaseStudyPopupWrapper';
 
 // This function gets called at build time
 export async function generateStaticParams() {
@@ -50,6 +52,8 @@ export default async function CaseStudyPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
       />
+      {/* Lead Magnet Popup - contextual based on industry */}
+      <CaseStudyPopupWrapper industry={postData.industry || 'general'} />
       <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
         {/* Hero Section */}
         <header className="relative bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50 overflow-hidden">
@@ -130,11 +134,14 @@ export default async function CaseStudyPage({ params }) {
                 <div className="w-full md:w-1/3 mt-8 md:mt-0 animate-fade-in-right">
                   <Parallax offset={20}>
                     <div className="relative overflow-hidden rounded-2xl border border-border/50 shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                      <img
+                      <Image
                         src={postData.heroImage}
                         alt={postData.heroImageAlt || `${postData.title} case study preview`}
-                        className="w-full h-auto rounded-xl"
-                        loading="lazy"
+                        width={600}
+                        height={400}
+                        className="w-full h-auto rounded-xl object-cover"
+                        priority
+                        sizes="(max-width: 768px) 100vw, 33vw"
                       />
                     </div>
                   </Parallax>

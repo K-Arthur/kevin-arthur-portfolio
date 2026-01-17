@@ -250,6 +250,8 @@ const AboutPage = () => {
                     fill
                     className="object-cover object-top lg:object-center transition-transform duration-500 group-hover:scale-105"
                     priority
+                    fetchPriority="high"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px"
                   />
                 </div>
               </div>

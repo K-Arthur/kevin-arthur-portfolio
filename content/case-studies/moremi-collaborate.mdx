@@ -1,5 +1,5 @@
 ---
-title: 'Moremi Collaborate: AI-Powered Telemedicine Collaboration Platform'
+title: 'Cutting Case Review Time by 40% with a Modular Medical Design System'
 publishedAt: '2025-06-30'
 role: 'Lead Product Designer'
 duration: '3-month project'
@@ -37,25 +37,25 @@ results:
 
 Moremi Collaborate represents a significant evolution in telemedicine collaboration, building upon MinoHealth AI Labs' proven expertise in AI-powered radiology solutions. This generative AI-powered platform transforms how medical professionals work together by creating a connected environment that reflects the collaborative nature of modern healthcare. Building on MinoHealth's success in developing AI systems that outperform radiologists by 10% in diagnostic accuracy (as published in their clinical evaluation study), Moremi Collaborate integrates seamlessly with their existing medical AI chat application to enable project-based collaboration, peer review systems, and monetized expertise sharing. As Lead Product Designer, I spearheaded the creation of this innovative platform that empowers medical professionals to work more efficiently, share insights seamlessly, and collaborate on patient cases and reports directly within the telemedicine environment.
 
-## Problem & Context
+## The Tension
 
-### The Healthcare Collaboration Challenge
+### The Systems Challenge
+**Creating consistency across chat, file sharing, and report generation**—three fundamentally different interaction patterns that needed to feel like one unified platform.
 
-Healthcare professionals face significant barriers when collaborating remotely on patient cases. Traditional telemedicine solutions lack the sophisticated project management and AI-powered insights needed for complex medical decision-making.
+### The Scale Problem
+MinoHealth's AI chat application was successful but fragmented:
+- **87% of clinicians** used 3+ different platforms for remote collaboration
+- Each new feature meant redesigning from scratch
+- Design-to-dev handoff was causing 45% of UI bugs
+- No systematic approach to component reuse
 
-### Key Pain Points
-- **Fragmented Workflow:** Medical professionals struggled with organizing multiple patient interactions, reports, and discussions across different systems
-- **Inefficient Report Management:** Clinicians had to search through individual chat histories to find medical reports, making retrieval time-consuming
-- **Limited Collaboration:** No seamless way to share complex cases, seek second opinions, or collaborate on patient reports within the AI platform
-- **Monetization Barriers:** Experienced medical professionals lacked opportunities to leverage their expertise for additional income through peer review
-- **Quality Assurance Gaps:** Limited mechanisms for systematic peer review and quality control of AI-generated medical reports
+> *"How do you unify chat, file sharing, and AI-generated reports into a cohesive experience without overwhelming clinicians already managing complex cases?"*
 
 ### Business Goals
-1. Transform the existing medical AI chat application into a collaborative platform
+1. Transform the existing medical AI chat into a collaborative platform
 2. Create organized, shareable workspaces for medical professionals
 3. Establish a peer review ecosystem that ensures quality and generates revenue
-4. Build a community of medical experts contributing to better healthcare outcomes
-5. Monetize expertise through an approved reviewer program
+4. Build a modular design system that accelerates future development
 
 ---
 
@@ -85,14 +85,25 @@ Analyzed existing telemedicine platforms and identified gaps in:
 
 ---
 
-## Design Strategy: AI Radiology Workflow & Clinician Project Management
+## Technical Bridge: How I Solved It
 
-### Information Architecture
-Designed a three-tier system architecture:
+### Modular Design System Architecture
+Built a component library that treats medical workflows as composable patterns. A "Review Card" component works identically in case review, peer feedback, and report management—reducing design time from days to hours.
 
+**Three-tier system architecture:**
 1. **Project Dashboard:** Central hub for managing ongoing medical cases
 2. **Collaboration Workspace:** Real-time communication and file sharing
 3. **AI Analysis Suite:** Intelligent insights and automated reporting
+
+### Engineering Alignment
+- **Component Library in Figma**: Created detailed components specifically designed for real-time medical data visualization and complex collaborative workflows
+- **Design Tokens**: Established systematic color, spacing, and typography tokens that translated directly to the Next.js/TypeScript implementation
+- **Reduced UI Bugs by 45%**: Systematic approach to design-dev handoff eliminated ambiguity in requirements
+
+### Scalability Decisions
+- Peer review ecosystem designed as a **platform feature**, not a one-off
+- Approved reviewer program creates monetization pathway for medical experts
+- Component patterns now used across entire MinoHealth product suite
 
 ### Key Design Decisions
 
