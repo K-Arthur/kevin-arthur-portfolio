@@ -33,14 +33,12 @@ export default function LabPage() {
     >
       {/* Hero Section */}
       <section className="py-16 md:py-24">
-        <div className="container-responsive">
-          <Parallax offset={-20}>
+        <div className="container-responsive animate-fade-in-up">
             <HandWrittenTitle
               title="Free Resources for"
               highlightedText="Product Teams"
               subtitle="Tools I've built from 4+ years of designing and building products. No fluff—just practical frameworks you can use today."
             />
-          </Parallax>
         </div>
       </section>
 

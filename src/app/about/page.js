@@ -175,31 +175,12 @@ const AboutPage = () => {
       <Section>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
           <div className="lg:col-span-2 space-y-8">
-            <Parallax offset={-20}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
+            <div className="animate-fade-in-up">
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
-                  <TextScramble
-                    as="span"
-                    className="text-foreground"
-                    duration={1.0}
-                    speed={0.035}
-                    characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-                  >
-                    A bit more
-                  </TextScramble>
-                  <TextScramble
-                    as="span"
-                    className="block text-primary"
-                    duration={1.2}
-                    speed={0.035}
-                    characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-                  >
-                    about me
-                  </TextScramble>
+                  Design Engineer &
+                  <span className="block text-primary mt-2">
+                    Creative Technologist
+                  </span>
                 </h1>
                 <div className="space-y-6 text-lg leading-relaxed text-muted-enhanced">
                   <p className="text-xl leading-relaxed">
@@ -211,35 +192,12 @@ const AboutPage = () => {
                     user-centered design.
                   </p>
                 </div>
-              </motion.div>
-            </Parallax>
+            </div>
           </div>
-          <Parallax offset={30} className="w-full">
-            <motion.div
-              className="relative w-full h-96 md:h-[30rem] lg:h-96 md:max-w-sm lg:max-w-none md:mx-auto lg:mx-0 group"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              whileHover={{ scale: 1.03, rotate: -2 }}
-            >
-              <motion.div
-                className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl"
-                animate={{
-                  y: [0, -10, 0],
-                  x: [0, 5, 0],
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{ duration: 8, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
-              ></motion.div>
-              <motion.div
-                className="absolute -top-8 -left-8 w-28 h-28 bg-secondary/10 rounded-full blur-3xl"
-                animate={{
-                  y: [0, 10, 0],
-                  x: [0, -5, 0],
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{ duration: 10, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut', delay: 1 }}
-              ></motion.div>
+          <div className="w-full animate-fade-in-right animation-delay-200">
+            <div className="relative w-full h-96 md:h-[30rem] lg:h-96 md:max-w-sm lg:max-w-none md:mx-auto lg:mx-0 group">
+              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute -top-8 -left-8 w-28 h-28 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
 
               <div className="relative card-enhanced h-full w-full bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 p-2 shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/10 rounded-3xl">
                 <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
@@ -255,8 +213,8 @@ const AboutPage = () => {
                   />
                 </div>
               </div>
-            </motion.div>
-          </Parallax>
+            </div>
+          </div>
         </div>
       </Section>
 

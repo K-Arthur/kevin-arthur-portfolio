@@ -108,13 +108,13 @@ export default function Home() {
                 Kevin!
               </span>{" "}
               <span className="inline-block animate-wave">👋</span>
+              <span className="block text-2xl md:text-4xl lg:text-5xl mt-4 font-bold tracking-tight text-foreground">
+                <span className="block">I design scalable systems that bridge</span>
+                <span className="text-primary block">complex AI and human intuition.</span>
+              </span>
             </h1>
 
             <div className="space-y-6 animate-fade-in-up animation-delay-200">
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-                <span className="block">I design scalable systems that bridge</span>
-                <span className="text-primary block">complex AI and human intuition.</span>
-              </h2>
               <p className="text-lg md:text-xl lg:text-2xl text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light">
                 Product Designer specializing in data-heavy SaaS platforms and design systems.
               </p>

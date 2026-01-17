@@ -3,9 +3,14 @@
 import { motion } from 'framer-motion';
 import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 import { personalInfo } from '@/data/portfolio-data';
-import Parallax from '@/components/Parallax';
 import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
-import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid';
+import dynamic from 'next/dynamic';
+
+// Defer the heavy background component
+const InfiniteGridBackground = dynamic(
+  () => import('@/components/ui/the-infinite-grid').then((mod) => mod.InfiniteGridBackground),
+  { ssr: false }
+);
 
 const contactInfo = [
   { label: 'Email', value: personalInfo.email, icon: <FaEnvelope />, href: `mailto:${personalInfo.email}` },
@@ -46,25 +51,30 @@ const ContactPage = () => {
   };
 
   return (
-    <InfiniteGridBackground 
-      className="min-h-screen"
-      gridSize={50}
-      speedX={0.25}
-      speedY={0.2}
-      revealRadius={350}
-      baseOpacity={0.04}
-      revealOpacity={0.45}
-      fullPage={true}
-    >
-      <div className="max-w-6xl mx-auto space-y-16 px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
+    <div className="relative min-h-screen bg-background overflow-hidden">
+      {/* Background Layer - Loaded Async */}
+      <div className="absolute inset-0 z-0">
+        <InfiniteGridBackground 
+          className="min-h-screen"
+          gridSize={50}
+          speedX={0.25}
+          speedY={0.2}
+          revealRadius={350}
+          baseOpacity={0.04}
+          revealOpacity={0.45}
+          fullPage={true}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto space-y-16 px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
         {/* Hero Section */}
-        <Parallax offset={-20}>
+        <div className="animate-fade-in-up">
         <HandWrittenTitle
           title="Let's Create Something"
           highlightedText="Amazing Together"
           subtitle="Ready to bring your vision to life? Book a quick call or send me a message — I'd love to hear about your project."
         />
-      </Parallax>
+        </div>
 
       {/* Quick Actions - Prominent Scheduling */}
       <motion.div
@@ -259,8 +269,8 @@ const ContactPage = () => {
           </form>
         </motion.div>
       </div>
-      </div>
-    </InfiniteGridBackground>
+    </div>
+    </div>
   );
 };
 

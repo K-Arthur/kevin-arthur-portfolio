@@ -132,19 +132,17 @@ export default async function CaseStudyPage({ params }) {
 
               {postData.heroImage && (
                 <div className="w-full md:w-1/3 mt-8 md:mt-0 animate-fade-in-right">
-                  <Parallax offset={20}>
-                    <div className="relative overflow-hidden rounded-2xl border border-border/50 shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                      <Image
-                        src={postData.heroImage}
-                        alt={postData.heroImageAlt || `${postData.title} case study preview`}
-                        width={600}
-                        height={400}
-                        className="w-full h-auto rounded-xl object-cover"
-                        priority
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                    </div>
-                  </Parallax>
+                  <div className="relative overflow-hidden rounded-2xl border border-border/50 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                    <Image
+                      src={postData.heroImage}
+                      alt={postData.heroImageAlt || `${postData.title} case study preview`}
+                      width={600}
+                      height={400}
+                      className="w-full h-auto rounded-xl object-cover"
+                      priority
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
                 </div>
               )}
             </div>

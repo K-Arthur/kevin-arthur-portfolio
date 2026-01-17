@@ -21,7 +21,6 @@ export default function CaseStudiesClient({ posts }) {
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
         {/* Hero Section */}
         <div className="text-center mb-20 animate-fade-in-up">
-          <Parallax offset={-20}>
             <div className="inline-flex items-center gap-3 mb-6 p-4 bg-primary/10 rounded-2xl border border-primary/20 animate-fade-in-up animation-delay-200">
               <FaLightbulb className="text-primary text-2xl" />
               <span className="text-primary font-semibold text-lg">Design Solutions</span>
@@ -40,7 +39,6 @@ export default function CaseStudiesClient({ posts }) {
               Deep dives into real projects where design meets strategy,
               showcasing the process behind impactful digital solutions.
             </p>
-          </Parallax>
         </div>
 
         {/* Case Studies Grid */}
