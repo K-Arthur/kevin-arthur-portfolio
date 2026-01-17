@@ -1,15 +1,21 @@
 'use client';
 
-import { motion } from 'framer-motion';
-
 import dynamic from 'next/dynamic';
 import { Suspense, useState, useEffect } from 'react';
 import { FaArrowRight, FaEnvelope, FaLinkedin, FaCalendarAlt } from 'react-icons/fa';
-import Parallax from '@/components/Parallax';
 import MagneticButton from '@/components/MagneticButton';
-import { GlowingEffect } from '@/components/ui/glowing-effect';
-import { MagneticText } from '@/components/ui/morphing-cursor';
 import Footer from '@/components/Footer';
+
+// Lazy load interactive effects - requires JS for mouse tracking, loads after LCP
+const MagneticText = dynamic(
+  () => import('@/components/ui/morphing-cursor').then(mod => mod.MagneticText),
+  { ssr: false, loading: () => <span className="text-primary">connect and create</span> }
+);
+
+const GlowingEffect = dynamic(
+  () => import('@/components/ui/glowing-effect').then(mod => mod.GlowingEffect),
+  { ssr: false }
+);
 
 const ShaderAnimation = dynamic(() => import('@/components/ui/shader-animation').then(mod => mod.ShaderAnimation), {
   ssr: false
@@ -29,33 +35,6 @@ function SceneLoadingFallback() {
   );
 }
 
-const cardContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-  hover: {
-    y: -5,
-    scale: 1.02,
-    transition: { type: 'spring', stiffness: 350, damping: 25 }
-  },
-  tap: { scale: 0.98 }
-};
 
 
 export default function Home() {
@@ -121,12 +100,7 @@ export default function Home() {
             </div>
           </div>
 
-          <motion.div
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 w-full sm:w-auto"
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 w-full sm:w-auto animate-fade-in-up animation-delay-400">
             <MagneticButton
               href="/case-studies"
               strength={0.3}
@@ -143,102 +117,84 @@ export default function Home() {
               <FaCalendarAlt className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Book a Quick Chat</span>
             </MagneticButton>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* Quick Contact Section */}
       <section className="py-20 md:py-32 bg-card/20" aria-labelledby="quick-contact-heading">
         <div className="container-responsive text-center">
-          <Parallax offset={20}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+          <div className="animate-fade-in-up">
+            <h2 id="quick-contact-heading" className="text-3xl md:text-5xl font-bold text-foreground mb-4 flex flex-col items-center gap-1">
+              <span className="block">Ready to</span>
+              <MagneticText
+                text="connect and create"
+                hoverText="collaborate & innovate"
+                className="text-primary"
+                ariaLabel="Ready to connect and create. Hover to reveal: collaborate and innovate"
+              />
+              <span className="block">
+                something <span className="text-primary">amazing together</span>
+              </span>
+            </h2>
+            <p className="text-lg text-muted-enhanced max-w-2xl mx-auto mb-10">
+              I'm always excited to discuss new projects and opportunities.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto px-4 sm:px-0 animate-fade-in-up animation-delay-200">
+            {/* Email Card with GlowingEffect */}
+            <a
+              href="mailto:hello@kevinarthur.design"
+              className="card-enhanced group relative p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]"
             >
-              <h2 id="quick-contact-heading" className="text-3xl md:text-5xl font-bold text-foreground mb-4 flex flex-col items-center gap-1">
-                <span className="block">Ready to</span>
-                <MagneticText 
-                  text="connect and create" 
-                  hoverText="collaborate & innovate" 
-                  ariaLabel="Ready to connect and create something amazing together. Hover to reveal: collaborate and innovate"
-                />
-                <span className="block">
-                  something <span className="text-primary">amazing together</span>
+              <GlowingEffect
+                spread={40}
+                glow={true}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+                borderWidth={3}
+              />
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="bg-primary/10 p-3 sm:p-4 rounded-full mb-4">
+                  <FaEnvelope className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Email Me</h3>
+                <p className="text-muted-enhanced mb-4 text-sm sm:text-base">hello@kevinarthur.design</p>
+                <span className="font-semibold text-primary group-hover:underline">
+                  Send a message
                 </span>
-              </h2>
-              <p className="text-lg text-muted-enhanced max-w-2xl mx-auto mb-10">
-                I'm always excited to discuss new projects and opportunities.
-              </p>
-            </motion.div>
+              </div>
+            </a>
 
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto px-4 sm:px-0"
-              variants={cardContainerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.4 }}
+            {/* LinkedIn Card with GlowingEffect */}
+            <a
+              href="https://www.linkedin.com/in/kevinoarthur/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="card-enhanced group relative p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]"
             >
-              {/* Email Card */}
-              <motion.a
-                href="mailto:hello@kevinarthur.design"
-                className="card-enhanced group p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline"
-                variants={cardVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <GlowingEffect
-                  spread={40}
-                  glow={true}
-                  disabled={false}
-                  proximity={64}
-                  inactiveZone={0.01}
-                  borderWidth={3}
-                />
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="bg-primary/10 p-3 sm:p-4 rounded-full mb-4">
-                    <FaEnvelope className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Email Me</h3>
-                  <p className="text-muted-enhanced mb-4 text-sm sm:text-base">hello@kevinarthur.design</p>
-                  <span className="font-semibold text-primary group-hover:underline">
-                    Send a message
-                  </span>
+              <GlowingEffect
+                spread={40}
+                glow={true}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+                borderWidth={3}
+              />
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="bg-primary/10 p-3 sm:p-4 rounded-full mb-4">
+                  <FaLinkedin className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
                 </div>
-              </motion.a>
-
-              {/* LinkedIn Card */}
-              <motion.a
-                href="https://www.linkedin.com/in/kevinoarthur/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="card-enhanced group p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center no-underline"
-                variants={cardVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <GlowingEffect
-                  spread={40}
-                  glow={true}
-                  disabled={false}
-                  proximity={64}
-                  inactiveZone={0.01}
-                  borderWidth={3}
-                />
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="bg-primary/10 p-3 sm:p-4 rounded-full mb-4">
-                    <FaLinkedin className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Kevin Arthur</h3>
-                  <p className="text-muted-enhanced mb-4 text-sm sm:text-base">Connect professionally</p>
-                  <span className="font-semibold text-primary group-hover:underline">
-                    View my profile
-                  </span>
-                </div>
-              </motion.a>
-            </motion.div>
-          </Parallax>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">Kevin Arthur</h3>
+                <p className="text-muted-enhanced mb-4 text-sm sm:text-base">Connect professionally</p>
+                <span className="font-semibold text-primary group-hover:underline">
+                  View my profile
+                </span>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -253,33 +209,17 @@ export default function Home() {
 
         {/* CTA Content */}
         <div className="py-20 md:py-32">
-          <div className="container-responsive text-center relative z-10">
-            <motion.h2
+          <div className="container-responsive text-center relative z-10 animate-fade-in-up">
+            <h2
               id="cta-heading"
               className="text-4xl md:text-5xl font-bold text-foreground mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
             >
               Ready to <span className="text-primary">Transform Your</span> Digital Experience?
-            </motion.h2>
-            <motion.p
-              className="text-lg text-muted-enhanced max-w-3xl mx-auto mb-10"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
+            </h2>
+            <p className="text-lg text-muted-enhanced max-w-3xl mx-auto mb-10">
               Let's discuss and explore how strategic design can help you achieve your goals.
-            </motion.p>
-            <motion.div
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 flex-wrap w-full sm:w-auto"
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 flex-wrap w-full sm:w-auto">
               <MagneticButton
                 href="/contact"
                 strength={0.3}
@@ -304,7 +244,7 @@ export default function Home() {
                 <span>See Case Studies</span>
                 <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </MagneticButton>
-            </motion.div>
+            </div>
           </div>
         </div>
 

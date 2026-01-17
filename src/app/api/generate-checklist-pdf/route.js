@@ -171,7 +171,7 @@ const checklistData = {
   }
 };
 
-function generatePDF() {
+function generatePDF(recipientName = null) {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -189,6 +189,7 @@ function generatePDF() {
   const textColor = [31, 41, 55];
   const mutedColor = [107, 114, 128];
   const bgColor = [249, 250, 251];
+  const accentColor = [16, 185, 129]; // Emerald for personalization
 
   // Helper function to add new page if needed
   const checkPageBreak = (requiredSpace) => {
@@ -208,7 +209,20 @@ function generatePDF() {
   doc.setFillColor(...primaryColor);
   doc.rect(0, 0, pageWidth, 8, 'F');
 
-  yPos = 60;
+  yPos = 40;
+
+  // Personalized greeting if name provided
+  if (recipientName) {
+    doc.setFillColor(...accentColor);
+    doc.roundedRect(margin + 30, yPos - 5, contentWidth - 60, 14, 7, 7, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(255, 255, 255);
+    doc.text(`Prepared for ${recipientName}`, pageWidth / 2, yPos + 3, { align: 'center' });
+    yPos += 25;
+  } else {
+    yPos = 60;
+  }
 
   // Main title
   doc.setFont('helvetica', 'bold');
@@ -384,14 +398,21 @@ function generatePDF() {
 
 export async function GET(request) {
   try {
-    const pdfBuffer = generatePDF();
+    // Check for name in query params for personalization
+    const { searchParams } = new URL(request.url);
+    const name = searchParams.get('name');
+    
+    const pdfBuffer = generatePDF(name);
+    const filename = name 
+      ? `Developer-Ready-Design-Checklist-for-${name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf`
+      : 'Developer-Ready-Design-Checklist.pdf';
 
     return new NextResponse(pdfBuffer, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename="Developer-Ready-Design-Checklist.pdf"',
-        'Cache-Control': 'public, max-age=86400', // Cache for 24 hours
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Cache-Control': name ? 'no-cache' : 'public, max-age=86400',
       },
     });
   } catch (error) {
@@ -408,14 +429,17 @@ export async function POST(request) {
     const body = await request.json();
     const { name, email } = body;
 
-    // You could customize the PDF with the user's name here
-    const pdfBuffer = generatePDF();
+    // Generate personalized PDF with user's name
+    const pdfBuffer = generatePDF(name);
+    const filename = name 
+      ? `Developer-Ready-Design-Checklist-for-${name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf`
+      : 'Developer-Ready-Design-Checklist.pdf';
 
     return new NextResponse(pdfBuffer, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="Developer-Ready-Design-Checklist-${name || 'download'}.pdf"`,
+        'Content-Disposition': `attachment; filename="${filename}"`,
       },
     });
   } catch (error) {

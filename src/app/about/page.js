@@ -1,30 +1,34 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { personalInfo, skills, education, professionalExperience } from '@/data/portfolio-data';
 import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSyncAlt, FaBullhorn, FaPaintBrush, FaFigma, FaCode, FaVideo, FaDatabase } from 'react-icons/fa';
 import { useState } from 'react';
 import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
 import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
 import dynamic from 'next/dynamic';
-import Parallax from '@/components/Parallax';
-import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid';
-import { TextScramble } from '@/components/ui/text-scramble';
 
-// Dynamically import the RadialOrbitalTimeline to avoid SSR issues
+// Dynamically import heavy components - defer loading
 const RadialOrbitalTimeline = dynamic(
   () => import('@/components/ui/radial-orbital-timeline'),
+  { ssr: false, loading: () => <div className="h-96 flex items-center justify-center"><span className="text-muted-foreground">Loading skills...</span></div> }
+);
+
+// Lazy load background - non-blocking
+const InfiniteGridBackground = dynamic(
+  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground })),
   { ssr: false }
 );
 
-const Section = ({ children, delay = 0 }) => (
-  <motion.section
-    initial={{ opacity: 1, y: 0 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ type: 'spring', damping: 15, stiffness: 100, duration: 0.5, delay }}
-  >
+// Lazy load TextScramble - requires JS for character animation, loads after LCP
+const TextScramble = dynamic(
+  () => import('@/components/ui/text-scramble').then(mod => mod.TextScramble),
+  { ssr: false, loading: () => <span>Design Engineer</span> }
+);
+
+const Section = ({ children }) => (
+  <section className="animate-fade-in-up">
     {children}
-  </motion.section>
+  </section>
 );
 
 const SectionTitle = ({ icon, children }) => (
@@ -134,10 +138,8 @@ const SkillsSection = () => {
                 ${activeTab === category ? 'text-primary-foreground' : 'text-muted-foreground hover:bg-card/70 hover:text-foreground'}`}
             >
               {activeTab === category && (
-                <motion.div
-                  layoutId="activeSkillTab"
-                  className="absolute inset-0 bg-primary/90 rounded-full"
-                  transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                <div
+                  className="absolute inset-0 bg-primary/90 rounded-full transition-all duration-300"
                 />
               )}
               <span className="relative z-10">{category}</span>
@@ -177,10 +179,24 @@ const AboutPage = () => {
           <div className="lg:col-span-2 space-y-8">
             <div className="animate-fade-in-up">
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
-                  Design Engineer &
-                  <span className="block text-primary mt-2">
+                  <TextScramble
+                    as="span"
+                    className="text-foreground"
+                    duration={1.0}
+                    speed={0.035}
+                    characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                  >
+                    Design Engineer &
+                  </TextScramble>
+                  <TextScramble
+                    as="span"
+                    className="block text-primary mt-2"
+                    duration={1.2}
+                    speed={0.035}
+                    characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                  >
                     Creative Technologist
-                  </span>
+                  </TextScramble>
                 </h1>
                 <div className="space-y-6 text-lg leading-relaxed text-muted-enhanced">
                   <p className="text-xl leading-relaxed">
@@ -253,13 +269,10 @@ const AboutPage = () => {
 
           <div className="space-y-8 md:space-y-12">
             {professionalExperience.map((job, index) => (
-              <motion.div
+              <div
                 key={index}
-                className="relative flex items-start gap-4 md:gap-8"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ type: 'spring', damping: 15, stiffness: 100, delay: 0.1 * index }}
-                viewport={{ once: true }}
+                className="relative flex items-start gap-4 md:gap-8 animate-fade-in-up"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Timeline Dot */}
                 <div className="absolute left-32 md:left-40 top-2 w-3 h-3 md:w-4 md:h-4 bg-background border-2 border-primary rounded-full transform -translate-x-1/2 z-10"></div>
@@ -277,7 +290,7 @@ const AboutPage = () => {
                     {job.description}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

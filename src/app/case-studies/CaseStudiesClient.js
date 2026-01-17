@@ -1,10 +1,14 @@
 'use client';
 
 import { FaLightbulb } from 'react-icons/fa';
-import Parallax from '@/components/Parallax';
 import CaseStudyList from '@/components/CaseStudyList';
-import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid';
-import { AnimatedText } from '@/components/ui/animated-underline-text-one';
+import dynamic from 'next/dynamic';
+
+// Lazy load heavy components
+const InfiniteGridBackground = dynamic(
+  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground })),
+  { ssr: false }
+);
 
 export default function CaseStudiesClient({ posts }) {
   return (
@@ -26,14 +30,9 @@ export default function CaseStudiesClient({ posts }) {
               <span className="text-primary font-semibold text-lg">Design Solutions</span>
             </div>
 
-            <AnimatedText
-              text="Case Studies"
-              className="mb-8 animate-fade-in-up animation-delay-400"
-              textClassName="text-hero font-bold tracking-tight gradient-text-enhanced"
-              underlineClassName="text-primary"
-              underlineDuration={1.2}
-              strokeWidth={6}
-            />
+            <h1 className="text-hero font-bold tracking-tight gradient-text-enhanced mb-8 animate-fade-in-up animation-delay-400">
+              Case Studies
+            </h1>
 
             <p className="text-subtitle text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light animate-fade-in-up animation-delay-600">
               Deep dives into real projects where design meets strategy,

@@ -1,12 +1,16 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { FaClipboardCheck, FaBrain, FaArrowRight, FaCheckCircle } from 'react-icons/fa';
 import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
 import LeadMagnetForm from '@/components/LeadMagnetForm';
 import AIReadinessQuiz from '@/components/AIReadinessQuiz';
-import Parallax from '@/components/Parallax';
-import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid';
+import dynamic from 'next/dynamic';
+
+// Lazy load heavy background component
+const InfiniteGridBackground = dynamic(
+  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground })),
+  { ssr: false }
+);
 
 const checklistItems = [
   'Component naming conventions for clean handoffs',
@@ -45,13 +49,7 @@ export default function LabPage() {
       {/* Lead Magnet 1: Design Checklist */}
       <section className="py-12 md:py-20" id="design-checklist">
         <div className="container-responsive">
-          <motion.div
-            className="grid lg:grid-cols-2 gap-12 items-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
+          <div className="grid lg:grid-cols-2 gap-12 items-center animate-fade-in-up">
             {/* Content */}
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
@@ -69,17 +67,14 @@ export default function LabPage() {
 
               <div className="space-y-3">
                 {checklistItems.slice(0, 4).map((item, index) => (
-                  <motion.div
+                  <div
                     key={index}
-                    className="flex items-start gap-3"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    viewport={{ once: true }}
+                    className="flex items-start gap-3 animate-fade-in-up"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <FaCheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                     <span className="text-foreground">{item}</span>
-                  </motion.div>
+                  </div>
                 ))}
                 <p className="text-muted-foreground text-sm pl-8">
                   + {checklistItems.length - 4} more critical checks
@@ -94,13 +89,7 @@ export default function LabPage() {
             </div>
 
             {/* Form */}
-            <motion.div
-              className="card-enhanced p-6 md:p-8 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
+            <div className="card-enhanced p-6 md:p-8 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 animate-fade-in-up animation-delay-200">
               <div className="text-center mb-6">
                 <h3 className="text-xl font-semibold text-foreground mb-2">
                   Get the Free Checklist
@@ -116,8 +105,8 @@ export default function LabPage() {
                 successMessage="Your PDF is downloading! We've also sent a copy to your inbox."
                 showName={true}
               />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -129,13 +118,7 @@ export default function LabPage() {
       {/* Lead Magnet 2: AI Readiness Audit */}
       <section className="py-12 md:py-20" id="ai-audit">
         <div className="container-responsive">
-          <motion.div
-            className="max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
+          <div className="max-w-4xl mx-auto animate-fade-in-up">
             {/* Header */}
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
@@ -156,13 +139,7 @@ export default function LabPage() {
             <AIReadinessQuiz />
 
             {/* Social Proof */}
-            <motion.div
-              className="mt-12 text-center"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
+            <div className="mt-12 text-center animate-fade-in-up animation-delay-400">
               <p className="text-sm text-muted-foreground mb-4">
                 Based on lessons learned designing AI interfaces for:
               </p>
@@ -177,35 +154,28 @@ export default function LabPage() {
                   Featured on CNN
                 </span>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 bg-card/20">
-        <div className="container-responsive text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+        <div className="container-responsive text-center animate-fade-in-up">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+            Need More Than a Checklist?
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+            If you're building AI-powered products or complex SaaS platforms, 
+            let's discuss how I can help you ship faster.
+          </p>
+          <a
+            href="/contact#schedule"
+            className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl transition-all"
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-              Need More Than a Checklist?
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-              If you're building AI-powered products or complex SaaS platforms, 
-              let's discuss how I can help you ship faster.
-            </p>
-            <a
-              href="/contact#schedule"
-              className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl transition-all"
-            >
-              <span>Book a 15-Min Call</span>
-              <FaArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </a>
-          </motion.div>
+            <span>Book a 15-Min Call</span>
+            <FaArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </a>
         </div>
       </section>
     </InfiniteGridBackground>

@@ -1,25 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { CursorTrigger } from '@/components/CursorProvider';
-import { CometCard } from '@/components/ui/comet-card';
+
+// Lazy load CometCard - requires JS for mouse-tracking 3D tilt, loads after LCP
+const CometCard = dynamic(
+  () => import('@/components/ui/comet-card').then(mod => mod.CometCard),
+  { ssr: false }
+);
 
 const CaseStudyList = ({ posts }) => {
   return (
     <div className="space-y-8">
       {posts.map(({ id, title, summary, publishedAt }, index) => (
-        <motion.div
+        <div
           key={id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 * index }}
+          className="animate-fade-in-up"
+          style={{ animationDelay: `${index * 100}ms` }}
         >
           <CometCard rotateDepth={8} translateDepth={10}>
-            <div className="group bg-card/80 dark:bg-gradient-to-br dark:from-card/90 dark:via-card/70 dark:to-primary/5 border border-border/50 dark:border-primary/10 rounded-2xl p-6 md:p-8 backdrop-blur-sm transition-all duration-300 hover:bg-card hover:border-border/80 dark:hover:from-card dark:hover:via-card/80 dark:hover:to-primary/10 dark:hover:border-primary/20 shadow-sm hover:shadow-xl dark:shadow-primary/5 dark:hover:shadow-lg dark:hover:shadow-primary/15">
+            <div className="bg-card dark:bg-gradient-to-br dark:from-card/95 dark:via-card/90 dark:to-primary/5 border border-border/50 dark:border-primary/10 rounded-2xl p-6 md:p-8 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 shadow-lg">
               <CursorTrigger type="view" text="View">
                 <Link href={`/case-studies/${id}`} className="block">
-                  <h2 className="font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+                  <h2 className="font-bold text-foreground mb-3 hover:text-primary transition-colors duration-300">
                     {title}
                   </h2>
                   <p className="text-muted-foreground text-lg leading-relaxed mb-4 line-clamp-3">
@@ -36,7 +40,7 @@ const CaseStudyList = ({ posts }) => {
               </CursorTrigger>
             </div>
           </CometCard>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

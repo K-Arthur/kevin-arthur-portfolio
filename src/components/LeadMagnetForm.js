@@ -50,9 +50,17 @@ export default function LeadMagnetForm({
 
       setStatus('success');
       
-      // Auto-download PDF for design-checklist
+      // Mark user as converted (prevents future popups)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('portfolio-lead-converted', 'true');
+      }
+      
+      // Auto-download personalized PDF for design-checklist
       if (resource === 'design-checklist') {
-        window.open('/api/generate-checklist-pdf', '_blank');
+        const pdfUrl = formData.name 
+          ? `/api/generate-checklist-pdf?name=${encodeURIComponent(formData.name)}`
+          : '/api/generate-checklist-pdf';
+        window.open(pdfUrl, '_blank');
       }
       
       // Track conversion

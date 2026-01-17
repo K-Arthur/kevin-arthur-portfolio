@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 import { personalInfo } from '@/data/portfolio-data';
 import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
@@ -77,25 +76,17 @@ const ContactPage = () => {
         </div>
 
       {/* Quick Actions - Prominent Scheduling */}
-      <motion.div
-        className="grid sm:grid-cols-3 gap-4 md:gap-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-      >
+      <div className="grid sm:grid-cols-3 gap-4 md:gap-6 animate-fade-in-up animation-delay-200">
         {quickActions.map((action, index) => (
-          <motion.a
+          <a
             key={index}
             href={action.href}
             target={action.external ? '_blank' : undefined}
             rel={action.external ? 'noopener noreferrer' : undefined}
-            className={`group card-enhanced p-6 flex flex-col items-center text-center no-underline ${action.primary
+            className={`group card-enhanced p-6 flex flex-col items-center text-center no-underline transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-1 ${action.primary
               ? 'bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/5 border-primary/30'
               : ''
               }`}
-            whileHover={{ scale: 1.02, y: -4 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
           >
             <div className={`p-4 rounded-full mb-4 ${action.primary ? 'bg-primary/20' : 'bg-primary/10'}`}>
               <span className="text-primary">{action.icon}</span>
@@ -110,18 +101,14 @@ const ContactPage = () => {
                 <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
             )}
-          </motion.a>
+          </a>
         ))}
-      </motion.div>
+      </div>
 
       {/* Scheduling Section Placeholder */}
-      <motion.section
+      <section
         id="schedule"
-        className="scroll-mt-24"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
+        className="scroll-mt-24 animate-fade-in-up animation-delay-400"
       >
         <div className="card-enhanced p-8 md:p-12 text-center bg-gradient-to-br from-primary/5 via-transparent to-secondary/5">
           <div className="max-w-2xl mx-auto space-y-6">
@@ -145,16 +132,11 @@ const ContactPage = () => {
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
-      <div className="grid lg:grid-cols-2 gap-16">
+      <div className="grid lg:grid-cols-2 gap-16 animate-fade-in-up animation-delay-600">
         {/* Contact Information */}
-        <motion.div
-          className="space-y-8"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
+        <div className="space-y-8">
           <div>
             <h2 className="text-3xl font-bold text-foreground mb-6">Get in Touch</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
@@ -167,11 +149,9 @@ const ContactPage = () => {
           {/* Contact Info Cards */}
           <div className="space-y-4">
             {contactInfo.map((info, index) => (
-              <motion.div
+              <div
                 key={index}
-                className="card-base flex items-center p-4 rounded-xl hover:bg-card/50"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                className="card-base flex items-center p-4 rounded-xl hover:bg-card/50 transition-transform duration-200 hover:scale-[1.02]"
               >
                 <div className="text-primary text-2xl mr-4">{info.icon}</div>
                 <div>
@@ -184,18 +164,13 @@ const ContactPage = () => {
                     <p className="text-foreground font-medium">{info.value}</p>
                   )}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Contact Form */}
-        <motion.div
-          className="card-base p-8"
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+        <div className="card-base p-8">
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-foreground mb-4">Send Me a Message</h2>
             <p className="text-muted-foreground">
@@ -205,10 +180,7 @@ const ContactPage = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
-              <motion.div
-                whileFocus={{ scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-              >
+              <div>
                 <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
                   Name
                 </label>
@@ -220,12 +192,9 @@ const ContactPage = () => {
                   className="w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
                   placeholder="Your full name"
                 />
-              </motion.div>
+              </div>
 
-              <motion.div
-                whileFocus={{ scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-              >
+              <div>
                 <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
                   Email
                 </label>
@@ -237,13 +206,10 @@ const ContactPage = () => {
                   className="w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
                   placeholder="your.email@example.com"
                 />
-              </motion.div>
+              </div>
             </div>
 
-            <motion.div
-              whileFocus={{ scale: 1.01 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
+            <div>
               <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
                 Message
               </label>
@@ -255,19 +221,16 @@ const ContactPage = () => {
                 className="w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none placeholder:text-muted-foreground/50"
                 placeholder="Tell me about your project, goals, and how I can help you achieve them..."
               ></textarea>
-            </motion.div>
+            </div>
 
-            <motion.button
+            <button
               type="submit"
-              className="w-full bg-primary text-primary-foreground py-4 px-8 rounded-xl text-lg font-semibold hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 focus:ring-offset-background"
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              className="w-full bg-primary text-primary-foreground py-4 px-8 rounded-xl text-lg font-semibold hover:bg-primary/90 hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 focus:ring-offset-background"
             >
               Send Message
-            </motion.button>
+            </button>
           </form>
-        </motion.div>
+        </div>
       </div>
     </div>
     </div>

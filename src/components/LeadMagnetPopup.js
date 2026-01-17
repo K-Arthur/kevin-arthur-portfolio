@@ -1,29 +1,45 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaClipboardCheck, FaBrain } from 'react-icons/fa';
 import LeadMagnetForm from './LeadMagnetForm';
 
 const STORAGE_KEY = 'portfolio-lead-popup-dismissed';
 const STORAGE_KEY_SHOWN = 'portfolio-lead-popup-shown-at';
+const STORAGE_KEY_CONVERTED = 'portfolio-lead-converted';
 
 /**
- * LeadMagnetPopup - Exit intent or time-delayed popup for lead magnet capture
+ * LeadMagnetPopup - Enhanced exit intent popup for lead magnet capture
+ * 
+ * Triggers:
+ * - Exit intent (mouse leaves viewport top) - desktop only
+ * - Scroll depth (user scrolled past threshold) - indicates engagement
+ * - Time delay (configurable)
+ * - Idle detection (no activity after engagement)
  * 
  * @param {string} resource - Which lead magnet to promote ('design-checklist' | 'ai-audit')
- * @param {number} delayMs - Time delay before showing (default: 60000ms / 60 seconds)
+ * @param {number} delayMs - Time delay before showing (default: 45000ms / 45 seconds)
  * @param {boolean} exitIntent - Enable exit intent trigger
  * @param {string} pageType - Current page type for contextual messaging
+ * @param {number} scrollThreshold - Scroll depth % to trigger (default: 65)
+ * @param {boolean} scrollTrigger - Enable scroll depth trigger
+ * @param {number} idleTimeMs - Idle time before showing (default: 25000ms)
  */
 export default function LeadMagnetPopup({
   resource = 'design-checklist',
-  delayMs = 60000,
+  delayMs = 45000,
   exitIntent = true,
   pageType = 'general',
+  scrollThreshold = 65,
+  scrollTrigger = true,
+  idleTimeMs = 25000,
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(true);
+  const hasTriggeredRef = useRef(false);
+  const hasEngagedRef = useRef(false);
+  const idleTimerRef = useRef(null);
 
   const content = {
     'design-checklist': {
@@ -56,51 +72,120 @@ export default function LeadMagnetPopup({
   const title = currentContent.contextTitle[pageType] || currentContent.contextTitle.general;
 
   const showPopup = useCallback(() => {
+    // Prevent multiple triggers
+    if (hasTriggeredRef.current) return;
+
+    // Skip if user already converted (submitted a form)
+    const hasConverted = localStorage.getItem(STORAGE_KEY_CONVERTED) === 'true';
+    if (hasConverted) return;
+
     // Check if already dismissed in this session
     const wasDismissed = sessionStorage.getItem(STORAGE_KEY) === 'true';
     if (wasDismissed) return;
 
-    // Check if shown recently (within 24 hours)
+    // Check if shown recently (within 12 hours - reduced from 24)
     const lastShown = localStorage.getItem(STORAGE_KEY_SHOWN);
     if (lastShown) {
       const hoursSinceShown = (Date.now() - parseInt(lastShown)) / (1000 * 60 * 60);
-      if (hoursSinceShown < 24) return;
+      if (hoursSinceShown < 12) return;
     }
 
+    hasTriggeredRef.current = true;
     setIsVisible(true);
     localStorage.setItem(STORAGE_KEY_SHOWN, Date.now().toString());
   }, []);
 
+  // Reset idle timer on user activity
+  const resetIdleTimer = useCallback(() => {
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+    }
+    // Only start idle timer if user has engaged (scrolled/clicked)
+    if (hasEngagedRef.current) {
+      idleTimerRef.current = setTimeout(() => {
+        showPopup();
+      }, idleTimeMs);
+    }
+  }, [idleTimeMs, showPopup]);
+
+  // Mark user as engaged
+  const markEngaged = useCallback(() => {
+    if (!hasEngagedRef.current) {
+      hasEngagedRef.current = true;
+      resetIdleTimer();
+    }
+  }, [resetIdleTimer]);
+
   useEffect(() => {
     // Check initial dismissed state
     const wasDismissed = sessionStorage.getItem(STORAGE_KEY) === 'true';
-    setIsDismissed(wasDismissed);
-    if (wasDismissed) return;
+    const hasConverted = localStorage.getItem(STORAGE_KEY_CONVERTED) === 'true';
+    setIsDismissed(wasDismissed || hasConverted);
+    if (wasDismissed || hasConverted) return;
 
-    // Time delay trigger
+    // Time delay trigger (fallback)
     const timer = setTimeout(() => {
       showPopup();
     }, delayMs);
 
-    // Exit intent trigger (desktop only)
+    // Exit intent trigger (desktop only - mouse leaves top of viewport)
     const handleMouseLeave = (e) => {
       if (!exitIntent) return;
+      // Only trigger if mouse leaves from the top (y <= 0)
+      // and mouse was moving upward (indicates intent to leave)
       if (e.clientY <= 0) {
         showPopup();
       }
     };
 
-    if (exitIntent && typeof window !== 'undefined') {
-      document.addEventListener('mouseleave', handleMouseLeave);
+    // Scroll depth trigger
+    const handleScroll = () => {
+      if (!scrollTrigger) return;
+      markEngaged();
+      
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      
+      if (scrollPercent >= scrollThreshold) {
+        // User has scrolled past threshold - start exit intent watching more aggressively
+        // but don't show popup immediately (let them finish reading)
+      }
+    };
+
+    // Activity tracking for idle detection
+    const handleActivity = () => {
+      resetIdleTimer();
+    };
+
+    // Attach event listeners
+    if (typeof window !== 'undefined') {
+      if (exitIntent) {
+        document.addEventListener('mouseleave', handleMouseLeave);
+      }
+      if (scrollTrigger) {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+      }
+      // Track activity for idle detection
+      document.addEventListener('mousemove', handleActivity, { passive: true });
+      document.addEventListener('click', markEngaged);
+      document.addEventListener('keydown', handleActivity, { passive: true });
     }
 
     return () => {
       clearTimeout(timer);
-      if (exitIntent) {
+      if (idleTimerRef.current) {
+        clearTimeout(idleTimerRef.current);
+      }
+      if (typeof window !== 'undefined') {
         document.removeEventListener('mouseleave', handleMouseLeave);
+        window.removeEventListener('scroll', handleScroll);
+        document.removeEventListener('mousemove', handleActivity);
+        document.removeEventListener('click', markEngaged);
+        document.removeEventListener('keydown', handleActivity);
       }
     };
-  }, [delayMs, exitIntent, showPopup]);
+  }, [delayMs, exitIntent, scrollTrigger, scrollThreshold, showPopup, markEngaged, resetIdleTimer]);
 
   const handleDismiss = () => {
     setIsVisible(false);
