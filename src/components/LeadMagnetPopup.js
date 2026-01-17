@@ -226,6 +226,9 @@ export default function LeadMagnetPopup({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="lead-magnet-title"
           >
             {/* Close Button */}
             <button
@@ -242,7 +245,7 @@ export default function LeadMagnetPopup({
                 <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+                <h3 id="lead-magnet-title" className="text-xl md:text-2xl font-bold text-foreground mb-2">
                   {title}
                 </h3>
                 <p className="text-muted-foreground">

@@ -344,6 +344,7 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
             <button 
               onClick={() => window.open(src, '_blank')}
               className="px-4 py-2 bg-secondary text-secondary-foreground rounded hover:bg-secondary/90 transition-colors"
+              aria-label="Open video in new tab"
             >
               Open in New Tab
             </button>
@@ -377,11 +378,14 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
           onContextMenu={handleContextMenu}
           controlsList="nodownload nofullscreen noremoteplayback"
           disablePictureInPicture
+          aria-label="Video player"
         >
           {/* Multiple source elements for better compatibility */}
           {getVideoSources(src).map((source, index) => (
             <source key={index} src={source.src} type={source.type} />
           ))}
+          {/* Captions track - can be populated with actual captions if available */}
+          <track kind="captions" src="" label="Captions" default />
           <p className="text-white text-center p-4">
             Your browser does not support the video tag.
           </p>
@@ -422,6 +426,7 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
           <button
             onClick={togglePlay}
             className="w-20 h-20 bg-black/70 hover:bg-black/90 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+            aria-label="Play video"
           >
             <Play className="w-8 h-8 text-white ml-1" />
           </button>
@@ -452,6 +457,10 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
             value={currentTime}
             onChange={handleSeek}
             className="w-full h-1 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            aria-label="Video progress"
+            aria-valuemin="0"
+            aria-valuemax={duration || 0}
+            aria-valuenow={currentTime}
           />
         </div>
 
@@ -462,6 +471,7 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
               onClick={togglePlay}
               className="text-white hover:text-primary transition-colors"
               disabled={!canPlay}
+              aria-label={isPlaying ? 'Pause video' : 'Play video'}
             >
               {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
             </button>
@@ -469,6 +479,7 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
             <button
               onClick={handleRestart}
               className="text-white hover:text-primary transition-colors"
+              aria-label="Restart video"
             >
               <RotateCcw className="w-5 h-5" />
             </button>
@@ -477,6 +488,7 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
               <button
                 onClick={toggleMute}
                 className="text-white hover:text-primary transition-colors"
+                aria-label={isMuted || volume === 0 ? 'Unmute video' : 'Mute video'}
               >
                 {isMuted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
@@ -488,6 +500,7 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
                 value={isMuted ? 0 : volume}
                 onChange={handleVolumeChange}
                 className="w-20 h-1 bg-white/30 rounded-lg appearance-none cursor-pointer slider"
+                aria-label="Volume control"
               />
             </div>
 
@@ -504,6 +517,7 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
             <button
               onClick={handleFullscreen}
               className="text-white hover:text-primary transition-colors"
+              aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
             >
               <Maximize className="w-5 h-5" />
             </button>

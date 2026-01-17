@@ -170,7 +170,14 @@ export default function AIReadinessQuiz({ className = '' }) {
                 <span>Question {currentQuestion + 1} of {questions.length}</span>
                 <span>{Math.round(progress)}% complete</span>
               </div>
-              <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
+              <div 
+                className="h-2 bg-muted/30 rounded-full overflow-hidden"
+                role="progressbar"
+                aria-valuenow={Math.round(progress)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`Quiz progress: ${Math.round(progress)}% complete`}
+              >
                 <motion.div
                   className="h-full bg-primary rounded-full"
                   initial={{ width: 0 }}
@@ -216,8 +223,9 @@ export default function AIReadinessQuiz({ className = '' }) {
               <button
                 onClick={handleBack}
                 className="mt-6 inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Go to previous question"
               >
-                <FaArrowLeft className="w-4 h-4" />
+                <FaArrowLeft className="w-4 h-4" aria-hidden="true" />
                 <span>Previous question</span>
               </button>
             )}
@@ -300,6 +308,7 @@ export default function AIReadinessQuiz({ className = '' }) {
             <button
               onClick={resetQuiz}
               className="mt-6 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Retake the AI readiness audit"
             >
               Retake the audit
             </button>
@@ -334,6 +343,7 @@ export default function AIReadinessQuiz({ className = '' }) {
             <button
               onClick={() => setShowEmailCapture(false)}
               className="mt-4 w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Go back to results"
             >
               ← Back to results
             </button>

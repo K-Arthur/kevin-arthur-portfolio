@@ -126,6 +126,7 @@ export default function MagneticButton({
             type={type}
             onClick={onClick}
             disabled={disabled}
+            aria-disabled={disabled}
         >
             {children}
         </motion.button>

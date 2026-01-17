@@ -56,15 +56,17 @@ const PDFViewer = ({ file, thumbnail, className = '' }) => {
             <button 
               onClick={handleDownload}
               className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              aria-label="Download PDF document"
             >
-              <Download className="w-4 h-4" />
+              <Download className="w-4 h-4" aria-hidden="true" />
               Download PDF
             </button>
             <button 
               onClick={handleOpenExternal}
               className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+              aria-label="Open PDF in new browser tab"
             >
-              <ExternalLink className="w-4 h-4" />
+              <ExternalLink className="w-4 h-4" aria-hidden="true" />
               Open in New Tab
             </button>
           </div>
@@ -80,7 +82,7 @@ const PDFViewer = ({ file, thumbnail, className = '' }) => {
         <iframe
           src={pdfUrl}
           className="w-full h-full border-0"
-          title="PDF Viewer"
+          title={`PDF Document Viewer - ${file?.split('/').pop() || 'Document'}`}
           onLoad={() => setIsLoading(false)}
           onError={() => setHasError(true)}
         />
@@ -91,15 +93,17 @@ const PDFViewer = ({ file, thumbnail, className = '' }) => {
             onClick={handleDownload}
             className="p-2 bg-black bg-opacity-70 text-white rounded-full hover:bg-opacity-90 transition-colors"
             title="Download PDF"
+            aria-label="Download PDF document"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4" aria-hidden="true" />
           </button>
           <button
             onClick={handleOpenExternal}
             className="p-2 bg-black bg-opacity-70 text-white rounded-full hover:bg-opacity-90 transition-colors"
             title="Open in new tab"
+            aria-label="Open PDF in new browser tab"
           >
-            <ExternalLink className="w-4 h-4" />
+            <ExternalLink className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
       </div>

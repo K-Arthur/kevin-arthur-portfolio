@@ -118,6 +118,7 @@ export default function LeadMagnetForm({
                 onChange={handleChange}
                 required
                 placeholder="Enter your email"
+                aria-label="Email address"
                 className="flex-1 px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
               />
               <button
@@ -174,6 +175,7 @@ export default function LeadMagnetForm({
                 onChange={handleChange}
                 required
                 placeholder="Enter your email"
+                aria-label="Email address"
                 className="w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50 text-sm"
               />
               <button

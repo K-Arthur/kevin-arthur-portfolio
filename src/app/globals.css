@@ -18,12 +18,12 @@
     --card-foreground: 240 10% 4%;
     --popover: 240 10% 99%;
     --popover-foreground: 240 10% 4%;
-    --primary: 220 85% 55%;
+    --primary: 220 85% 45%;
     --primary-foreground: 0 0% 100%;
     --secondary: 230 20% 94%;
     --secondary-foreground: 230 20% 20%;
     --muted: 230 20% 94%;
-    --muted-foreground: 230 10% 45%;
+    --muted-foreground: 230 10% 40%;
     --accent: 30 90% 60%;
     --accent-foreground: 30 10% 10%;
     --destructive: 0 80% 60%;
@@ -423,7 +423,7 @@
   }
 
   .text-muted-enhanced {
-    @apply text-muted-foreground/80;
+    @apply text-muted-foreground;
   }
 
   /* Responsive Breakpoints */
