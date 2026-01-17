@@ -6,7 +6,7 @@ const withMDX = require('@next/mdx')({
 const nextConfig = {
   // Enable source maps in production for debugging and Lighthouse insights
   productionBrowserSourceMaps: true,
-  
+
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   images: {
     remotePatterns: [
@@ -18,7 +18,7 @@ const nextConfig = {
       },
     ],
   },
-  
+
   // Add video optimization and protection
   headers: async () => {
     return [
@@ -37,9 +37,9 @@ const nextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://plausible.io",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "img-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com",
+              "img-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://raw.githack.com https://raw.githubusercontent.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://www.google-analytics.com https://plausible.io https://res.cloudinary.com https://vitals.vercel-insights.com",
+              "connect-src 'self' https://www.google-analytics.com https://plausible.io https://res.cloudinary.com https://vitals.vercel-insights.com https://raw.githack.com https://raw.githubusercontent.com",
               "media-src 'self' https://res.cloudinary.com blob:",
               "frame-src 'self'",
               "frame-ancestors 'self'",

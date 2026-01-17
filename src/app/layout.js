@@ -69,13 +69,17 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-        
+
         {/* Preconnect to external resources for faster loading */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+        {/* Preconnect to analytics for faster script loading */}
+        <link rel="preconnect" href="https://plausible.io" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
@@ -91,19 +95,21 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
 
-        {process.env.NODE_ENV === 'production' && (
-          <script
-            defer
-            data-domain="kevinarthur.design"
-            src="https://plausible.io/js/script.js"
-            data-api="https://plausible.io/api/event"
-          ></script>
-        )}
+        {/* Plausible script moved to body with lazyOnload strategy for better performance */}
       </head>
       <body className={`${jost.variable} ${firaCode.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}>
-        {/* Google tag (gtag.js) */}
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-L805WXGTZS" strategy="afterInteractive" />
-        <Script id="google-analytics" strategy="afterInteractive">
+        {/* Analytics scripts - loaded lazily to avoid blocking main thread */}
+        {process.env.NODE_ENV === 'production' && (
+          <Script
+            src="https://plausible.io/js/script.js"
+            data-domain="kevinarthur.design"
+            data-api="https://plausible.io/api/event"
+            strategy="lazyOnload"
+          />
+        )}
+        {/* Google tag (gtag.js) - lazyOnload to avoid blocking LCP */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-L805WXGTZS" strategy="lazyOnload" />
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

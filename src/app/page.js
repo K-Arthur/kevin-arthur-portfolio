@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, useRef } from 'react';
 import { FaArrowRight, FaEnvelope, FaLinkedin, FaCalendarAlt } from 'react-icons/fa';
 import MagneticButton from '@/components/MagneticButton';
 import Footer from '@/components/Footer';
@@ -40,11 +40,13 @@ function SceneLoadingFallback() {
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
   const [shouldLoadScene, setShouldLoadScene] = useState(false);
+  const [shouldLoadShader, setShouldLoadShader] = useState(false);
+  const ctaSectionRef = useRef(null);
 
   useEffect(() => {
     setIsClient(true);
 
-    // Load 3D scene only after LCP is guaranteed (scroll or 5s delay)
+    // Load 3D scene only after LCP is guaranteed (scroll or 8s delay for slow connections)
     let loaded = false;
     const loadScene = () => {
       if (loaded) return;
@@ -53,18 +55,38 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll);
     };
 
-    // Load on first scroll (user engaged, LCP done)
+    // Load on first scroll (user engaged, LCP done) - higher threshold
     const handleScroll = () => {
-      if (window.scrollY > 50) loadScene();
+      if (window.scrollY > 100) loadScene();
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Fallback: load after 5 seconds regardless (LCP definitely done by then)
-    const timer = setTimeout(loadScene, 5000);
+    // Fallback: load after 8 seconds regardless to improve TBT on slow devices
+    const timer = setTimeout(loadScene, 8000);
+
+    // Load shader only when CTA section is near viewport (intersection observer)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadShader(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }  // Load 200px before entering viewport
+    );
+
+    // Observe CTA section after a small delay to ensure ref is set
+    const observerTimer = setTimeout(() => {
+      if (ctaSectionRef.current) {
+        observer.observe(ctaSectionRef.current);
+      }
+    }, 100);
 
     return () => {
       clearTimeout(timer);
+      clearTimeout(observerTimer);
       window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
     };
   }, []);
 
@@ -199,9 +221,9 @@ export default function Home() {
       </section>
 
       {/* Call to Action Section with Shader + Footer Wrapper */}
-      <section className="relative overflow-hidden" aria-labelledby="cta-heading">
-        {/* Shader animation background layer - spans CTA and Footer */}
-        {isClient && (
+      <section ref={ctaSectionRef} className="relative overflow-hidden" aria-labelledby="cta-heading">
+        {/* Shader animation background layer - spans CTA and Footer - only loads when section is near viewport */}
+        {isClient && shouldLoadShader && (
           <div className="absolute inset-0 z-0 opacity-10 dark:opacity-10 light:opacity-5 pointer-events-none">
             <ShaderAnimation />
           </div>
