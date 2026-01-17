@@ -244,12 +244,12 @@ export default function RadialOrbitalTimeline({
                                 {/* Node label */}
                                 <div
                                     className={`
-                  absolute top-12 left-1/2 -translate-x-1/2 whitespace-nowrap
-                  text-xs font-semibold tracking-wider
-                  transition-all duration-300 text-center max-w-[100px]
-                  ${isExpanded ? "text-foreground scale-110" : "text-muted-foreground"}
+                  absolute top-14 left-1/2 -translate-x-1/2 whitespace-nowrap
+                  text-sm font-semibold tracking-wide
+                  transition-all duration-300 text-center max-w-[140px]
+                  ${isExpanded ? "text-foreground scale-110" : "text-muted-foreground/90"}
                 `}
-                                    style={{ whiteSpace: 'normal', lineHeight: '1.2' }}
+                                    style={{ whiteSpace: 'normal', lineHeight: '1.3' }}
                                 >
                                     {item.title}
                                 </div>

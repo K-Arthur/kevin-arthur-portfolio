@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 import { personalInfo } from '@/data/portfolio-data';
 import Parallax from '@/components/Parallax';
+import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
+import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid';
 
 const contactInfo = [
   { label: 'Email', value: personalInfo.email, icon: <FaEnvelope />, href: `mailto:${personalInfo.email}` },
@@ -44,23 +46,24 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-16 px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
-      {/* Hero Section */}
-      <Parallax offset={-20}>
-        <motion.div
-          className="text-center space-y-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
-            Let's Create Something
-            <span className="block text-primary">Amazing Together</span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Ready to bring your vision to life? Book a quick call or send me a message — I'd love to hear about your project.
-          </p>
-        </motion.div>
+    <InfiniteGridBackground 
+      className="min-h-screen"
+      gridSize={50}
+      speedX={0.25}
+      speedY={0.2}
+      revealRadius={350}
+      baseOpacity={0.04}
+      revealOpacity={0.45}
+      fullPage={true}
+    >
+      <div className="max-w-6xl mx-auto space-y-16 px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
+        {/* Hero Section */}
+        <Parallax offset={-20}>
+        <HandWrittenTitle
+          title="Let's Create Something"
+          highlightedText="Amazing Together"
+          subtitle="Ready to bring your vision to life? Book a quick call or send me a message — I'd love to hear about your project."
+        />
       </Parallax>
 
       {/* Quick Actions - Prominent Scheduling */}
@@ -256,7 +259,8 @@ const ContactPage = () => {
           </form>
         </motion.div>
       </div>
-    </div >
+      </div>
+    </InfiniteGridBackground>
   );
 };
 

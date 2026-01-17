@@ -23,18 +23,18 @@ export const skills = {
     { name: 'Usability Testing', icon: <FaVial /> },
     { name: 'Heuristic Evaluation', icon: <FaBrain /> },
     { name: 'Agile Methodology', icon: <FaSyncAlt /> },
-    { name: 'Digital Marketing & Brand Strategy', icon: <FaBullhorn /> },
+    { name: 'Marketing & Branding', icon: <FaBullhorn /> },
     { name: 'Visual Design', icon: <FaPaintBrush /> },
   ],
   'Technical Skills': [
     { name: 'Figma', icon: <FaFigma /> },
     { name: 'Adobe Suite', icon: <SiAdobecreativecloud /> },
-    { name: 'HTML, CSS, & JavaScript', icon: <FaCode /> },
+    { name: 'HTML/CSS/JS', icon: <FaCode /> },
     { name: 'PHP', icon: <SiPhp /> },
-    { name: 'Database Management (MySQL, PostgreSQL)', icon: <FaDatabase /> },
-    { name: 'Version Control (Git, GitHub)', icon: <BsGit /> },
+    { name: 'Database Management', icon: <FaDatabase /> },
+    { name: 'Version Control', icon: <BsGit /> },
     { name: 'Video Editing', icon: <FaVideo /> },
-    { name: 'Cross-platform OS (Windows, Linux, MacOS)', icon: <BsWindow /> },
+    { name: 'Cross-platform OS', icon: <BsWindow /> },
   ],
 };
 

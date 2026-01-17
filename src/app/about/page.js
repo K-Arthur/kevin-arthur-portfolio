@@ -8,6 +8,8 @@ import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
 import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
 import dynamic from 'next/dynamic';
 import Parallax from '@/components/Parallax';
+import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid';
+import { TextScramble } from '@/components/ui/text-scramble';
 
 // Dynamically import the RadialOrbitalTimeline to avoid SSR issues
 const RadialOrbitalTimeline = dynamic(
@@ -42,16 +44,16 @@ const iconMap = {
   'Usability Testing': FaVial,
   'Heuristic Evaluation': FaBrain,
   'Agile Methodology': FaSyncAlt,
-  'Digital Marketing & Brand Strategy': FaBullhorn,
+  'Marketing & Branding': FaBullhorn,
   'Visual Design': FaPaintBrush,
   'Figma': FaFigma,
   'Adobe Suite': SiAdobecreativecloud,
-  'HTML, CSS, & JavaScript': FaCode,
+  'HTML/CSS/JS': FaCode,
   'PHP': SiPhp,
-  'Database Management (MySQL, PostgreSQL)': FaDatabase,
-  'Version Control (Git, GitHub)': BsGit,
+  'Database Management': FaDatabase,
+  'Version Control': BsGit,
   'Video Editing': FaVideo,
-  'Cross-platform OS (Windows, Linux, MacOS)': BsWindow,
+  'Cross-platform OS': BsWindow,
 };
 
 // Convert skills to timeline format
@@ -156,8 +158,19 @@ const SkillsSection = () => {
 };
 
 const AboutPage = () => {
+  // About page with infinite grid background
   return (
-    <div className="max-w-6xl mx-auto px-6 sm:px-6 lg:px-8 py-12 space-y-16">
+    <InfiniteGridBackground
+      className="min-h-screen"
+      gridSize={50}
+      speedX={0.25}
+      speedY={0.2}
+      revealRadius={350}
+      baseOpacity={0.04}
+      revealOpacity={0.45}
+      fullPage={true}
+    >
+      <div className="max-w-6xl mx-auto px-6 sm:px-6 lg:px-8 py-12 space-y-16">
       {/* Hero Section */}
       <Section>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
@@ -169,8 +182,24 @@ const AboutPage = () => {
                 transition={{ duration: 0.6 }}
               >
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
-                  A bit more
-                  <span className="block text-primary">about me</span>
+                  <TextScramble
+                    as="span"
+                    className="text-foreground"
+                    duration={1.0}
+                    speed={0.035}
+                    characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                  >
+                    A bit more
+                  </TextScramble>
+                  <TextScramble
+                    as="span"
+                    className="block text-primary"
+                    duration={1.2}
+                    speed={0.035}
+                    characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                  >
+                    about me
+                  </TextScramble>
                 </h1>
                 <div className="space-y-6 text-lg leading-relaxed text-muted-enhanced">
                   <p className="text-xl leading-relaxed">
@@ -314,7 +343,8 @@ const AboutPage = () => {
           ))}
         </div>
       </Section>
-    </div>
+      </div>
+    </InfiniteGridBackground>
   );
 };
 

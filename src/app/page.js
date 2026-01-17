@@ -8,6 +8,7 @@ import { FaArrowRight, FaEnvelope, FaLinkedin, FaCalendarAlt } from 'react-icons
 import Parallax from '@/components/Parallax';
 import MagneticButton from '@/components/MagneticButton';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
+import { MagneticText } from '@/components/ui/morphing-cursor';
 import Footer from '@/components/Footer';
 
 const ShaderAnimation = dynamic(() => import('@/components/ui/shader-animation').then(mod => mod.ShaderAnimation), {
@@ -154,10 +155,16 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 id="quick-contact-heading" className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-                Let's connect and create
-                <br />
-                something <span className="text-primary">amazing together</span>
+              <h2 id="quick-contact-heading" className="text-3xl md:text-5xl font-bold text-foreground mb-4 flex flex-col items-center gap-1">
+                <span className="block">Ready to</span>
+                <MagneticText 
+                  text="connect and create" 
+                  hoverText="collaborate & innovate" 
+                  ariaLabel="Ready to connect and create something amazing together. Hover to reveal: collaborate and innovate"
+                />
+                <span className="block">
+                  something <span className="text-primary">amazing together</span>
+                </span>
               </h2>
               <p className="text-lg text-muted-enhanced max-w-2xl mx-auto mb-10">
                 I'm always excited to discuss new projects and opportunities.
@@ -237,7 +244,7 @@ export default function Home() {
       <section className="relative overflow-hidden" aria-labelledby="cta-heading">
         {/* Shader animation background layer - spans CTA and Footer */}
         {isClient && (
-          <div className="absolute inset-0 z-0 opacity-20 dark:opacity-20 light:opacity-10 pointer-events-none">
+          <div className="absolute inset-0 z-0 opacity-10 dark:opacity-10 light:opacity-5 pointer-events-none">
             <ShaderAnimation />
           </div>
         )}

@@ -139,7 +139,7 @@ const Header = () => {
   return (
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled
-          ? 'bg-background/80 backdrop-blur-lg shadow-sm'
+          ? 'bg-background/30 backdrop-blur-md shadow-sm'
           : 'bg-transparent'
         }`}
       role="banner"
@@ -175,7 +175,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-2 bg-card/50 border border-border/20 rounded-full px-4 py-2 backdrop-blur-sm">
+          <div className="hidden md:flex items-center space-x-2 bg-card/30 border border-border/20 rounded-full px-4 py-2 backdrop-blur-sm">
             {navLinks.map((link) => {
               const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
               return (

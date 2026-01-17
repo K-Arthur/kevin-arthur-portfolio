@@ -6,6 +6,7 @@ import contentStyles from './CaseStudyContent.module.css';
 import Parallax from '@/components/Parallax';
 import { getCaseStudySchema } from '@/lib/structured-data';
 import ContextualCTA from '@/components/ContextualCTA';
+import { DottedGlowBackground } from '@/components/ui/dotted-glow-background';
 
 // This function gets called at build time
 export async function generateStaticParams() {
@@ -51,8 +52,27 @@ export default async function CaseStudyPage({ params }) {
       />
       <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
         {/* Hero Section */}
-        <header className="bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50 overflow-hidden">
-          <div className="max-w-6xl mx-auto px-4 py-16 md:py-24">
+        <header className="relative bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50 overflow-hidden">
+          {/* Dotted Glow Background Effect */}
+          <DottedGlowBackground
+            className="pointer-events-none"
+            style={{
+              maskImage: "radial-gradient(ellipse 80% 70% at 50% 40%, black 0%, transparent 100%)",
+              WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 40%, black 0%, transparent 100%)",
+            }}
+            opacity={0.35}
+            gap={16}
+            radius={1.4}
+            color="hsl(230, 15%, 75%)"
+            darkColor="hsl(240, 5%, 35%)"
+            glowColor="hsl(220, 70%, 70%)"
+            darkGlowColor="hsl(217, 80%, 55%)"
+            backgroundOpacity={0}
+            speedMin={0.2}
+            speedMax={1.0}
+            speedScale={0.6}
+          />
+          <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 md:py-24">
             <div className="flex flex-col md:flex-row gap-8 items-center">
               <div className="w-full md:w-2/3 text-center md:text-left">
                 <Parallax offset={-20}>
