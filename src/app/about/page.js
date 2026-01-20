@@ -2,7 +2,7 @@
 
 import { personalInfo, skills, education, professionalExperience } from '@/data/portfolio-data';
 import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSyncAlt, FaBullhorn, FaPaintBrush, FaFigma, FaCode, FaVideo, FaDatabase } from 'react-icons/fa';
-import { useState } from 'react';
+
 import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
 import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
 
@@ -11,10 +11,7 @@ import { GlowingEffect } from '@/components/ui/glowing-effect';
 import dynamic from 'next/dynamic';
 
 // Dynamically import heavy components - defer loading
-const RadialOrbitalTimeline = dynamic(
-  () => import('@/components/ui/radial-orbital-timeline'),
-  { ssr: false, loading: () => <div className="h-96 flex items-center justify-center"><span className="text-muted-foreground">Loading skills...</span></div> }
-);
+
 
 // Lazy load background - non-blocking
 const InfiniteGridBackground = dynamic(
@@ -44,119 +41,86 @@ const SectionTitle = ({ icon, children }) => (
 import Image from 'next/image';
 
 // Icon mapping for timeline data
-const iconMap = {
-  'User-centered Design': FaUsers,
-  'Wireframing & Prototyping': BsDiagram3,
-  'User Research': FaUsers,
-  'Usability Testing': FaVial,
-  'Heuristic Evaluation': FaBrain,
-  'Agile Methodology': FaSyncAlt,
-  'Marketing & Branding': FaBullhorn,
-  'Visual Design': FaPaintBrush,
-  'Figma': FaFigma,
-  'Adobe Suite': SiAdobecreativecloud,
-  'HTML/CSS/JS': FaCode,
-  'PHP': SiPhp,
-  'Database Management': FaDatabase,
-  'Version Control': BsGit,
-  'Video Editing': FaVideo,
-  'Cross-platform OS': BsWindow,
-};
-
-// Convert skills to timeline format
-const createTimelineData = () => {
-  const allSkills = [];
-  let id = 1;
-
-  // Core Competencies
-  skills['Core Competencies'].forEach((skill, index) => {
-    allSkills.push({
-      id: id++,
-      title: skill.name,
-      date: 'Core',
-      content: `Core competency in ${skill.name.toLowerCase()} for building effective digital products.`,
-      category: 'Core Competencies',
-      icon: iconMap[skill.name] || FaUsers,
-      relatedIds: [],
-      status: 'completed',
-      energy: 85 + Math.floor(Math.random() * 15),
-    });
-  });
-
-  // Technical Skills
-  skills['Technical Skills'].forEach((skill, index) => {
-    allSkills.push({
-      id: id++,
-      title: skill.name,
-      date: 'Technical',
-      content: `Technical proficiency in ${skill.name.toLowerCase()} for implementation and development.`,
-      category: 'Technical Skills',
-      icon: iconMap[skill.name] || FaCode,
-      relatedIds: [],
-      status: 'completed',
-      energy: 80 + Math.floor(Math.random() * 20),
-    });
-  });
-
-  // Add some related skill connections
-  allSkills.forEach((skill, index) => {
-    // Connect some logically related skills
-    if (skill.title === 'User-centered Design') {
-      skill.relatedIds = [3, 4]; // User Research, Usability Testing
-    } else if (skill.title === 'User Research') {
-      skill.relatedIds = [1, 4]; // User-centered Design, Usability Testing
-    } else if (skill.title === 'Wireframing & Prototyping') {
-      skill.relatedIds = [9]; // Figma
-    } else if (skill.title === 'Figma') {
-      skill.relatedIds = [2, 8]; // Wireframing, Visual Design
-    } else if (skill.title === 'HTML, CSS, & JavaScript') {
-      skill.relatedIds = [12]; // PHP
-    } else if (skill.title === 'Database Management (MySQL, PostgreSQL)') {
-      skill.relatedIds = [12, 14]; // PHP, Version Control
-    }
-  });
-
-  return allSkills;
+// Simple icon mapping for display
+const getSkillIcon = (skillName) => {
+  const map = {
+    'User-centered Design': FaUsers,
+    'Wireframing & Prototyping': BsDiagram3,
+    'User Research': FaUsers,
+    'Usability Testing': FaVial,
+    'Heuristic Evaluation': FaBrain,
+    'Agile Methodology': FaSyncAlt,
+    'Marketing & Branding': FaBullhorn,
+    'Visual Design': FaPaintBrush,
+    'Figma': FaFigma,
+    'Adobe Suite': SiAdobecreativecloud,
+    'HTML/CSS/JS': FaCode,
+    'PHP': SiPhp,
+    'Database Management': FaDatabase,
+    'Version Control': BsGit,
+    'Video Editing': FaVideo,
+    'Cross-platform OS': BsWindow,
+  };
+  return map[skillName] || FaCode;
 };
 
 const SkillsSection = () => {
-  const [activeTab, setActiveTab] = useState('Core Competencies');
-  const allTimelineData = createTimelineData();
-
-  // Filter data based on active tab
-  const activeData = allTimelineData.filter(item => item.category === activeTab);
-
   return (
     <Section delay={0.2}>
       <SectionTitle icon={<FaTools />}>Skills & Tools</SectionTitle>
 
-      {/* Category Tabs */}
-      <div className="flex justify-center mb-10 -mx-6 sm:mx-0">
-        <div className="bg-muted/50 p-1.5 rounded-full flex gap-2 overflow-x-auto px-4">
-          {['Core Competencies', 'Technical Skills'].map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveTab(category)}
-              className={`px-4 py-2 text-sm md:px-6 md:py-2.5 md:text-base font-semibold rounded-full transition-colors duration-300 relative
-                ${activeTab === category ? 'text-primary-foreground' : 'text-muted-foreground hover:bg-card/70 hover:text-foreground'}`}
-            >
-              {activeTab === category && (
-                <div
-                  className="absolute inset-0 bg-primary/90 rounded-full transition-all duration-300"
-                />
-              )}
-              <span className="relative z-10">{category}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <p className="text-muted-foreground text-center mb-6 max-w-2xl mx-auto">
-        Click on any skill to explore details and discover related competencies
+      <p className="text-muted-foreground mb-10 max-w-2xl leading-relaxed">
+        A curated stack of technologies and methodologies I use to bring ideas to life.
       </p>
 
-      <div key={activeTab} className="transition-all duration-500 ease-in-out">
-        <RadialOrbitalTimeline timelineData={activeData} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Core Competencies */}
+        <div className="card-enhanced p-8 bg-card/30 rounded-2xl border border-white/5 backdrop-blur-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
+              <FaBrain className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground">Core Competencies</h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {skills['Core Competencies'].map((skill, idx) => {
+              const Icon = getSkillIcon(skill.name);
+              return (
+                <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 transition-all duration-300 hover:bg-background/60 hover:border-primary/20 hover:scale-[1.02] group">
+                  <span className="text-muted-foreground group-hover:text-primary transition-colors">
+                    <Icon />
+                  </span>
+                  <span className="text-sm font-medium text-foreground/90">{skill.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Technical Skills */}
+        <div className="card-enhanced p-8 bg-card/30 rounded-2xl border border-white/5 backdrop-blur-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2.5 rounded-lg bg-secondary/20 text-foreground">
+              <FaCode className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground">Technical Skills</h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {skills['Technical Skills'].map((skill, idx) => {
+              const Icon = getSkillIcon(skill.name);
+              return (
+                <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 transition-all duration-300 hover:bg-background/60 hover:border-primary/20 hover:scale-[1.02] group">
+                  <span className="text-muted-foreground group-hover:text-primary transition-colors">
+                    <Icon />
+                  </span>
+                  <span className="text-sm font-medium text-foreground/90">{skill.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </Section>
   );
@@ -250,13 +214,15 @@ const AboutPage = () => {
                 { icon: '🔄', title: 'Continuous Learning', text: "The digital landscape is always evolving, and so am I. I'm committed to mastering new tools and technologies to keep your product ahead of the curve." },
                 { icon: '🤝', title: 'Radical Collaboration', text: "The best ideas emerge when we work together. I foster a collaborative environment where every voice is heard to build solutions that truly resonate." },
               ].map((item, index) => (
-                <div key={index} className="group flex flex-col items-center text-center transition-transform duration-300 hover:-translate-y-1.5">
-                  <h3 className="text-4xl mb-4">{item.icon}</h3>
-                  <h4 className="text-lg font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{item.title}</h4>
-                  <p className="text-muted-enhanced text-sm leading-relaxed max-w-xs mx-auto">
-                    {item.text}
-                  </p>
-                </div>
+                <CometCard key={index} className="w-full h-full">
+                  <div className="h-full flex flex-col items-center text-center p-6 bg-card/40 border border-white/5 rounded-2xl backdrop-blur-sm">
+                    <div className="mb-4 text-4xl">{item.icon}</div>
+                    <h4 className="text-lg font-bold text-foreground mb-3">{item.title}</h4>
+                    <p className="text-muted-enhanced text-sm leading-relaxed">
+                      {item.text}
+                    </p>
+                  </div>
+                </CometCard>
               ))}
             </div>
           </div>

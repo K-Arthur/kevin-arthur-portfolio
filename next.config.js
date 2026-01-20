@@ -111,6 +111,13 @@ const nextConfig = {
 
   // Add webpack configuration for video handling and Windows compatibility
   webpack: (config, { isServer }) => {
+    // Force single version of framer-motion
+    const path = require('path');
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'framer-motion': path.resolve(__dirname, 'node_modules/framer-motion'),
+    };
+
     // Windows-specific optimizations to prevent file locking
     config.watchOptions = {
       poll: 1000,
@@ -141,7 +148,7 @@ const nextConfig = {
 
   // Add experimental features for better video handling and bundle optimization
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei'],
+    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'date-fns', 'lodash'],
   },
 
   // Add redirects for video format fallbacks
