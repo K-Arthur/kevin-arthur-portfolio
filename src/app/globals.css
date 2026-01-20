@@ -133,9 +133,40 @@
   textarea,
   select {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary focus-visible:ring-offset-background;
-    transition-property: color, background-color, border-color, box-shadow;
+    transition-property: color, background-color, border-color, box-shadow, transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 200ms;
+  }
+
+  /* 2026 Typography Standards */
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+  
+  p, li, blockquote {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* 2026 Glassmorphism - Premium Feel */
+  .glass-premium {
+    @apply bg-background/60 backdrop-blur-xl border border-white/10 shadow-lg;
+    /* Noise texture overlay could be added here if asset existed */
+  }
+  
+  .dark .glass-premium {
+    @apply bg-zinc-900/60 border-white/5 shadow-xl shadow-black/20;
+  }
+
+  /* Bento Grid Utility */
+  .bento-grid {
+    @apply grid gap-4 p-4;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  
+  .bento-card {
+    @apply glass-premium rounded-2xl p-6 transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:border-primary/20 flex flex-col;
   }
 }
 

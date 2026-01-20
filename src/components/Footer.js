@@ -31,7 +31,7 @@ const Footer = ({ transparent = false, showLeadMagnet = true }) => {
 
   return (
     <footer
-      className={`${transparent ? 'bg-transparent border-t-0 mt-0 relative z-10' : 'bg-background/80 backdrop-blur-sm border-t border-border/50 mt-24'}`}
+      className={`${transparent ? 'bg-transparent border-t-0 mt-0 relative z-10' : 'glass-premium border-t border-border/50 mt-24'}`}
       aria-label="Footer"
     >
       {/* Lead Magnet Section */}

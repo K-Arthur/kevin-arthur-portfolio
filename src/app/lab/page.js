@@ -38,11 +38,11 @@ export default function LabPage() {
       {/* Hero Section */}
       <section className="py-16 md:py-24">
         <div className="container-responsive animate-fade-in-up">
-            <HandWrittenTitle
-              title="Free Resources for"
-              highlightedText="Product Teams"
-              subtitle="Tools I've built from 4+ years of designing and building products. No fluff—just practical frameworks you can use today."
-            />
+          <HandWrittenTitle
+            title="Free Resources for"
+            highlightedText="Product Teams"
+            subtitle="Tools I've built from 4+ years of designing and building products. No fluff—just practical frameworks you can use today."
+          />
         </div>
       </section>
 
@@ -160,22 +160,29 @@ export default function LabPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-card/20">
-        <div className="container-responsive text-center animate-fade-in-up">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-            Need More Than a Checklist?
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            If you're building AI-powered products or complex SaaS platforms, 
-            let's discuss how I can help you ship faster.
-          </p>
-          <a
-            href="/contact#schedule"
-            className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl transition-all"
-          >
-            <span>Book a 15-Min Call</span>
-            <FaArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </a>
+      <section className="py-20 md:py-32">
+        <div className="container-responsive animate-fade-in-up">
+          <div className="max-w-4xl mx-auto card-enhanced p-8 md:p-12 text-center bg-gradient-to-br from-primary/10 via-card/60 to-secondary/10 backdrop-blur-xl border border-primary/20 rounded-3xl relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-primary/20 blur-[100px] rounded-full pointer-events-none" />
+
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Need More Than a Checklist?
+              </h2>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed text-pretty">
+                If you're building AI-powered products or complex SaaS platforms,
+                let's discuss how I can help you ship faster and with confidence.
+              </p>
+              <a
+                href="/contact#schedule"
+                className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-1"
+              >
+                <span>Book a 15-Min Call</span>
+                <FaArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </InfiniteGridBackground>

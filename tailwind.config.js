@@ -16,8 +16,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-jost)'],
-        mono: ['var(--font-fira-code)'],
+        sans: ['var(--font-jost)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-fira-code)', 'ui-monospace', 'monospace'],
       },
       colors: {
         border: 'hsl(var(--border))',

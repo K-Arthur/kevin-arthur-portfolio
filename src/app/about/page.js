@@ -5,6 +5,9 @@ import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSync
 import { useState } from 'react';
 import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
 import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
+
+import { CometCard } from '@/components/ui/comet-card';
+import { GlowingEffect } from '@/components/ui/glowing-effect';
 import dynamic from 'next/dynamic';
 
 // Dynamically import heavy components - defer loading
@@ -173,11 +176,11 @@ const AboutPage = () => {
       fullPage={true}
     >
       <div className="max-w-6xl mx-auto px-6 sm:px-6 lg:px-8 py-12 space-y-16">
-      {/* Hero Section */}
-      <Section>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
-          <div className="lg:col-span-2 space-y-8">
-            <div className="animate-fade-in-up">
+        {/* Hero Section */}
+        <Section>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
+            <div className="lg:col-span-2 space-y-8">
+              <div className="animate-fade-in-up">
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
                   <TextScramble
                     as="span"
@@ -208,114 +211,157 @@ const AboutPage = () => {
                     user-centered design.
                   </p>
                 </div>
+              </div>
             </div>
-          </div>
-          <div className="w-full animate-fade-in-right animation-delay-200">
-            <div className="relative w-full h-96 md:h-[30rem] lg:h-96 md:max-w-sm lg:max-w-none md:mx-auto lg:mx-0 group">
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-              <div className="absolute -top-8 -left-8 w-28 h-28 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="w-full animate-fade-in-right animation-delay-200">
+              <div className="relative w-full h-96 md:h-[30rem] lg:h-96 md:max-w-sm lg:max-w-none md:mx-auto lg:mx-0 group">
+                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute -top-8 -left-8 w-28 h-28 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
 
-              <div className="relative card-enhanced h-full w-full bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 p-2 shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/10 rounded-3xl">
-                <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
-                <div className="relative h-full w-full overflow-hidden rounded-2xl">
-                  <Image
-                    src="/images/profile-image.jpg"
-                    alt="Kevin Arthur, Design Engineer and AI Interface Design Expert based in Vancouver, Canada"
-                    fill
-                    className="object-cover object-top lg:object-center transition-transform duration-500 group-hover:scale-105"
-                    priority
-                    fetchPriority="high"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px"
-                  />
+                <div className="relative card-enhanced h-full w-full bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 p-2 shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/10 rounded-3xl">
+                  <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-primary/30 transition-all duration-300"></div>
+                  <div className="relative h-full w-full overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/profile-image.jpg"
+                      alt="Kevin Arthur, Design Engineer and AI Interface Design Expert based in Vancouver, Canada"
+                      fill
+                      className="object-cover object-top lg:object-center transition-transform duration-500 group-hover:scale-105"
+                      priority
+                      fetchPriority="high"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </Section>
+        </Section>
 
-      {/* What Sets Me Apart Section */}
-      <Section delay={0.1}>
-        <div className="rounded-2xl border border-border/20 bg-card/20 p-8 backdrop-blur-sm transition-colors duration-300">
-          <h2 className="text-3xl font-bold text-foreground mb-10 text-center">
-            How I Approach My Work
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: '🎯', title: 'Strategic Thinking', text: "I don't just design pixels. I align every decision with user needs and business goals to create solutions that deliver real, measurable impact." },
-              { icon: '⚡', title: 'Speed & Efficiency', text: 'Leveraging lean design principles and rapid prototyping, I accelerate the journey from concept to launch without compromising quality.' },
-              { icon: '🔄', title: 'Continuous Learning', text: "The digital landscape is always evolving, and so am I. I'm committed to mastering new tools and technologies to keep your product ahead of the curve." },
-              { icon: '🤝', title: 'Radical Collaboration', text: "The best ideas emerge when we work together. I foster a collaborative environment where every voice is heard to build solutions that truly resonate." },
-            ].map((item, index) => (
-              <div key={index} className="group flex flex-col items-center text-center transition-transform duration-300 hover:-translate-y-1.5">
-                <h3 className="text-4xl mb-4">{item.icon}</h3>
-                <h4 className="text-lg font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{item.title}</h4>
-                <p className="text-muted-enhanced text-sm leading-relaxed max-w-xs mx-auto">
-                  {item.text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      <SkillsSection />
-
-      <Section delay={0.4}>
-        <SectionTitle icon={<FaBriefcase />}>My Journey So Far</SectionTitle>
-        <div className="relative">
-          {/* Timeline Line */}
-          <div className="absolute left-32 md:left-40 top-0 bottom-0 w-0.5 bg-border/40"></div>
-
-          <div className="space-y-8 md:space-y-12">
-            {professionalExperience.map((job, index) => (
-              <div
-                key={index}
-                className="relative flex items-start gap-4 md:gap-8 animate-fade-in-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {/* Timeline Dot */}
-                <div className="absolute left-32 md:left-40 top-2 w-3 h-3 md:w-4 md:h-4 bg-background border-2 border-primary rounded-full transform -translate-x-1/2 z-10"></div>
-
-                <div className="w-28 md:w-36 text-right text-xs md:text-sm font-medium text-muted-enhanced shrink-0 pt-2">
-                  {job.period.split(' - ').map((part, i) => (
-                    <span key={i} className="block whitespace-nowrap">{part}</span>
-                  ))}
-                </div>
-
-                <div className="flex-grow card-enhanced bg-card/80 p-4 md:p-6 rounded-lg ml-4 md:ml-8">
-                  <h3 className="text-lg md:text-xl font-bold text-foreground">{job.role}</h3>
-                  <p className="text-primary font-semibold mb-2 text-sm md:text-base">{job.company}</p>
-                  <p className="text-muted-enhanced text-sm md:text-base leading-relaxed">
-                    {job.description}
+        {/* What Sets Me Apart Section */}
+        <Section delay={0.1}>
+          <div className="rounded-2xl border border-border/20 bg-card/20 p-8 backdrop-blur-sm transition-colors duration-300">
+            <h2 className="text-3xl font-bold text-foreground mb-10 text-center">
+              How I Approach My Work
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { icon: '🎯', title: 'Strategic Thinking', text: "I don't just design pixels. I align every decision with user needs and business goals to create solutions that deliver real, measurable impact." },
+                { icon: '⚡', title: 'Speed & Efficiency', text: 'Leveraging lean design principles and rapid prototyping, I accelerate the journey from concept to launch without compromising quality.' },
+                { icon: '🔄', title: 'Continuous Learning', text: "The digital landscape is always evolving, and so am I. I'm committed to mastering new tools and technologies to keep your product ahead of the curve." },
+                { icon: '🤝', title: 'Radical Collaboration', text: "The best ideas emerge when we work together. I foster a collaborative environment where every voice is heard to build solutions that truly resonate." },
+              ].map((item, index) => (
+                <div key={index} className="group flex flex-col items-center text-center transition-transform duration-300 hover:-translate-y-1.5">
+                  <h3 className="text-4xl mb-4">{item.icon}</h3>
+                  <h4 className="text-lg font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{item.title}</h4>
+                  <p className="text-muted-enhanced text-sm leading-relaxed max-w-xs mx-auto">
+                    {item.text}
                   </p>
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
+        </Section>
+
+        <SkillsSection />
+
+        <Section delay={0.4}>
+          <SectionTitle icon={<FaBriefcase />}>My Journey So Far</SectionTitle>
+          <div className="relative pl-8 md:pl-0">
+            {/* Timeline Line - Refined positioning */}
+            <div className="absolute left-[3px] md:left-1/2 top-4 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent md:-translate-x-1/2"></div>
+
+            <div className="space-y-12 md:space-y-16 relative">
+              {professionalExperience.map((job, index) => (
+                <div key={index} className={`relative flex flex-col md:flex-row gap-8 md:gap-16 items-start ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+
+                  {/* Timeline Dot */}
+                  <div className="absolute left-[-29px] md:left-1/2 top-0 w-16 h-16 flex items-center justify-center md:-translate-x-1/2 z-10 pointer-events-none">
+                    <div className="w-4 h-4 rounded-full bg-background border-2 border-primary shadow-[0_0_10px_rgba(var(--primary),0.5)] z-20 relative"></div>
+                    <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
+                  </div>
+
+                  {/* Date/Label Side */}
+                  <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:text-left' : 'md:text-right'} pl-6 md:pl-0 pt-1`}>
+                    <span className="inline-block py-1 px-3 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-semibold tracking-wider mb-2">
+                      {job.period}
+                    </span>
+                  </div>
+
+                  {/* Content Card Side */}
+                  <div className="w-full md:w-1/2 relative group">
+                    <div className="relative h-full rounded-2xl bg-card/40 backdrop-blur-xl border border-white/5 p-1 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
+                      <GlowingEffect
+                        spread={40}
+                        glow={true}
+                        disabled={false}
+                        proximity={64}
+                        inactiveZone={0.01}
+                        borderWidth={1}
+                      />
+                      <div className="relative z-10 p-6 md:p-8 rounded-xl bg-background/40 h-full">
+                        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">{job.role}</h3>
+                        <p className="text-primary font-medium text-lg mb-4 flex items-center gap-2">
+                          {job.company}
+                          <span className="text-muted-foreground/40 text-sm">•</span>
+                          <span className="text-muted-foreground text-sm font-normal">{job.location}</span>
+                        </p>
+                        <p className="text-muted-enhanced leading-relaxed text-pretty">
+                          {job.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Section>
+
+
+        <Section delay={0.6}>
+          <SectionTitle icon={<FaGraduationCap />}>Education</SectionTitle>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {education.map((edu, index) => (
+              <CometCard key={index} className="w-full h-full">
+                <div className="relative h-full w-full p-6 md:p-8 bg-card/40 border border-white/5 rounded-2xl backdrop-blur-md flex flex-col shadow-sm">
+
+                  {/* Decoration Gradient */}
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-[4rem] rounded-tr-2xl pointer-events-none" />
+
+                  <div className="relative z-10 flex-1">
+                    <h3 className="text-xl font-bold text-foreground mb-2 leading-tight text-balance">
+                      {edu.degree}
+                    </h3>
+                    {edu.specialization && (
+                      <p className="text-sm font-semibold text-primary/90 mb-4 uppercase tracking-wide">
+                        {edu.specialization}
+                      </p>
+                    )}
+
+                    <div className="space-y-1 mb-6">
+                      <p className="text-md font-medium text-foreground">{edu.institution}</p>
+                      <p className="text-sm text-muted-foreground">{edu.period}</p>
+                    </div>
+
+                    {edu.details && (
+                      <div className="pt-4 border-t border-border/20">
+                        <ul className="space-y-2">
+                          {edu.details.map((detail, i) => (
+                            <li key={i} className="text-sm text-muted-foreground/90 flex items-start gap-2 leading-relaxed">
+                              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary/40 shrink-0" />
+                              <span>{detail}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </CometCard>
             ))}
           </div>
-        </div>
-      </Section>
+        </Section>
 
-      <Section delay={0.6}>
-        <SectionTitle icon={<FaGraduationCap />}>Education</SectionTitle>
-        <div className="space-y-8">
-          {education.map((edu, index) => (
-            <div key={index} className="card-enhanced p-4 md:p-6 bg-card/50 rounded-xl shadow-md">
-              <h3 className="text-xl font-semibold text-foreground">{edu.degree}</h3>
-              {edu.specialization && <p className="text-md font-medium text-primary">{edu.specialization}</p>}
-              <p className="text-md text-muted-enhanced mt-1">{edu.institution}</p>
-              <p className="text-sm text-muted-enhanced">{edu.period}</p>
-              {edu.details && (
-                <ul className="mt-3 list-disc list-inside space-y-1 text-muted-enhanced prose-sm">
-                  {edu.details.map((detail, i) => (
-                    <li key={i}>{detail}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
-        </div>
-      </Section>
       </div>
     </InfiniteGridBackground>
   );
