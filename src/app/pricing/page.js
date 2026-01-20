@@ -183,9 +183,9 @@ const PricingCard = ({ tier, index }) => {
             <div className="relative z-10 flex flex-col h-full">
                 <div className="mb-6">
                     <span className="text-sm font-mono text-muted-foreground/60 block mb-2">/{tier.number}</span>
-                    <h3 className="text-2xl font-bold text-foreground tracking-tight mb-2">
+                    <div className="text-2xl font-bold text-foreground tracking-tight mb-2">
                         {tier.name}
-                    </h3>
+                    </div>
                     <p className="text-muted-foreground text-sm leading-relaxed text-balance">
                         {tier.description}
                     </p>
@@ -334,9 +334,9 @@ const PricingPage = () => {
                             <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-4 rotate-3 transform transition-transform hover:rotate-6">
                                 <FaEnvelope className="w-8 h-8 text-primary" />
                             </div>
-                            <h3 className="text-2xl font-bold text-foreground">
+                            <div className="text-2xl font-bold text-foreground">
                                 Need something custom?
-                            </h3>
+                            </div>
                             <p className="text-muted-foreground text-sm text-pretty">
                                 Let's build a package that fits your specific requirements and budget.
                             </p>

@@ -111,11 +111,12 @@ const nextConfig = {
 
   // Add webpack configuration for video handling and Windows compatibility
   webpack: (config, { isServer }) => {
-    // Force single version of framer-motion
+    // Force single version of framer-motion and react-icons
     const path = require('path');
     config.resolve.alias = {
       ...config.resolve.alias,
       'framer-motion': path.resolve(__dirname, 'node_modules/framer-motion'),
+      'react-icons': path.resolve(__dirname, 'node_modules/react-icons'),
     };
 
     // Windows-specific optimizations to prevent file locking

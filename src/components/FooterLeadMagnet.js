@@ -54,9 +54,9 @@ export default function FooterLeadMagnet({ className = '' }) {
                     <Icon className="w-5 h-5 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-foreground text-sm mb-1 group-hover:text-primary transition-colors">
+                    <p className="font-semibold text-foreground text-sm mb-1 group-hover:text-primary transition-colors">
                       {resource.title}
-                    </h4>
+                    </p>
                     <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
                       {resource.description}
                     </p>

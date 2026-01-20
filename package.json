@@ -71,8 +71,11 @@
     "typescript": "^5.9.3"
   },
   "browserslist": [
-    "defaults",
-    "not IE 11",
-    "not dead"
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions",
+    "not dead",
+    "not op_mini all"
   ]
 }

@@ -59,7 +59,7 @@ export default function ContextualCTA({
             viewport={{ once: true }}
         >
             <div className="text-center max-w-2xl mx-auto">
-                <motion.h3
+                <motion.p
                     className="text-2xl md:text-3xl font-bold text-foreground mb-3"
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -67,7 +67,7 @@ export default function ContextualCTA({
                     viewport={{ once: true }}
                 >
                     {headline}
-                </motion.h3>
+                </motion.p>
                 <motion.p
                     className="text-lg text-muted-foreground mb-8"
                     initial={{ opacity: 0, y: 10 }}
