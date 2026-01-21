@@ -25,7 +25,7 @@ const TextScramble = dynamic(
 );
 
 const Section = ({ children }) => (
-  <section className="animate-fade-in-up">
+  <section className="animate-fade-in-up" style={{ contain: 'layout' }}>
     {children}
   </section>
 );
@@ -164,7 +164,7 @@ const AboutPage = () => {
                     Creative Technologist
                   </TextScramble>
                 </h1>
-                <div className="space-y-6 text-lg leading-relaxed text-muted-enhanced">
+                <div className="space-y-6 text-lg leading-relaxed text-muted-enhanced" style={{ contain: 'layout' }}>
                   <p className="text-xl leading-relaxed">
                     {personalInfo.summary}
                   </p>

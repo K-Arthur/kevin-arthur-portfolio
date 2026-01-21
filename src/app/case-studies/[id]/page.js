@@ -4,11 +4,20 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { mdxComponents } from '@/components/MdxComponents';
 import { FaCalendarAlt, FaUserTie, FaTools, FaChartLine } from 'react-icons/fa';
 import contentStyles from './CaseStudyContent.module.css';
-import Parallax from '@/components/Parallax';
 import { getCaseStudySchema } from '@/lib/structured-data';
-import ContextualCTA from '@/components/ContextualCTA';
-import { DottedGlowBackground } from '@/components/ui/dotted-glow-background';
-import CaseStudyPopupWrapper from './CaseStudyPopupWrapper';
+import dynamic from 'next/dynamic';
+
+// Dynamically import heavy visual components to reduce initial JS parsing
+const Parallax = dynamic(() => import('@/components/Parallax'), { ssr: true });
+const ContextualCTA = dynamic(() => import('@/components/ContextualCTA'), { ssr: true });
+const DottedGlowBackground = dynamic(
+  () => import('@/components/ui/dotted-glow-background').then(mod => mod.DottedGlowBackground),
+  { ssr: false, loading: () => <div className="absolute inset-0 bg-gradient-to-r from-primary/3 to-secondary/3" /> }
+);
+const CaseStudyPopupWrapper = dynamic(
+  () => import('./CaseStudyPopupWrapper'),
+  { ssr: false } // Popup only needed on client side
+);
 
 // This function gets called at build time
 export async function generateStaticParams() {

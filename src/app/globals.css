@@ -253,40 +253,34 @@
     gap: var(--space-4xl);
   }
 
-  /* Fade-in animations */
+  /* CLS-safe Fade-in animations - opacity only to prevent layout shifts */
   @keyframes fadeInUp {
     from {
       opacity: 0;
-      transform: translateY(20px);
     }
 
     to {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 
   @keyframes fadeInDown {
     from {
       opacity: 0;
-      transform: translateY(-20px);
     }
 
     to {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 
   @keyframes fadeInRight {
     from {
       opacity: 0;
-      transform: translateX(-20px);
     }
 
     to {
       opacity: 1;
-      transform: translateX(0);
     }
   }
 

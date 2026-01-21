@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 import Script from 'next/script';
 import { personSchema, websiteSchema } from '@/lib/structured-data';
 import LazyMotionWrapper from '@/components/LazyMotionWrapper';
+import { PartytownSetup } from '@/components/PartytownSetup';
 
 // Dynamically import WebVitals with no SSR
 const WebVitals = dynamic(() => import('@/components/WebVitals'), {
@@ -96,23 +97,25 @@ export default function RootLayout({ children }) {
         />
 
         {/* Plausible script moved to body with lazyOnload strategy for better performance */}
+        {/* Partytown setup for offloading third-party scripts to web worker */}
+        <PartytownSetup />
       </head>
       <body className={`${jost.variable} ${firaCode.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}>
-        {/* Analytics scripts - loaded lazily to avoid blocking main thread */}
+        {/* Analytics scripts - offloaded to Partytown web worker to avoid blocking main thread */}
         {process.env.NODE_ENV === 'production' && (
           <Script
             src="https://plausible.io/js/script.js"
             data-domain="kevinarthur.design"
             data-api="https://plausible.io/api/event"
-            strategy="lazyOnload"
+            type="text/partytown"
           />
         )}
-        {/* Google tag (gtag.js) - Loaded lazily */}
+        {/* Google tag (gtag.js) - Run via Partytown web worker */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-L805WXGTZS"
-          strategy="lazyOnload"
+          type="text/partytown"
         />
-        <Script id="google-analytics" strategy="lazyOnload">
+        <Script id="google-analytics" type="text/partytown">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
