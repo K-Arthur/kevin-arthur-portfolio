@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence, useDragControls, useReducedMotion } from 'framer-motion';
+import { m, AnimatePresence, useDragControls, useReducedMotion } from 'framer-motion';
 
 const navLinks = [
   { href: '/about', label: 'About', icon: '👤' },
@@ -161,7 +161,7 @@ const Header = () => {
         >
           {/* Logo */}
           <div className="flex-shrink-0 md:flex-1">
-            <motion.div
+            <m.div
               whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
               whileTap={{ scale: 0.98 }}
             >
@@ -173,7 +173,7 @@ const Header = () => {
               >
                 Kevin Arthur
               </Link>
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Desktop Navigation */}
@@ -192,7 +192,7 @@ const Header = () => {
                 >
                   {link.label}
                   {isActive && (
-                    <motion.div
+                    <m.div
                       className="absolute inset-0 bg-primary/10 rounded-full -z-10"
                       layoutId="active-nav-item"
                       aria-hidden="true"
@@ -223,11 +223,11 @@ const Header = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close main menu' : 'Open main menu'}
             >
-              <motion.div
+              <m.div
                 animate={mobileMenuOpen ? 'open' : 'closed'}
                 className="flex flex-col justify-center items-center w-6 h-6"
               >
-                <motion.span
+                <m.span
                   className="block h-0.5 w-5 bg-current rounded-full"
                   variants={{
                     closed: { rotate: 0, y: 0 },
@@ -235,7 +235,7 @@ const Header = () => {
                   }}
                   transition={{ duration: 0.2 }}
                 />
-                <motion.span
+                <m.span
                   className="block h-0.5 w-5 bg-current rounded-full mt-1.5"
                   variants={{
                     closed: { opacity: 1, x: 0 },
@@ -243,7 +243,7 @@ const Header = () => {
                   }}
                   transition={{ duration: 0.2 }}
                 />
-                <motion.span
+                <m.span
                   className="block h-0.5 w-5 bg-current rounded-full mt-1.5"
                   variants={{
                     closed: { rotate: 0, y: 0 },
@@ -251,7 +251,7 @@ const Header = () => {
                   }}
                   transition={{ duration: 0.2 }}
                 />
-              </motion.div>
+              </m.div>
             </button>
           </div>
         </nav>
@@ -262,7 +262,7 @@ const Header = () => {
         {mobileMenuOpen && (
           <>
             {/* Backdrop overlay */}
-            <motion.div
+            <m.div
               className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm md:hidden"
               variants={backdropVariants}
               initial="hidden"
@@ -273,7 +273,7 @@ const Header = () => {
             />
 
             {/* Bottom Sheet */}
-            <motion.div
+            <m.div
               ref={menuRef}
               id="mobile-menu-bottom-sheet"
               role="dialog"
@@ -308,7 +308,7 @@ const Header = () => {
                     {navLinks.map((link, index) => {
                       const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
                       return (
-                        <motion.li
+                        <m.li
                           key={link.href}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -329,17 +329,17 @@ const Header = () => {
                             <span className="text-2xl" aria-hidden="true">{link.icon}</span>
                             <span>{link.label}</span>
                             {isActive && (
-                              <motion.span
+                              <m.span
                                 className="ml-auto text-primary"
                                 layoutId="mobile-active-indicator"
                               >
                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                 </svg>
-                              </motion.span>
+                              </m.span>
                             )}
                           </Link>
-                        </motion.li>
+                        </m.li>
                       );
                     })}
                   </ul>
@@ -369,7 +369,7 @@ const Header = () => {
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>

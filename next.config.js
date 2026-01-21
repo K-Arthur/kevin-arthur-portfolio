@@ -149,7 +149,7 @@ const nextConfig = {
 
   // Add experimental features for better video handling and bundle optimization
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'date-fns', 'lodash'],
+    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'date-fns', 'lodash', 'three'],
   },
 
   // Add redirects for video format fallbacks

@@ -9,6 +9,7 @@ import { CursorProvider } from '@/components/CursorProvider';
 import dynamic from 'next/dynamic';
 import Script from 'next/script';
 import { personSchema, websiteSchema } from '@/lib/structured-data';
+import LazyMotionWrapper from '@/components/LazyMotionWrapper';
 
 // Dynamically import WebVitals with no SSR
 const WebVitals = dynamic(() => import('@/components/WebVitals'), {
@@ -124,19 +125,21 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-L805WXGTZS');
           `}
         </Script>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <CursorProvider>
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main id="main-content" className="flex-grow">
-                {children}
-              </main>
-              <Footer />
-              <StickyCTA />
-              {process.env.NODE_ENV === 'production' && <WebVitals />}
-            </div>
-          </CursorProvider>
-        </ThemeProvider>
+        <LazyMotionWrapper>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <CursorProvider>
+              <div className="flex flex-col min-h-screen">
+                <Header />
+                <main id="main-content" className="flex-grow">
+                  {children}
+                </main>
+                <Footer />
+                <StickyCTA />
+                {process.env.NODE_ENV === 'production' && <WebVitals />}
+              </div>
+            </CursorProvider>
+          </ThemeProvider>
+        </LazyMotionWrapper>
       </body>
     </html>
   );

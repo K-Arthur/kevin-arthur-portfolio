@@ -3,17 +3,18 @@ import ResultsHighlight from './ResultsHighlight';
 
 // Custom component to replace the default <img> tag in MDX content
 const MdxImage = (props) => (
-  <div className="my-8">
+  <span className="block my-8">
     <Image
-      width={800} // Default width, can be overridden in MDX
-      height={500} // Default height, can be overridden in MDX
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 800px"
+      width={850} // Default width
+      height={550} // Default height
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 850px"
       style={{ width: '100%', height: 'auto' }}
+      quality={90}
       {...props}
       alt={props.alt || ''}
       className="rounded-lg shadow-lg mx-auto"
     />
-  </div>
+  </span>
 );
 
 export const mdxComponents = {
