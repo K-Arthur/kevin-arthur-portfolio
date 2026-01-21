@@ -7,8 +7,7 @@ import dynamic from 'next/dynamic';
 
 // Defer the heavy background component
 const InfiniteGridBackground = dynamic(
-  () => import('@/components/ui/the-infinite-grid').then((mod) => mod.InfiniteGridBackground),
-  { ssr: false }
+  () => import('@/components/ui/the-infinite-grid').then((mod) => mod.InfiniteGridBackground)
 );
 
 const contactInfo = [

@@ -8,8 +8,7 @@ import dynamic from 'next/dynamic';
 
 // Lazy load heavy background component
 const InfiniteGridBackground = dynamic(
-  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground })),
-  { ssr: false }
+  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground }))
 );
 
 const checklistItems = [

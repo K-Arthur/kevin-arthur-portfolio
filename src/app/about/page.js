@@ -15,8 +15,7 @@ import dynamic from 'next/dynamic';
 
 // Lazy load background - non-blocking
 const InfiniteGridBackground = dynamic(
-  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground })),
-  { ssr: false }
+  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground }))
 );
 
 // Lazy load TextScramble - requires JS for character animation, loads after LCP

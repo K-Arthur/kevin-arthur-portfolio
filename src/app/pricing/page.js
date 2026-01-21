@@ -9,13 +9,11 @@ import { motion } from 'framer-motion';
 
 // Lazy load background and effects
 const InfiniteGridBackground = dynamic(
-    () => import('@/components/ui/the-infinite-grid').then((mod) => mod.InfiniteGridBackground),
-    { ssr: false }
+    () => import('@/components/ui/the-infinite-grid').then((mod) => mod.InfiniteGridBackground)
 );
 
 const GlowingEffect = dynamic(
-    () => import('@/components/ui/glowing-effect').then(mod => mod.GlowingEffect),
-    { ssr: false }
+    () => import('@/components/ui/glowing-effect').then(mod => mod.GlowingEffect)
 );
 
 const pricingTiers = [

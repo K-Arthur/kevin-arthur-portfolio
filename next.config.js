@@ -150,6 +150,7 @@ const nextConfig = {
 
   // Add experimental features for better video handling and bundle optimization
   experimental: {
+    optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'date-fns', 'lodash', 'three'],
   },
 
