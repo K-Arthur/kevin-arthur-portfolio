@@ -5,7 +5,7 @@ import { FaCheck, FaArrowRight, FaCalendarAlt, FaEnvelope, FaChevronDown, FaStar
 import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
 import MagneticButton from '@/components/MagneticButton';
 import dynamic from 'next/dynamic';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 // Lazy load background and effects
 const InfiniteGridBackground = dynamic(
@@ -144,7 +144,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => (
 );
 
 const BentoCard = ({ children, className = "", delay = 0 }) => (
-    <motion.div
+    <m.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -152,7 +152,7 @@ const BentoCard = ({ children, className = "", delay = 0 }) => (
         className={`bento-card relative overflow-hidden ${className}`}
     >
         {children}
-    </motion.div>
+    </m.div>
 );
 
 const PricingCard = ({ tier, index }) => {

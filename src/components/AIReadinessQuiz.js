@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { FaArrowRight, FaArrowLeft, FaBrain, FaCheckCircle, FaExclamationTriangle, FaTimesCircle } from 'react-icons/fa';
 import LeadMagnetForm from './LeadMagnetForm';
 
@@ -131,7 +131,7 @@ export default function AIReadinessQuiz({ className = '' }) {
 
   const handleAnswer = (score) => {
     setAnswers((prev) => ({ ...prev, [currentQuestion]: score }));
-    
+
     if (currentQuestion < questions.length - 1) {
       setTimeout(() => setCurrentQuestion((prev) => prev + 1), 300);
     } else {
@@ -158,7 +158,7 @@ export default function AIReadinessQuiz({ className = '' }) {
     <div className={`card-enhanced p-6 md:p-8 ${className}`}>
       <AnimatePresence mode="wait">
         {!showResults ? (
-          <motion.div
+          <m.div
             key="quiz"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -170,7 +170,7 @@ export default function AIReadinessQuiz({ className = '' }) {
                 <span>Question {currentQuestion + 1} of {questions.length}</span>
                 <span>{Math.round(progress)}% complete</span>
               </div>
-              <div 
+              <div
                 className="h-2 bg-muted/30 rounded-full overflow-hidden"
                 role="progressbar"
                 aria-valuenow={Math.round(progress)}
@@ -178,7 +178,7 @@ export default function AIReadinessQuiz({ className = '' }) {
                 aria-valuemax={100}
                 aria-label={`Quiz progress: ${Math.round(progress)}% complete`}
               >
-                <motion.div
+                <m.div
                   className="h-full bg-primary rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
@@ -188,7 +188,7 @@ export default function AIReadinessQuiz({ className = '' }) {
             </div>
 
             {/* Question */}
-            <motion.div
+            <m.div
               key={currentQuestion}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -201,22 +201,21 @@ export default function AIReadinessQuiz({ className = '' }) {
 
               <div className="space-y-3">
                 {questions[currentQuestion].options.map((option, index) => (
-                  <motion.button
+                  <m.button
                     key={index}
                     onClick={() => handleAnswer(option.score)}
-                    className={`w-full text-left p-4 rounded-xl border transition-all ${
-                      answers[currentQuestion] === option.score
+                    className={`w-full text-left p-4 rounded-xl border transition-all ${answers[currentQuestion] === option.score
                         ? 'border-primary bg-primary/10'
                         : 'border-border/50 hover:border-primary/50 hover:bg-card/50'
-                    }`}
+                      }`}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
                     <span className="text-foreground">{option.text}</span>
-                  </motion.button>
+                  </m.button>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Navigation */}
             {currentQuestion > 0 && (
@@ -229,9 +228,9 @@ export default function AIReadinessQuiz({ className = '' }) {
                 <span>Previous question</span>
               </button>
             )}
-          </motion.div>
+          </m.div>
         ) : !showEmailCapture ? (
-          <motion.div
+          <m.div
             key="results"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -312,9 +311,9 @@ export default function AIReadinessQuiz({ className = '' }) {
             >
               Retake the audit
             </button>
-          </motion.div>
+          </m.div>
         ) : (
-          <motion.div
+          <m.div
             key="email-capture"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -328,7 +327,7 @@ export default function AIReadinessQuiz({ className = '' }) {
                 Get Your Detailed Report
               </h3>
               <p className="text-muted-foreground">
-                We'll send you a personalized PDF with specific recommendations 
+                We'll send you a personalized PDF with specific recommendations
                 based on your score of <strong className={results.color}>{totalScore}/{maxScore}</strong>
               </p>
             </div>
@@ -347,7 +346,7 @@ export default function AIReadinessQuiz({ className = '' }) {
             >
               ← Back to results
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

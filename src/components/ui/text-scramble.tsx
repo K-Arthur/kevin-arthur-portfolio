@@ -1,6 +1,6 @@
 'use client';
 import { type JSX, useEffect, useState } from 'react';
-import { motion, MotionProps } from 'framer-motion';
+import { m, MotionProps } from 'framer-motion';
 
 type TextScrambleProps = {
   children: string;
@@ -27,7 +27,7 @@ export function TextScramble({
   onScrambleComplete,
   ...props
 }: TextScrambleProps) {
-  const MotionComponent = motion.create(
+  const MotionComponent = m.create(
     Component as keyof JSX.IntrinsicElements
   );
   const [displayText, setDisplayText] = useState(children);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
+import { m, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 
 /**
  * ScrollytellingSection - A scroll-linked narrative section component
@@ -96,13 +96,13 @@ export function ScrollytellingSection({
         >
             {/* Sticky content container */}
             <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-                <motion.div
+                <m.div
                     className="scrollytelling-content w-full max-w-5xl mx-auto px-4 md:px-8"
                     style={getStyles()}
                 >
                     {/* Optional section label */}
                     {label && (
-                        <motion.div
+                        <m.div
                             className="mb-6 text-center"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -112,10 +112,10 @@ export function ScrollytellingSection({
                             <span className="inline-block px-4 py-2 text-sm font-semibold uppercase tracking-wider text-primary bg-primary/10 rounded-full">
                                 {label}
                             </span>
-                        </motion.div>
+                        </m.div>
                     )}
                     {children}
-                </motion.div>
+                </m.div>
             </div>
         </div>
     );
@@ -149,7 +149,7 @@ export function ScrollytellingWrapper({
         <div ref={containerRef} className={`scrollytelling-wrapper ${className}`}>
             {/* Progress indicator */}
             {showProgress && !prefersReducedMotion && (
-                <motion.div
+                <m.div
                     className="fixed top-0 left-0 right-0 h-1 bg-primary origin-left z-50"
                     style={{ scaleX }}
                 />
@@ -231,7 +231,7 @@ export function ProblemSolutionTransition({
         >
             <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
                 {/* Problem State */}
-                <motion.div
+                <m.div
                     className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
                     style={{
                         opacity: problemOpacity,
@@ -240,17 +240,17 @@ export function ProblemSolutionTransition({
                     }}
                 >
                     <div className="max-w-4xl w-full">
-                        <motion.span
+                        <m.span
                             className="inline-block px-4 py-2 text-sm font-semibold uppercase tracking-wider text-destructive bg-destructive/10 rounded-full mb-6"
                         >
                             {problemLabel}
-                        </motion.span>
+                        </m.span>
                         {problemContent}
                     </div>
-                </motion.div>
+                </m.div>
 
                 {/* Solution State */}
-                <motion.div
+                <m.div
                     className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
                     style={{
                         opacity: solutionOpacity,
@@ -259,14 +259,14 @@ export function ProblemSolutionTransition({
                     }}
                 >
                     <div className="max-w-4xl w-full">
-                        <motion.span
+                        <m.span
                             className="inline-block px-4 py-2 text-sm font-semibold uppercase tracking-wider text-primary bg-primary/10 rounded-full mb-6"
                         >
                             {solutionLabel}
-                        </motion.span>
+                        </m.span>
                         {solutionContent}
                     </div>
-                </motion.div>
+                </m.div>
             </div>
         </div>
     );
@@ -298,7 +298,7 @@ export function ScrollReveal({
     }
 
     return (
-        <motion.div
+        <m.div
             className={className}
             initial={{ opacity: 0, ...getInitialPosition() }}
             whileInView={{ opacity: 1, x: 0, y: 0 }}
@@ -310,7 +310,7 @@ export function ScrollReveal({
             viewport={{ once: true, margin: '-100px' }}
         >
             {children}
-        </motion.div>
+        </m.div>
     );
 }
 

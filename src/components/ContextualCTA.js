@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Link from 'next/link';
 import { FaCalendarAlt, FaEnvelope, FaArrowRight } from 'react-icons/fa';
 
@@ -51,7 +51,7 @@ export default function ContextualCTA({
     const subtext = customSubtext || content.subtext;
 
     return (
-        <motion.div
+        <m.div
             className="mt-16 py-12 px-6 md:px-10 rounded-2xl bg-gradient-to-r from-primary/5 via-primary/10 to-secondary/5 border border-border/50"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ export default function ContextualCTA({
             viewport={{ once: true }}
         >
             <div className="text-center max-w-2xl mx-auto">
-                <motion.p
+                <m.p
                     className="text-2xl md:text-3xl font-bold text-foreground mb-3"
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -67,8 +67,8 @@ export default function ContextualCTA({
                     viewport={{ once: true }}
                 >
                     {headline}
-                </motion.p>
-                <motion.p
+                </m.p>
+                <m.p
                     className="text-lg text-muted-foreground mb-8"
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -76,9 +76,9 @@ export default function ContextualCTA({
                     viewport={{ once: true }}
                 >
                     {subtext}
-                </motion.p>
+                </m.p>
 
-                <motion.div
+                <m.div
                     className="flex flex-col sm:flex-row gap-4 justify-center"
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -105,8 +105,8 @@ export default function ContextualCTA({
                             Send an Email
                         </a>
                     )}
-                </motion.div>
+                </m.div>
             </div>
-        </motion.div>
+        </m.div>
     );
 }

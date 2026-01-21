@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { FaArrowRight, FaCheck, FaSpinner } from 'react-icons/fa';
 
 /**
@@ -49,20 +49,20 @@ export default function LeadMagnetForm({
       }
 
       setStatus('success');
-      
+
       // Mark user as converted (prevents future popups)
       if (typeof window !== 'undefined') {
         localStorage.setItem('portfolio-lead-converted', 'true');
       }
-      
+
       // Auto-download personalized PDF for design-checklist
       if (resource === 'design-checklist') {
-        const pdfUrl = formData.name 
+        const pdfUrl = formData.name
           ? `/api/generate-checklist-pdf?name=${encodeURIComponent(formData.name)}`
           : '/api/generate-checklist-pdf';
         window.open(pdfUrl, '_blank');
       }
-      
+
       // Track conversion
       if (typeof window !== 'undefined') {
         // Plausible
@@ -96,7 +96,7 @@ export default function LeadMagnetForm({
       <div className={className}>
         <AnimatePresence mode="wait">
           {status === 'success' ? (
-            <motion.div
+            <m.div
               key="success"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -104,9 +104,9 @@ export default function LeadMagnetForm({
             >
               <FaCheck className="w-4 h-4" />
               <span>{successMessage}</span>
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.form
+            <m.form
               key="form"
               onSubmit={handleSubmit}
               className="flex flex-col sm:flex-row gap-3"
@@ -135,7 +135,7 @@ export default function LeadMagnetForm({
                   </>
                 )}
               </button>
-            </motion.form>
+            </m.form>
           )}
         </AnimatePresence>
         {status === 'error' && (
@@ -151,7 +151,7 @@ export default function LeadMagnetForm({
       <div className={className}>
         <AnimatePresence mode="wait">
           {status === 'success' ? (
-            <motion.div
+            <m.div
               key="success"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -161,9 +161,9 @@ export default function LeadMagnetForm({
                 <FaCheck className="w-5 h-5 text-green-500" />
               </div>
               <p className="text-foreground font-medium">{successMessage}</p>
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.form
+            <m.form
               key="form"
               onSubmit={handleSubmit}
               className="space-y-3"
@@ -192,7 +192,7 @@ export default function LeadMagnetForm({
                   </>
                 )}
               </button>
-            </motion.form>
+            </m.form>
           )}
         </AnimatePresence>
         {status === 'error' && (
@@ -207,25 +207,25 @@ export default function LeadMagnetForm({
     <div className={className}>
       <AnimatePresence mode="wait">
         {status === 'success' ? (
-          <motion.div
+          <m.div
             key="success"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="text-center py-8"
           >
-            <motion.div
+            <m.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 300, delay: 0.1 }}
               className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4"
             >
               <FaCheck className="w-6 h-6 text-green-500" />
-            </motion.div>
+            </m.div>
             <h3 className="text-xl font-semibold text-foreground mb-2">You're all set!</h3>
             <p className="text-muted-foreground">{successMessage}</p>
-          </motion.div>
+          </m.div>
         ) : (
-          <motion.form
+          <m.form
             key="form"
             onSubmit={handleSubmit}
             className="space-y-4"
@@ -281,17 +281,17 @@ export default function LeadMagnetForm({
             <p className="text-xs text-muted-foreground text-center">
               No spam, ever. Unsubscribe anytime.
             </p>
-          </motion.form>
+          </m.form>
         )}
       </AnimatePresence>
       {status === 'error' && (
-        <motion.p
+        <m.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-red-500 text-sm mt-3 text-center"
         >
           {errorMessage}
-        </motion.p>
+        </m.p>
       )}
     </div>
   );

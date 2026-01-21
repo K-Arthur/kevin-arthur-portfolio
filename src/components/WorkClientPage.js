@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaCode, FaFigma } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { getThumbnailUrl } from '@/lib/cloudinaryUtils';
 
 const WorkClientPage = ({ projects: categorizedProjects }) => {
@@ -15,13 +15,13 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12 md:py-16 lg:py-24">
         {/* Hero Section */}
-        <motion.div
+        <m.div
           className="text-center mb-16 md:mb-24"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.div
+          <m.div
             className="inline-flex items-center gap-3 mb-6 p-3 bg-primary/10 rounded-xl border border-primary/20"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -29,18 +29,18 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
           >
             <FaCode className="text-primary text-xl" />
             <span className="text-primary font-medium">UI Engineering</span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             className="font-bold tracking-tight mb-6 gradient-text-enhanced text-4xl sm:text-5xl md:text-6xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             Case Studies
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -48,16 +48,16 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
           >
             Selected projects showcasing my expertise in building beautiful,
             accessible, and performant user interfaces with React and modern web technologies.
-          </motion.p>
-        </motion.div>
+          </m.p>
+        </m.div>
 
         {/* Case Studies Grid */}
-        <motion.div
+        <m.div
           className="grid grid-cols-1 gap-16 max-w-4xl mx-auto"
           layout
         >
           {caseStudies.map((project, index) => (
-            <motion.article
+            <m.article
               key={project.slug}
               className="group relative"
               initial={{ opacity: 0, y: 30 }}
@@ -112,13 +112,13 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               </Link>
-            </motion.article>
+            </m.article>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Empty State */}
         {caseStudies.length === 0 && (
-          <motion.div
+          <m.div
             className="text-center py-20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -127,7 +127,7 @@ const WorkClientPage = ({ projects: categorizedProjects }) => {
             <div className="text-6xl mb-4">🎨</div>
             <h3 className="text-2xl font-bold text-foreground mb-2">No projects found</h3>
             <p className="text-muted-enhanced">Try selecting a different category to view more projects.</p>
-          </motion.div>
+          </m.div>
         )}
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 /**
  * ResultsHighlight - Displays key metrics in a visually prominent grid
@@ -49,7 +49,7 @@ export default function ResultsHighlight({ results }) {
             className="my-12 py-10 px-6 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-2xl border border-primary/20"
             aria-label="Key Results"
         >
-            <motion.div
+            <m.div
                 className="grid grid-cols-2 lg:flex lg:flex-wrap lg:justify-center gap-6 lg:gap-16"
                 variants={containerVariants}
                 initial="hidden"
@@ -57,7 +57,7 @@ export default function ResultsHighlight({ results }) {
                 viewport={{ once: true, amount: 0.3 }}
             >
                 {results.map((result, index) => (
-                    <motion.div
+                    <m.div
                         key={index}
                         className="text-center space-y-2"
                         variants={itemVariants}
@@ -73,9 +73,9 @@ export default function ResultsHighlight({ results }) {
                                 {result.context}
                             </div>
                         )}
-                    </motion.div>
+                    </m.div>
                 ))}
-            </motion.div>
+            </m.div>
         </section>
     );
 }

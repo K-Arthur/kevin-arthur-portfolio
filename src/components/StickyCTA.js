@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { FaEnvelope, FaCalendarAlt, FaTimes } from 'react-icons/fa';
 
 const STORAGE_KEY = 'portfolio-sticky-cta-dismissed';
@@ -55,7 +55,7 @@ export default function StickyCTA({
     return (
         <AnimatePresence>
             {isVisible && (
-                <motion.div
+                <m.div
                     className="fixed bottom-0 left-0 right-0 z-50 p-4 md:hidden"
                     initial={{ y: 100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -95,7 +95,7 @@ export default function StickyCTA({
                             </a>
                         </div>
                     </div>
-                </motion.div>
+                </m.div>
             )}
         </AnimatePresence>
     );

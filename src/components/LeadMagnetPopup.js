@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaClipboardCheck, FaBrain } from 'react-icons/fa';
 import LeadMagnetForm from './LeadMagnetForm';
 
@@ -142,11 +142,11 @@ export default function LeadMagnetPopup({
     const handleScroll = () => {
       if (!scrollTrigger) return;
       markEngaged();
-      
+
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercent = (scrollTop / docHeight) * 100;
-      
+
       if (scrollPercent >= scrollThreshold) {
         // User has scrolled past threshold - start exit intent watching more aggressively
         // but don't show popup immediately (let them finish reading)
@@ -204,7 +204,7 @@ export default function LeadMagnetPopup({
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -212,7 +212,7 @@ export default function LeadMagnetPopup({
           onClick={handleBackdropClick}
         >
           {/* Backdrop */}
-          <motion.div
+          <m.div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -220,7 +220,7 @@ export default function LeadMagnetPopup({
           />
 
           {/* Modal */}
-          <motion.div
+          <m.div
             className="relative w-full max-w-md bg-card border border-border/50 rounded-2xl shadow-2xl overflow-hidden"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -287,8 +287,8 @@ export default function LeadMagnetPopup({
                 </>
               )}
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

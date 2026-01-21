@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useCallback } from 'react';
-import { motion, useSpring, useReducedMotion } from 'framer-motion';
+import { m, useSpring, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 
 /**
@@ -107,7 +107,7 @@ export default function MagneticButton({
     // Render as Link if href is provided
     if (href && !disabled) {
         return (
-            <motion.div {...motionProps}>
+            <m.div {...motionProps}>
                 <Link
                     href={href}
                     className="magnetic-button-inner flex items-center justify-center gap-inherit w-full h-full"
@@ -115,13 +115,13 @@ export default function MagneticButton({
                 >
                     {children}
                 </Link>
-            </motion.div>
+            </m.div>
         );
     }
 
     // Render as button
     return (
-        <motion.button
+        <m.button
             {...motionProps}
             type={type}
             onClick={onClick}
@@ -129,7 +129,7 @@ export default function MagneticButton({
             aria-disabled={disabled}
         >
             {children}
-        </motion.button>
+        </m.button>
     );
 }
 
@@ -180,7 +180,7 @@ export function MagneticWrapper({
     }
 
     return (
-        <motion.div
+        <m.div
             ref={ref}
             style={{ x, y }}
             onMouseMove={handleMouseMove}
@@ -188,6 +188,6 @@ export function MagneticWrapper({
             className={className}
         >
             {children}
-        </motion.div>
+        </m.div>
     );
 }
