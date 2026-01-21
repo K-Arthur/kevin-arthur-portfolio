@@ -1,5 +1,4 @@
 import './globals.css';
-import { PartytownSetup } from '@/components/PartytownSetup';
 import { Jost, Fira_Code } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Header from '@/components/Header';
@@ -99,9 +98,6 @@ export default function RootLayout({ children }) {
         {/* Plausible script moved to body with lazyOnload strategy for better performance */}
       </head>
       <body className={`${jost.variable} ${firaCode.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}>
-        {/* Partytown Setup */}
-        <PartytownSetup />
-
         {/* Analytics scripts - loaded lazily to avoid blocking main thread */}
         {process.env.NODE_ENV === 'production' && (
           <Script
@@ -111,12 +107,12 @@ export default function RootLayout({ children }) {
             strategy="lazyOnload"
           />
         )}
-        {/* Google tag (gtag.js) - Offloaded to Partytown */}
+        {/* Google tag (gtag.js) - Loaded lazily */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-L805WXGTZS"
-          strategy="worker"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="worker">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

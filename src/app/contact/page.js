@@ -75,6 +75,7 @@ const ContactPage = () => {
         </div>
 
         {/* Quick Actions - Prominent Scheduling */}
+        <h2 className="sr-only">Ways to Connect</h2>
         <div className="grid sm:grid-cols-3 gap-4 md:gap-6 animate-fade-in-up animation-delay-200">
           {quickActions.map((action, index) => (
             <a
