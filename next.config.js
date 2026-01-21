@@ -35,10 +35,11 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://plausible.io https://assets.calendly.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://www.googletagmanager.com https://plausible.io https://assets.calendly.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com",
               "img-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://raw.githack.com https://raw.githubusercontent.com https://assets.calendly.com",
               "font-src 'self' https://fonts.gstatic.com https://assets.calendly.com",
+              "worker-src 'self' blob:",
               "connect-src 'self' https://www.google-analytics.com https://plausible.io https://res.cloudinary.com https://vitals.vercel-insights.com https://raw.githack.com https://raw.githubusercontent.com https://calendly.com https://api.calendly.com",
               "media-src 'self' https://res.cloudinary.com blob:",
               "frame-src 'self' https://calendly.com https://assets.calendly.com",
