@@ -29,10 +29,15 @@ const Footer = ({ transparent = false, showLeadMagnet = true }) => {
   // Don't show lead magnet on lab page (already has them) or contact page
   const hideLeadMagnet = pathname === '/lab' || pathname === '/contact';
 
+  // Calculate min-height based on what's shown
+  // Without lead magnet: ~120px, with lead magnet: ~280px
+  const footerMinHeight = (showLeadMagnet && !hideLeadMagnet && !transparent) ? 'min-h-[280px]' : 'min-h-[120px]';
+
   return (
     <footer
-      className={`${transparent ? 'bg-transparent border-t-0 mt-0 relative z-10' : 'glass-premium border-t border-border/50 mt-24'} min-h-[200px]`}
+      className={`${transparent ? 'bg-transparent border-t-0 mt-0 relative z-10' : 'glass-premium border-t border-border/50 mt-24'} ${footerMinHeight}`}
       aria-label="Footer"
+      style={{ contain: 'layout' }}
     >
       {/* Lead Magnet Section */}
       {showLeadMagnet && !hideLeadMagnet && !transparent && (

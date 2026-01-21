@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 /**
@@ -10,6 +11,13 @@ import { motion } from 'framer-motion';
  * @param {Array} props.results - Array of { value, label, context? }
  */
 export default function ResultsHighlight({ results }) {
+    const [isMounted, setIsMounted] = useState(false);
+
+    // Only enable animations after mount to prevent hydration mismatch
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     if (!results || results.length === 0) return null;
 
     const containerVariants = {
@@ -45,7 +53,7 @@ export default function ResultsHighlight({ results }) {
                 className="grid grid-cols-2 lg:flex lg:flex-wrap lg:justify-center gap-6 lg:gap-16"
                 variants={containerVariants}
                 initial="hidden"
-                whileInView="visible"
+                animate={isMounted ? "visible" : "hidden"}
                 viewport={{ once: true, amount: 0.3 }}
             >
                 {results.map((result, index) => (

@@ -212,7 +212,7 @@ const Header = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center gap-3">
+          <div className="md:hidden flex items-center gap-3" style={{ contain: 'layout', minWidth: '100px' }}>
             <ThemeSwitcher />
             <button
               ref={triggerRef}

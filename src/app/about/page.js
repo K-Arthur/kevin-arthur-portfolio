@@ -217,7 +217,7 @@ const AboutPage = () => {
                 <CometCard key={index} className="w-full h-full">
                   <div className="h-full flex flex-col items-center text-center p-6 bg-card/40 border border-white/5 rounded-2xl backdrop-blur-sm">
                     <div className="mb-4 text-4xl">{item.icon}</div>
-                    <h4 className="text-lg font-bold text-foreground mb-3">{item.title}</h4>
+                    <p className="text-lg font-bold text-foreground mb-3">{item.title}</p>
                     <p className="text-muted-enhanced text-sm leading-relaxed">
                       {item.text}
                     </p>
