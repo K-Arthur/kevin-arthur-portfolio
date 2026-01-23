@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import StickyCTA from '@/components/StickyCTA';
 import { CursorProvider } from '@/components/CursorProvider';
 import dynamic from 'next/dynamic';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from 'next/script';
 import { personSchema, websiteSchema } from '@/lib/structured-data';
 import LazyMotionWrapper from '@/components/LazyMotionWrapper';
