@@ -145,7 +145,7 @@ const Header = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${isActive
+                  className={`relative px-4 py-3 min-h-[44px] inline-flex items-center text-sm font-medium transition-colors duration-300 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${isActive
                     ? 'text-primary'
                     : 'text-muted-foreground hover:text-foreground'
                     }`}
@@ -165,7 +165,7 @@ const Header = () => {
           </div>
           <div className="hidden md:flex md:flex-1 items-center justify-end gap-4">
             <ThemeSwitcher />
-            <Button asChild size="sm" className="rounded-full px-6">
+            <Button asChild size="default" className="rounded-full px-6 min-h-[44px]">
               <Link href="/contact">
                 Get in touch
               </Link>

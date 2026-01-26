@@ -55,14 +55,14 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll);
     };
 
-    // Load on first scroll (user engaged, LCP done) - higher threshold
+    // Load on first scroll (user engaged, LCP done) - lower threshold for faster engagement
     const handleScroll = () => {
-      if (window.scrollY > 100) loadScene();
+      if (window.scrollY > 50) loadScene();
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Fallback: load after 8 seconds regardless to improve TBT on slow devices
-    const timer = setTimeout(loadScene, 8000);
+    // Fallback: load after 5 seconds to improve LCP on mobile devices
+    const timer = setTimeout(loadScene, 5000);
 
     // Load shader only when CTA section is near viewport (intersection observer)
     const observer = new IntersectionObserver(

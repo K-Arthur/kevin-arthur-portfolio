@@ -77,10 +77,8 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {/* Google Fonts preconnect handled automatically by next/font */}
-        {/* Preconnect to analytics for faster script loading */}
-        <link rel="preconnect" href="https://plausible.io" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        {/* Note: Analytics preconnect hints removed - Partytown loads scripts in a web worker,
+            so preconnect from main thread is unused and causes console warnings */}
 
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
