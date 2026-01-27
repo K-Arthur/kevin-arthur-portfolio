@@ -7,7 +7,7 @@ import StickyCTA from '@/components/StickyCTA';
 import { CursorProvider } from '@/components/CursorProvider';
 import dynamic from 'next/dynamic';
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import Script from 'next/script';
+// Note: Using native <script> tags for Partytown scripts instead of next/script
 import { personSchema, websiteSchema } from '@/lib/structured-data';
 import LazyMotionWrapper from '@/components/LazyMotionWrapper';
 import { PartytownSetup } from '@/components/PartytownSetup';
@@ -100,29 +100,35 @@ export default function RootLayout({ children }) {
         <PartytownSetup />
       </head>
       <body className={`${jost.variable} ${firaCode.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}>
-        {/* Analytics scripts - offloaded to Partytown web worker to avoid blocking main thread */}
+        {/* Analytics scripts - using native script tags (not Next.js Script) to prevent 
+            auto-preload injection. Partytown handles these in a web worker. */}
         {process.env.NODE_ENV === 'production' && (
-          <Script
+          <script
             src="https://plausible.io/js/script.js"
             data-domain="kevinarthur.design"
             data-api="https://plausible.io/api/event"
             type="text/partytown"
+            defer
           />
         )}
-        {/* Google tag (gtag.js) - Run via Partytown web worker */}
-        <Script
+        {/* Google tag (gtag.js) - Native script for Partytown web worker */}
+        <script
           src="https://www.googletagmanager.com/gtag/js?id=G-L805WXGTZS"
           type="text/partytown"
+          defer
         />
-        <Script id="google-analytics" type="text/partytown">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-L805WXGTZS');
-          `}
-        </Script>
+        <script
+          id="google-analytics"
+          type="text/partytown"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-L805WXGTZS');
+            `,
+          }}
+        />
         <LazyMotionWrapper>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <CursorProvider>
