@@ -174,7 +174,7 @@ export default function LabPage() {
                 let's discuss how I can help you ship faster and with confidence.
               </p>
               <a
-                href="/contact#schedule"
+                href="/contact?source=lab#schedule"
                 className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-1"
               >
                 <span>Book a 15-Min Call</span>

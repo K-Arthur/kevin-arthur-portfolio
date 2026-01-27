@@ -167,7 +167,7 @@ export default async function CaseStudyPage({ params }) {
           {/* Contextual CTA based on case study industry */}
           <ContextualCTA
             industry={postData.industry || 'general'}
-            schedulingUrl="/contact#schedule"
+            schedulingUrl={`/contact?source=case-study&case=${params.id}#schedule`}
           />
 
           {/* Back to Case Studies Link */}

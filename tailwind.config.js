@@ -59,6 +59,16 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: 'calc(var(--radius) - 4px)',
       },
+      boxShadow: {
+        'glow': '0 0 20px hsl(var(--primary) / 0.3)',
+        'glow-lg': '0 0 40px hsl(var(--primary) / 0.2)',
+        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+        'glass-hover': '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+      },
+      backgroundImage: {
+        'glass-gradient': 'linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+        'glass-gradient-dark': 'linear-gradient(145deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%)',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: 0 },
@@ -68,10 +78,15 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'float': 'float 6s ease-in-out infinite',
       },
     },
   },

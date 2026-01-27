@@ -132,7 +132,7 @@ export default function Home() {
               <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </MagneticButton>
             <MagneticButton
-              href="/contact#schedule"
+              href="/contact?source=home#schedule"
               strength={0.25}
               className="group inline-flex items-center justify-center gap-2 btn-secondary-enhanced btn-interactive font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
             >
@@ -243,7 +243,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 flex-wrap w-full sm:w-auto">
               <MagneticButton
-                href="/contact"
+                href="/contact?source=home"
                 strength={0.3}
                 className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-interactive btn-glow font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
               >
@@ -251,7 +251,7 @@ export default function Home() {
                 <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </MagneticButton>
               <MagneticButton
-                href="/contact#schedule"
+                href="/contact?source=home#schedule"
                 strength={0.25}
                 className="group inline-flex items-center justify-center gap-2 btn-secondary-enhanced btn-interactive font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
               >

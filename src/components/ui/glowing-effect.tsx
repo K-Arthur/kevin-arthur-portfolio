@@ -144,17 +144,17 @@ const GlowingEffect = memo(
                   var(--black),
                   var(--black) calc(25% / var(--repeating-conic-gradient-times))
                 )`
-                                    : `radial-gradient(circle, hsl(var(--primary)) 10%, hsl(var(--primary) / 0) 20%),
-                radial-gradient(circle at 40% 40%, hsl(var(--ring)) 5%, hsl(var(--ring) / 0) 15%),
-                radial-gradient(circle at 60% 60%, hsl(var(--accent)) 10%, hsl(var(--accent) / 0) 20%), 
-                radial-gradient(circle at 40% 60%, hsl(var(--primary)) 10%, hsl(var(--primary) / 0) 20%),
+                                    : `radial-gradient(circle, hsl(var(--primary) / 0.15) 10%, hsl(var(--primary) / 0) 20%),
+                radial-gradient(circle at 40% 40%, hsl(var(--ring) / 0.1) 5%, hsl(var(--ring) / 0) 15%),
+                radial-gradient(circle at 60% 60%, hsl(var(--accent) / 0.1) 10%, hsl(var(--accent) / 0) 20%), 
+                radial-gradient(circle at 40% 60%, hsl(var(--primary) / 0.1) 10%, hsl(var(--primary) / 0) 20%),
                 repeating-conic-gradient(
                   from 236.84deg at 50% 50%,
-                  hsl(var(--primary)) 0%,
-                  hsl(var(--ring)) calc(25% / var(--repeating-conic-gradient-times)),
-                  hsl(var(--accent)) calc(50% / var(--repeating-conic-gradient-times)), 
-                  hsl(var(--primary)) calc(75% / var(--repeating-conic-gradient-times)),
-                  hsl(var(--ring)) calc(100% / var(--repeating-conic-gradient-times))
+                  hsl(var(--primary) / 0.4) 0%,
+                  hsl(var(--ring) / 0.4) calc(25% / var(--repeating-conic-gradient-times)),
+                  hsl(var(--accent) / 0.4) calc(50% / var(--repeating-conic-gradient-times)), 
+                  hsl(var(--primary) / 0.4) calc(75% / var(--repeating-conic-gradient-times)),
+                  hsl(var(--ring) / 0.4) calc(100% / var(--repeating-conic-gradient-times))
                 )`,
                         } as React.CSSProperties
                     }

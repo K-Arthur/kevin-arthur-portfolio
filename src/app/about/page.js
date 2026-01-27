@@ -1,7 +1,7 @@
 'use client';
 
 import { personalInfo, skills, education, professionalExperience } from '@/data/portfolio-data';
-import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSyncAlt, FaBullhorn, FaPaintBrush, FaFigma, FaCode, FaVideo, FaDatabase } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSyncAlt, FaBullhorn, FaPaintBrush, FaFigma, FaCode, FaVideo, FaDatabase, FaCalendarAlt } from 'react-icons/fa';
 
 import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
 import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
@@ -324,6 +324,23 @@ const AboutPage = () => {
                 </div>
               </CometCard>
             ))}
+          </div>
+        </Section>
+
+        {/* CTA Section */}
+        <Section>
+          <div className="text-center py-16 card-enhanced rounded-2xl bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5">
+            <h2 className="text-3xl font-bold text-foreground mb-4">Ready to Work Together?</h2>
+            <p className="text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
+              I'm currently accepting new projects. Let's discuss how I can help bring your vision to life.
+            </p>
+            <a
+              href="/contact?source=about#schedule"
+              className="inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-1"
+            >
+              <span>Book a Quick Chat</span>
+              <FaCalendarAlt className="w-4 h-4" />
+            </a>
           </div>
         </Section>
 

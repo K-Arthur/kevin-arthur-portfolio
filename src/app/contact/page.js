@@ -1,7 +1,10 @@
 'use client';
 
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaArrowRight, FaExternalLinkAlt } from 'react-icons/fa';
 import { personalInfo } from '@/data/portfolio-data';
+import { getContextualMessage, formatSourceName } from '@/data/contact-config';
 import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
 import dynamic from 'next/dynamic';
 
@@ -41,7 +44,35 @@ const quickActions = [
   },
 ];
 
-const ContactPage = () => {
+const ContactContent = () => {
+  const searchParams = useSearchParams();
+  const [message, setMessage] = useState('');
+  const [source, setSource] = useState(null);
+
+  useEffect(() => {
+    const plan = searchParams.get('plan');
+    const billing = searchParams.get('billing');
+    const sourceParam = searchParams.get('source');
+    const caseStudyId = searchParams.get('case');
+
+    // Set source for display
+    if (sourceParam) {
+      setSource(sourceParam);
+    }
+
+    // Generate contextual message using centralized config
+    const contextualMessage = getContextualMessage({
+      source: sourceParam,
+      plan,
+      billing,
+      caseStudyId
+    });
+
+    if (contextualMessage) {
+      setMessage(contextualMessage);
+    }
+  }, [searchParams]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // In a real application, you would handle form submission here.
@@ -235,6 +266,8 @@ const ContactPage = () => {
                   name="message"
                   rows="6"
                   required
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   className="w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none placeholder:text-muted-foreground/50"
                   placeholder="Tell me about your project, goals, and how I can help you achieve them..."
                 ></textarea>
@@ -253,5 +286,11 @@ const ContactPage = () => {
     </div>
   );
 };
+
+const ContactPage = () => (
+  <Suspense fallback={<div className="min-h-screen bg-background" />}>
+    <ContactContent />
+  </Suspense>
+);
 
 export default ContactPage;
