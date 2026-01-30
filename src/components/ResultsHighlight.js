@@ -1,7 +1,65 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { m } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { m, useInView, useReducedMotion } from 'framer-motion';
+
+/**
+ * AnimatedValue - Inline animated counter for result values
+ */
+function AnimatedValue({ value, isInView }) {
+    const [displayValue, setDisplayValue] = useState(value);
+    const shouldReduceMotion = useReducedMotion();
+    const hasAnimated = useRef(false);
+
+    // Parse numeric portion and suffix from value (e.g., "97%" -> 97, "%")
+    const parseValue = (val) => {
+        const str = String(val);
+        const numMatch = str.match(/^([0-9.]+)/);
+        const numericPart = numMatch ? parseFloat(numMatch[1]) : null;
+        const suffix = str.replace(/^[0-9.]+/, '');
+        return { numericPart, suffix };
+    };
+
+    const { numericPart, suffix } = parseValue(value);
+    const isAnimatable = numericPart !== null && !isNaN(numericPart);
+
+    useEffect(() => {
+        if (!isInView || hasAnimated.current || !isAnimatable || shouldReduceMotion) {
+            if (shouldReduceMotion || !isAnimatable) {
+                setDisplayValue(value);
+            }
+            return;
+        }
+
+        hasAnimated.current = true;
+        const duration = 1500;
+        const startTime = Date.now();
+
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = numericPart * eased;
+
+            if (Number.isInteger(numericPart)) {
+                setDisplayValue(`${Math.round(current)}${suffix}`);
+            } else {
+                setDisplayValue(`${current.toFixed(1)}${suffix}`);
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                setDisplayValue(value);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    }, [isInView, value, numericPart, suffix, isAnimatable, shouldReduceMotion]);
+
+    return <>{displayValue}</>;
+}
 
 /**
  * ResultsHighlight - Displays key metrics in a visually prominent grid
@@ -12,6 +70,8 @@ import { m } from 'framer-motion';
  */
 export default function ResultsHighlight({ results }) {
     const [isMounted, setIsMounted] = useState(false);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-50px" });
 
     // Only enable animations after mount to prevent hydration mismatch
     useEffect(() => {
@@ -46,6 +106,7 @@ export default function ResultsHighlight({ results }) {
 
     return (
         <section
+            ref={ref}
             className="my-12 py-10 px-6 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-2xl border border-primary/20"
             aria-label="Key Results"
         >
@@ -63,7 +124,7 @@ export default function ResultsHighlight({ results }) {
                         variants={itemVariants}
                     >
                         <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary tracking-tight">
-                            {result.value}
+                            <AnimatedValue value={result.value} isInView={isInView} />
                         </div>
                         <div className="text-base md:text-lg font-semibold text-foreground">
                             {result.label}
@@ -79,3 +140,4 @@ export default function ResultsHighlight({ results }) {
         </section>
     );
 }
+

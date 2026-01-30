@@ -78,7 +78,7 @@ export default function PricingPage() {
 
                     <div className="mt-16 text-center">
                         <p className="text-sm text-muted-foreground/60">
-                            Not sure which plan is right for you? <a href="/contact" className="text-primary hover:underline underline-offset-4">Book a free consultation</a>.
+                            Not sure which plan is right for you? <a href="https://calendly.com/arthurkevin27/15min" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline underline-offset-4">Book a free consultation</a>.
                         </p>
                     </div>
                 </section>

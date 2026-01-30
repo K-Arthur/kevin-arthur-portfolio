@@ -1,7 +1,7 @@
 'use client';
 
 import { personalInfo, skills, education, professionalExperience } from '@/data/portfolio-data';
-import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSyncAlt, FaBullhorn, FaPaintBrush, FaFigma, FaCode, FaVideo, FaDatabase, FaCalendarAlt } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSyncAlt, FaBullhorn, FaPaintBrush, FaFigma, FaCode, FaVideo, FaDatabase, FaCalendarAlt, FaRocket, FaGlobeAmericas } from 'react-icons/fa';
 
 import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
 import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
@@ -24,6 +24,20 @@ const TextScramble = dynamic(
   { ssr: false, loading: () => <span>Design Engineer</span> }
 );
 
+// Lazy load scroll animation components
+const ScrollRevealContainer = dynamic(
+  () => import('@/components/ui/ScrollRevealContainer').then(mod => mod.default),
+  { ssr: false }
+);
+const ScrollRevealItem = dynamic(
+  () => import('@/components/ui/ScrollRevealContainer').then(mod => mod.ScrollRevealItem),
+  { ssr: false }
+);
+const AnimatedCounter = dynamic(
+  () => import('@/components/ui/AnimatedCounter').then(mod => mod.default),
+  { ssr: false, loading: () => <span>0</span> }
+);
+
 const Section = ({ children }) => (
   <section className="animate-fade-in-up" style={{ contain: 'layout' }}>
     {children}
@@ -36,6 +50,36 @@ const SectionTitle = ({ icon, children }) => (
     {children}
   </h2>
 );
+
+// Stats counter strip with animated numbers
+const StatsCounter = () => {
+  const stats = [
+    { value: 4, suffix: '+', label: 'Years Experience', icon: FaCalendarAlt },
+    { value: 50, suffix: '+', label: 'Projects Delivered', icon: FaRocket },
+    { value: 3, suffix: '', label: 'Countries Worked', icon: FaGlobeAmericas },
+  ];
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 my-12">
+      {stats.map((stat, index) => (
+        <div
+          key={index}
+          className="card-enhanced p-6 bg-card/30 rounded-2xl border border-white/5 backdrop-blur-sm text-center group hover:border-primary/20 transition-all duration-300"
+        >
+          <div className="flex justify-center mb-3">
+            <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+              <stat.icon className="w-6 h-6" />
+            </div>
+          </div>
+          <div className="text-4xl font-bold text-foreground mb-1">
+            <AnimatedCounter value={`${stat.value}${stat.suffix}`} />
+          </div>
+          <p className="text-sm text-muted-foreground">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 import Image from 'next/image';
 
@@ -63,6 +107,20 @@ const getSkillIcon = (skillName) => {
   return map[skillName] || FaCode;
 };
 
+const getSkillColor = (skillName) => {
+  const colors = {
+    'Figma': 'group-hover:text-[#F24E1E]',
+    'Adobe Suite': 'group-hover:text-[#FF0000]',
+    'HTML/CSS/JS': 'group-hover:text-[#E34F26]',
+    'PHP': 'group-hover:text-[#777BB4]',
+    'Database Management': 'group-hover:text-[#4479A1]',
+    'Version Control': 'group-hover:text-[#F05032]',
+    'Video Editing': 'group-hover:text-[#9999FF]',
+    'Cross-platform OS': 'group-hover:text-[#00A4EF]',
+  };
+  return colors[skillName] || 'group-hover:text-primary';
+};
+
 const SkillsSection = () => {
   return (
     <Section delay={0.2}>
@@ -82,43 +140,57 @@ const SkillsSection = () => {
             <h3 className="text-xl font-bold text-foreground">Core Competencies</h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <ScrollRevealContainer
+            variant="scaleUp"
+            staggerChildren={0.05}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+          >
             {skills['Core Competencies'].map((skill, idx) => {
               const Icon = getSkillIcon(skill.name);
               return (
-                <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 transition-all duration-300 hover:bg-background/60 hover:border-primary/20 hover:scale-[1.02] group">
-                  <span className="text-muted-foreground group-hover:text-primary transition-colors">
+                <ScrollRevealItem
+                  key={idx}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 transition-all duration-300 hover:bg-primary/5 hover:border-primary/30 hover:scale-105 hover:-translate-y-1 hover:shadow-lg group cursor-default"
+                >
+                  <span className={`text-muted-foreground ${getSkillColor(skill.name)} transition-colors duration-300`}>
                     <Icon />
                   </span>
                   <span className="text-sm font-medium text-foreground/90">{skill.name}</span>
-                </div>
+                </ScrollRevealItem>
               );
             })}
-          </div>
+          </ScrollRevealContainer>
         </div>
 
         {/* Technical Skills */}
         <div className="card-enhanced p-8 bg-card/30 rounded-2xl border border-white/5 backdrop-blur-sm">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 rounded-lg bg-secondary/20 text-foreground">
+            <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
               <FaCode className="w-5 h-5" />
             </div>
             <h3 className="text-xl font-bold text-foreground">Technical Skills</h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <ScrollRevealContainer
+            variant="scaleUp"
+            staggerChildren={0.05}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+          >
             {skills['Technical Skills'].map((skill, idx) => {
               const Icon = getSkillIcon(skill.name);
               return (
-                <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 transition-all duration-300 hover:bg-background/60 hover:border-primary/20 hover:scale-[1.02] group">
-                  <span className="text-muted-foreground group-hover:text-primary transition-colors">
+                <ScrollRevealItem
+                  key={idx}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 transition-all duration-300 hover:bg-primary/5 hover:border-primary/30 hover:scale-105 hover:-translate-y-1 hover:shadow-lg group cursor-default"
+                >
+                  <span className={`text-muted-foreground ${getSkillColor(skill.name)} transition-colors duration-300`}>
                     <Icon />
                   </span>
                   <span className="text-sm font-medium text-foreground/90">{skill.name}</span>
-                </div>
+                </ScrollRevealItem>
               );
             })}
-          </div>
+          </ScrollRevealContainer>
         </div>
       </div>
     </Section>
@@ -200,6 +272,9 @@ const AboutPage = () => {
           </div>
         </Section>
 
+        {/* Stats Counter Strip */}
+        <StatsCounter />
+
         {/* What Sets Me Apart Section */}
         <Section delay={0.1}>
           <div className="rounded-2xl border border-border/20 bg-card/20 p-8 backdrop-blur-sm transition-colors duration-300">
@@ -237,7 +312,12 @@ const AboutPage = () => {
 
             <div className="space-y-12 md:space-y-16 relative">
               {professionalExperience.map((job, index) => (
-                <div key={index} className={`relative flex flex-col md:flex-row gap-8 md:gap-16 items-start ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                <ScrollRevealContainer
+                  key={index}
+                  variant={index % 2 === 0 ? "slideLeft" : "slideRight"}
+                  delay={index * 0.1}
+                  className={`relative flex flex-col md:flex-row gap-8 md:gap-16 items-start ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                >
 
                   {/* Timeline Dot */}
                   <div className="absolute left-[-29px] md:left-1/2 top-0 w-16 h-16 flex items-center justify-center md:-translate-x-1/2 z-10 pointer-events-none">
@@ -276,7 +356,7 @@ const AboutPage = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </ScrollRevealContainer>
               ))}
             </div>
           </div>
@@ -335,7 +415,9 @@ const AboutPage = () => {
               I'm currently accepting new projects. Let's discuss how I can help bring your vision to life.
             </p>
             <a
-              href="/contact?source=about#schedule"
+              href="https://calendly.com/arthurkevin27/15min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-1"
             >
               <span>Book a Quick Chat</span>

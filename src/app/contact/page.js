@@ -13,6 +13,16 @@ const InfiniteGridBackground = dynamic(
   () => import('@/components/ui/the-infinite-grid').then((mod) => mod.InfiniteGridBackground)
 );
 
+// Lazy load scroll animation components
+const ScrollRevealContainer = dynamic(
+  () => import('@/components/ui/ScrollRevealContainer').then(mod => mod.default),
+  { ssr: false }
+);
+const ScrollRevealItem = dynamic(
+  () => import('@/components/ui/ScrollRevealContainer').then(mod => mod.ScrollRevealItem),
+  { ssr: false }
+);
+
 const contactInfo = [
   { label: 'Email', value: personalInfo.email, icon: <FaEnvelope />, href: `mailto:${personalInfo.email}` },
   { label: 'Phone', value: personalInfo.phone, icon: <FaPhone />, href: `tel:${personalInfo.phone}` },
@@ -24,8 +34,9 @@ const quickActions = [
     label: 'Book a 15-Min Call',
     description: 'No pitch, just conversation. Let\'s discuss your project together.',
     icon: <FaCalendarAlt className="w-6 h-6" />,
-    href: '#schedule',
+    href: 'https://calendly.com/arthurkevin27/15min',
     primary: true,
+    external: true,
   },
   {
     label: 'Send an Email',
@@ -107,82 +118,42 @@ const ContactContent = () => {
 
         {/* Quick Actions - Prominent Scheduling */}
         <h2 className="sr-only">Ways to Connect</h2>
-        <div className="grid sm:grid-cols-3 gap-4 md:gap-6 animate-fade-in-up animation-delay-200">
+        <ScrollRevealContainer
+          variant="scaleUp"
+          staggerChildren={0.15}
+          className="grid sm:grid-cols-3 gap-4 md:gap-6"
+        >
           {quickActions.map((action, index) => (
-            <a
-              key={index}
-              href={action.href}
-              target={action.external ? '_blank' : undefined}
-              rel={action.external ? 'noopener noreferrer' : undefined}
-              className={`group card-enhanced p-6 flex flex-col items-center text-center no-underline transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-1 ${action.primary
-                ? 'bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/5 border-primary/30'
-                : ''
-                }`}
-            >
-              <div className={`p-4 rounded-full mb-4 ${action.primary ? 'bg-primary/20' : 'bg-primary/10'}`}>
-                <span className="text-primary">{action.icon}</span>
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                {action.label}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-3">{action.description}</p>
-              {action.primary && (
-                <span className="inline-flex items-center gap-2 text-primary font-medium text-sm">
-                  Schedule now
+            <ScrollRevealItem key={index} className="h-full">
+              <a
+                href={action.href}
+                target={action.external ? '_blank' : undefined}
+                rel={action.external ? 'noopener noreferrer' : undefined}
+                className={`group card-enhanced p-6 h-full flex flex-col items-center text-center no-underline transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-xl ${action.primary
+                  ? 'bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/5 border-primary/30'
+                  : ''
+                  }`}
+              >
+                <div className={`p-4 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 ${action.primary ? 'bg-primary/20' : 'bg-primary/10'}`}>
+                  <span className="text-primary">{action.icon}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                  {action.label}
+                </h3>
+                <p className="text-sm text-muted-foreground flex-1">{action.description}</p>
+                <span className={`inline-flex items-center gap-2 font-medium text-sm mt-4 ${action.primary ? 'text-primary' : 'text-muted-foreground group-hover:text-primary'}`}>
+                  {action.primary ? 'Schedule now' : action.external ? 'Open profile' : 'Send email'}
                   <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
-              )}
-            </a>
+              </a>
+            </ScrollRevealItem>
           ))}
-        </div>
+        </ScrollRevealContainer>
 
-        {/* Scheduling Section Placeholder */}
-        <section
-          id="schedule"
-          className="scroll-mt-24 animate-fade-in-up animation-delay-400"
+        <ScrollRevealContainer
+          variant="slideUp"
+          className="grid lg:grid-cols-2 gap-16"
         >
-          <div className="card-enhanced p-8 md:p-12 text-center bg-gradient-to-br from-primary/5 via-transparent to-secondary/5">
-            <div className="max-w-2xl mx-auto space-y-6">
-              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
-                <FaCalendarAlt className="w-7 h-7 text-primary" />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                Schedule a 15-Minute Intro Call
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                Pick a time that works for you. We'll discuss your project, goals, and explore if we're a good fit — no strings attached.
-              </p>
-              {/* Calendly Embed */}
-              <div className="mt-8 p-1">
-                <div className="relative group overflow-hidden rounded-2xl border border-primary/20 bg-background/50 hover:bg-background/80 transition-all duration-300 shadow-sm hover:shadow-md">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="relative p-8 md:p-12 flex flex-col items-center justify-center text-center space-y-6">
-                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <FaCalendarAlt className="w-8 h-8 text-primary" />
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="text-xl md:text-2xl font-bold">Book Your Free 15-Minute Intro</h3>
-                      <p className="text-muted-foreground max-w-md mx-auto">
-                        Secure your spot directly on my calendar. We'll meet via Google Meet to discuss your vision.
-                      </p>
-                    </div>
-                    <a
-                      href="https://calendly.com/arthurkevin27/15min"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5"
-                    >
-                      Open Scheduling Page
-                      <FaExternalLinkAlt className="w-4 h-4" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="grid lg:grid-cols-2 gap-16 animate-fade-in-up animation-delay-600">
           {/* Contact Information */}
           <div className="space-y-8">
             <div>
@@ -195,13 +166,17 @@ const ContactContent = () => {
             </div>
 
             {/* Contact Info Cards */}
-            <div className="space-y-4">
+            <ScrollRevealContainer
+              variant="slideRight"
+              staggerChildren={0.1}
+              className="space-y-4"
+            >
               {contactInfo.map((info, index) => (
-                <div
+                <ScrollRevealItem
                   key={index}
-                  className="card-base flex items-center p-4 rounded-xl hover:bg-card/50 transition-transform duration-200 hover:scale-[1.02]"
+                  className="card-base flex items-center p-4 rounded-xl hover:bg-card/50 transition-all duration-300 hover:scale-[1.02] hover:translate-x-2 hover:shadow-lg group cursor-default"
                 >
-                  <div className="text-primary text-2xl mr-4">{info.icon}</div>
+                  <div className="text-primary text-2xl mr-4 transition-transform duration-300 group-hover:scale-110">{info.icon}</div>
                   <div>
                     <p className="text-sm text-muted-foreground uppercase tracking-wide">{info.label}</p>
                     {info.href ? (
@@ -212,9 +187,9 @@ const ContactContent = () => {
                       <p className="text-foreground font-medium">{info.value}</p>
                     )}
                   </div>
-                </div>
+                </ScrollRevealItem>
               ))}
-            </div>
+            </ScrollRevealContainer>
           </div>
 
           {/* Contact Form */}
@@ -281,7 +256,7 @@ const ContactContent = () => {
               </button>
             </form>
           </div>
-        </div>
+        </ScrollRevealContainer>
       </div>
     </div>
   );

@@ -166,7 +166,7 @@ const checklistData = {
   ],
   footer: {
     cta: "Need help implementing these practices?",
-    url: "kevinarthur.design/contact",
+    url: "calendly.com/arthurkevin27/15min",
     tagline: "Built from 4+ years designing healthcare AI, SaaS, and fintech products."
   }
 };
@@ -368,7 +368,7 @@ function generatePDF(recipientName = null) {
 
   // Final CTA page
   checkPageBreak(60);
-  
+
   yPos += 10;
   doc.setFillColor(255, 255, 255);
   doc.roundedRect(margin, yPos, contentWidth, 45, 3, 3, 'F');
@@ -391,7 +391,7 @@ function generatePDF(recipientName = null) {
   yPos += 8;
   doc.setFontSize(9);
   doc.setTextColor(...mutedColor);
-  doc.text('Book a free 15-minute call to discuss your project', pageWidth / 2, yPos, { align: 'center' });
+  doc.text('Book a free 15-minute call:', pageWidth / 2, yPos, { align: 'center' });
 
   return doc.output('arraybuffer');
 }
@@ -401,9 +401,9 @@ export async function GET(request) {
     // Check for name in query params for personalization
     const { searchParams } = new URL(request.url);
     const name = searchParams.get('name');
-    
+
     const pdfBuffer = generatePDF(name);
-    const filename = name 
+    const filename = name
       ? `Developer-Ready-Design-Checklist-for-${name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf`
       : 'Developer-Ready-Design-Checklist.pdf';
 
@@ -431,7 +431,7 @@ export async function POST(request) {
 
     // Generate personalized PDF with user's name
     const pdfBuffer = generatePDF(name);
-    const filename = name 
+    const filename = name
       ? `Developer-Ready-Design-Checklist-for-${name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf`
       : 'Developer-Ready-Design-Checklist.pdf';
 

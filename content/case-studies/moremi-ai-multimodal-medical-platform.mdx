@@ -58,6 +58,9 @@ minoHealth AI Labs needed an AI platform that could:
 - **25+ medical specialties** supported including radiology, pathology, and dermatology
 - **500+ healthcare facilities** across Ghana, Nigeria, and Kenya using the platform
 - **Featured on CNN** for real-world medical applications
+- **60% Cost Reduction** for participating hospitals
+
+<AccuracyGraph />
 
 ## Research & Discovery
 
@@ -114,7 +117,11 @@ This shift came directly from contextual inquiries—clinicians didn't think in 
 - Quick action buttons for common diagnostic workflows
 
 **2. AI Explanation Interface**
+**2. AI Explanation Interface**
 - Visual heatmaps showing AI focus areas on medical images
+- Plain-language explanations of diagnostic reasoning
+
+<HeatmapToggle />
 - Plain-language explanations of diagnostic reasoning
 - Confidence levels displayed with clear visual indicators
 - Option to request second AI opinion for complex cases
@@ -126,7 +133,10 @@ A critical design challenge was handling cases where the AI isn't certain. In he
 - **Confidence Score Prioritization**: Positioned the 'Diagnosis Confidence Score' (97% accuracy) at the top of the DOM based on clinician feedback. User research revealed clinicians' first question was always "How confident is the AI?"—so I made it the first thing they see.
 - **Low Confidence Mode**: When AI returns below 80% confidence, the interface shifts to a review mode with amber visual indicators, prompting specialist consultation before proceeding.
 - **Uncertainty Communication**: Designed clear visual states—green (high confidence), amber (review recommended), red (specialist required)—that clinicians can interpret at a glance during time-critical situations.
+- **Uncertainty Communication**: Designed clear visual states—green (high confidence), amber (review recommended), red (specialist required)—that clinicians can interpret at a glance during time-critical situations.
 - **Human Override Patterns**: Every AI recommendation includes a "Clinician Disagrees" action, ensuring the AI augments rather than replaces clinical judgment.
+
+<ConfidenceSimulator />
 
 **4. Multi-Modal Input System**
 - Drag-and-drop interface for medical images

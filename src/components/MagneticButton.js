@@ -29,6 +29,8 @@ export default function MagneticButton({
     onClick,
     type = 'button',
     disabled = false,
+    target,
+    rel,
     ...props
 }) {
     const buttonRef = useRef(null);
@@ -106,16 +108,31 @@ export default function MagneticButton({
 
     // Render as Link if href is provided
     if (href && !disabled) {
-        return (
-            <m.div {...motionProps}>
-                <Link
+        const isExternal = href.startsWith('http') || href.startsWith('mailto');
+
+        if (isExternal) {
+            return (
+                <m.a
                     href={href}
-                    className="magnetic-button-inner flex items-center justify-center gap-inherit w-full h-full"
-                    style={{ gap: 'inherit' }}
+                    target={target}
+                    rel={rel}
+                    {...motionProps}
                 >
                     {children}
-                </Link>
-            </m.div>
+                </m.a>
+            );
+        }
+
+        return (
+            <Link href={href} legacyBehavior passHref>
+                <m.a
+                    {...motionProps}
+                    target={target}
+                    rel={rel}
+                >
+                    {children}
+                </m.a>
+            </Link>
         );
     }
 

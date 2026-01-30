@@ -11,6 +11,16 @@ const InfiniteGridBackground = dynamic(
   () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground }))
 );
 
+// Lazy load scroll animation components
+const ScrollRevealContainer = dynamic(
+  () => import('@/components/ui/ScrollRevealContainer').then(mod => mod.default),
+  { ssr: false }
+);
+const ScrollRevealItem = dynamic(
+  () => import('@/components/ui/ScrollRevealContainer').then(mod => mod.ScrollRevealItem),
+  { ssr: false }
+);
+
 const checklistItems = [
   'Component naming conventions for clean handoffs',
   'All interactive states documented (hover, active, disabled, loading, error)',
@@ -64,21 +74,24 @@ export default function LabPage() {
                 Stop losing weeks to design-dev handoff friction. This 12-point checklist ensures your designs ship exactly as intended—reducing implementation questions by 80%.
               </p>
 
-              <div className="space-y-3">
+              <ScrollRevealContainer
+                variant="slideUp"
+                staggerChildren={0.1}
+                className="space-y-3"
+              >
                 {checklistItems.slice(0, 4).map((item, index) => (
-                  <div
+                  <ScrollRevealItem
                     key={index}
-                    className="flex items-start gap-3 animate-fade-in-up"
-                    style={{ animationDelay: `${index * 100}ms` }}
+                    className="flex items-start gap-3 group"
                   >
-                    <FaCheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                    <FaCheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0 transition-transform group-hover:scale-110" />
                     <span className="text-foreground">{item}</span>
-                  </div>
+                  </ScrollRevealItem>
                 ))}
-                <p className="text-muted-foreground text-sm pl-8">
+                <ScrollRevealItem className="text-muted-foreground text-sm pl-8">
                   + {checklistItems.length - 4} more critical checks
-                </p>
-              </div>
+                </ScrollRevealItem>
+              </ScrollRevealContainer>
 
               <div className="pt-4">
                 <p className="text-sm text-muted-foreground mb-2">
@@ -138,22 +151,34 @@ export default function LabPage() {
             <AIReadinessQuiz />
 
             {/* Social Proof */}
-            <div className="mt-12 text-center animate-fade-in-up animation-delay-400">
-              <p className="text-sm text-muted-foreground mb-4">
-                Based on lessons learned designing AI interfaces for:
-              </p>
+            <ScrollRevealContainer
+              variant="slideUp"
+              staggerChildren={0.15}
+              className="mt-12 text-center"
+            >
+              <ScrollRevealItem>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Based on lessons learned designing AI interfaces for:
+                </p>
+              </ScrollRevealItem>
               <div className="flex flex-wrap justify-center gap-4 text-muted-foreground">
-                <span className="px-4 py-2 bg-card/50 rounded-lg text-sm">
-                  Moremi AI (97% diagnostic accuracy)
-                </span>
-                <span className="px-4 py-2 bg-card/50 rounded-lg text-sm">
-                  500+ Healthcare Facilities
-                </span>
-                <span className="px-4 py-2 bg-card/50 rounded-lg text-sm">
-                  Featured on CNN
-                </span>
+                <ScrollRevealItem>
+                  <span className="inline-block px-4 py-2 bg-card/50 rounded-lg text-sm border border-transparent hover:border-primary/30 hover:bg-primary/5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-default">
+                    Moremi AI (97% diagnostic accuracy)
+                  </span>
+                </ScrollRevealItem>
+                <ScrollRevealItem>
+                  <span className="inline-block px-4 py-2 bg-card/50 rounded-lg text-sm border border-transparent hover:border-primary/30 hover:bg-primary/5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-default">
+                    500+ Healthcare Facilities
+                  </span>
+                </ScrollRevealItem>
+                <ScrollRevealItem>
+                  <span className="inline-block px-4 py-2 bg-card/50 rounded-lg text-sm border border-transparent hover:border-primary/30 hover:bg-primary/5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-default">
+                    Featured on CNN
+                  </span>
+                </ScrollRevealItem>
               </div>
-            </div>
+            </ScrollRevealContainer>
           </div>
         </div>
       </section>
@@ -162,8 +187,10 @@ export default function LabPage() {
       <section className="py-20 md:py-32">
         <div className="container-responsive animate-fade-in-up">
           <div className="max-w-4xl mx-auto card-enhanced p-8 md:p-12 text-center bg-gradient-to-br from-primary/10 via-card/60 to-secondary/10 backdrop-blur-xl border border-primary/20 rounded-3xl relative overflow-hidden">
-            {/* Background Glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-primary/20 blur-[100px] rounded-full pointer-events-none" />
+            {/* Floating Gradient Orbs */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-primary/20 blur-[100px] rounded-full pointer-events-none animate-pulse" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/15 blur-[80px] rounded-full pointer-events-none animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }} />
+            <div className="absolute -top-5 -right-5 w-24 h-24 bg-primary/10 blur-[60px] rounded-full pointer-events-none animate-pulse" style={{ animationDelay: '2s', animationDuration: '5s' }} />
 
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
@@ -174,7 +201,9 @@ export default function LabPage() {
                 let's discuss how I can help you ship faster and with confidence.
               </p>
               <a
-                href="/contact?source=lab#schedule"
+                href="https://calendly.com/arthurkevin27/15min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-1"
               >
                 <span>Book a 15-Min Call</span>

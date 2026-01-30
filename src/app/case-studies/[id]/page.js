@@ -18,6 +18,14 @@ const CaseStudyPopupWrapper = dynamic(
   () => import('./CaseStudyPopupWrapper'),
   { ssr: false } // Popup only needed on client side
 );
+const CaseStudyLightbox = dynamic(
+  () => import('./CaseStudyLightbox'),
+  { ssr: false } // Lightbox only needed on client side
+);
+const ReadingProgress = dynamic(
+  () => import('@/components/ui/ReadingProgress'),
+  { ssr: false } // Reading progress only needed on client
+);
 
 // This function gets called at build time
 export async function generateStaticParams() {
@@ -63,6 +71,10 @@ export default async function CaseStudyPage({ params }) {
       />
       {/* Lead Magnet Popup - contextual based on industry */}
       <CaseStudyPopupWrapper industry={postData.industry || 'general'} />
+      {/* Global Lightbox for clickable images */}
+      <CaseStudyLightbox />
+      {/* Reading Progress Indicator */}
+      <ReadingProgress />
       <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
         {/* Hero Section */}
         <header className="relative bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50 overflow-hidden">
@@ -167,7 +179,7 @@ export default async function CaseStudyPage({ params }) {
           {/* Contextual CTA based on case study industry */}
           <ContextualCTA
             industry={postData.industry || 'general'}
-            schedulingUrl={`/contact?source=case-study&case=${params.id}#schedule`}
+            schedulingUrl="https://calendly.com/arthurkevin27/15min"
           />
 
           {/* Back to Case Studies Link */}

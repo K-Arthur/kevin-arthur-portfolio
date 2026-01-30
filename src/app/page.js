@@ -132,7 +132,9 @@ export default function Home() {
               <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </MagneticButton>
             <MagneticButton
-              href="/contact?source=home#schedule"
+              href="https://calendly.com/arthurkevin27/15min"
+              target="_blank"
+              rel="noopener noreferrer"
               strength={0.25}
               className="group inline-flex items-center justify-center gap-2 btn-secondary-enhanced btn-interactive font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
             >
@@ -251,7 +253,9 @@ export default function Home() {
                 <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </MagneticButton>
               <MagneticButton
-                href="/contact?source=home#schedule"
+                href="https://calendly.com/arthurkevin27/15min"
+                target="_blank"
+                rel="noopener noreferrer"
                 strength={0.25}
                 className="group inline-flex items-center justify-center gap-2 btn-secondary-enhanced btn-interactive font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
               >
