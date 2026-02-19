@@ -173,7 +173,15 @@ export default async function CaseStudyPage({ params }) {
         {/* Content Section */}
         <main className="max-w-5xl mx-auto px-4 py-16 md:py-20">
           <article className={contentStyles.caseStudyContent}>
-            <MDXRemote source={postData.content} components={mdxComponents} />
+            <MDXRemote
+              source={postData.content}
+              components={mdxComponents}
+              options={{
+                parseFrontmatter: true,
+                // Enable JS expressions for trusted content (required for v6+)
+                blockJS: false,
+              }}
+            />
           </article>
 
           {/* Contextual CTA based on case study industry */}
