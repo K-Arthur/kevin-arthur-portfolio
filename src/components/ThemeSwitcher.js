@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-import { m } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
 const ThemeSwitcher = ({ className = '' }) => {
@@ -20,7 +20,7 @@ const ThemeSwitcher = ({ className = '' }) => {
   };
 
   return (
-    <m.button
+    <motion.button
       onClick={toggleTheme}
       aria-label="Toggle Dark Mode"
       className={`
@@ -38,7 +38,7 @@ const ThemeSwitcher = ({ className = '' }) => {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <m.div
+      <motion.div
         className="absolute inset-0 flex items-center justify-center"
         initial={false}
         animate={{
@@ -49,9 +49,9 @@ const ThemeSwitcher = ({ className = '' }) => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <FaSun className="w-4 h-4 text-yellow-500" />
-      </m.div>
+      </motion.div>
 
-      <m.div
+      <motion.div
         className="absolute inset-0 flex items-center justify-center"
         initial={false}
         animate={{
@@ -62,8 +62,8 @@ const ThemeSwitcher = ({ className = '' }) => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <FaMoon className="w-4 h-4 text-blue-300" />
-      </m.div>
-    </m.button>
+      </motion.div>
+    </motion.button>
   );
 };
 

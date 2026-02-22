@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { m, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface AnimatedTextProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -49,7 +49,7 @@ const AnimatedText = React.forwardRef<HTMLDivElement, AnimatedTextProps>(
         className={cn("flex flex-col items-center justify-center gap-2", props.className)}
       >
         <div className="relative">
-          <m.h1
+          <motion.h1
             className={cn("text-4xl font-bold text-center", textClassName)}
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -57,16 +57,16 @@ const AnimatedText = React.forwardRef<HTMLDivElement, AnimatedTextProps>(
             whileHover={{ scale: 1.02 }}
           >
             {text}
-          </m.h1>
+          </motion.h1>
 
-          <m.svg
+          <motion.svg
             width="100%"
             height="24"
             viewBox="0 0 300 24"
             preserveAspectRatio="none"
             className={cn("absolute -bottom-2 left-0 w-full", underlineClassName)}
           >
-            <m.path
+            <motion.path
               d={underlinePath}
               stroke="currentColor"
               strokeWidth={strokeWidth}
@@ -80,7 +80,7 @@ const AnimatedText = React.forwardRef<HTMLDivElement, AnimatedTextProps>(
                 transition: { duration: 0.8 },
               }}
             />
-          </m.svg>
+          </motion.svg>
         </div>
       </div>
     );

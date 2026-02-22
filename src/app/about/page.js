@@ -1,27 +1,34 @@
 'use client';
 
-import { personalInfo, skills, education, professionalExperience } from '@/data/portfolio-data';
-import { FaBriefcase, FaGraduationCap, FaTools, FaUsers, FaVial, FaBrain, FaSyncAlt, FaBullhorn, FaPaintBrush, FaFigma, FaCode, FaVideo, FaDatabase, FaCalendarAlt, FaRocket, FaGlobeAmericas } from 'react-icons/fa';
-
-import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
-import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
+import Link from 'next/link';
+import Image from 'next/image';
+import {
+  personalInfo,
+  education,
+  professionalExperience,
+  expertiseAreas,
+  designPhilosophy,
+} from '@/data/portfolio-data';
+import { FaBriefcase, FaGraduationCap, FaArrowRight, FaBrain, FaCalendarAlt } from 'react-icons/fa';
 
 import { CometCard } from '@/components/ui/comet-card';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
+import RecognitionSection from '@/components/RecognitionSection';
 import dynamic from 'next/dynamic';
 
 // Dynamically import heavy components - defer loading
 
 
-// Lazy load background - non-blocking
+// Lazy load background - non-blocking (default import avoids ChunkLoadError)
 const InfiniteGridBackground = dynamic(
-  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground }))
+  () => import('@/components/ui/the-infinite-grid'),
+  { ssr: false }
 );
 
 // Lazy load TextScramble - requires JS for character animation, loads after LCP
 const TextScramble = dynamic(
   () => import('@/components/ui/text-scramble').then(mod => mod.TextScramble),
-  { ssr: false, loading: () => <span>Design Engineer</span> }
+  { ssr: false, loading: () => <span>Product Designer</span> }
 );
 
 // Lazy load scroll animation components
@@ -33,10 +40,6 @@ const ScrollRevealItem = dynamic(
   () => import('@/components/ui/ScrollRevealContainer').then(mod => mod.ScrollRevealItem),
   { ssr: false }
 );
-const AnimatedCounter = dynamic(
-  () => import('@/components/ui/AnimatedCounter').then(mod => mod.default),
-  { ssr: false, loading: () => <span>0</span> }
-);
 
 const Section = ({ children }) => (
   <section className="animate-fade-in-up" style={{ contain: 'layout' }}>
@@ -45,157 +48,11 @@ const Section = ({ children }) => (
 );
 
 const SectionTitle = ({ icon, children }) => (
-  <h2 className="text-3xl font-bold text-foreground mb-8 flex items-center gap-4">
-    <span className="text-primary">{icon}</span>
-    {children}
+  <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6 sm:mb-8 flex items-center gap-3 sm:gap-4">
+    <span className="text-primary shrink-0">{icon}</span>
+    <span className="min-w-0">{children}</span>
   </h2>
 );
-
-// Stats counter strip with animated numbers
-const StatsCounter = () => {
-  const stats = [
-    { value: 4, suffix: '+', label: 'Years Experience', icon: FaCalendarAlt },
-    { value: 50, suffix: '+', label: 'Projects Delivered', icon: FaRocket },
-    { value: 3, suffix: '', label: 'Countries Worked', icon: FaGlobeAmericas },
-  ];
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 my-12">
-      {stats.map((stat, index) => (
-        <div
-          key={index}
-          className="card-enhanced p-6 bg-card/30 rounded-2xl border border-white/5 backdrop-blur-sm text-center group hover:border-primary/20 transition-all duration-300"
-        >
-          <div className="flex justify-center mb-3">
-            <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:scale-110 transition-transform">
-              <stat.icon className="w-6 h-6" />
-            </div>
-          </div>
-          <div className="text-4xl font-bold text-foreground mb-1">
-            <AnimatedCounter value={`${stat.value}${stat.suffix}`} />
-          </div>
-          <p className="text-sm text-muted-foreground">{stat.label}</p>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-import Image from 'next/image';
-
-// Icon mapping for timeline data
-// Simple icon mapping for display
-const getSkillIcon = (skillName) => {
-  const map = {
-    'User-centered Design': FaUsers,
-    'Wireframing & Prototyping': BsDiagram3,
-    'User Research': FaUsers,
-    'Usability Testing': FaVial,
-    'Heuristic Evaluation': FaBrain,
-    'Agile Methodology': FaSyncAlt,
-    'Marketing & Branding': FaBullhorn,
-    'Visual Design': FaPaintBrush,
-    'Figma': FaFigma,
-    'Adobe Suite': SiAdobecreativecloud,
-    'HTML/CSS/JS': FaCode,
-    'PHP': SiPhp,
-    'Database Management': FaDatabase,
-    'Version Control': BsGit,
-    'Video Editing': FaVideo,
-    'Cross-platform OS': BsWindow,
-  };
-  return map[skillName] || FaCode;
-};
-
-const getSkillColor = (skillName) => {
-  const colors = {
-    'Figma': 'group-hover:text-[#F24E1E]',
-    'Adobe Suite': 'group-hover:text-[#FF0000]',
-    'HTML/CSS/JS': 'group-hover:text-[#E34F26]',
-    'PHP': 'group-hover:text-[#777BB4]',
-    'Database Management': 'group-hover:text-[#4479A1]',
-    'Version Control': 'group-hover:text-[#F05032]',
-    'Video Editing': 'group-hover:text-[#9999FF]',
-    'Cross-platform OS': 'group-hover:text-[#00A4EF]',
-  };
-  return colors[skillName] || 'group-hover:text-primary';
-};
-
-const SkillsSection = () => {
-  return (
-    <Section delay={0.2}>
-      <SectionTitle icon={<FaTools />}>Skills & Tools</SectionTitle>
-
-      <p className="text-muted-foreground mb-10 max-w-2xl leading-relaxed">
-        A curated stack of technologies and methodologies I use to bring ideas to life.
-      </p>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Core Competencies */}
-        <div className="card-enhanced p-8 bg-card/30 rounded-2xl border border-white/5 backdrop-blur-sm">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
-              <FaBrain className="w-5 h-5" />
-            </div>
-            <h3 className="text-xl font-bold text-foreground">Core Competencies</h3>
-          </div>
-
-          <ScrollRevealContainer
-            variant="scaleUp"
-            staggerChildren={0.05}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-          >
-            {skills['Core Competencies'].map((skill, idx) => {
-              const Icon = getSkillIcon(skill.name);
-              return (
-                <ScrollRevealItem
-                  key={idx}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 transition-all duration-300 hover:bg-primary/5 hover:border-primary/30 hover:scale-105 hover:-translate-y-1 hover:shadow-lg group cursor-default"
-                >
-                  <span className={`text-muted-foreground ${getSkillColor(skill.name)} transition-colors duration-300`}>
-                    <Icon />
-                  </span>
-                  <span className="text-sm font-medium text-foreground/90">{skill.name}</span>
-                </ScrollRevealItem>
-              );
-            })}
-          </ScrollRevealContainer>
-        </div>
-
-        {/* Technical Skills */}
-        <div className="card-enhanced p-8 bg-card/30 rounded-2xl border border-white/5 backdrop-blur-sm">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
-              <FaCode className="w-5 h-5" />
-            </div>
-            <h3 className="text-xl font-bold text-foreground">Technical Skills</h3>
-          </div>
-
-          <ScrollRevealContainer
-            variant="scaleUp"
-            staggerChildren={0.05}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-          >
-            {skills['Technical Skills'].map((skill, idx) => {
-              const Icon = getSkillIcon(skill.name);
-              return (
-                <ScrollRevealItem
-                  key={idx}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-white/5 transition-all duration-300 hover:bg-primary/5 hover:border-primary/30 hover:scale-105 hover:-translate-y-1 hover:shadow-lg group cursor-default"
-                >
-                  <span className={`text-muted-foreground ${getSkillColor(skill.name)} transition-colors duration-300`}>
-                    <Icon />
-                  </span>
-                  <span className="text-sm font-medium text-foreground/90">{skill.name}</span>
-                </ScrollRevealItem>
-              );
-            })}
-          </ScrollRevealContainer>
-        </div>
-      </div>
-    </Section>
-  );
-};
 
 const AboutPage = () => {
   // About page with infinite grid background
@@ -210,11 +67,11 @@ const AboutPage = () => {
       revealOpacity={0.45}
       fullPage={true}
     >
-      <div className="max-w-6xl mx-auto px-6 sm:px-6 lg:px-8 py-12 space-y-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
         {/* Hero Section */}
         <Section>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
-            <div className="lg:col-span-2 space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 sm:gap-16 items-center">
+            <div className="lg:col-span-2 space-y-6 sm:space-y-8">
               <div className="animate-fade-in-up">
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
                   <TextScramble
@@ -224,7 +81,7 @@ const AboutPage = () => {
                     speed={0.035}
                     characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
                   >
-                    Design Engineer &
+                    {personalInfo.heroTitle1 ?? 'Product Designer'}
                   </TextScramble>
                   <TextScramble
                     as="span"
@@ -233,18 +90,18 @@ const AboutPage = () => {
                     speed={0.035}
                     characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
                   >
-                    Creative Technologist
+                    {personalInfo.heroTitle2 ?? 'Design Engineer'}
                   </TextScramble>
                 </h1>
-                <div className="space-y-6 text-lg leading-relaxed text-muted-enhanced" style={{ contain: 'layout' }}>
-                  <p className="text-xl leading-relaxed">
+                <div className="space-y-4 sm:space-y-6 text-base sm:text-lg leading-relaxed text-muted-enhanced" style={{ contain: 'layout' }}>
+                  <p className="text-lg sm:text-xl leading-relaxed">
                     {personalInfo.summary}
                   </p>
-                  <p className="text-lg leading-relaxed border-l-4 border-primary/30 pl-6 bg-card/20 py-4 rounded-r-xl">
-                    I believe great design happens when strategy meets creativity. Every project I take on
-                    is an opportunity to solve real problems and create meaningful impact through thoughtful,
-                    user-centered design.
-                  </p>
+                  {personalInfo.differentiationStatement && (
+                    <p className="text-sm sm:text-base md:text-lg leading-relaxed border-l-4 border-primary/30 pl-4 sm:pl-6 bg-card/20 py-3 sm:py-4 rounded-r-xl">
+                      {personalInfo.differentiationStatement}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -272,26 +129,26 @@ const AboutPage = () => {
           </div>
         </Section>
 
-        {/* Stats Counter Strip */}
-        <StatsCounter />
+        {/* Recognition & Impact */}
+        <RecognitionSection />
 
         {/* What Sets Me Apart Section */}
         <Section delay={0.1}>
-          <div className="rounded-2xl border border-border/20 bg-card/20 p-8 backdrop-blur-sm transition-colors duration-300">
-            <h2 className="text-3xl font-bold text-foreground mb-10 text-center">
+          <div className="rounded-2xl border border-border/20 bg-card/20 p-6 sm:p-8 backdrop-blur-sm transition-colors duration-300">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8 sm:mb-10 text-center">
               How I Approach My Work
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {[
-                { icon: '🎯', title: 'Strategic Thinking', text: "I don't just design pixels. I align every decision with user needs and business goals to create solutions that deliver real, measurable impact." },
+                { icon: '🎯', title: 'Strategic Thinking', text: "I don&apos;t just design pixels. I align every decision with user needs and business goals to create solutions that deliver real, measurable impact." },
                 { icon: '⚡', title: 'Speed & Efficiency', text: 'Leveraging lean design principles and rapid prototyping, I accelerate the journey from concept to launch without compromising quality.' },
-                { icon: '🔄', title: 'Continuous Learning', text: "The digital landscape is always evolving, and so am I. I'm committed to mastering new tools and technologies to keep your product ahead of the curve." },
+                { icon: '🔄', title: 'Continuous Learning', text: "The digital landscape is always evolving, and so am I. I&apos;m committed to mastering new tools and technologies to keep your product ahead of the curve." },
                 { icon: '🤝', title: 'Radical Collaboration', text: "The best ideas emerge when we work together. I foster a collaborative environment where every voice is heard to build solutions that truly resonate." },
               ].map((item, index) => (
                 <CometCard key={index} className="w-full h-full">
-                  <div className="h-full flex flex-col items-center text-center p-6 bg-card/40 border border-white/5 rounded-2xl backdrop-blur-sm">
-                    <div className="mb-4 text-4xl">{item.icon}</div>
-                    <p className="text-lg font-bold text-foreground mb-3">{item.title}</p>
+                  <div className="h-full flex flex-col items-center text-center p-5 sm:p-6 bg-card/40 border border-border rounded-2xl backdrop-blur-sm">
+                    <div className="mb-3 sm:mb-4 text-3xl sm:text-4xl">{item.icon}</div>
+                    <p className="text-base sm:text-lg font-bold text-foreground mb-2 sm:mb-3">{item.title}</p>
                     <p className="text-muted-enhanced text-sm leading-relaxed">
                       {item.text}
                     </p>
@@ -302,15 +159,42 @@ const AboutPage = () => {
           </div>
         </Section>
 
-        <SkillsSection />
+        {/* Expertise Areas */}
+        <Section>
+          <SectionTitle icon={<FaBrain />}>Expertise Areas</SectionTitle>
+          <p className="text-muted-foreground mb-6 sm:mb-10 max-w-2xl leading-relaxed text-sm sm:text-base">
+            Senior-level specializations that differentiate my work.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
+            {expertiseAreas.map((area, index) => (
+              <CometCard key={index} className="w-full h-full">
+                <div className="h-full min-h-0 p-6 md:p-8 bg-card/40 border border-border rounded-2xl backdrop-blur-sm flex flex-col">
+                  <h3 className="text-xl font-bold text-foreground mb-3">{area.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed flex-1">
+                    {area.description}
+                  </p>
+                  {area.caseStudyId && (
+                    <Link
+                      href={`/case-studies/${area.caseStudyId}`}
+                      className="inline-flex items-center gap-2 mt-4 min-h-[44px] py-2 text-primary font-semibold text-sm hover:text-primary/80 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-md transition-colors"
+                    >
+                      View case study
+                      <FaArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  )}
+                </div>
+              </CometCard>
+            ))}
+          </div>
+        </Section>
 
         <Section delay={0.4}>
-          <SectionTitle icon={<FaBriefcase />}>My Journey So Far</SectionTitle>
-          <div className="relative pl-8 md:pl-0">
-            {/* Timeline Line - Refined positioning */}
-            <div className="absolute left-[3px] md:left-1/2 top-4 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent md:-translate-x-1/2"></div>
+          <SectionTitle icon={<FaBriefcase />}>Career Highlights</SectionTitle>
+          <div className="relative pl-8 sm:pl-10 md:pl-0">
+            {/* Timeline Line */}
+            <div className="absolute left-[3px] md:left-1/2 top-4 bottom-0 w-px bg-border md:-translate-x-1/2" aria-hidden></div>
 
-            <div className="space-y-12 md:space-y-16 relative">
+            <div className="space-y-10 sm:space-y-12 md:space-y-16 relative">
               {professionalExperience.map((job, index) => (
                 <ScrollRevealContainer
                   key={index}
@@ -321,20 +205,20 @@ const AboutPage = () => {
 
                   {/* Timeline Dot */}
                   <div className="absolute left-[-29px] md:left-1/2 top-0 w-16 h-16 flex items-center justify-center md:-translate-x-1/2 z-10 pointer-events-none">
-                    <div className="w-4 h-4 rounded-full bg-background border-2 border-primary shadow-[0_0_10px_rgba(var(--primary),0.5)] z-20 relative"></div>
+                    <div className="w-4 h-4 rounded-full bg-card border-2 border-primary shadow-[0_0_10px_rgba(var(--primary),0.4)] z-20 relative"></div>
                     <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
                   </div>
 
                   {/* Date/Label Side */}
-                  <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:text-left' : 'md:text-right'} pl-6 md:pl-0 pt-1`}>
-                    <span className="inline-block py-1 px-3 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-semibold tracking-wider mb-2">
+                  <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:text-left' : 'md:text-right'} pl-6 md:pl-0 pt-1 min-h-[2.5rem] flex items-center`}>
+                    <span className="inline-block py-1 px-3 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-mono font-semibold tracking-wider mb-2">
                       {job.period}
                     </span>
                   </div>
 
                   {/* Content Card Side */}
                   <div className="w-full md:w-1/2 relative group">
-                    <div className="relative h-full rounded-2xl bg-card/40 backdrop-blur-xl border border-white/5 p-1 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
+                    <div className="relative h-full rounded-2xl bg-card/60 backdrop-blur-xl border border-border p-1 overflow-hidden transition-all duration-500 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 focus-within:ring-2 focus-within:ring-primary/20 focus-within:ring-offset-2 focus-within:ring-offset-background">
                       <GlowingEffect
                         spread={40}
                         glow={true}
@@ -343,16 +227,26 @@ const AboutPage = () => {
                         inactiveZone={0.01}
                         borderWidth={1}
                       />
-                      <div className="relative z-10 p-6 md:p-8 rounded-xl bg-background/40 h-full">
-                        <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">{job.role}</h3>
-                        <p className="text-primary font-medium text-lg mb-4 flex items-center gap-2">
+                      <div className="relative z-10 p-5 sm:p-6 md:p-8 rounded-xl bg-card/50 dark:bg-card/40 border border-border/50 h-full">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-1">{job.role}</h3>
+                        <p className="text-primary font-medium text-base sm:text-lg mb-3 sm:mb-4 flex flex-wrap items-center gap-x-2 gap-y-0.5">
                           {job.company}
                           <span className="text-muted-foreground/40 text-sm">•</span>
                           <span className="text-muted-foreground text-sm font-normal">{job.location}</span>
                         </p>
-                        <p className="text-muted-enhanced leading-relaxed text-pretty">
+                        <p className="text-muted-enhanced leading-relaxed text-pretty mb-4">
                           {job.description}
                         </p>
+                        {job.highlights && job.highlights.length > 0 && (
+                          <ul className="space-y-2">
+                            {job.highlights.map((h, i) => (
+                              <li key={i} className="text-sm text-muted-foreground/90 flex items-start gap-2">
+                                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary/40 shrink-0" />
+                                <span>{h}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -365,10 +259,10 @@ const AboutPage = () => {
 
         <Section delay={0.6}>
           <SectionTitle icon={<FaGraduationCap />}>Education</SectionTitle>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {education.map((edu, index) => (
               <CometCard key={index} className="w-full h-full">
-                <div className="relative h-full w-full p-6 md:p-8 bg-card/40 border border-white/5 rounded-2xl backdrop-blur-md flex flex-col shadow-sm">
+                <div className="relative h-full w-full p-5 sm:p-6 md:p-8 bg-card/40 border border-border rounded-2xl backdrop-blur-md flex flex-col shadow-sm">
 
                   {/* Decoration Gradient */}
                   <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-[4rem] rounded-tr-2xl pointer-events-none" />
@@ -407,18 +301,31 @@ const AboutPage = () => {
           </div>
         </Section>
 
+        {/* Design Philosophy */}
+        <Section>
+          <div className="rounded-2xl border border-border bg-card/30 p-6 sm:p-8 md:p-10 backdrop-blur-sm border-l-4 border-l-primary/40">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">My Design Philosophy</h2>
+            <p className="text-muted-foreground text-base mb-6 max-w-3xl leading-relaxed">
+              Strategy and creativity together is what solves real problems and creates real impact.
+            </p>
+            <p className="text-foreground leading-relaxed text-lg max-w-3xl">
+              {designPhilosophy}
+            </p>
+          </div>
+        </Section>
+
         {/* CTA Section */}
         <Section>
-          <div className="text-center py-16 card-enhanced rounded-2xl bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Ready to Work Together?</h2>
-            <p className="text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
-              I'm currently accepting new projects. Let's discuss how I can help bring your vision to life.
+          <div className="text-center py-10 sm:py-16 card-enhanced rounded-2xl bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 px-4 sm:px-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3 sm:mb-4">Ready to Work Together?</h2>
+            <p className="text-muted-foreground mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed text-sm sm:text-base">
+              I&apos;m currently accepting new projects. Let&apos;s discuss how I can help bring your vision to life.
             </p>
             <a
               href="https://calendly.com/arthurkevin27/15min"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-glow font-semibold px-8 py-4 rounded-xl text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-1"
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 btn-primary-enhanced btn-glow font-semibold rounded-xl text-base sm:text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 sm:hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <span>Book a Quick Chat</span>
               <FaCalendarAlt className="w-4 h-4" />

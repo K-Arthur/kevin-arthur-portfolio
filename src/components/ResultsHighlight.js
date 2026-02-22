@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { m, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 
 /**
  * AnimatedValue - Inline animated counter for result values
@@ -110,7 +110,7 @@ export default function ResultsHighlight({ results }) {
             className="my-12 py-10 px-6 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-2xl border border-primary/20"
             aria-label="Key Results"
         >
-            <m.div
+            <motion.div
                 className="grid grid-cols-2 lg:flex lg:flex-wrap lg:justify-center gap-6 lg:gap-16"
                 variants={containerVariants}
                 initial="hidden"
@@ -118,7 +118,7 @@ export default function ResultsHighlight({ results }) {
                 viewport={{ once: true, amount: 0.3 }}
             >
                 {results.map((result, index) => (
-                    <m.div
+                    <motion.div
                         key={index}
                         className="text-center space-y-2"
                         variants={itemVariants}
@@ -134,9 +134,9 @@ export default function ResultsHighlight({ results }) {
                                 {result.context}
                             </div>
                         )}
-                    </m.div>
+                    </motion.div>
                 ))}
-            </m.div>
+            </motion.div>
         </section>
     );
 }

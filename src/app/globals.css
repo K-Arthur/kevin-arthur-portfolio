@@ -151,12 +151,30 @@
 @layer components {
   /* 2026 Glassmorphism - Premium Feel */
   .glass-premium {
-    @apply bg-background/60 backdrop-blur-xl border border-white/10 shadow-lg;
-    /* Noise texture overlay could be added here if asset existed */
+    @apply bg-background/60 backdrop-blur-xl border border-border/10 shadow-lg;
+    position: relative;
   }
   
+  .glass-premium::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent 50%, rgba(255,255,255,0.05));
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
   .dark .glass-premium {
-    @apply bg-zinc-900/60 border-white/5 shadow-xl shadow-black/20;
+    @apply bg-zinc-900/60 border-white/5 shadow-2xl shadow-black/40;
+  }
+
+  .dark .glass-premium::after {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent 50%, rgba(255,255,255,0.05));
   }
 
 
@@ -376,7 +394,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-
+    display: inline-block;
+    padding-bottom: 0.1em;
     transition: filter 0.3s ease;
   }
 
@@ -432,7 +451,7 @@
   }
 
   .btn-primary-enhanced {
-    @apply bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 active:scale-[0.98] focus:ring-2 focus:ring-primary/20;
+    @apply bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98] transition-all duration-200 focus:ring-2 focus:ring-primary/20;
   }
 
   .btn-secondary-enhanced {
@@ -530,10 +549,12 @@
 
   /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
-    * {
+    *, ::before, ::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      animation-play-state: paused !important;
+      scroll-behavior: auto !important;
     }
   }
 
@@ -848,8 +869,7 @@
     object-fit: cover;
   }
 
-  /* Transition states for before/after comparisons */
-  .transition-overlay {
+    .transition-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(to right,
@@ -858,5 +878,49 @@
         transparent 95%,
         hsl(var(--background)) 100%);
     pointer-events: none;
+  }
+
+  /* Performance optimization for animated elements */
+  .will-change-transform {
+    will-change: transform;
+  }
+  
+  .will-change-opacity {
+    will-change: opacity;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    .will-change-transform,
+    .will-change-opacity {
+      will-change: auto;
+    }
+  }
+
+  /* Custom thin scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 8px;
+    border: 2px solid transparent;            
+    background-clip: padding-box;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
   }
 }

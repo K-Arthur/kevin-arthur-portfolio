@@ -1,3 +1,4 @@
+export async function generateStaticParams() { return []; }
 import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -120,4 +121,4 @@ export async function GET(request) {
   }
 }
 
-export const dynamic = 'force-dynamic';
+

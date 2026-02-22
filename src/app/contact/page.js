@@ -110,9 +110,9 @@ const ContactContent = () => {
         {/* Hero Section */}
         <div className="animate-fade-in-up">
           <HandWrittenTitle
-            title="Let's Create Something"
+            title="Let&apos;s Create Something"
             highlightedText="Amazing Together"
-            subtitle="Ready to bring your vision to life? Book a quick call or send me a message — I'd love to hear about your project."
+            subtitle="Ready to bring your vision to life? Book a quick call or send me a message — I&apos;d love to hear about your project."
           />
         </div>
 
@@ -159,9 +159,9 @@ const ContactContent = () => {
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-6">Get in Touch</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                I'm currently available for new projects and collaborations.
+                I&apos;m currently available for new projects and collaborations.
                 Whether you have a specific idea in mind or just want to explore possibilities,
-                I'd love to hear from you.
+                I&apos;d love to hear from you.
               </p>
             </div>
 
@@ -197,7 +197,7 @@ const ContactContent = () => {
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-foreground mb-4">Send Me a Message</h2>
               <p className="text-muted-foreground">
-                Prefer to write? No problem. Tell me about your project and I'll get back to you within 24 hours.
+                Prefer to write? No problem. Tell me about your project and I&apos;ll get back to you within 24 hours.
               </p>
             </div>
 

@@ -1,13 +1,13 @@
 // Server-side metadata for About page
 export const metadata = {
-    title: 'About Kevin Arthur | Design Engineer & AI Interface Specialist',
-    description: 'Design Engineer with expertise in AI interface design, healthcare UX, and design systems. Master\'s in Applied Computer Science. Led design at AI healthcare startup serving 500+ facilities across Africa.',
+    title: 'About | Kevin Arthur - Product Designer',
+    description: 'Product Designer with a foundation in Computer Science. I design AI interfaces, enterprise tools, and scalable systems with a focus on clarity and measurable outcomes.',
     alternates: {
         canonical: '/about',
     },
     openGraph: {
-        title: 'About Kevin Arthur | Design Engineer & AI Interface Specialist',
-        description: 'Design Engineer specializing in AI interface design and healthcare UX',
+        title: 'About | Kevin Arthur - Product Designer',
+        description: 'Product Designer specializing in complex systems—AI interfaces, enterprise tools, and design systems.',
     },
 };
 

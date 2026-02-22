@@ -1,0 +1,56 @@
+{
+  "pageViews": {
+    "total": 61,
+    "byPath": {
+      "/lab": 55,
+      "/resources": 6
+    },
+    "daily": {
+      "2026-02-21": 46,
+      "2026-02-22": 15
+    }
+  },
+  "uniqueVisitors": {
+    "total": 61,
+    "byPath": {
+      "/lab": [
+        "user_1771665425614_x1flnjx3p",
+        "user_1771669064916_s74hl4chv",
+        "user_1771669382832_87aw661w1",
+        "user_1771670642682_75j4lj2fg",
+        "user_1771720617043_hs3saj2oz",
+        "user_1771721502185_lgb2qxa1z"
+      ],
+      "/resources": [
+        "user_1771665425614_x1flnjx3p"
+      ]
+    }
+  },
+  "formEvents": {
+    "views": 0,
+    "starts": 0,
+    "completions": 0,
+    "byPath": {}
+  },
+  "pdfDownloads": {
+    "total": 2,
+    "byType": {
+      "checklist": 2
+    }
+  },
+  "quizEvents": {
+    "starts": 0,
+    "completions": 0,
+    "averageScore": 0,
+    "totalScore": 0
+  },
+  "emailCaptures": {
+    "total": 0,
+    "bySource": {}
+  },
+  "abTests": {},
+  "timestamps": {
+    "firstEvent": "2026-02-21T09:17:07.115Z",
+    "lastEvent": "2026-02-22T02:19:36.402Z"
+  }
+}

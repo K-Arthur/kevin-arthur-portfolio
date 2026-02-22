@@ -9,13 +9,28 @@ const PDFViewer = ({ file, thumbnail, className = '' }) => {
   const [pdfUrl, setPdfUrl] = useState(null);
 
   useEffect(() => {
-    if (file) {
-      // For PDFs, we'll use the file URL directly
-      const url = file.startsWith('/api/media') ? file : `/api/media?path=${encodeURIComponent(file)}`;
-      setPdfUrl(url);
-      setIsLoading(false);
+    if (!file) return;
+
+    const isApiPdfRoute = file.startsWith('/api/') && (file.includes('pdf') || file.includes('generate-checklist'));
+    if (isApiPdfRoute) {
+      setHasError(false);
+      setPdfUrl(file);
+      // Iframe onLoad will handle setIsLoading(false)
+      return;
     }
+
+    setHasError(false);
+    const url = file.startsWith('/api/media') ? file : `/api/media?path=${encodeURIComponent(file)}`;
+    setPdfUrl(url);
+    setIsLoading(false);
   }, [file]);
+
+  // Revoke blob URL when it changes or on unmount
+  useEffect(() => {
+    return () => {
+      if (pdfUrl && pdfUrl.startsWith('blob:')) URL.revokeObjectURL(pdfUrl);
+    };
+  }, [pdfUrl]);
 
   const handleDownload = () => {
     if (pdfUrl) {
@@ -53,7 +68,7 @@ const PDFViewer = ({ file, thumbnail, className = '' }) => {
             This PDF cannot be displayed in the browser. You can download it to view.
           </p>
           <div className="flex gap-2 justify-center">
-            <button 
+            <button
               onClick={handleDownload}
               className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
               aria-label="Download PDF document"
@@ -61,7 +76,7 @@ const PDFViewer = ({ file, thumbnail, className = '' }) => {
               <Download className="w-4 h-4" aria-hidden="true" />
               Download PDF
             </button>
-            <button 
+            <button
               onClick={handleOpenExternal}
               className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
               aria-label="Open PDF in new browser tab"
@@ -81,12 +96,12 @@ const PDFViewer = ({ file, thumbnail, className = '' }) => {
       <div className="w-full h-full relative">
         <iframe
           src={pdfUrl}
-          className="w-full h-full border-0"
+          className="w-full min-h-[600px] h-full border-0"
           title={`PDF Document Viewer - ${file?.split('/').pop() || 'Document'}`}
           onLoad={() => setIsLoading(false)}
           onError={() => setHasError(true)}
         />
-        
+
         {/* Fallback overlay with controls */}
         <div className="absolute top-4 right-4 flex gap-2">
           <button

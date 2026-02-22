@@ -45,8 +45,8 @@ export default function RevalidatePage() {
         <div className="bg-card rounded-lg p-6 shadow-lg">
           <h2 className="text-xl font-semibold mb-4 text-card-foreground">Regenerate Media Metadata</h2>
           <p className="text-muted-foreground mb-6">
-            This will fetch the latest media from Cloudinary and update the site's media metadata.
-            Use this when you've added, removed, or modified media in Cloudinary.
+            This will fetch the latest media from Cloudinary and update the site&apos;s media metadata.
+            Use this when you&apos;ve added, removed, or modified media in Cloudinary.
           </p>
 
           <div className="mb-4">

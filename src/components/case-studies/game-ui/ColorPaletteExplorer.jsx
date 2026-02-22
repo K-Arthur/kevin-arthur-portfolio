@@ -50,7 +50,7 @@ export default function ColorPaletteExplorer() {
         <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card/50 backdrop-blur-sm shadow-xl">
             <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <span className="text-xs font-mono text-primary tracking-widest uppercase">// Color System</span>
+                    <span className="text-xs font-mono text-primary tracking-widest uppercase">{"// Color System"}</span>
                     <h3 className="text-xl font-bold text-foreground mt-1">Rising Impact Palette</h3>
                     <p className="text-sm text-muted-foreground mt-2">Click a color to explore details.</p>
                 </div>

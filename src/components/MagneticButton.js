@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useCallback } from 'react';
-import { m, useSpring, useReducedMotion } from 'framer-motion';
+import { motion, useSpring, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 
 /**
@@ -112,33 +112,33 @@ export default function MagneticButton({
 
         if (isExternal) {
             return (
-                <m.a
+                <motion.a
                     href={href}
                     target={target}
                     rel={rel}
                     {...motionProps}
                 >
                     {children}
-                </m.a>
+                </motion.a>
             );
         }
 
         return (
             <Link href={href} legacyBehavior passHref>
-                <m.a
+                <motion.a
                     {...motionProps}
                     target={target}
                     rel={rel}
                 >
                     {children}
-                </m.a>
+                </motion.a>
             </Link>
         );
     }
 
     // Render as button
     return (
-        <m.button
+        <motion.button
             {...motionProps}
             type={type}
             onClick={onClick}
@@ -146,7 +146,7 @@ export default function MagneticButton({
             aria-disabled={disabled}
         >
             {children}
-        </m.button>
+        </motion.button>
     );
 }
 
@@ -197,7 +197,7 @@ export function MagneticWrapper({
     }
 
     return (
-        <m.div
+        <motion.div
             ref={ref}
             style={{ x, y }}
             onMouseMove={handleMouseMove}
@@ -205,6 +205,6 @@ export function MagneticWrapper({
             className={className}
         >
             {children}
-        </m.div>
+        </motion.div>
     );
 }

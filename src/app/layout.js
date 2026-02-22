@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 // Note: Using native <script> tags for Partytown scripts instead of next/script
 import { personSchema, websiteSchema } from '@/lib/structured-data';
-import LazyMotionWrapper from '@/components/LazyMotionWrapper';
+
 import { PartytownSetup } from '@/components/PartytownSetup';
 
 // Dynamically import WebVitals with no SSR
@@ -129,21 +129,19 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-        <LazyMotionWrapper>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <CursorProvider>
-              <div className="flex flex-col min-h-screen">
-                <Header />
-                <main id="main-content" className="flex-grow">
-                  {children}
-                </main>
-                <Footer />
-                <StickyCTA />
-                {process.env.NODE_ENV === 'production' && <WebVitals />}
-              </div>
-            </CursorProvider>
-          </ThemeProvider>
-        </LazyMotionWrapper>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <CursorProvider>
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main id="main-content" className="flex-grow">
+                {children}
+              </main>
+              <Footer />
+              <StickyCTA />
+              {process.env.NODE_ENV === 'production' && <WebVitals />}
+            </div>
+          </CursorProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

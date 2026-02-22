@@ -1,6 +1,6 @@
 'use client';
-import { type JSX, useEffect, useState } from 'react';
-import { m, MotionProps } from 'framer-motion';
+import { type JSX, useEffect, useState, useCallback, useRef } from 'react';
+import { motion, MotionProps } from 'framer-motion';
 
 type TextScrambleProps = {
   children: string;
@@ -27,21 +27,22 @@ export function TextScramble({
   onScrambleComplete,
   ...props
 }: TextScrambleProps) {
-  const MotionComponent = m.create(
+  const MotionComponent = motion.create(
     Component as keyof JSX.IntrinsicElements
   );
-  const [displayText, setDisplayText] = useState(children);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [displayText, setDisplayText] = useState('');
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const animatingRef = useRef(false);
   const text = children;
 
-  const scramble = async () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
+  const scramble = useCallback(() => {
+    if (animatingRef.current) return;
+    animatingRef.current = true;
 
     const steps = duration / speed;
     let step = 0;
 
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       let scrambled = '';
       const progress = step / steps;
 
@@ -63,19 +64,30 @@ export function TextScramble({
       step++;
 
       if (step > steps) {
-        clearInterval(interval);
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
         setDisplayText(text);
-        setIsAnimating(false);
+        animatingRef.current = false;
         onScrambleComplete?.();
       }
     }, speed * 1000);
-  };
+  }, [duration, speed, text, characterSet, onScrambleComplete]);
 
   useEffect(() => {
     if (!trigger) return;
 
     scramble();
-  }, [trigger]);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      animatingRef.current = false;
+    };
+  }, [trigger, scramble]);
 
   return (
     <MotionComponent className={className} {...props}>

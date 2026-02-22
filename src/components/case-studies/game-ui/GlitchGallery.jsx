@@ -196,7 +196,7 @@ export default function GlitchGallery({ images }) {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6 px-2">
                     <div>
-                        <span className="text-xs font-mono text-primary tracking-widest uppercase">// Screen Gallery</span>
+                        <span className="text-xs font-mono text-primary tracking-widest uppercase">{"// Screen Gallery"}</span>
                         <h3 className="text-xl font-bold text-foreground mt-1">Figma Design Screens</h3>
                         <p className="text-xs text-muted-foreground mt-1">Click any image to view fullscreen</p>
                     </div>

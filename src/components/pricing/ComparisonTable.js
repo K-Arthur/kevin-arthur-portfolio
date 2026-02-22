@@ -1,6 +1,7 @@
 'use client';
 
-import { m } from 'framer-motion';
+import { Fragment } from 'react';
+import { motion } from 'framer-motion';
 import { FaCheck, FaMinus } from 'react-icons/fa';
 
 const ComparisonTable = () => {
@@ -32,21 +33,41 @@ const ComparisonTable = () => {
         }
     ];
 
+    // Outcome-focused tier info
+    const tierOutcomes = [
+        { id: 'discovery', bestFor: 'Validate idea', timeline: '2-3 weeks' },
+        { id: 'design', bestFor: 'Raise funding', timeline: '4-6 weeks' },
+        { id: 'partnership', bestFor: 'Scale product', timeline: 'Ongoing' }
+    ];
+
     return (
         <div className="w-full overflow-x-auto pb-4">
             <table className="w-full text-left border-collapse min-w-[600px]">
                 <thead>
                     <tr className="border-b border-white/10">
                         <th className="py-4 px-4 text-sm font-semibold text-muted-foreground w-1/3">Features</th>
-                        <th className="py-4 px-4 text-sm font-semibold text-center w-1/6">Discovery</th>
-                        <th className="py-4 px-4 text-sm font-semibold text-center text-primary w-1/6">Design</th>
-                        <th className="py-4 px-4 text-sm font-semibold text-center w-1/6">Partnership</th>
+                        <th className="py-4 px-4 text-sm font-semibold text-center w-1/6">Strategy</th>
+                        <th className="py-4 px-4 text-sm font-semibold text-center text-primary w-1/6">MVP Design</th>
+                        <th className="py-4 px-4 text-sm font-semibold text-center w-1/6">Team Extension</th>
+                    </tr>
+                    {/* Outcome row */}
+                    <tr className="border-b border-white/5 bg-primary/5">
+                        <td className="py-3 px-4 text-xs font-medium text-muted-foreground">Best for</td>
+                        <td className="py-3 px-4 text-center text-xs font-semibold text-primary">Validate idea</td>
+                        <td className="py-3 px-4 text-center text-xs font-semibold text-primary">Raise funding</td>
+                        <td className="py-3 px-4 text-center text-xs font-semibold text-primary">Scale product</td>
+                    </tr>
+                    <tr className="border-b border-white/5">
+                        <td className="py-3 px-4 text-xs font-medium text-muted-foreground">Timeline</td>
+                        <td className="py-3 px-4 text-center text-xs text-muted-foreground">2-3 weeks</td>
+                        <td className="py-3 px-4 text-center text-xs text-muted-foreground">4-6 weeks</td>
+                        <td className="py-3 px-4 text-center text-xs text-muted-foreground">Ongoing</td>
                     </tr>
                 </thead>
                 <tbody>
                     {features.map((section, idx) => (
-                        <>
-                            <tr key={`cat-${idx}`} className="bg-white/5">
+                        <Fragment key={`section-${idx}`}>
+                            <tr className="bg-white/5">
                                 <td colSpan="4" className="py-2 px-4 text-xs font-bold uppercase tracking-wider text-muted-foreground/70 bg-secondary/30">
                                     {section.category}
                                 </td>
@@ -69,7 +90,7 @@ const ComparisonTable = () => {
                                     ))}
                                 </tr>
                             ))}
-                        </>
+                        </Fragment>
                     ))}
                 </tbody>
             </table>

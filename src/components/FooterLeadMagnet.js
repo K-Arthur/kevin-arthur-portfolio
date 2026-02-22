@@ -1,6 +1,6 @@
 'use client';
 
-import { m } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaClipboardCheck, FaBrain, FaArrowRight } from 'react-icons/fa';
 
@@ -31,7 +31,7 @@ export default function FooterLeadMagnet({ className = '' }) {
   return (
     <div className={`py-12 border-t border-border/30 ${className}`}>
       <div className="container-responsive">
-        <m.div
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -69,7 +69,7 @@ export default function FooterLeadMagnet({ className = '' }) {
               );
             })}
           </div>
-        </m.div>
+        </motion.div>
       </div>
     </div>
   );

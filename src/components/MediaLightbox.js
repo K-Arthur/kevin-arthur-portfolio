@@ -29,7 +29,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
       document.body.appendChild(element);
     }
     setPortalElement(element);
-    
+
     return () => {
       if (element && element.parentNode === document.body) {
         document.body.removeChild(element);
@@ -44,7 +44,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
     setPanPosition({ x: 0, y: 0 });
     setRotation(0);
     setViewMode('fit');
-    
+
     if (lightboxRef.current) {
       lightboxRef.current.scrollTop = 0;
       lightboxRef.current.scrollLeft = 0;
@@ -64,11 +64,11 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
-    
+
     if (lightboxRef.current) {
       lightboxRef.current.focus();
     }
-    
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
@@ -90,11 +90,11 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
 
   const handleTouchEnd = useCallback((e) => {
     if (!touchStart.x || !touchStart.y) return;
-    
+
     const touchEnd = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
     const deltaX = touchStart.x - touchEnd.x;
     const deltaY = touchStart.y - touchEnd.y;
-    
+
     // Swipe detection
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
       if (deltaX > 0) {
@@ -103,14 +103,14 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
         onPrev();
       }
     }
-    
+
     setTouchStart({ x: 0, y: 0 });
   }, [touchStart, onNext, onPrev]);
 
   // Zoom and pan handlers
   const handleWheel = useCallback((e) => {
     if (!isDesktopMockup && !isImage) return;
-    
+
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.2 : 0.2;
     setZoomLevel(prev => Math.max(0.1, Math.min(prev + delta, 10)));
@@ -118,7 +118,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
 
   const handleMouseDown = useCallback((e) => {
     if ((!isDesktopMockup && !isImage) || zoomLevel <= 1) return;
-    
+
     e.preventDefault();
     setIsDragging(true);
     setDragStart({ x: e.clientX - panPosition.x, y: e.clientY - panPosition.y });
@@ -126,7 +126,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
 
   const handleMouseMove = useCallback((e) => {
     if (!isDragging) return;
-    
+
     e.preventDefault();
     setPanPosition({
       x: e.clientX - dragStart.x,
@@ -203,11 +203,11 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
 
   const getImageStyle = () => {
     let transform = `scale(${zoomLevel})`;
-    
+
     if (panPosition.x !== 0 || panPosition.y !== 0) {
       transform += ` translate(${panPosition.x}px, ${panPosition.y}px)`;
     }
-    
+
     if (rotation !== 0) {
       transform += ` rotate(${rotation}deg)`;
     }
@@ -237,7 +237,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
   };
 
   const lightboxContent = (
-    <div 
+    <div
       ref={lightboxRef}
       className={`${styles.lightbox} ${styles[`type-${currentItem.type}`]} ${isFullscreen ? styles.fullscreen : ''}`}
       onClick={(e) => e.target === e.currentTarget && onClose()}
@@ -266,6 +266,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
       {/* Media content */}
       <div className={`${styles.mediaContainer} ${imageLoaded ? styles.loaded : ''}`}>
         {(isImage || isDesktopMockup || isMobileMockup) && (
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img
             ref={imageRef}
             src={currentItem.src}
@@ -282,16 +283,16 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
             style={getImageStyle()}
           />
         )}
-        
+
         {isVideo && (
-          <VideoPlayer 
-            src={currentItem.src} 
+          <VideoPlayer
+            src={currentItem.src}
             poster={currentItem.thumbnail}
             className={styles.mediaContent}
             autoPlay={false}
           />
         )}
-        
+
         {currentItem.type === MEDIA_TYPES.PDF && (
           <div className={styles.mediaContent} style={{ width: '100%', height: '100%' }}>
             <PDFViewer file={currentItem.src} thumbnail={currentItem.thumbnail} />
@@ -304,7 +305,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
         {/* Zoom controls for images and desktop mockups */}
         {(isDesktopMockup || isImage) && (
           <div className={styles.zoomControls}>
-            <button 
+            <button
               onClick={handleZoomOut}
               className={styles.controlButton}
               aria-label="Zoom out"
@@ -313,7 +314,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
               <ZoomOut size={16} />
             </button>
             <span className={styles.zoomLevel}>{Math.round(zoomLevel * 100)}%</span>
-            <button 
+            <button
               onClick={handleZoomIn}
               className={styles.controlButton}
               aria-label="Zoom in"
@@ -321,7 +322,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
             >
               <ZoomIn size={16} />
             </button>
-            <button 
+            <button
               onClick={handleResetZoom}
               className={styles.controlButton}
               aria-label="Reset zoom"
@@ -334,21 +335,21 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
         {/* View mode controls */}
         {(isDesktopMockup || isImage) && (
           <div className={styles.viewModeControls}>
-            <button 
+            <button
               onClick={() => handleViewModeChange('fit')}
               className={`${styles.controlButton} ${viewMode === 'fit' ? styles.active : ''}`}
               aria-label="Fit to screen"
             >
               Fit
             </button>
-            <button 
+            <button
               onClick={() => handleViewModeChange('fill')}
               className={`${styles.controlButton} ${viewMode === 'fill' ? styles.active : ''}`}
               aria-label="Fill screen"
             >
               Fill
             </button>
-            <button 
+            <button
               onClick={() => handleViewModeChange('actual')}
               className={`${styles.controlButton} ${viewMode === 'actual' ? styles.active : ''}`}
               aria-label="Actual size"
@@ -360,7 +361,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
 
         {/* Rotation control */}
         {(isDesktopMockup || isImage) && (
-          <button 
+          <button
             onClick={handleRotate}
             className={styles.controlButton}
             aria-label="Rotate image"
@@ -370,7 +371,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
         )}
 
         {/* Fullscreen control */}
-        <button 
+        <button
           onClick={handleFullscreen}
           className={styles.controlButton}
           aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
@@ -391,7 +392,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
       {/* Navigation controls */}
       {media.length > 1 && (
         <>
-          <button 
+          <button
             className={`${styles.navButton} ${styles.prevButton}`}
             onClick={(e) => { e.stopPropagation(); onPrev(); }}
             aria-label={`Previous media (${currentIndex} of ${media.length})`}
@@ -399,8 +400,8 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
           >
             <ChevronLeft size={32} />
           </button>
-          
-          <button 
+
+          <button
             className={`${styles.navButton} ${styles.nextButton}`}
             onClick={(e) => { e.stopPropagation(); onNext(); }}
             aria-label={`Next media (${currentIndex + 2} of ${media.length})`}
@@ -410,9 +411,9 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
           </button>
         </>
       )}
-      
+
       {/* Close button */}
-      <button 
+      <button
         className={`${styles.controlButton} ${styles.closeButton}`}
         onClick={(e) => { e.stopPropagation(); onClose(); }}
         aria-label="Close lightbox"

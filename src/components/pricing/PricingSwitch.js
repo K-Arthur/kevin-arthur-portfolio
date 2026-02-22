@@ -1,6 +1,6 @@
 'use client';
 
-import { m } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const PricingSwitch = ({ enabled, setEnabled }) => {
     return (
@@ -13,7 +13,7 @@ const PricingSwitch = ({ enabled, setEnabled }) => {
                 >
                     Project
                     {!enabled && (
-                        <m.div
+                        <motion.div
                             layoutId="activePill"
                             className="absolute inset-0 bg-primary rounded-full shadow-glow -z-10"
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -28,7 +28,7 @@ const PricingSwitch = ({ enabled, setEnabled }) => {
                 >
                     Retainer
                     {enabled && (
-                        <m.div
+                        <motion.div
                             layoutId="activePill"
                             className="absolute inset-0 bg-primary rounded-full shadow-glow -z-10"
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -38,20 +38,25 @@ const PricingSwitch = ({ enabled, setEnabled }) => {
             </div>
 
             {/* Dynamic Label/Badge */}
-            <m.div
+            <motion.div
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-2"
+                className="flex flex-col items-center gap-2"
             >
                 <span className="text-sm text-muted-foreground/60">
-                    {enabled ? 'Fixed monthly rate' : 'One-off payment'}
+                    {enabled ? 'Monthly retainer' : 'One-time project fee'}
                 </span>
                 {enabled && (
-                    <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary uppercase tracking-wide border border-primary/20">
-                        Save 20%
-                    </span>
+                    <div className="flex items-center gap-3">
+                        <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary uppercase tracking-wide border border-primary/20">
+                            Priority Scheduling
+                        </span>
+                        <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary uppercase tracking-wide border border-primary/20">
+                            Dedicated Capacity
+                        </span>
+                    </div>
                 )}
-            </m.div>
+            </motion.div>
         </div>
     );
 };

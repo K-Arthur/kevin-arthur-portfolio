@@ -92,7 +92,7 @@ export default function ComparisonSlider({
         <div className="w-full max-w-5xl mx-auto my-12">
             <div className="mb-6 flex items-center justify-between">
                 <div>
-                    <span className="text-xs font-mono text-primary tracking-widest uppercase">// Visual Hierarchy</span>
+                    <span className="text-xs font-mono text-primary tracking-widest uppercase">{"// Visual Hierarchy"}</span>
                     <h3 className="text-xl font-bold text-foreground mt-1">Controlled Chaos</h3>
                     <p className="text-sm text-muted-foreground mt-1">
                         Drag the slider or use arrow keys to compare.
@@ -103,8 +103,8 @@ export default function ComparisonSlider({
             <div
                 ref={containerRef}
                 className={`relative w-full aspect-video rounded-xl overflow-hidden cursor-ew-resize select-none shadow-2xl border group transition-all duration-200 ${isFocused
-                        ? 'border-primary ring-2 ring-primary/30 ring-offset-2 ring-offset-background'
-                        : 'border-border/50 hover:border-border'
+                    ? 'border-primary ring-2 ring-primary/30 ring-offset-2 ring-offset-background'
+                    : 'border-border/50 hover:border-border'
                     }`}
                 onMouseDown={() => setIsDragging(true)}
                 onTouchStart={() => setIsDragging(true)}
@@ -154,14 +154,14 @@ export default function ComparisonSlider({
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     className={`absolute top-0 bottom-0 w-1 cursor-ew-resize transition-shadow focus:outline-none ${isFocused
-                            ? 'bg-primary shadow-[0_0_20px_rgba(var(--primary),0.5)]'
-                            : 'bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]'
+                        ? 'bg-primary shadow-[0_0_20px_rgba(var(--primary),0.5)]'
+                        : 'bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]'
                         }`}
                     style={{ left: `${sliderPosition}%` }}
                 >
                     <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-colors ${isFocused
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-white text-black'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-white text-black'
                         }`}>
                         <MoveHorizontal className="w-5 h-5" />
                     </div>

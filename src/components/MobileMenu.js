@@ -3,7 +3,7 @@
 import { useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { m, AnimatePresence, useDragControls, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls, useReducedMotion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 
 export default function MobileMenu({ isOpen, onClose, navLinks }) {
@@ -114,8 +114,8 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
             {isOpen && (
                 <>
                     {/* Backdrop overlay */}
-                    <m.div
-                        className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm md:hidden"
+                    <motion.div
+                        className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm lg:hidden"
                         variants={backdropVariants}
                         initial="hidden"
                         animate="visible"
@@ -125,13 +125,13 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                     />
 
                     {/* Bottom Sheet */}
-                    <m.div
+                    <motion.div
                         ref={menuRef}
                         id="mobile-menu-bottom-sheet"
                         role="dialog"
                         aria-modal="true"
                         aria-label="Mobile navigation menu"
-                        className="fixed bottom-0 left-0 right-0 z-50 md:hidden"
+                        className="fixed bottom-0 left-0 right-0 z-50 lg:hidden"
                         variants={bottomSheetVariants}
                         initial="hidden"
                         animate="visible"
@@ -160,7 +160,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                                     {navLinks.map((link, index) => {
                                         const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
                                         return (
-                                            <m.li
+                                            <motion.li
                                                 key={link.href}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
@@ -181,17 +181,17 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                                                     <span className="text-2xl" aria-hidden="true">{link.icon}</span>
                                                     <span>{link.label}</span>
                                                     {isActive && (
-                                                        <m.span
+                                                        <motion.span
                                                             className="ml-auto text-primary"
                                                             layoutId="mobile-active-indicator"
                                                         >
                                                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                                             </svg>
-                                                        </m.span>
+                                                        </motion.span>
                                                     )}
                                                 </Link>
-                                            </m.li>
+                                            </motion.li>
                                         );
                                     })}
                                 </ul>
@@ -221,7 +221,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                                 </Link>
                             </div>
                         </div>
-                    </m.div>
+                    </motion.div>
                 </>
             )}
         </AnimatePresence>

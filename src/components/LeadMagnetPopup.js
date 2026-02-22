@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaClipboardCheck, FaBrain } from 'react-icons/fa';
 import LeadMagnetForm from './LeadMagnetForm';
 
@@ -204,7 +204,7 @@ export default function LeadMagnetPopup({
   return (
     <AnimatePresence>
       {isVisible && (
-        <m.div
+        <motion.div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -212,7 +212,7 @@ export default function LeadMagnetPopup({
           onClick={handleBackdropClick}
         >
           {/* Backdrop */}
-          <m.div
+          <motion.div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -220,7 +220,7 @@ export default function LeadMagnetPopup({
           />
 
           {/* Modal */}
-          <m.div
+          <motion.div
             className="relative w-full max-w-md bg-card border border-border/50 rounded-2xl shadow-2xl overflow-hidden"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -266,7 +266,7 @@ export default function LeadMagnetPopup({
                     onClick={handleDismiss}
                     className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    No thanks, I'll figure it out
+                    No thanks, I&apos;ll figure it out
                   </button>
                 </div>
               ) : (
@@ -274,7 +274,7 @@ export default function LeadMagnetPopup({
                   <LeadMagnetForm
                     resource={resource}
                     buttonText={currentContent.buttonText}
-                    successMessage="Check your inbox! It's on its way."
+                    successMessage="Check your inbox! It&apos;s on its way."
                     showName={false}
                     variant="compact"
                   />
@@ -282,13 +282,13 @@ export default function LeadMagnetPopup({
                     onClick={handleDismiss}
                     className="w-full mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    No thanks, I'm just browsing
+                    No thanks, I&apos;m just browsing
                   </button>
                 </>
               )}
             </div>
-          </m.div>
-        </m.div>
+          </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

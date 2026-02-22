@@ -162,7 +162,7 @@
   border-left: 4px solid hsl(var(--color-accent));
   background: hsl(var(--muted) / 0.3);
   border-radius: 0 0.75rem 0.75rem 0;
-  font-style: italic;
+  font-weight: 500;
   color: hsl(var(--text-medium-contrast));
 }
 

@@ -1,8 +1,10 @@
 'use client';
 
-import { m } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { FaCalendarAlt, FaEnvelope, FaArrowRight } from 'react-icons/fa';
+import { FaCalendarAlt, FaEnvelope, FaArrowRight, FaTimes } from 'react-icons/fa';
+import { useState } from 'react';
+import InlineContactForm from './InlineContactForm';
 
 /**
  * Industry-specific contextual messaging for CTAs
@@ -49,9 +51,10 @@ export default function ContextualCTA({
     const content = industryContent[industry] || industryContent.general;
     const headline = customHeadline || content.headline;
     const subtext = customSubtext || content.subtext;
+    const [isFormVisible, setIsFormVisible] = useState(false);
 
     return (
-        <m.div
+        <motion.div
             className="mt-16 py-12 px-6 md:px-10 rounded-2xl bg-gradient-to-r from-primary/5 via-primary/10 to-secondary/5 border border-border/50"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -59,7 +62,7 @@ export default function ContextualCTA({
             viewport={{ once: true }}
         >
             <div className="text-center max-w-2xl mx-auto">
-                <m.p
+                <motion.p
                     className="text-2xl md:text-3xl font-bold text-foreground mb-3"
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -67,8 +70,8 @@ export default function ContextualCTA({
                     viewport={{ once: true }}
                 >
                     {headline}
-                </m.p>
-                <m.p
+                </motion.p>
+                <motion.p
                     className="text-lg text-muted-foreground mb-8"
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -76,9 +79,9 @@ export default function ContextualCTA({
                     viewport={{ once: true }}
                 >
                     {subtext}
-                </m.p>
+                </motion.p>
 
-                <m.div
+                <motion.div
                     className="flex flex-col sm:flex-row gap-4 justify-center"
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -97,18 +100,41 @@ export default function ContextualCTA({
                         <FaArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </a>
 
-                    {/* Secondary CTA - Email */}
+                    {/* Secondary CTA - Email / Inline Form Toggle */}
                     {showEmailOption && (
-                        <a
-                            href="mailto:hello@kevinarthur.design"
+                        <button
+                            onClick={() => setIsFormVisible(!isFormVisible)}
                             className="group inline-flex items-center justify-center gap-3 btn-secondary-enhanced font-semibold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
                         >
-                            <FaEnvelope className="w-4 h-4" />
-                            Send an Email
-                        </a>
+                            {isFormVisible ? (
+                                <>
+                                    <FaTimes className="w-4 h-4" />
+                                    Close Form
+                                </>
+                            ) : (
+                                <>
+                                    <FaEnvelope className="w-4 h-4" />
+                                    Send a Message
+                                </>
+                            )}
+                        </button>
                     )}
-                </m.div>
+                </motion.div>
+
+                {/* Inline Contact Form Area */}
+                <AnimatePresence>
+                    {isFormVisible && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                            animate={{ opacity: 1, height: 'auto', marginTop: 32 }}
+                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                            className="overflow-hidden"
+                        >
+                            <InlineContactForm onSuccess={() => setIsFormVisible(false)} />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
-        </m.div>
+        </motion.div>
     );
 }

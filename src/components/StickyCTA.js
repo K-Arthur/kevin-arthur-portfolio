@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaEnvelope, FaCalendarAlt, FaTimes, FaArrowRight } from 'react-icons/fa';
 
 const STORAGE_KEY = 'portfolio-sticky-cta-dismissed';
@@ -22,10 +22,10 @@ export default function StickyCTA({
 }) {
     const [isVisible, setIsVisible] = useState(false);
     const [isDismissed, setIsDismissed] = useState(true); // Start hidden until we check localStorage
+    const [isFormVisible, setIsFormVisible] = useState(false); // Track form visibility
 
     // Check localStorage and set up scroll listener
     useEffect(() => {
-        // Check if component was previously dismissed
         const wasDismissed = localStorage.getItem(STORAGE_KEY) === 'true';
         setIsDismissed(wasDismissed);
 
@@ -36,12 +36,52 @@ export default function StickyCTA({
             setIsVisible(scrollY > scrollThreshold);
         };
 
-        // Initial check
         handleScroll();
-
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, [scrollThreshold]);
+
+    // Check for elements that should hide the CTA (like forms)
+    useEffect(() => {
+        if (isDismissed) return;
+
+        const visibleForms = new Set();
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        visibleForms.add(entry.target);
+                    } else {
+                        visibleForms.delete(entry.target);
+                    }
+                });
+                setIsFormVisible(visibleForms.size > 0);
+            },
+            { rootMargin: '0px 0px -50px 0px', threshold: 0.1 }
+        );
+
+        // Function to observe all currently existing forms
+        const observeForms = () => {
+            const avoidElements = document.querySelectorAll('.prevent-sticky-cta');
+            avoidElements.forEach(el => observer.observe(el));
+        };
+
+        // Initial check
+        observeForms();
+
+        // Mutation observer to catch dynamically rendered forms (e.g., lazy loaded)
+        const mutationObserver = new MutationObserver(() => {
+            observeForms();
+        });
+
+        mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+        return () => {
+            observer.disconnect();
+            mutationObserver.disconnect();
+        };
+    }, [isDismissed]);
 
     const handleDismiss = () => {
         setIsDismissed(true);
@@ -49,16 +89,19 @@ export default function StickyCTA({
         localStorage.setItem(STORAGE_KEY, 'true');
     };
 
-    // Don't render on desktop or if dismissed
     if (isDismissed) return null;
 
     return (
         <AnimatePresence>
             {isVisible && (
-                <m.div
+                <motion.div
+                    id="sticky-cta-container"
                     className="fixed bottom-0 left-0 right-0 z-50 p-4 md:hidden"
                     initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
+                    animate={{
+                        y: isFormVisible ? 100 : 0,
+                        opacity: isFormVisible ? 0 : 1
+                    }}
                     exit={{ y: 100, opacity: 0 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 >
@@ -72,32 +115,19 @@ export default function StickyCTA({
                             <FaTimes className="w-3 h-3" />
                         </button>
 
-                        {/* CTA Buttons */}
-                        <div className="flex gap-3">
-                            {/* Email Button */}
-                            <a
-                                href={`mailto:${emailAddress}`}
-                                className="flex-1 inline-flex items-center justify-center gap-2 btn-secondary-enhanced font-semibold px-4 py-3 rounded-xl transition-all duration-300"
-                                aria-label="Send an email"
-                            >
-                                <FaEnvelope className="w-4 h-4" />
-                                <span>Email</span>
-                            </a>
-
-                            {/* Book Call Button */}
-                            <a
-                                href={schedulingUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group inline-flex items-center justify-center gap-3 btn-primary-enhanced font-semibold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
-                            >
-                                <FaCalendarAlt className="w-4 h-4" />
-                                Book a 15-Min Call
-                                <FaArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                            </a>
-                        </div>
+                        {/* CTA Button */}
+                        <a
+                            href={schedulingUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex w-full shadow-lg items-center justify-center gap-3 btn-primary-enhanced font-bold text-lg px-6 py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02]"
+                        >
+                            <FaCalendarAlt className="w-5 h-5" />
+                            Book a Quick Chat
+                            <FaArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        </a>
                     </div>
-                </m.div>
+                </motion.div>
             )}
         </AnimatePresence>
     );

@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
-import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 // Context for custom cursor state
 const CursorContext = createContext({
@@ -124,7 +124,7 @@ function CustomCursor({ position, isVisible, type, text }) {
     return (
         <AnimatePresence>
             {isVisible && (
-                <m.div
+                <motion.div
                     className="custom-cursor"
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{
@@ -156,15 +156,15 @@ function CustomCursor({ position, isVisible, type, text }) {
                     }}
                 >
                     {text && (
-                        <m.span
+                        <motion.span
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             className="text-xs font-medium text-white uppercase tracking-wider"
                         >
                             {text}
-                        </m.span>
+                        </motion.span>
                     )}
-                </m.div>
+                </motion.div>
             )}
         </AnimatePresence>
     );

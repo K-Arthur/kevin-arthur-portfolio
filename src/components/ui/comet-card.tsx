@@ -102,7 +102,7 @@ export const CometCard = ({
           scale: 1.02,
           transition: { duration: 0.2 },
         }}
-        className="relative will-change-transform"
+        className="relative will-change-transform h-full"
       >
         {children}
         <motion.div

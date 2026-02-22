@@ -9,14 +9,14 @@ import { Color, Vector3 } from 'three';
 // Detect device capabilities for adaptive quality
 const getDeviceQuality = () => {
   if (typeof window === 'undefined') return 'medium';
-  
+
   // Check for mobile devices
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  
+
   // Check for performance indicators
   const hasGoodPerformance = navigator.hardwareConcurrency >= 4;
   const hasHighDPI = window.devicePixelRatio > 1.5;
-  
+
   if (isMobile) return 'low';
   if (hasGoodPerformance && hasHighDPI) return 'high';
   return 'medium';
@@ -52,14 +52,14 @@ const getHslColorFromCSSVar = (variable, fallback) => {
   if (typeof window === 'undefined') return fallback;
   const style = getComputedStyle(document.documentElement);
   const rawValue = style.getPropertyValue(variable).trim();
-  
+
   if (!rawValue) return fallback;
-  
+
   // CSS variables return values like "210 100% 56%", but Three.js needs "hsl(210, 100%, 56%)"
   if (rawValue.includes('%') && !rawValue.startsWith('hsl(')) {
     return `hsl(${rawValue.replace(/\s+/g, ', ')})`;
   }
-  
+
   return rawValue || fallback;
 };
 
@@ -113,7 +113,7 @@ const GlassSphere = ({ color, theme, quality, isActive }) => {
 
   useFrame(({ mouse, clock }) => {
     if (!isActive || !sphereRef.current) return;
-    
+
     // Improved throttling - only skip frames for low quality
     const now = clock.getElapsedTime();
     if (quality === 'low') {
@@ -127,7 +127,7 @@ const GlassSphere = ({ color, theme, quality, isActive }) => {
     const y = (mouse.y * viewport.height) / 4;
     target.set(x, y, 0);
     sphereRef.current.position.lerp(target, 0.08); // Increased from 0.05 for more responsive feel
-    
+
     // Subtle rotation for dynamic feel
     frameCount.current += 0.005;
     sphereRef.current.rotation.y = Math.sin(frameCount.current) * 0.1;
@@ -148,7 +148,7 @@ const GlassSphere = ({ color, theme, quality, isActive }) => {
         emissiveIntensity: theme === 'dark' ? 0.1 : 0.05,
       };
     }
-    
+
     const baseProps = {
       transmission: 1,
       opacity: 1,
@@ -187,8 +187,8 @@ const GlassSphere = ({ color, theme, quality, isActive }) => {
   const segments = QUALITY_PRESETS[quality].sphereSegments;
 
   return (
-    <Sphere 
-      ref={sphereRef} 
+    <Sphere
+      ref={sphereRef}
       args={[1, ...segments]}
       scale={2.5}
     >
@@ -203,7 +203,7 @@ const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme, quality, isAc
   const timeOffset = useRef(Math.random() * Math.PI * 2);
   const initialPosition = useRef(new Vector3());
   const lastUpdate = useRef(0);
-  
+
   // Initialize position once on mount
   useEffect(() => {
     const angle = Math.random() * Math.PI * 2;
@@ -216,7 +216,7 @@ const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme, quality, isAc
 
   useFrame(({ clock }) => {
     if (!sphereRef.current || !isActive) return;
-    
+
     // Reduced throttling for smoother orbital motion
     const now = clock.getElapsedTime();
     if (quality === 'low') {
@@ -224,9 +224,9 @@ const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme, quality, isAc
       if (now - lastUpdate.current < updateInterval) return;
       lastUpdate.current = now;
     }
-    
+
     const time = now * speed;
-    
+
     // Smooth, consistent movement using initial position as base
     sphereRef.current.position.x = initialPosition.current.x + Math.cos(time) * 0.1;
     sphereRef.current.position.y = initialPosition.current.y + Math.sin(time * 0.7) * 0.1;
@@ -254,7 +254,7 @@ const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme, quality, isAc
         emissiveIntensity: theme === 'dark' ? 0.05 : 0.03,
       };
     }
-    
+
     return {
       color: adjustedColor,
       roughness: 0.05,
@@ -288,7 +288,7 @@ const AnimatedTorus = ({ color, theme, quality, isActive }) => {
 
   useFrame(({ clock }) => {
     if (!torusRef.current || !isActive) return;
-    
+
     // Simplified throttling for torus rotation
     const now = clock.getElapsedTime();
     if (quality === 'low') {
@@ -296,7 +296,7 @@ const AnimatedTorus = ({ color, theme, quality, isActive }) => {
       if (now - lastUpdate.current < updateInterval) return;
       lastUpdate.current = now;
     }
-    
+
     torusRef.current.rotation.x += 0.002;
     torusRef.current.rotation.y += 0.003;
   });
@@ -313,7 +313,7 @@ const AnimatedTorus = ({ color, theme, quality, isActive }) => {
         emissiveIntensity: theme === 'dark' ? 0.01 : 0.02,
       };
     }
-    
+
     return {
       color: color,
       roughness: 0.1,
@@ -343,7 +343,7 @@ const CustomLighting = ({ primaryColor, secondaryColor }) => {
   // Memoize light props to prevent recreation on each render
   const lightProps = useMemo(() => ({
     ambient: { intensity: 0.5, color: '#ffffff' },
-    point1: { 
+    point1: {
       position: [10, 10, 10],
       intensity: 1.0,
       color: primaryColor,
@@ -376,8 +376,8 @@ const CustomLighting = ({ primaryColor, secondaryColor }) => {
       <pointLight {...lightProps.point1} />
       <pointLight {...lightProps.point2} />
       <directionalLight {...lightProps.directional} />
-      <hemisphereLight 
-        args={[lightProps.hemisphere.skyColor, lightProps.hemisphere.groundColor, lightProps.hemisphere.intensity]} 
+      <hemisphereLight
+        args={[lightProps.hemisphere.skyColor, lightProps.hemisphere.groundColor, lightProps.hemisphere.intensity]}
       />
     </>
   );
@@ -394,11 +394,12 @@ const Scene = () => {
   useEffect(() => {
     setMounted(true);
     setQuality(getDeviceQuality());
-    
+    const currentCanvas = canvasRef.current;
+
     // Cleanup on unmount
     return () => {
-      if (canvasRef.current) {
-        const gl = canvasRef.current.getContext('webgl');
+      if (currentCanvas) {
+        const gl = currentCanvas.getContext('webgl');
         if (gl) {
           // Force garbage collection
           gl.getExtension('WEBGL_lose_context')?.loseContext();
@@ -426,17 +427,16 @@ const Scene = () => {
   if (!mounted) return null;
 
   return (
-    <div 
-      className={`absolute inset-0 z-0 transition-opacity duration-700 ${
-        resolvedTheme === 'dark' ? 'opacity-35' : 'opacity-30'
-      }`}
+    <div
+      className={`absolute inset-0 z-0 transition-opacity duration-700 ${resolvedTheme === 'dark' ? 'opacity-35' : 'opacity-30'
+        }`}
       {...ariaProps}
     >
-      <Canvas 
+      <Canvas
         ref={canvasRef}
         key={`${resolvedTheme}-${quality}`}
-        camera={{ 
-          position: [0, 0, 10], 
+        camera={{
+          position: [0, 0, 10],
           fov: 50,
           near: 0.1,
           far: 1000
@@ -449,7 +449,7 @@ const Scene = () => {
           depth: true,
         }}
         dpr={Math.min(QUALITY_PRESETS[quality].dpr, typeof window !== 'undefined' ? window.devicePixelRatio : 1)}
-        performance={{ 
+        performance={{
           min: quality === 'low' ? 0.5 : 0.75,
           max: 1,
           debounce: quality === 'low' ? 200 : 100
@@ -458,11 +458,11 @@ const Scene = () => {
         onCreated={({ gl, performance }) => {
           gl.setClearColor(0x000000, 0);
           gl.setPixelRatio(Math.min(QUALITY_PRESETS[quality].dpr, window.devicePixelRatio));
-          
+
           // Adaptive performance monitoring
           performance.regress();
         }}
-        onPointerMissed={() => {}} // Enable pointer event handling
+        onPointerMissed={() => { }} // Enable pointer event handling
         style={{ touchAction: 'none' }} // Improve touch responsiveness
       >
         <color attach="background" args={resolvedTheme === 'dark' ? ['#0a0a0a'] : ['#f8fafc']} />

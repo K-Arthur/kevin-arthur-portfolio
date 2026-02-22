@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { m, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 
 export default function Parallax({ children, offset = 50, className = '' }) {
   const ref = useRef(null);
@@ -33,8 +33,8 @@ export default function Parallax({ children, offset = 50, className = '' }) {
   }
 
   return (
-    <m.div ref={ref} style={{ y }} className={className}>
+    <motion.div ref={ref} style={{ y }} className={className}>
       {children}
-    </m.div>
+    </motion.div>
   );
 }

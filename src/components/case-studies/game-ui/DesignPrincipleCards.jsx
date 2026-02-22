@@ -83,7 +83,7 @@ export default function DesignPrincipleCards() {
 
             <div className="w-full max-w-4xl mx-auto relative z-10">
                 <div className="mb-8 text-center">
-                    <span className="text-xs font-mono text-primary tracking-widest uppercase dark:text-[#FF4081]">// UX Framework</span>
+                    <span className="text-xs font-mono text-primary tracking-widest uppercase dark:text-[#FF4081]">{"// UX Framework"}</span>
                     <h3 className="text-xl font-bold text-foreground mt-1">Player-First Design Principles</h3>
                     <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">
                         The guiding rules that kept this UI legible at 0ms reaction time. Hover each card to see the solution.

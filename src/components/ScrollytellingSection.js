@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { m, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 
 /**
  * ScrollytellingSection - A scroll-linked narrative section component
@@ -57,6 +57,8 @@ export function ScrollytellingSection({
         springConfig
     );
 
+    const blurFilter = useTransform(blur, (v) => `blur(${v}px)`);
+
     // Determine style based on transition type
     const getStyles = () => {
         if (prefersReducedMotion) {
@@ -67,7 +69,7 @@ export function ScrollytellingSection({
             case 'blur-to-clear':
                 return {
                     opacity,
-                    filter: useTransform(blur, (v) => `blur(${v}px)`),
+                    filter: blurFilter,
                     scale,
                 };
             case 'scale-up':
@@ -96,13 +98,13 @@ export function ScrollytellingSection({
         >
             {/* Sticky content container */}
             <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-                <m.div
+                <motion.div
                     className="scrollytelling-content w-full max-w-5xl mx-auto px-4 md:px-8"
                     style={getStyles()}
                 >
                     {/* Optional section label */}
                     {label && (
-                        <m.div
+                        <motion.div
                             className="mb-6 text-center"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -112,10 +114,10 @@ export function ScrollytellingSection({
                             <span className="inline-block px-4 py-2 text-sm font-semibold uppercase tracking-wider text-primary bg-primary/10 rounded-full">
                                 {label}
                             </span>
-                        </m.div>
+                        </motion.div>
                     )}
                     {children}
-                </m.div>
+                </motion.div>
             </div>
         </div>
     );
@@ -149,7 +151,7 @@ export function ScrollytellingWrapper({
         <div ref={containerRef} className={`scrollytelling-wrapper ${className}`}>
             {/* Progress indicator */}
             {showProgress && !prefersReducedMotion && (
-                <m.div
+                <motion.div
                     className="fixed top-0 left-0 right-0 h-1 bg-primary origin-left z-50"
                     style={{ scaleX }}
                 />
@@ -208,6 +210,9 @@ export function ProblemSolutionTransition({
         springConfig
     );
 
+    const problemBlurFilter = useTransform(problemBlur, (v) => `blur(${v}px)`);
+    const solutionBlurFilter = useTransform(solutionBlur, (v) => `blur(${v}px)`);
+
     if (prefersReducedMotion) {
         return (
             <div className="space-y-16 py-16">
@@ -231,42 +236,42 @@ export function ProblemSolutionTransition({
         >
             <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
                 {/* Problem State */}
-                <m.div
+                <motion.div
                     className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
                     style={{
                         opacity: problemOpacity,
-                        filter: useTransform(problemBlur, (v) => `blur(${v}px)`),
+                        filter: problemBlurFilter,
                         scale: problemScale,
                     }}
                 >
                     <div className="max-w-4xl w-full">
-                        <m.span
+                        <motion.span
                             className="inline-block px-4 py-2 text-sm font-semibold uppercase tracking-wider text-destructive bg-destructive/10 rounded-full mb-6"
                         >
                             {problemLabel}
-                        </m.span>
+                        </motion.span>
                         {problemContent}
                     </div>
-                </m.div>
+                </motion.div>
 
                 {/* Solution State */}
-                <m.div
+                <motion.div
                     className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
                     style={{
                         opacity: solutionOpacity,
-                        filter: useTransform(solutionBlur, (v) => `blur(${v}px)`),
+                        filter: solutionBlurFilter,
                         scale: solutionScale,
                     }}
                 >
                     <div className="max-w-4xl w-full">
-                        <m.span
+                        <motion.span
                             className="inline-block px-4 py-2 text-sm font-semibold uppercase tracking-wider text-primary bg-primary/10 rounded-full mb-6"
                         >
                             {solutionLabel}
-                        </m.span>
+                        </motion.span>
                         {solutionContent}
                     </div>
-                </m.div>
+                </motion.div>
             </div>
         </div>
     );
@@ -298,7 +303,7 @@ export function ScrollReveal({
     }
 
     return (
-        <m.div
+        <motion.div
             className={className}
             initial={{ opacity: 0, ...getInitialPosition() }}
             whileInView={{ opacity: 1, x: 0, y: 0 }}
@@ -310,7 +315,7 @@ export function ScrollReveal({
             viewport={{ once: true, margin: '-100px' }}
         >
             {children}
-        </m.div>
+        </motion.div>
     );
 }
 

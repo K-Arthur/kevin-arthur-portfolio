@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { Button } from '@/components/ui/button';
-import { m } from 'framer-motion';
+import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
 const MobileMenu = dynamic(() => import('./MobileMenu'), { ssr: false });
@@ -13,7 +13,6 @@ const MobileMenu = dynamic(() => import('./MobileMenu'), { ssr: false });
 const navLinks = [
   { href: '/about', label: 'About', icon: '👤' },
   { href: '/case-studies', label: 'Case Studies', icon: '📁' },
-  { href: '/pricing', label: 'Pricing', icon: '💰' },
   { href: '/lab', label: 'Lab', icon: '🧪' },
 ];
 
@@ -35,6 +34,14 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+    // Return focus to trigger button
+    setTimeout(() => {
+      triggerRef.current?.focus();
+    }, 100);
+  }, []);
+
   // Close menu on Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -53,7 +60,7 @@ const Header = () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, closeMobileMenu]);
 
   // Focus trap for accessibility
   useEffect(() => {
@@ -89,14 +96,6 @@ const Header = () => {
     }
   }, [mobileMenuOpen]);
 
-  const closeMobileMenu = useCallback(() => {
-    setMobileMenuOpen(false);
-    // Return focus to trigger button
-    setTimeout(() => {
-      triggerRef.current?.focus();
-    }, 100);
-  }, []);
-
 
 
   return (
@@ -121,24 +120,24 @@ const Header = () => {
           aria-label="Main navigation"
         >
           {/* Logo */}
-          <div className="flex-shrink-0 md:flex-1">
-            <m.div
+          <div className="flex-shrink-0 lg:flex-1">
+            <motion.div
               whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
               whileTap={{ scale: 0.98 }}
             >
               <Link
                 href="/"
-                className="text-2xl font-bold gradient-text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:rounded-md"
+                className="text-xl sm:text-2xl font-bold gradient-text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:rounded-md"
                 aria-label="Kevin Arthur - Home"
                 onClick={closeMobileMenu}
               >
                 Kevin Arthur
               </Link>
-            </m.div>
+            </motion.div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-2 bg-card/30 border border-border/20 rounded-full px-4 py-2 backdrop-blur-sm">
+          <div className="hidden lg:flex items-center space-x-2 bg-card/30 border border-border/20 rounded-full px-4 py-2 backdrop-blur-sm">
             {navLinks.map((link) => {
               const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
               return (
@@ -153,7 +152,7 @@ const Header = () => {
                 >
                   {link.label}
                   {isActive && (
-                    <m.div
+                    <motion.div
                       className="absolute inset-0 bg-primary/10 rounded-full -z-10"
                       layoutId="active-nav-item"
                       aria-hidden="true"
@@ -163,7 +162,7 @@ const Header = () => {
               );
             })}
           </div>
-          <div className="hidden md:flex md:flex-1 items-center justify-end gap-4">
+          <div className="hidden lg:flex lg:flex-1 items-center justify-end gap-4">
             <ThemeSwitcher />
             <Button asChild size="default" className="rounded-full px-6 min-h-[44px]">
               <Link href="/contact">
@@ -173,7 +172,7 @@ const Header = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center gap-3" style={{ contain: 'layout', minWidth: '100px' }}>
+          <div className="lg:hidden flex items-center gap-2 sm:gap-3" style={{ contain: 'layout', minWidth: '80px' }}>
             <ThemeSwitcher />
             <button
               ref={triggerRef}
@@ -184,11 +183,11 @@ const Header = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close main menu' : 'Open main menu'}
             >
-              <m.div
+              <motion.div
                 animate={mobileMenuOpen ? 'open' : 'closed'}
                 className="flex flex-col justify-center items-center w-6 h-6"
               >
-                <m.span
+                <motion.span
                   className="block h-0.5 w-5 bg-current rounded-full"
                   variants={{
                     closed: { rotate: 0, y: 0 },
@@ -196,7 +195,7 @@ const Header = () => {
                   }}
                   transition={{ duration: 0.2 }}
                 />
-                <m.span
+                <motion.span
                   className="block h-0.5 w-5 bg-current rounded-full mt-1.5"
                   variants={{
                     closed: { opacity: 1, x: 0 },
@@ -204,7 +203,7 @@ const Header = () => {
                   }}
                   transition={{ duration: 0.2 }}
                 />
-                <m.span
+                <motion.span
                   className="block h-0.5 w-5 bg-current rounded-full mt-1.5"
                   variants={{
                     closed: { rotate: 0, y: 0 },
@@ -212,7 +211,7 @@ const Header = () => {
                   }}
                   transition={{ duration: 0.2 }}
                 />
-              </m.div>
+              </motion.div>
             </button>
           </div>
         </nav>

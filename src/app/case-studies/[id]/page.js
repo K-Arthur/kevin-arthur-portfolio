@@ -2,7 +2,8 @@ import { getCaseStudyData, getAllCaseStudyIds } from '@/lib/case-studies';
 import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { mdxComponents } from '@/components/MdxComponents';
-import { FaCalendarAlt, FaUserTie, FaTools, FaChartLine } from 'react-icons/fa';
+import { FaCalendarAlt, FaUserTie, FaTools, FaChartLine, FaArrowLeft, FaRocket, FaFlask } from 'react-icons/fa';
+import Link from 'next/link';
 import contentStyles from './CaseStudyContent.module.css';
 import { getCaseStudySchema } from '@/lib/structured-data';
 import dynamic from 'next/dynamic';
@@ -61,6 +62,7 @@ const formatDate = (dateString) => {
 export default async function CaseStudyPage({ params }) {
   const postData = await getCaseStudyData(params.id);
   const caseStudySchema = getCaseStudySchema(postData);
+  const isConcept = postData.status === 'concept';
 
   return (
     <>
@@ -77,7 +79,16 @@ export default async function CaseStudyPage({ params }) {
       <ReadingProgress />
       <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
         {/* Hero Section */}
-        <header className="relative bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50 overflow-hidden">
+        <header className="relative bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50 overflow-hidden pt-12 md:pt-0">
+          {/* Breadcrumb Navigation */}
+          <Link
+            href="/case-studies"
+            className="absolute top-6 left-4 md:left-8 z-30 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors bg-background/60 backdrop-blur-md px-4 py-2 rounded-full border border-border/50 shadow-sm"
+          >
+            <FaArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to Case Studies</span>
+          </Link>
+
           {/* Dotted Glow Background Effect */}
           <DottedGlowBackground
             className="pointer-events-none"
@@ -99,14 +110,31 @@ export default async function CaseStudyPage({ params }) {
           />
           <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 md:py-24">
             <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="w-full md:w-2/3 text-center md:text-left">
+              <div className="w-full md:w-2/3 text-left">
                 <Parallax offset={-20}>
+                  {/* Status Badge */}
                   <div
-                    className="inline-flex items-center gap-2 text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full mb-4 animate-fade-in-down"
+                    className="inline-flex items-center gap-2 text-sm font-medium mb-4 animate-fade-in-down"
                     style={{ animationDelay: '0.2s' }}
                   >
-                    <span>Case Study</span>
+                    {isConcept ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 rounded-full">
+                        <FaFlask className="w-3.5 h-3.5" />
+                        Concept Project
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 rounded-full">
+                        <FaRocket className="w-3.5 h-3.5" />
+                        Shipped Product
+                      </span>
+                    )}
+                    {postData.industry && (
+                      <span className="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full capitalize">
+                        {postData.industry}
+                      </span>
+                    )}
                   </div>
+                  
                   <h1
                     className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground/80 leading-tight animate-fade-in-down"
                   >
@@ -120,31 +148,25 @@ export default async function CaseStudyPage({ params }) {
                   </p>
 
                   <div
-                    className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-4 text-sm text-muted-foreground animate-fade-in-up"
+                    className="flex flex-wrap justify-start gap-x-6 gap-y-4 text-sm text-muted-foreground animate-fade-in-up"
                     style={{ animationDelay: '0.6s' }}
                   >
-                    {postData.publishedAt && (
-                      <div className="flex items-center gap-2">
-                        <FaCalendarAlt className="text-primary" />
-                        <span>Published {formatDate(postData.publishedAt)}</span>
-                      </div>
-                    )}
                     {postData.role && (
                       <div className="flex items-center gap-2">
                         <FaUserTie className="text-primary" />
-                        <span>{postData.role}</span>
-                      </div>
-                    )}
-                    {postData.tools?.length > 0 && (
-                      <div className="flex items-center gap-2">
-                        <FaTools className="text-primary" />
-                        <span>{postData.tools.join(' • ')}</span>
+                        <span className="font-medium text-foreground">{postData.role}</span>
                       </div>
                     )}
                     {postData.duration && (
                       <div className="flex items-center gap-2">
                         <FaChartLine className="text-primary" />
                         <span>{postData.duration}</span>
+                      </div>
+                    )}
+                    {postData.tools?.length > 0 && (
+                      <div className="flex items-center gap-2">
+                        <FaTools className="text-primary" />
+                        <span>{postData.tools.slice(0, 3).join(' • ')}{postData.tools.length > 3 && ' • ...'}</span>
                       </div>
                     )}
                   </div>
