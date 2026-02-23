@@ -195,6 +195,7 @@ export default function RootLayout({ children }) {
             </div>
           </CursorProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
