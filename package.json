@@ -3,16 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall": "partytown copylib public/~partytown && node scripts/patch-partytown.js",
     "dev": "next dev",
-    "prebuild": "partytown copylib public/~partytown && node scripts/patch-partytown.js && node scripts/generate-static-pdf.js",
+    "prebuild": "node scripts/generate-static-pdf.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "generate-thumbnails": "node scripts/generate-video-thumbnails.js"
   },
   "dependencies": {
-    "@builder.io/partytown": "^0.10.3",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/utilities": "^3.2.2",
     "@mdx-js/loader": "^3.0.1",

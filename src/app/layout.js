@@ -6,11 +6,9 @@ import Footer from '@/components/Footer';
 import StickyCTA from '@/components/StickyCTA';
 import { CursorProvider } from '@/components/CursorProvider';
 import dynamic from 'next/dynamic';
+import Script from 'next/script';
 import { SpeedInsights } from "@vercel/speed-insights/next"
-// Note: Using native <script> tags for Partytown scripts instead of next/script
 import { personSchema, websiteSchema } from '@/lib/structured-data';
-
-import { PartytownSetup } from '@/components/PartytownSetup';
 
 // Dynamically import WebVitals with no SSR
 const WebVitals = dynamic(() => import('@/components/WebVitals'), {
@@ -104,31 +102,26 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
 
-        {/* Plausible script moved to body with lazyOnload strategy for better performance */}
-        {/* Partytown setup for offloading third-party scripts to web worker */}
-        <PartytownSetup />
       </head>
       <body className={`${jost.variable} ${firaCode.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}>
-        {/* Analytics scripts - using native script tags (not Next.js Script) to prevent 
-            auto-preload injection. Partytown handles these in a web worker. */}
+        {/* Analytics scripts - using Next.js Script with lazyOnload strategy
+            This loads scripts after all other resources, improving page load performance */}
         {process.env.NODE_ENV === 'production' && (
-          <script
+          <Script
             src="https://plausible.io/js/script.js"
             data-domain="kevinarthur.design"
             data-api="https://plausible.io/api/event"
-            type="text/partytown"
-            defer
+            strategy="lazyOnload"
           />
         )}
-        {/* Google tag (gtag.js) - Native script for Partytown web worker */}
-        <script
+        {/* Google Analytics - lazyOnload strategy for minimal performance impact */}
+        <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-L805WXGTZS"
-          type="text/partytown"
-          defer
+          strategy="lazyOnload"
         />
-        <script
+        <Script
           id="google-analytics"
-          type="text/partytown"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
