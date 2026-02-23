@@ -35,6 +35,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+.removed
 
 # Large media files (hosted externally)
 /public/images/work/Video-Motion-Graphics/
