@@ -4,8 +4,8 @@ const withMDX = require('@next/mdx')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable source maps in production for debugging and Lighthouse insights
-  productionBrowserSourceMaps: true,
+  // Disable production source maps to reduce bundle size
+  productionBrowserSourceMaps: false,
   output: 'export',
 
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
@@ -96,6 +96,12 @@ const nextConfig = {
       },
     });
 
+    // Exclude legacy polyfills for modern browsers
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'next/dist/build/polyfills/polyfill-module.js': false,
+    };
+
     return config;
   },
 
@@ -103,7 +109,10 @@ const nextConfig = {
   experimental: {
     // Enable CSS optimization with critters - inlines critical CSS to reduce render-blocking
     optimizeCss: true,
-    // optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'date-fns', 'lodash', 'three'],
+    // Optimize package imports to reduce bundle duplication
+    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'recharts'],
+    // Disable legacy polyfills for modern browsers
+    legacyBrowsers: false,
   },
 
   // NOTE: Redirects are disabled for static export.
