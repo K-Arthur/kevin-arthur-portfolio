@@ -1,21 +1,21 @@
 .caseStudyContent {
   /* Typography Scale */
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
+  --text-base: 1.0625rem; /* Slightly larger base for readability: 17px */
+  --text-lg: 1.1875rem;
+  --text-xl: 1.3125rem;
+  --text-2xl: 1.625rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
   
   /* Spacing */
-  --spacing-list-indent: 1.25rem;
-  --spacing-list-block-top: 1.5rem;
-  --spacing-section: 2.5rem;
+  --spacing-list-indent: 1.5rem;
+  --spacing-list-block-top: 1.75rem;
+  --spacing-section: 3rem;
   
-  /* Enhanced Colors with better contrast */
-  --color-heading: var(--text-high-contrast);
-  --color-subheading: var(--text-medium-contrast);
-  --color-label: var(--text-high-contrast);
+  /* WCAG AA Compliant Colors - Enhanced contrast */
+  --color-heading: var(--foreground);
+  --color-subheading: var(--text-high-contrast);
+  --color-label: var(--foreground);
   --color-label-bg: var(--muted);
   --color-bullet: var(--primary);
   --color-number: var(--primary);
@@ -25,9 +25,13 @@
   max-width: 48rem; /* ~768px */
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.7;
+  line-height: 1.8; /* Increased for readability */
   font-size: var(--text-base);
-  color: hsl(var(--text-high-contrast));
+  color: hsl(var(--foreground));
+  /* Add subtle background to ensure contrast against any backdrop */
+  background-color: hsl(var(--background) / 0.95);
+  padding: 2rem;
+  border-radius: 1rem;
 }
 
 .caseStudyContent h1,
@@ -86,8 +90,9 @@
 
 .caseStudyContent p {
   margin: 1.5rem 0;
-  color: hsl(var(--text-medium-contrast));
-  line-height: 1.7;
+  color: hsl(var(--foreground) / 0.92); /* Near-black for maximum readability */
+  line-height: 1.8;
+  font-weight: 400;
 }
 
 /* Base list styles */
@@ -95,7 +100,7 @@
 .caseStudyContent ol {
   margin: var(--spacing-list-block-top) 0;
   padding-left: var(--spacing-list-indent);
-  color: hsl(var(--text-medium-contrast));
+  color: hsl(var(--foreground) / 0.9); /* Improved contrast */
 }
 
 /* Unordered lists */
@@ -157,19 +162,20 @@
 
 /* Blockquotes */
 .caseStudyContent blockquote {
-  margin: 2rem 0;
-  padding: 1.5rem 2rem;
+  margin: 2.5rem 0;
+  padding: 1.75rem 2rem;
   border-left: 4px solid hsl(var(--color-accent));
-  background: hsl(var(--muted) / 0.3);
+  background: hsl(var(--muted) / 0.5);
   border-radius: 0 0.75rem 0.75rem 0;
   font-weight: 500;
-  color: hsl(var(--text-medium-contrast));
+  color: hsl(var(--foreground) / 0.9);
 }
 
 .caseStudyContent blockquote p {
   margin: 0;
   font-size: var(--text-lg);
-  line-height: 1.6;
+  line-height: 1.7;
+  color: hsl(var(--foreground) / 0.95);
 }
 
 /* Code blocks */
@@ -204,14 +210,17 @@
 .caseStudyContent a {
   color: hsl(var(--primary));
   text-decoration: underline;
-  text-decoration-color: hsl(var(--primary) / 0.3);
-  text-underline-offset: 0.2em;
+  text-decoration-color: hsl(var(--primary) / 0.4);
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 2px;
   transition: all 0.2s ease;
+  font-weight: 500; /* Slightly bolder for visibility */
 }
 
 .caseStudyContent a:hover {
-  color: hsl(var(--primary) / 0.8);
-  text-decoration-color: hsl(var(--primary) / 0.6);
+  color: hsl(var(--primary));
+  text-decoration-color: hsl(var(--primary));
+  text-decoration-thickness: 2px;
 }
 
 /* Images */
@@ -262,7 +271,8 @@
 @media (max-width: 768px) {
   .caseStudyContent {
     max-width: 100%;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    padding: 1.25rem;
   }
   
   .caseStudyContent h1 {
@@ -283,30 +293,42 @@
   }
   
   .caseStudyContent blockquote {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
   }
 }
 
-/* High contrast mode support */
+/* High contrast mode support - Enhanced for accessibility */
 @media (prefers-contrast: high) {
   .caseStudyContent {
     --color-heading: var(--foreground);
     --color-subheading: var(--foreground);
     --color-label: var(--foreground);
+    background-color: hsl(var(--background));
+    border: 2px solid hsl(var(--border));
   }
   
   .caseStudyContent h1,
   .caseStudyContent h2,
   .caseStudyContent h3 {
     color: hsl(var(--foreground));
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--foreground) / 0.3);
+    text-underline-offset: 0.15em;
   }
   
-  .caseStudyContent p {
+  .caseStudyContent p,
+  .caseStudyContent li {
     color: hsl(var(--foreground));
+    font-weight: 400;
   }
   
   .caseStudyContent ul,
   .caseStudyContent ol {
     color: hsl(var(--foreground));
+  }
+  
+  .caseStudyContent a {
+    text-decoration-thickness: 3px;
+    font-weight: 600;
   }
 }

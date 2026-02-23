@@ -1,5 +1,8 @@
 import { getSortedCaseStudiesData } from '@/lib/case-studies';
 
+// Force static generation for export
+export const dynamic = 'force-static';
+
 export default async function sitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kevinarthur.design';
 

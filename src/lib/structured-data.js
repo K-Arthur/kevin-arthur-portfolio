@@ -53,10 +53,11 @@ export const personSchema = {
  * @returns {Object} JSON-LD CreativeWork schema
  */
 export function getCaseStudySchema(caseStudy) {
+    if (!caseStudy) return null;
     // Ensure image URL is absolute
-    const imageUrl = caseStudy.heroImage?.startsWith('http') 
-        ? caseStudy.heroImage 
-        : caseStudy.heroImage 
+    const imageUrl = caseStudy.heroImage?.startsWith('http')
+        ? caseStudy.heroImage
+        : caseStudy.heroImage
             ? `${BASE_URL}${caseStudy.heroImage.startsWith('/') ? '' : '/'}${caseStudy.heroImage}`
             : null;
 

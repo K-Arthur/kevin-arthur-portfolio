@@ -3,7 +3,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTheme } from 'next-themes';
 import { Sphere, Torus, Environment } from '@react-three/drei';
-import { useRef, useMemo, useEffect, useState, Suspense } from 'react';
+import { useRef, useMemo, useEffect, useState, Suspense, Component } from 'react';
 import { Color, Vector3 } from 'three';
 
 // Detect device capabilities for adaptive quality
@@ -63,6 +63,30 @@ const getHslColorFromCSSVar = (variable, fallback) => {
   return rawValue || fallback;
 };
 
+// Basic Error Boundary for 3D content
+class SceneErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // Silently catch - we don't want to spam the console for asset loading failures
+    // which are often network-related or extension-related.
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return null; // Don't render anything if the 3D part fails
+    }
+    return this.props.children;
+  }
+}
+
 // Main component containing the 3D scene logic
 const SceneContent = ({ theme, quality }) => {
   const colors = useMemo(() => {
@@ -95,9 +119,11 @@ const SceneContent = ({ theme, quality }) => {
       <OrbitingSphere offset={4.5} color={colors.secondary} speed={0.3} size={0.2} theme={theme} quality={quality} isActive={isInView} />
       <AnimatedTorus color={colors.secondary} theme={theme} quality={quality} isActive={isInView} />
       {quality !== 'low' && (
-        <Suspense fallback={null}>
-          <Environment preset="city" blur={0.8} />
-        </Suspense>
+        <SceneErrorBoundary>
+          <Suspense fallback={null}>
+            <Environment files="/potsdamer_platz_1k.hdr" blur={0.8} />
+          </Suspense>
+        </SceneErrorBoundary>
       )}
     </>
   );

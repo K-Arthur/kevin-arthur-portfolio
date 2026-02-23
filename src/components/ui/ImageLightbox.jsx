@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
+import { CloudinaryImage } from '@/components/OptimizedImage';
 
 // Simple global event-based lightbox (avoids context in server components)
 const lightboxEvents = {
@@ -23,6 +24,19 @@ export const openLightbox = (src, alt) => lightboxEvents.emit(src, alt);
 // Clickable Image component - client side
 export function ClickableImage({ src, alt, width, height, className, sizes, quality, priority, ...rest }) {
     const [isHovered, setIsHovered] = useState(false);
+    const isCloudinary = src && typeof src === 'string' && src.includes('res.cloudinary.com');
+
+    const imageProps = {
+        src,
+        alt: alt || '',
+        width: width || 850,
+        height: height || 550,
+        sizes: sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 850px",
+        style: { width: '100%', height: 'auto' },
+        priority,
+        className: `rounded-lg shadow-lg mx-auto transition-transform duration-300 group-hover:scale-[1.01] ${className || ''}`,
+        ...rest
+    };
 
     return (
         <span
@@ -31,26 +45,19 @@ export function ClickableImage({ src, alt, width, height, className, sizes, qual
             onMouseLeave={() => setIsHovered(false)}
             onClick={() => openLightbox(src, alt)}
         >
-            <Image
-                src={src}
-                alt={alt || ''}
-                width={width || 850}
-                height={height || 550}
-                sizes={sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 850px"}
-                style={{ width: '100%', height: 'auto' }}
-                quality={quality || 90}
-                priority={priority}
-                className={`rounded-lg shadow-lg mx-auto transition-transform duration-300 group-hover:scale-[1.01] ${className || ''}`}
-                {...rest}
-            />
+            {isCloudinary ? (
+                <CloudinaryImage {...imageProps} preset="gallery" />
+            ) : (
+                <Image {...imageProps} quality={quality || 90} />
+            )}
             {/* Zoom indicator */}
-            <motion.div
+            <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isHovered ? 1 : 0 }}
-                className="absolute top-3 right-3 p-2 rounded-full bg-black/60 text-white/80 pointer-events-none"
+                className="absolute top-3 right-3 p-2 rounded-full bg-black/60 text-white/80 pointer-events-none inline-block"
             >
                 <ZoomIn className="w-5 h-5" />
-            </motion.div>
+            </motion.span>
         </span>
     );
 }

@@ -9,7 +9,8 @@ import dynamic from 'next/dynamic';
 
 // Lazy load heavy background component
 const InfiniteGridBackground = dynamic(
-  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground }))
+  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground })),
+  { ssr: false }
 );
 
 const checklistItems = [
@@ -94,9 +95,9 @@ export default function LabPage() {
                 Technical experiments & design system architecture
               </span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-8">
-              Prototypes, patterns, and component explorations from production work. 
+              Prototypes, patterns, and component explorations from production work.
               Each experiment includes problem context, implementation approach, and lessons learned.
             </p>
 
@@ -170,7 +171,7 @@ export default function LabPage() {
                   </div>
 
                   <p className="text-muted-foreground leading-relaxed">
-                    Component specification architecture I developed at MinoHealth to reduce design-dev friction. 
+                    Component specification architecture I developed at MinoHealth to reduce design-dev friction.
                     Includes state management matrix, token naming conventions, and accessibility annotations.
                   </p>
 

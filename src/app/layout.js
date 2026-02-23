@@ -5,15 +5,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StickyCTA from '@/components/StickyCTA';
 import { CursorProvider } from '@/components/CursorProvider';
-import dynamic from 'next/dynamic';
+import WebVitalsWrapper from '@/components/WebVitalsWrapper';
 import Script from 'next/script';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { personSchema, websiteSchema } from '@/lib/structured-data';
-
-// Dynamically import WebVitals with no SSR
-const WebVitals = dynamic(() => import('@/components/WebVitals'), {
-  ssr: false,
-});
 
 // Load fonts
 const jost = Jost({
@@ -71,17 +66,52 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
+        {/* Content Security Policy - protects against XSS attacks */}
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="
+            default-src 'self';
+            script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://plausible.io;
+            style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+            img-src 'self' data: blob: https://res.cloudinary.com;
+            font-src 'self' https://fonts.gstatic.com;
+            connect-src 'self' https://www.google-analytics.com https://plausible.io;
+            frame-src 'self' https://calendly.com;
+            object-src 'none';
+            base-uri 'self';
+            upgrade-insecure-requests;
+          "
+        />
+
+        {/* Theme color for address bar - matches manifest */}
+        <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+
+        {/* Apple mobile web app config */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Kevin Arthur" />
+
         {/* Preconnect to external resources for faster loading */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
-        
-        {/* Preload LCP image for faster rendering */}
-        <link 
-          rel="preload" 
-          as="image" 
+
+        {/* Preload LCP image for faster rendering - optimized for mobile/desktop */}
+        <link
+          rel="preload"
+          as="image"
+          href="https://res.cloudinary.com/dov1tv077/image/upload/f_auto,q_auto:good,w_800/v1752155990/Welcome_screen_uwdoot.png"
+          type="image/webp"
+          fetchPriority="high"
+          media="(max-width: 768px)"
+        />
+        <link
+          rel="preload"
+          as="image"
           href="https://res.cloudinary.com/dov1tv077/image/upload/f_auto,q_auto:good,w_1200/v1752155990/Welcome_screen_uwdoot.png"
           type="image/webp"
           fetchPriority="high"
+          media="(min-width: 769px)"
         />
         {/* Google Fonts preconnect handled automatically by next/font */}
         {/* Note: Analytics preconnect hints removed - Partytown loads scripts in a web worker,
@@ -103,7 +133,7 @@ export default function RootLayout({ children }) {
         />
 
       </head>
-      <body className={`${jost.variable} ${firaCode.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}>
+      <body suppressHydrationWarning className={`${jost.variable} ${firaCode.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}>
         {/* Analytics scripts - using Next.js Script with lazyOnload strategy
             This loads scripts after all other resources, improving page load performance */}
         {process.env.NODE_ENV === 'production' && (
@@ -131,6 +161,27 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
+
+        {/* Service Worker Registration for PWA */}
+        <Script
+          id="service-worker"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                      console.log('SW registered: ', registration);
+                    })
+                    .catch((error) => {
+                      console.log('SW registration failed: ', error);
+                    });
+                });
+              }
+            `,
+          }}
+        />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <CursorProvider>
             <div className="flex flex-col min-h-screen">
@@ -140,7 +191,7 @@ export default function RootLayout({ children }) {
               </main>
               <Footer />
               <StickyCTA />
-              {process.env.NODE_ENV === 'production' && <WebVitals />}
+              {process.env.NODE_ENV === 'production' && <WebVitalsWrapper />}
             </div>
           </CursorProvider>
         </ThemeProvider>

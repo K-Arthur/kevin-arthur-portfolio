@@ -1,19 +1,32 @@
 {
-  "name": "Kevin Arthur",
+  "name": "Kevin Arthur - Design Engineer Portfolio",
   "short_name": "Kevin Arthur",
+  "description": "Design Engineer and SaaS Product Designer specializing in AI interface design. Case studies: 97% diagnostic accuracy, 500+ healthcare facilities.",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
-      "src": "/android-chrome-192x192.svg",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.svg",
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
+    },
+    {
+      "src": "/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "theme_color": "#3B82F6",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "portrait",
+  "categories": ["portfolio", "design", "business"],
+  "lang": "en",
+  "dir": "ltr"
 }

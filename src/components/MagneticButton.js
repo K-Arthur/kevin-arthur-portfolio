@@ -123,16 +123,18 @@ export default function MagneticButton({
             );
         }
 
+        // Create a motion component from Next.js Link using motion.create (React 19 compatible)
+        const MotionLink = motion.create(Link);
+        
         return (
-            <Link href={href} legacyBehavior passHref>
-                <motion.a
-                    {...motionProps}
-                    target={target}
-                    rel={rel}
-                >
-                    {children}
-                </motion.a>
-            </Link>
+            <MotionLink
+                href={href}
+                target={target}
+                rel={rel}
+                {...motionProps}
+            >
+                {children}
+            </MotionLink>
         );
     }
 

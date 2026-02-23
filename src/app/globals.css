@@ -23,7 +23,7 @@
     --secondary: 230 20% 94%;
     --secondary-foreground: 230 20% 20%;
     --muted: 230 20% 94%;
-    --muted-foreground: 230 10% 40%;
+    --muted-foreground: 230 12% 32%; /* Darker for WCAG AA compliance (4.5:1 ratio) */
     --accent: 30 90% 60%;
     --accent-foreground: 30 10% 10%;
     --destructive: 0 80% 60%;

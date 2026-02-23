@@ -4,8 +4,8 @@ const withMDX = require('@next/mdx')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable production source maps to reduce bundle size
-  productionBrowserSourceMaps: false,
+  // Enable production source maps for debugging and Lighthouse insights
+  productionBrowserSourceMaps: true,
   output: 'export',
 
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
@@ -66,8 +66,8 @@ const nextConfig = {
   },
   */
 
-  // Add webpack configuration for video handling and Windows compatibility
-  webpack: (config, { isServer }) => {
+  // Add webpack configuration for video handling, Windows compatibility, and bundle optimization
+  webpack: (config, { isServer, dev }) => {
     // Resolve Framer Motion issues occurring during static export - removed aliases as they might cause initialization errors
     const path = require('path');
 
@@ -102,8 +102,48 @@ const nextConfig = {
       'next/dist/build/polyfills/polyfill-module.js': false,
     };
 
+    // Production optimizations for smaller bundles
+    if (!dev && !isServer) {
+      // Enable tree shaking
+      config.optimization = {
+        ...config.optimization,
+        usedExports: true,
+        sideEffects: false,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            // Separate three.js into its own chunk since it's large
+            three: {
+              test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
+              name: 'three-bundle',
+              priority: 20,
+              reuseExistingChunk: true,
+            },
+            // Separate framer-motion into its own chunk
+            framer: {
+              test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+              name: 'framer-motion-bundle',
+              priority: 15,
+              reuseExistingChunk: true,
+            },
+            // Separate vendor libraries
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      };
+    }
+
     return config;
   },
+
+  // Turbopack configuration (Next.js 16 default bundler)
+  // Webpack optimizations apply only to production builds
+  turbopack: {},
 
   // Add experimental features for better video handling and bundle optimization
   experimental: {
@@ -111,8 +151,6 @@ const nextConfig = {
     optimizeCss: true,
     // Optimize package imports to reduce bundle duplication
     optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'recharts'],
-    // Disable legacy polyfills for modern browsers
-    legacyBrowsers: false,
   },
 
   // NOTE: Redirects are disabled for static export.

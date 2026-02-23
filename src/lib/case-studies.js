@@ -31,18 +31,18 @@ export function getSortedCaseStudiesData() {
   return allPostsData.sort((a, b) => {
     const indexA = STRATEGIC_ORDER.indexOf(a.id);
     const indexB = STRATEGIC_ORDER.indexOf(b.id);
-    
+
     // If both are in strategic order, sort by that
     if (indexA !== -1 && indexB !== -1) {
       return indexA - indexB;
     }
-    
+
     // If only a is in strategic order, it comes first
     if (indexA !== -1) return -1;
-    
+
     // If only b is in strategic order, it comes first
     if (indexB !== -1) return 1;
-    
+
     // Fallback to date sort for any unlisted items
     if (a.publishedAt < b.publishedAt) {
       return 1;
@@ -65,6 +65,7 @@ export function getAllCaseStudyIds() {
 }
 
 export async function getCaseStudyData(id) {
+  if (!id || id === 'undefined') return null;
   try {
     const fullPath = path.join(postsDirectory, `${id}.mdx`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');

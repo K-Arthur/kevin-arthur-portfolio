@@ -1,4 +1,5 @@
 import { getCaseStudyData, getAllCaseStudyIds } from '@/lib/case-studies';
+import { notFound } from 'next/navigation';
 import { CloudinaryImage } from '@/components/OptimizedImage';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { mdxComponents } from '@/components/MdxComponents';
@@ -7,26 +8,16 @@ import Link from 'next/link';
 import contentStyles from './CaseStudyContent.module.css';
 import { getCaseStudySchema } from '@/lib/structured-data';
 import dynamic from 'next/dynamic';
+import {
+  DottedGlowBackgroundWrapper,
+  CaseStudyPopupWrapperComponent,
+  CaseStudyLightboxWrapper,
+  ReadingProgressWrapper,
+} from './ClientComponentsWrapper';
 
 // Dynamically import heavy visual components to reduce initial JS parsing
 const Parallax = dynamic(() => import('@/components/Parallax'), { ssr: true });
 const ContextualCTA = dynamic(() => import('@/components/ContextualCTA'), { ssr: true });
-const DottedGlowBackground = dynamic(
-  () => import('@/components/ui/dotted-glow-background').then(mod => mod.DottedGlowBackground),
-  { ssr: false, loading: () => <div className="absolute inset-0 bg-gradient-to-r from-primary/3 to-secondary/3" /> }
-);
-const CaseStudyPopupWrapper = dynamic(
-  () => import('./CaseStudyPopupWrapper'),
-  { ssr: false } // Popup only needed on client side
-);
-const CaseStudyLightbox = dynamic(
-  () => import('./CaseStudyLightbox'),
-  { ssr: false } // Lightbox only needed on client side
-);
-const ReadingProgress = dynamic(
-  () => import('@/components/ui/ReadingProgress'),
-  { ssr: false } // Reading progress only needed on client
-);
 
 // This function gets called at build time
 export async function generateStaticParams() {
@@ -35,12 +26,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const postData = await getCaseStudyData(params.id);
+  const { id } = await params;
+  const postData = await getCaseStudyData(id);
   return {
     title: postData.title,
     description: postData.metaDescription || postData.summary,
     alternates: {
-      canonical: `/case-studies/${params.id}`,
+      canonical: `/case-studies/${id}`,
     },
     openGraph: {
       title: postData.title,
@@ -60,7 +52,13 @@ const formatDate = (dateString) => {
 };
 
 export default async function CaseStudyPage({ params }) {
-  const postData = await getCaseStudyData(params.id);
+  const { id } = await params;
+  const postData = await getCaseStudyData(id);
+
+  if (!postData) {
+    notFound();
+  }
+
   const caseStudySchema = getCaseStudySchema(postData);
   const isConcept = postData.status === 'concept';
 
@@ -72,11 +70,11 @@ export default async function CaseStudyPage({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
       />
       {/* Lead Magnet Popup - contextual based on industry */}
-      <CaseStudyPopupWrapper industry={postData.industry || 'general'} />
+      <CaseStudyPopupWrapperComponent industry={postData.industry || 'general'} />
       {/* Global Lightbox for clickable images */}
-      <CaseStudyLightbox />
+      <CaseStudyLightboxWrapper />
       {/* Reading Progress Indicator */}
-      <ReadingProgress />
+      <ReadingProgressWrapper />
       <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
         {/* Hero Section */}
         <header className="relative bg-gradient-to-r from-primary/5 to-secondary/5 border-b border-border/50 overflow-hidden pt-12 md:pt-0">
@@ -89,24 +87,24 @@ export default async function CaseStudyPage({ params }) {
             <span>Back to Case Studies</span>
           </Link>
 
-          {/* Dotted Glow Background Effect */}
-          <DottedGlowBackground
+          {/* Dotted Glow Background Effect - WCAG Compliant: Visible but subtle */}
+          <DottedGlowBackgroundWrapper
             className="pointer-events-none"
             style={{
-              maskImage: "radial-gradient(ellipse 80% 70% at 50% 40%, black 0%, transparent 100%)",
-              WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 40%, black 0%, transparent 100%)",
+              maskImage: "radial-gradient(ellipse 60% 50% at 50% 40%, black 0%, transparent 100%)",
+              WebkitMaskImage: "radial-gradient(ellipse 60% 50% at 50% 40%, black 0%, transparent 100%)",
             }}
-            opacity={0.35}
-            gap={16}
-            radius={1.4}
-            color="hsl(230, 15%, 75%)"
-            darkColor="hsl(240, 5%, 35%)"
-            glowColor="hsl(220, 70%, 70%)"
+            opacity={0.12}
+            gap={24}
+            radius={1.2}
+            color="hsl(220, 15%, 55%)"
+            darkColor="hsl(240, 10%, 40%)"
+            glowColor="hsl(220, 70%, 75%)"
             darkGlowColor="hsl(217, 80%, 55%)"
             backgroundOpacity={0}
             speedMin={0.2}
-            speedMax={1.0}
-            speedScale={0.6}
+            speedMax={0.6}
+            speedScale={0.4}
           />
           <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 md:py-24">
             <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -129,26 +127,29 @@ export default async function CaseStudyPage({ params }) {
                       </span>
                     )}
                     {postData.industry && (
-                      <span className="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full capitalize">
+                      <span className="px-3 py-1.5 bg-primary/15 text-primary font-semibold border border-primary/25 rounded-full capitalize">
                         {postData.industry}
                       </span>
                     )}
                   </div>
-                  
+
                   <h1
-                    className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground/80 leading-tight animate-fade-in-down"
+                    className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground leading-[1.2] pb-1 animate-fade-in-down"
+                    style={{
+                      textShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                    }}
                   >
                     {postData.title}
                   </h1>
                   <p
-                    className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-3xl mx-auto md:mx-0 animate-fade-in-down"
+                    className="text-lg md:text-xl text-foreground/85 leading-relaxed mb-8 max-w-3xl mx-auto md:mx-0 animate-fade-in-down"
                     style={{ animationDelay: '0.4s' }}
                   >
                     {postData.summary}
                   </p>
 
                   <div
-                    className="flex flex-wrap justify-start gap-x-6 gap-y-4 text-sm text-muted-foreground animate-fade-in-up"
+                    className="flex flex-wrap justify-start gap-x-6 gap-y-4 text-sm text-foreground/75 animate-fade-in-up"
                     style={{ animationDelay: '0.6s' }}
                   >
                     {postData.role && (
