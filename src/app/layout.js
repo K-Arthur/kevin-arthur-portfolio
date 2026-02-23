@@ -74,8 +74,17 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
         {/* Preconnect to external resources for faster loading */}
-        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        
+        {/* Preload LCP image for faster rendering */}
+        <link 
+          rel="preload" 
+          as="image" 
+          href="https://res.cloudinary.com/dov1tv077/image/upload/f_auto,q_auto:good,w_1200/v1752155990/Welcome_screen_uwdoot.png"
+          type="image/webp"
+          fetchPriority="high"
+        />
         {/* Google Fonts preconnect handled automatically by next/font */}
         {/* Note: Analytics preconnect hints removed - Partytown loads scripts in a web worker,
             so preconnect from main thread is unused and causes console warnings */}
