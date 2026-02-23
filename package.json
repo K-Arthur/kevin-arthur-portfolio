@@ -64,7 +64,7 @@
     "@types/webxr": "^0.5.24",
     "baseline-browser-mapping": "^2.9.11",
     "clsx": "^2.1.1",
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "is-number": "^7.0.0",
     "postcss": "^8",
