@@ -1,5 +1,5 @@
 import { getCaseStudyData, getAllCaseStudyIds } from '@/lib/case-studies';
-import Image from 'next/image';
+import { CloudinaryImage } from '@/components/OptimizedImage';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { mdxComponents } from '@/components/MdxComponents';
 import { FaCalendarAlt, FaUserTie, FaTools, FaChartLine, FaArrowLeft, FaRocket, FaFlask } from 'react-icons/fa';
@@ -176,11 +176,12 @@ export default async function CaseStudyPage({ params }) {
               {postData.heroImage && (
                 <div className="w-full md:w-1/3 mt-8 md:mt-0 animate-fade-in-right">
                   <div className="relative overflow-hidden rounded-2xl border border-border/50 shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                    <Image
+                    <CloudinaryImage
                       src={postData.heroImage}
                       alt={postData.heroImageAlt || `${postData.title} case study preview`}
                       width={600}
                       height={400}
+                      preset="thumbnail"
                       className="w-full h-auto rounded-xl object-cover"
                       priority
                       sizes="(max-width: 768px) 100vw, 33vw"

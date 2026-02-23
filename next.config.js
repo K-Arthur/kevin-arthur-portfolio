@@ -101,8 +101,8 @@ const nextConfig = {
 
   // Add experimental features for better video handling and bundle optimization
   experimental: {
-    // CSS optimization is disabled for faster loading (includes inlining critical CSS)
-    optimizeCss: false,
+    // Enable CSS optimization with critters - inlines critical CSS to reduce render-blocking
+    optimizeCss: true,
     // optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'date-fns', 'lodash', 'three'],
   },
 

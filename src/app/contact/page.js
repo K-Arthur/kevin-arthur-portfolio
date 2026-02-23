@@ -184,7 +184,7 @@ const ContactContent = () => {
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-6">Get in Touch</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                I'm currently available for new projects and collaborations.
+                I&apos;m currently available for new projects and collaborations.
                 Whether you have a specific idea in mind or just want to explore possibilities,
                 I&apos;d love to hear from you.
               </p>

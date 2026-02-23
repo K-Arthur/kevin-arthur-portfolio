@@ -56,7 +56,7 @@ const partners = [
     },
     {
         name: 'Sistas in Sales',
-        src: '/images/logos/SIS-Logo-white-pink-i-logo-mark-e1715918321281-300x181.webp',
+        src: '/images/logos/SIS-Logo-optimized.webp',
         w: 100, h: 56,
         filter: 'brightness-0 dark:brightness-100 dark:invert-0',
     },
@@ -68,7 +68,7 @@ const partners = [
     },
     {
         name: 'Tech in Ghana',
-        src: '/images/logos/tech_in_ghana_logo.jpeg',
+        src: '/images/logos/tech_in_ghana_logo.webp',
         w: 120, h: 50,
         filter: 'mix-blend-multiply dark:mix-blend-plus-lighter grayscale dark:grayscale-0',
     },

@@ -20,7 +20,7 @@
         return "";
     };
     const startsWith = (str, val) => str.startsWith(val);
-    const isValidMemberName = memberName => !(startsWith(memberName, "webkit") || startsWith(memberName, "toJSON") || startsWith(memberName, "constructor") || startsWith(memberName, "toString") || startsWith(memberName, "_"));
+    const isValidMemberName = memberName => !(startsWith(memberName, "webkit") || startsWith(memberName, "toJSON") || startsWith(memberName, "constructor") || startsWith(memberName, "toString") || startsWith(memberName, "_") || memberName === "sharedStorage" || memberName === "attributionReporting" || memberName === "SharedStorage" || memberName === "AttributionReporting");
     const getNodeName = node => 11 === node.nodeType && node.host ? "#s" : node.nodeName;
     const randomId = () => Math.round(Math.random() * Number.MAX_SAFE_INTEGER).toString(36);
     const defineConstructorName = (Cstr, value) => ((obj, memberName, descriptor) => Object.defineProperty(obj, memberName, {

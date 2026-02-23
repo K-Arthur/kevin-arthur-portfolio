@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { CloudinaryImage } from './OptimizedImage';
 import Link from 'next/link';
 import { FaArrowRight, FaLock } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
@@ -28,10 +28,11 @@ export function FeaturedProjects({ posts = [] }) {
                                     <div className="absolute inset-0 z-10 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40" />
 
                                     {post.heroImage ? (
-                                        <Image
+                                        <CloudinaryImage
                                             src={post.heroImage}
                                             alt={post.heroImageAlt || post.title}
                                             fill
+                                            preset="featured"
                                             className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                                             sizes="(max-width: 768px) 100vw, 60vw"
                                         />

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import { CloudinaryImage } from './OptimizedImage';
 import dynamic from 'next/dynamic';
 import { CursorTrigger } from '@/components/CursorProvider';
 import { FaArrowRight, FaRocket, FaFlask } from 'react-icons/fa';
@@ -33,10 +33,11 @@ const CaseStudyList = ({ posts }) => {
                     {/* Hero Image */}
                     {heroImage && (
                       <div className="relative w-full aspect-[16/9] overflow-hidden">
-                        <Image
+                        <CloudinaryImage
                           src={heroImage}
                           alt={title}
                           fill
+                          preset="featured"
                           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, 80vw"
                         />
