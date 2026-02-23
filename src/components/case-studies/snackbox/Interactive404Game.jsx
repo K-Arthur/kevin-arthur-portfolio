@@ -37,7 +37,7 @@ export default function Interactive404Game() {
                 >
                     DO NOT PRESS
                 </motion.button>
-                <p className="mt-4 text-sm font-bold text-[#FF4081]/70">Seriously, don&apos;t.</p>
+                <p className="mt-4 text-sm font-bold text-[#FF4081]/70">Seriously, don't.</p>
 
                 <AnimatePresence>
                     {candies.map(candy => (

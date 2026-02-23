@@ -140,9 +140,9 @@ const AboutPage = () => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {[
-                { icon: '🎯', title: 'Strategic Thinking', text: "I don&apos;t just design pixels. I align every decision with user needs and business goals to create solutions that deliver real, measurable impact." },
+                { icon: '🎯', title: 'Strategic Thinking', text: "I don't just design pixels. I align every decision with user needs and business goals to create solutions that deliver real, measurable impact." },
                 { icon: '⚡', title: 'Speed & Efficiency', text: 'Leveraging lean design principles and rapid prototyping, I accelerate the journey from concept to launch without compromising quality.' },
-                { icon: '🔄', title: 'Continuous Learning', text: "The digital landscape is always evolving, and so am I. I&apos;m committed to mastering new tools and technologies to keep your product ahead of the curve." },
+                { icon: '🔄', title: 'Continuous Learning', text: "The digital landscape is always evolving, and so am I. I'm committed to mastering new tools and technologies to keep your product ahead of the curve." },
                 { icon: '🤝', title: 'Radical Collaboration', text: "The best ideas emerge when we work together. I foster a collaborative environment where every voice is heard to build solutions that truly resonate." },
               ].map((item, index) => (
                 <CometCard key={index} className="w-full h-full">

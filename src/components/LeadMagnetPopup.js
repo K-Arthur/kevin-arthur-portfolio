@@ -282,7 +282,7 @@ export default function LeadMagnetPopup({
                     onClick={handleDismiss}
                     className="w-full mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    No thanks, I&apos;m just browsing
+                    No thanks, I'm just browsing
                   </button>
                 </>
               )}

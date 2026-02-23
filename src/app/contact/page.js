@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaArrowRight, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaArrowRight, FaExternalLinkAlt, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { personalInfo } from '@/data/portfolio-data';
 import { getContextualMessage, formatSourceName } from '@/data/contact-config';
 import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
@@ -84,10 +84,35 @@ const ContactContent = () => {
     }
   }, [searchParams]);
 
-  const handleSubmit = (e) => {
+  const [formStatus, setFormStatus] = useState('idle'); // idle, submitting, success, error
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real application, you would handle form submission here.
-    alert('Thank you for your message! This is a demo form.');
+    setFormStatus('submitting');
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      // Using Formspree - form endpoint configured
+      const response = await fetch('https://formspree.io/f/xojnpqrv', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        form.reset();
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setFormStatus('error');
+    }
   };
 
   return (
@@ -159,7 +184,7 @@ const ContactContent = () => {
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-6">Get in Touch</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                I&apos;m currently available for new projects and collaborations.
+                I'm currently available for new projects and collaborations.
                 Whether you have a specific idea in mind or just want to explore possibilities,
                 I&apos;d love to hear from you.
               </p>
@@ -201,6 +226,25 @@ const ContactContent = () => {
               </p>
             </div>
 
+            {formStatus === 'success' && (
+              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center">
+                <FaCheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-foreground mb-2">Message Sent!</h3>
+                <p className="text-muted-foreground">Thanks for reaching out. I&apos;ll get back to you within 24 hours.</p>
+              </div>
+            )}
+
+            {formStatus === 'error' && (
+              <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 mb-6 flex items-center gap-3">
+                <FaExclamationCircle className="w-5 h-5 text-destructive flex-shrink-0" />
+                <p className="text-destructive text-sm">
+                  There was an error sending your message. Please try again or email me directly at{' '}
+                  <a href="mailto:hello@kevinarthur.design" className="underline">hello@kevinarthur.design</a>
+                </p>
+              </div>
+            )}
+
+            {formStatus !== 'success' && (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -250,11 +294,20 @@ const ContactContent = () => {
 
               <button
                 type="submit"
-                className="w-full bg-primary text-primary-foreground py-4 px-8 rounded-xl text-lg font-semibold hover:bg-primary/90 hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 focus:ring-offset-background"
+                disabled={formStatus === 'submitting'}
+                className="w-full bg-primary text-primary-foreground py-4 px-8 rounded-xl text-lg font-semibold hover:bg-primary/90 hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Send Message
+                {formStatus === 'submitting' ? (
+                  <>
+                    <span className="inline-block w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send Message'
+                )}
               </button>
             </form>
+            )}
           </div>
         </ScrollRevealContainer>
       </div>
