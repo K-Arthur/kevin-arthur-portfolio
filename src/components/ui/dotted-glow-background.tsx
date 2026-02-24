@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { isIOS, isMobile, prefersReducedMotion } from "@/lib/ios-utils";
 
 type DottedGlowBackgroundProps = {
   className?: string;
@@ -161,8 +162,15 @@ export const DottedGlowBackground = ({
 
     let raf = 0;
     let stopped = false;
-
-    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    
+    // Detect mobile/low-power devices for performance optimization
+    const isMobileDevice = isMobile() || isIOS();
+    const shouldReduceMotion = prefersReducedMotion();
+    
+    // Use lower DPR on mobile to reduce GPU load
+    const dpr = isMobileDevice 
+      ? 1 
+      : Math.min(2, Math.max(1, window.devicePixelRatio || 1));
 
     const resize = () => {
       const { width, height } = container.getBoundingClientRect();
@@ -273,13 +281,27 @@ export const DottedGlowBackground = ({
       regenThrottled();
     };
 
+    // Pause animation when tab is hidden to save battery/CPU
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopped = true;
+        cancelAnimationFrame(raf);
+      } else {
+        stopped = false;
+        last = performance.now();
+        raf = requestAnimationFrame(draw);
+      }
+    };
+
     window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     raf = requestAnimationFrame(draw);
 
     return () => {
       stopped = true;
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       ro.disconnect();
     };
   }, [

@@ -3,7 +3,7 @@
  * Enables PWA features: offline support, caching, faster reloads
  */
 
-const CACHE_NAME = 'kevin-arthur-portfolio-v1';
+const CACHE_NAME = 'kevin-arthur-portfolio-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

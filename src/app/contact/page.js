@@ -7,6 +7,7 @@ import { personalInfo } from '@/data/portfolio-data';
 import { getContextualMessage, formatSourceName } from '@/data/contact-config';
 import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
 import dynamic from 'next/dynamic';
+import { IOSafeContainer } from '@/components/IOSafeMotion';
 
 // Defer the heavy background component
 const InfiniteGridBackground = dynamic(
@@ -117,7 +118,7 @@ const ContactContent = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-background overflow-hidden">
+    <IOSafeContainer className="relative min-h-screen bg-background overflow-hidden">
       {/* Background Layer - Loaded Async */}
       <div className="absolute inset-0 z-0">
         <InfiniteGridBackground
@@ -312,7 +313,7 @@ const ContactContent = () => {
           </div>
         </ScrollRevealContainer>
       </div>
-    </div>
+    </IOSafeContainer>
   );
 };
 

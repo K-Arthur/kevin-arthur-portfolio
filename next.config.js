@@ -180,7 +180,6 @@ const nextConfig = {
     // Disable legacy polyfills for modern browsers - saves ~8KB
     // Browserslist in package.json defines supported browsers
     disableOptimizedLoading: false,
-    optimizeServerReactData: true,
   },
 
   // NOTE: Redirects are disabled for static export.

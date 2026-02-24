@@ -3,9 +3,16 @@
 import { useState, useMemo } from 'react';
 import { FaClipboardCheck, FaBrain, FaArrowRight, FaArrowDown, FaCheckCircle, FaEye } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import AIReadinessQuiz from '@/components/AIReadinessQuiz';
 import SocialProofSection from '@/components/SocialProofSection';
 import dynamic from 'next/dynamic';
+import { IOSafeContainer } from '@/components/IOSafeMotion';
+const AIReadinessQuiz = dynamic(
+  () => import('@/components/AIReadinessQuiz'),
+  {
+    ssr: false,
+    loading: () => <div className="w-full h-[400px] animate-pulse bg-muted rounded-2xl flex items-center justify-center text-muted-foreground">Initializing AI Lab Environment...</div>
+  }
+);
 
 // Lazy load heavy background component
 const InfiniteGridBackground = dynamic(
@@ -67,17 +74,18 @@ export default function LabPage() {
   };
 
   return (
-    <InfiniteGridBackground
-      className="min-h-screen"
-      gridSize={50}
-      speedX={0.25}
-      speedY={0.2}
-      revealRadius={350}
-      baseOpacity={0.04}
-      revealOpacity={0.45}
-      fullPage={true}
-    >
-      {/* Hero Section */}
+    <IOSafeContainer className="min-h-screen">
+      <InfiniteGridBackground
+        className="min-h-screen"
+        gridSize={50}
+        speedX={0.25}
+        speedY={0.2}
+        revealRadius={350}
+        baseOpacity={0.04}
+        revealOpacity={0.45}
+        fullPage={true}
+      >
+        {/* Hero Section */}
       <section className="py-16 md:py-24 pb-32 md:pb-40 relative overflow-hidden flex flex-col justify-center border-b border-border/10">
         {/* Subtle background glow for Hero */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
@@ -279,6 +287,7 @@ export default function LabPage() {
           </div>
         </div>
       </section>
-    </InfiniteGridBackground>
+      </InfiniteGridBackground>
+    </IOSafeContainer>
   );
 }
