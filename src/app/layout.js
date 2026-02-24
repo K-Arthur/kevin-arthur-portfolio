@@ -92,13 +92,16 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Kevin Arthur" />
 
-        {/* Preconnect to external resources for faster loading */}
+        {/* Preconnect to external resources used above-the-fold */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
 
+        {/* Icons - loaded with standard priority */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+        
+        {/* Web Manifest - standard loading (doesn't block rendering) */}
         <link rel="manifest" href="/site.webmanifest" crossOrigin="use-credentials" />
 
         {/* JSON-LD Structured Data */}
@@ -136,7 +139,17 @@ export default function RootLayout({ children }) {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-L805WXGTZS');
+              gtag('config', 'G-L805WXGTZS', {
+                cookie_flags: 'SameSite=None;Secure',
+                cookie_domain: 'auto',
+                cookie_expires: 63072000,
+                cookie_update: true,
+                allow_google_signals: false,
+                allow_ad_personalization_signals: false,
+                restricted_data_processing: true,
+                send_page_view: true,
+                transport_type: 'beacon'
+              });
             `,
           }}
         />

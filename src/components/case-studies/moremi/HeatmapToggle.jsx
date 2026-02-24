@@ -22,11 +22,12 @@ export default function HeatmapToggle() {
             {/* Base Image Container */}
             <div className="relative aspect-[4/5] w-full">
                 <Image
-                    src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Normal_posteroanterior_%28PA%29_chest_radiograph_%28X-ray%29.jpg"
+                    src="/chest-xray-pa.jpg"
                     alt="Chest X-Ray"
                     fill
                     className="object-cover opacity-90 grayscale contrast-125"
                     sizes="(max-width: 768px) 100vw, 400px"
+                    priority
                 />
 
                 {/* Heatmap Overlay */}

@@ -5,7 +5,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
 const MobileMenu = dynamic(() => import('./MobileMenu'), { ssr: false });
@@ -119,21 +118,23 @@ const Header = () => {
           className="flex items-center justify-between h-20"
           aria-label="Main navigation"
         >
-          {/* Logo */}
+          {/* Logo - CSS-only hover effect */}
           <div className="flex-shrink-0 lg:flex-1">
-            <motion.div
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <div className="magnetic-button">
               <Link
                 href="/"
-                className="text-xl sm:text-2xl font-bold gradient-text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:rounded-md"
+                className="text-xl sm:text-2xl font-bold gradient-text-brand 
+                           hover:scale-[1.03] active:scale-[0.98] 
+                           transition-transform duration-200
+                           focus:outline-none focus-visible:ring-2 
+                           focus-visible:ring-primary focus-visible:ring-offset-2 
+                           focus-visible:ring-offset-background focus-visible:rounded-md"
                 aria-label="Kevin Arthur - Home"
                 onClick={closeMobileMenu}
               >
                 Kevin Arthur
               </Link>
-            </motion.div>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -152,9 +153,8 @@ const Header = () => {
                 >
                   {link.label}
                   {isActive && (
-                    <motion.div
-                      className="absolute inset-0 bg-primary/10 rounded-full -z-10"
-                      layoutId="active-nav-item"
+                    <span
+                      className="absolute inset-0 bg-primary/10 rounded-full -z-10 transition-all duration-300"
                       aria-hidden="true"
                     />
                   )}
@@ -171,7 +171,7 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button - CSS animations */}
           <div className="lg:hidden flex items-center gap-2 sm:gap-3" style={{ contain: 'layout', minWidth: '80px' }}>
             <ThemeSwitcher />
             <button
@@ -183,35 +183,23 @@ const Header = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close main menu' : 'Open main menu'}
             >
-              <motion.div
-                animate={mobileMenuOpen ? 'open' : 'closed'}
-                className="flex flex-col justify-center items-center w-6 h-6"
-              >
-                <motion.span
-                  className="block h-0.5 w-5 bg-current rounded-full"
-                  variants={{
-                    closed: { rotate: 0, y: 0 },
-                    open: { rotate: 45, y: 6 },
-                  }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
+              <div className="flex flex-col justify-center items-center w-6 h-6">
+                <span 
+                  className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-200 ease-in-out ${
+                    mobileMenuOpen ? 'rotate-45 translate-y-[7px]' : 'rotate-0 translate-y-0'
+                  }`} 
                 />
-                <motion.span
-                  className="block h-0.5 w-5 bg-current rounded-full mt-1.5"
-                  variants={{
-                    closed: { opacity: 1, x: 0 },
-                    open: { opacity: 0, x: -10 },
-                  }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                <span 
+                  className={`block h-0.5 w-5 bg-current rounded-full mt-1.5 transition-all duration-200 ease-in-out ${
+                    mobileMenuOpen ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
+                  }`} 
                 />
-                <motion.span
-                  className="block h-0.5 w-5 bg-current rounded-full mt-1.5"
-                  variants={{
-                    closed: { rotate: 0, y: 0 },
-                    open: { rotate: -45, y: -6 },
-                  }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                <span 
+                  className={`block h-0.5 w-5 bg-current rounded-full mt-1.5 transition-all duration-200 ease-in-out ${
+                    mobileMenuOpen ? '-rotate-45 -translate-y-[7px]' : 'rotate-0 translate-y-0'
+                  }`} 
                 />
-              </motion.div>
+              </div>
             </button>
           </div>
         </nav>

@@ -135,7 +135,7 @@ export function GlobalLightboxModal() {
                                 className="object-contain"
                                 sizes="90vw"
                                 priority
-                                quality={95}
+                                quality={85}
                             />
                         </motion.div>
                     </motion.div>

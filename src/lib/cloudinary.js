@@ -155,11 +155,11 @@ export const CLOUDINARY_PRESETS = {
 
   // For thumbnails/previews - balanced quality
   thumbnail: {
-    quality: 'auto:low', // Changed from 'auto:eco' for more savings
+    quality: 'auto:eco',
     format: 'auto',
     crop: 'limit',
-    widths: [150, 200, 300, 400, 600], // More granular widths
-    defaultWidth: 300, // Reduced from 400
+    widths: [200, 320, 400, 600], // Optimized for case study hero (340px display)
+    defaultWidth: 400,
   },
 
   // For logos/icons - small, efficient
@@ -171,22 +171,22 @@ export const CLOUDINARY_PRESETS = {
     defaultWidth: 150,
   },
 
-  // For gallery images
+  // For gallery images (MDX content)
   gallery: {
-    quality: 'auto:eco', // Changed from 'auto:good'
+    quality: 'auto:eco',
     format: 'auto',
     crop: 'limit',
-    widths: [320, 480, 640, 800, 1200],
-    defaultWidth: 480,
+    widths: [400, 640, 850, 1200], // Max 850px for content images
+    defaultWidth: 640,
   },
 
   // For case study list images - new preset
   caseStudy: {
     quality: 'auto:eco',
     format: 'auto',
-    crop: 'fill', // Use fill to match exact dimensions
-    widths: [320, 480, 640, 828, 1080],
-    defaultWidth: 480,
+    crop: 'limit', // Use limit to prevent upscaling while respecting max dimensions
+    widths: [320, 480, 640, 828],
+    defaultWidth: 640, // Cap at 640px for list views
   },
 };
 

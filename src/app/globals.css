@@ -275,30 +275,48 @@
   @keyframes fadeInUp {
     from {
       opacity: 0;
+      transform: translateY(10px);
     }
 
     to {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 
   @keyframes fadeInDown {
     from {
       opacity: 0;
+      transform: translateY(-10px);
     }
 
     to {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 
   @keyframes fadeInRight {
     from {
       opacity: 0;
+      transform: translateX(-10px);
     }
 
     to {
       opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* LCP-safe animation for hero content - starts visible, subtle animation */
+  @keyframes heroFadeIn {
+    from {
+      opacity: 0.95;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
@@ -326,15 +344,20 @@
   }
 
   .animate-fade-in-up {
-    animation: fadeInUp 0.7s ease-out forwards;
+    animation: fadeInUp 0.5s ease-out forwards;
   }
 
   .animate-fade-in-down {
-    animation: fadeInDown 0.7s ease-out forwards;
+    animation: fadeInDown 0.5s ease-out forwards;
   }
 
   .animate-fade-in-right {
-    animation: fadeInRight 0.7s ease-out forwards;
+    animation: fadeInRight 0.5s ease-out forwards;
+  }
+
+  /* LCP-optimized hero animation - faster, starts visible */
+  .animate-hero-fade {
+    animation: heroFadeIn 0.4s ease-out forwards;
   }
 
   .animate-wave {

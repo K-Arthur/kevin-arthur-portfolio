@@ -10,7 +10,6 @@ import { getCaseStudySchema } from '@/lib/structured-data';
 import dynamic from 'next/dynamic';
 import {
   DottedGlowBackgroundWrapper,
-  CaseStudyPopupWrapperComponent,
   CaseStudyLightboxWrapper,
   ReadingProgressWrapper,
 } from './ClientComponentsWrapper';
@@ -69,8 +68,6 @@ export default async function CaseStudyPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
       />
-      {/* Lead Magnet Popup - contextual based on industry */}
-      <CaseStudyPopupWrapperComponent industry={postData.industry || 'general'} />
       {/* Global Lightbox for clickable images */}
       <CaseStudyLightboxWrapper />
       {/* Reading Progress Indicator */}
@@ -185,7 +182,7 @@ export default async function CaseStudyPage({ params }) {
                       preset="thumbnail"
                       className="w-full h-auto rounded-xl object-cover"
                       priority
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 767px) 100vw, 340px"
                     />
                   </div>
                 </div>

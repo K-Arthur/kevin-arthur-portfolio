@@ -39,7 +39,7 @@ const CaseStudyList = ({ posts }) => {
                           fill
                           preset="caseStudy"
                           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
                         

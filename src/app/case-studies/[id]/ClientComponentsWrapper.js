@@ -8,11 +8,6 @@ const DottedGlowBackground = dynamic(
   { ssr: false, loading: () => <div className="absolute inset-0 bg-gradient-to-r from-primary/3 to-secondary/3" /> }
 );
 
-const CaseStudyPopupWrapper = dynamic(
-  () => import('./CaseStudyPopupWrapper'),
-  { ssr: false }
-);
-
 const CaseStudyLightbox = dynamic(
   () => import('./CaseStudyLightbox'),
   { ssr: false }
@@ -25,10 +20,6 @@ const ReadingProgress = dynamic(
 
 export function DottedGlowBackgroundWrapper(props) {
   return <DottedGlowBackground {...props} />;
-}
-
-export function CaseStudyPopupWrapperComponent() {
-  return <CaseStudyPopupWrapper />;
 }
 
 export function CaseStudyLightboxWrapper() {

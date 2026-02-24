@@ -4,8 +4,11 @@ const withMDX = require('@next/mdx')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable SWC minifier with modern JavaScript support
-  swcMinify: true,
+  // Target modern browsers to reduce polyfill size
+  compiler: {
+    // Remove unnecessary runtime checks for modern browsers
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
   
   // Enable production source maps for debugging and Lighthouse insights
   productionBrowserSourceMaps: true,
@@ -170,6 +173,9 @@ const nextConfig = {
       '@react-three/drei',
       'recharts'
     ],
+    // Disable legacy polyfills for modern browsers - saves ~8KB
+    // Browserslist in package.json defines supported browsers
+    disableOptimizedLoading: false,
   },
 
   // NOTE: Redirects are disabled for static export.

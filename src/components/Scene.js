@@ -118,10 +118,11 @@ const SceneContent = ({ theme, quality }) => {
       <OrbitingSphere offset={3.5} color={colors.primary} speed={0.5} size={0.3} theme={theme} quality={quality} isActive={isInView} />
       <OrbitingSphere offset={4.5} color={colors.secondary} speed={0.3} size={0.2} theme={theme} quality={quality} isActive={isInView} />
       <AnimatedTorus color={colors.secondary} theme={theme} quality={quality} isActive={isInView} />
-      {quality !== 'low' && (
+      {/* Only load environment for high quality devices to save bandwidth */}
+      {quality === 'high' && (
         <SceneErrorBoundary>
           <Suspense fallback={null}>
-            <Environment files="/potsdamer_platz_1k.hdr" blur={0.8} />
+            <Environment preset="city" blur={0.8} />
           </Suspense>
         </SceneErrorBoundary>
       )}

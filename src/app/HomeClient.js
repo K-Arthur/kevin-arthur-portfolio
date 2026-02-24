@@ -37,12 +37,20 @@ export default function HomeClient({ posts }) {
   useEffect(() => {
     setIsClient(true);
 
-    // Load 3D scene only after LCP is guaranteed (scroll or 8s delay for slow connections)
+    // Defer heavy 3D loading until browser is idle for better performance
     let loaded = false;
     const loadScene = () => {
       if (loaded) return;
       loaded = true;
-      setShouldLoadScene(true);
+      
+      // Use requestIdleCallback for non-critical 3D content
+      // Falls back to setTimeout for browsers that don't support it
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+        requestIdleCallback(() => setShouldLoadScene(true), { timeout: 5000 });
+      } else {
+        setShouldLoadScene(true);
+      }
+      
       window.removeEventListener('scroll', handleScroll);
     };
 
@@ -92,9 +100,9 @@ export default function HomeClient({ posts }) {
         )}
 
         <div className="relative z-10 container-responsive space-y-12">
-          {/* Critical LCP content - NO Framer Motion, uses CSS animations for instant render */}
-          <div className="space-y-8 animate-fade-in-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground animate-fade-in-up">
+          {/* Critical LCP content - uses LCP-optimized animation for fast paint */}
+          <div className="space-y-8 animate-hero-fade">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
               <span className="block">Product <span className="gradient-text-brand">Designer</span></span>
               <span className="block text-2xl md:text-4xl lg:text-5xl mt-4 font-bold tracking-tight text-foreground">
                 <span className="block">Designing systems where complexity</span>
@@ -102,7 +110,7 @@ export default function HomeClient({ posts }) {
               </span>
             </h1>
 
-            <div className="space-y-6 animate-fade-in-up animation-delay-200">
+            <div className="space-y-6 animate-hero-fade" style={{ animationDelay: '0.1s' }}>
               <p className="text-lg md:text-xl lg:text-2xl text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light">
                 I design AI interfaces, enterprise tools, and scalable design systems. 
                 Recent work includes healthcare platforms serving 500+ facilities, 
@@ -111,7 +119,7 @@ export default function HomeClient({ posts }) {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 w-full sm:w-auto animate-fade-in-up animation-delay-400">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 w-full sm:w-auto animate-hero-fade" style={{ animationDelay: '0.2s' }}>
             <MagneticButton
               href="/case-studies"
               strength={0.3}
