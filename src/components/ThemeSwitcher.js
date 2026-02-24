@@ -7,13 +7,13 @@ import { FaSun, FaMoon } from '@/lib/icons';
 
 const ThemeSwitcher = ({ className = '' }) => {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
 
   if (!mounted) return null;
 
-  const isDark = theme === 'dark';
+  const isDark = resolvedTheme === 'dark';
 
   const toggleTheme = () => {
     setTheme(isDark ? 'light' : 'dark');
