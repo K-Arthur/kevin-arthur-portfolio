@@ -146,11 +146,11 @@ export const DEFAULT_SIZES = {
 export const CLOUDINARY_PRESETS = {
   // For hero/featured images - high quality, responsive
   featured: {
-    quality: 'auto:eco', // Changed from 'auto:good' to save ~30%
+    quality: 'auto:eco',
     format: 'auto',      // WebP/AVIF
     crop: 'limit',
-    widths: [320, 480, 640, 750, 828, 1080, 1200], // Added smaller widths
-    defaultWidth: 640,   // Reduced from 800
+    widths: [320, 480, 640, 750, 828, 1080, 1200],
+    defaultWidth: 828,   // Matched to 720px display width + buffer for high-DPI
   },
 
   // For thumbnails/previews - balanced quality
@@ -158,7 +158,7 @@ export const CLOUDINARY_PRESETS = {
     quality: 'auto:eco',
     format: 'auto',
     crop: 'limit',
-    widths: [200, 320, 400, 600], // Optimized for case study hero (340px display)
+    widths: [200, 320, 400, 600],
     defaultWidth: 400,
   },
 
@@ -176,17 +176,17 @@ export const CLOUDINARY_PRESETS = {
     quality: 'auto:eco',
     format: 'auto',
     crop: 'limit',
-    widths: [400, 640, 850, 1200], // Max 850px for content images
+    widths: [400, 640, 850, 1200],
     defaultWidth: 640,
   },
 
-  // For case study list images - new preset
+  // For case study list images
   caseStudy: {
     quality: 'auto:eco',
     format: 'auto',
-    crop: 'limit', // Use limit to prevent upscaling while respecting max dimensions
+    crop: 'limit',
     widths: [320, 480, 640, 828],
-    defaultWidth: 640, // Cap at 640px for list views
+    defaultWidth: 640,   // Matched to 600px display width
   },
 };
 

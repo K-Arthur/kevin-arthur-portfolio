@@ -34,7 +34,7 @@ export function FeaturedProjects({ posts = [] }) {
                                             fill
                                             preset="featured"
                                             className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 720px"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 750px"
                                         />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center bg-muted/20">

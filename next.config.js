@@ -105,45 +105,42 @@ const nextConfig = {
 
     // Production optimizations for smaller bundles
     if (!dev && !isServer) {
-      // Enable tree shaking
       config.optimization = {
         ...config.optimization,
         usedExports: true,
-        sideEffects: false,
+        sideEffects: true,
         minimize: true,
         splitChunks: {
           chunks: 'all',
-          maxSize: 244000, // Split chunks larger than 244KB
+          maxInitialRequests: 25,
+          minSize: 20000,
           cacheGroups: {
-            // Separate three.js into its own chunk since it's large
+            // Separate three.js into its own chunk
             three: {
-              test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
+              test: /[\\/]node_modules[\\/](three|@react-three|three-mesh-bvh)[\\/]/,
               name: 'three-bundle',
-              priority: 20,
+              priority: 30,
               reuseExistingChunk: true,
-              enforce: true,
             },
-            // Separate framer-motion into its own chunk
+            // Separate framer-motion
             framer: {
-              test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+              test: /[\\/]node_modules[\\/](framer-motion|motion-dom|motion-utils)[\\/]/,
               name: 'framer-motion-bundle',
-              priority: 15,
+              priority: 25,
               reuseExistingChunk: true,
-              enforce: true,
             },
-            // Separate react-icons into its own chunk
+            // Separate icons
             icons: {
               test: /[\\/]node_modules[\\/]react-icons[\\/]/,
               name: 'icons-bundle',
-              priority: 12,
+              priority: 20,
               reuseExistingChunk: true,
-              enforce: true,
             },
-            // Separate vendor libraries
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              priority: 10,
+            // Separate UI components (Radix, etc.)
+            ui: {
+              test: /[\\/]node_modules[\\/](@radix-ui|lucide-react)[\\/]/,
+              name: 'ui-bundle',
+              priority: 15,
               reuseExistingChunk: true,
             },
           },

@@ -78,17 +78,9 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.9.3"
   },
-  "browserslist": {
-    "production": [
-      "last 2 versions and > 1%",
-      "not dead",
-      "not op_mini all",
-      "not IE 11"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    "defaults and supports es6-module",
+    "maintained node versions",
+    "not dead"
+  ]
 }

@@ -64,28 +64,29 @@ export default function HomeClient({ posts }) {
     const timer = setTimeout(loadScene, 8000);
 
     // Load shader only when CTA section is near viewport (intersection observer)
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoadShader(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '200px' }  // Load 200px before entering viewport
-    );
-
-    // Observe CTA section after a small delay to ensure ref is set
+    // Defer observation until after initial load and LCP settling
+    let observer = null;
     const observerTimer = setTimeout(() => {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setShouldLoadShader(true);
+            observer.disconnect();
+          }
+        },
+        { rootMargin: '100px' }  // Reduced from 200px to be more conservative
+      );
+
       if (ctaSectionRef.current) {
         observer.observe(ctaSectionRef.current);
       }
-    }, 100);
+    }, 2000); // Increased delay to 2s to clear critical LCP window
 
     return () => {
       clearTimeout(timer);
       clearTimeout(observerTimer);
       window.removeEventListener('scroll', handleScroll);
-      observer.disconnect();
+      if (observer) observer.disconnect();
     };
   }, []);
 
