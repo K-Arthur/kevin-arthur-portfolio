@@ -79,11 +79,9 @@
   },
   "browserslist": {
     "production": [
-      "Chrome >= 109",
-      "Firefox >= 109",
-      "Safari >= 16",
-      "Edge >= 109",
+      "last 2 versions and > 1%",
       "not dead",
+      "not op_mini all",
       "not IE 11"
     ],
     "development": [

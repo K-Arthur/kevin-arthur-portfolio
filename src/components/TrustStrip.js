@@ -101,6 +101,7 @@ function LogoItem({ partner, priority, ...props }) {
                 width={partner.w}
                 height={partner.h}
                 priority={priority}
+                sizes="(max-width: 640px) 100px, 150px"
                 className={cn(
                     'h-full w-auto object-contain transition-all duration-300 opacity-90 hover:opacity-100',
                     partner.filter,

@@ -42,7 +42,7 @@ export default function HomeClient({ posts }) {
     const loadScene = () => {
       if (loaded) return;
       loaded = true;
-      
+
       // Use requestIdleCallback for non-critical 3D content
       // Falls back to setTimeout for browsers that don't support it
       if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
@@ -50,18 +50,18 @@ export default function HomeClient({ posts }) {
       } else {
         setShouldLoadScene(true);
       }
-      
+
       window.removeEventListener('scroll', handleScroll);
     };
 
-    // Load on first scroll (user engaged, LCP done) - lower threshold for faster engagement
+    // Load on first scroll (user engaged, LCP done) - increased threshold for better stability
     const handleScroll = () => {
-      if (window.scrollY > 50) loadScene();
+      if (window.scrollY > 150) loadScene();
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Fallback: load after 5 seconds to improve LCP on mobile devices
-    const timer = setTimeout(loadScene, 5000);
+    // Fallback: load after 8 seconds to ensure LCP is fully settled
+    const timer = setTimeout(loadScene, 8000);
 
     // Load shader only when CTA section is near viewport (intersection observer)
     const observer = new IntersectionObserver(
@@ -112,8 +112,8 @@ export default function HomeClient({ posts }) {
 
             <div className="space-y-6 animate-hero-fade" style={{ animationDelay: '0.1s' }}>
               <p className="text-lg md:text-xl lg:text-2xl text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light">
-                I design AI interfaces, enterprise tools, and scalable design systems. 
-                Recent work includes healthcare platforms serving 500+ facilities, 
+                I design AI interfaces, enterprise tools, and scalable design systems.
+                Recent work includes healthcare platforms serving 500+ facilities,
                 fintech workflows, and technical products with measurable outcomes.
               </p>
             </div>
@@ -224,7 +224,7 @@ export default function HomeClient({ posts }) {
               Let&apos;s Talk About <span className="text-primary">Your Product</span>
             </h2>
             <p className="text-lg text-muted-enhanced max-w-3xl mx-auto mb-10">
-              I help teams design complex systems that users trust and adopt. 
+              I help teams design complex systems that users trust and adopt.
               Currently open to product design roles and select consulting engagements.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 flex-wrap w-full sm:w-auto">

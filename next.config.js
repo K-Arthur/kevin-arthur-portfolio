@@ -9,7 +9,7 @@ const nextConfig = {
     // Remove unnecessary runtime checks for modern browsers
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  
+
   // Enable production source maps for debugging and Lighthouse insights
   productionBrowserSourceMaps: true,
   output: 'export',
@@ -169,13 +169,18 @@ const nextConfig = {
       'react-icons/fa',
       'react-icons/si',
       'react-icons/bs',
+      'react-icons/fi',
+      'react-icons/hi',
       '@react-three/fiber',
       '@react-three/drei',
-      'recharts'
+      'recharts',
+      'clsx',
+      'tailwind-merge'
     ],
     // Disable legacy polyfills for modern browsers - saves ~8KB
     // Browserslist in package.json defines supported browsers
     disableOptimizedLoading: false,
+    optimizeServerReactData: true,
   },
 
   // NOTE: Redirects are disabled for static export.

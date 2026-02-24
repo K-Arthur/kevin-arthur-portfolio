@@ -71,12 +71,12 @@ export default function RootLayout({ children }) {
           httpEquiv="Content-Security-Policy"
           content="
             default-src 'self';
-            script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://plausible.io;
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://plausible.io https://vercel.live;
             style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
             img-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://www.google-analytics.com;
             font-src 'self' https://fonts.gstatic.com;
-            connect-src 'self' https://www.google-analytics.com https://plausible.io https://www.googletagmanager.com;
-            frame-src 'self' https://calendly.com;
+            connect-src 'self' https://www.google-analytics.com https://plausible.io https://www.googletagmanager.com https://vercel.live;
+            frame-src 'self' https://calendly.com https://vercel.live;
             object-src 'none';
             base-uri 'self';
             upgrade-insecure-requests;
@@ -95,12 +95,13 @@ export default function RootLayout({ children }) {
         {/* Preconnect to external resources used above-the-fold */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
         {/* Icons - loaded with standard priority */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
-        
+
         {/* Web Manifest - standard loading (doesn't block rendering) */}
         <link rel="manifest" href="/site.webmanifest" crossOrigin="use-credentials" />
 
