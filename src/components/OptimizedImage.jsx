@@ -34,7 +34,7 @@ export function OptimizedImage({
 }) {
   // Skip optimization for non-Cloudinary images or data URLs
   const isCloudinary = src && typeof src === 'string' && src.includes('res.cloudinary.com');
-  
+
   if (!isCloudinary) {
     // Use standard Next.js Image for non-Cloudinary images
     return (
@@ -137,12 +137,17 @@ export function CloudinaryImage({
   }
 
   const { optimizeCloudinaryUrl, generateCloudinarySrcSet, DEFAULT_SIZES, CLOUDINARY_PRESETS } = require('@/lib/cloudinary');
-  
+
   const presetConfig = CLOUDINARY_PRESETS[preset] || CLOUDINARY_PRESETS.featured;
   const { widths, ...transformOptions } = presetConfig;
 
-  // Apply specific dimensions if provided
-  if (width) transformOptions.width = width;
+  // Apply specific dimensions if provided, or use preset default for base src
+  if (width) {
+    transformOptions.width = width;
+  } else if (presetConfig.defaultWidth) {
+    transformOptions.width = presetConfig.defaultWidth;
+  }
+
   if (height) transformOptions.height = height;
 
   // Generate optimized URL

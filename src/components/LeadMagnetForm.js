@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowRight, FaCheck, FaSpinner, FaEnvelope, FaRedo } from 'react-icons/fa';
+import { FaArrowRight, FaCheck, FaSpinner, FaEnvelope, FaRedo } from '@/lib/icons';
 import { addLeadScorePoints } from '@/lib/lead-scoring';
 import { trackFormEvent, trackEmailCapture } from '@/lib/analytics-store';
 

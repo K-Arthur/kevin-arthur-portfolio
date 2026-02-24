@@ -68,7 +68,7 @@ const partners = [
     },
     {
         name: 'Tech in Ghana',
-        src: '/images/logos/tech_in_ghana_logo.webp',
+        src: '/images/logos/tech_in_ghana_logo.png',
         w: 120, h: 50,
         filter: 'mix-blend-multiply dark:mix-blend-plus-lighter grayscale dark:grayscale-0',
     },
@@ -92,19 +92,21 @@ const partners = [
     },
 ];
 
-function LogoItem({ partner, prefix }) {
+function LogoItem({ partner, priority, ...props }) {
     return (
-        <div className="flex shrink-0 items-center justify-center px-8 md:px-10">
+        <div className="flex shrink-0 items-center justify-center px-8 md:px-10 h-12 md:h-16" {...props}>
             <Image
                 src={partner.src}
                 alt={`${partner.name} logo`}
                 width={partner.w}
                 height={partner.h}
+                priority={priority}
                 className={cn(
-                    'object-contain transition-all duration-300 opacity-90 hover:opacity-100',
+                    'h-full w-auto object-contain transition-all duration-300 opacity-90 hover:opacity-100',
                     partner.filter,
                     partner.hoverFilter && `hover:${partner.hoverFilter}`
                 )}
+                style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
             />
         </div>
     );
@@ -129,11 +131,11 @@ export function TrustStrip({ className }) {
                     <div className="flex animate-marquee-single whitespace-nowrap opacity-70 grayscale hover:grayscale-0 transition-all py-4">
                         {/* First copy */}
                         {partners.map((partner, i) => (
-                            <LogoItem key={`a-${i}`} partner={partner} prefix="a" />
+                            <LogoItem key={`a-${i}`} partner={partner} priority={i < 5} />
                         ))}
                         {/* Seamless duplicate — aria-hidden so screen readers skip it */}
                         {partners.map((partner, i) => (
-                            <LogoItem key={`b-${i}`} partner={partner} prefix="b" aria-hidden="true" />
+                            <LogoItem key={`b-${i}`} partner={partner} aria-hidden="true" />
                         ))}
                     </div>
                 </div>

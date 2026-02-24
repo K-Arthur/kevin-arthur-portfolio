@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaEnvelope, FaCalendarAlt, FaTimes, FaArrowRight } from 'react-icons/fa';
+import { FaEnvelope, FaCalendarAlt, FaTimes, FaArrowRight } from '@/lib/icons';
 
 const STORAGE_KEY = 'portfolio-sticky-cta-dismissed';
 

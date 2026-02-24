@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { FaHandshake } from 'react-icons/fa';
+import { FaHandshake } from '@/lib/icons';
 
 const partnerLogos = [
   { name: 'Nvidia', src: '/images/logos/nvidia.svg', w: 70, h: 18 },
@@ -23,7 +23,7 @@ export default function SocialProofSection({ className = '' }) {
             <span className="font-medium text-foreground">Partnership ecosystem:</span> Worked with organizations backed by or collaborating with
           </p>
         </div>
-        
+
         {/* Right side - logos in a subtle container */}
         <div className="flex items-center gap-4 md:gap-6 px-4 py-2 rounded-full bg-background/50 border border-border/30">
           {partnerLogos.map((logo, index) => (
@@ -37,7 +37,7 @@ export default function SocialProofSection({ className = '' }) {
                 alt={`${logo.name} logo`}
                 width={logo.w}
                 height={logo.h}
-                className="h-4 md:h-5 w-auto object-contain dark:invert"
+                className="h-5 md:h-6 w-auto object-contain dark:invert"
               />
             </div>
           ))}

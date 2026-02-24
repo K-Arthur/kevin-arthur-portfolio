@@ -193,7 +193,7 @@ const Header = () => {
                     closed: { rotate: 0, y: 0 },
                     open: { rotate: 45, y: 6 },
                   }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
                 />
                 <motion.span
                   className="block h-0.5 w-5 bg-current rounded-full mt-1.5"
@@ -201,7 +201,7 @@ const Header = () => {
                     closed: { opacity: 1, x: 0 },
                     open: { opacity: 0, x: -10 },
                   }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
                 />
                 <motion.span
                   className="block h-0.5 w-5 bg-current rounded-full mt-1.5"
@@ -209,7 +209,7 @@ const Header = () => {
                     closed: { rotate: 0, y: 0 },
                     open: { rotate: -45, y: -6 },
                   }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
                 />
               </motion.div>
             </button>

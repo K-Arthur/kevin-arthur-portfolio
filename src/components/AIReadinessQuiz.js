@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowRight, FaArrowLeft, FaCheckCircle, FaExclamationTriangle, FaTimesCircle, FaRedo, FaShare, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { FaArrowRight, FaArrowLeft, FaCheckCircle, FaExclamationTriangle, FaTimesCircle, FaRedo, FaShare, FaTwitter, FaLinkedin } from '@/lib/icons';
 import ConfettiCelebration from './ConfettiCelebration';
 import AchievementBadge, { ACHIEVEMENTS, AchievementBadgeCompact } from './AchievementBadge';
 import { trackQuizEvent } from '@/lib/analytics-store';

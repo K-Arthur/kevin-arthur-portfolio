@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaDownload, FaArrowUp } from 'react-icons/fa';
+import { FaDownload, FaArrowUp } from '@/lib/icons';
 
 const DOWNLOAD_STORAGE_KEY = 'download-counter';
 const BASE_COUNT = 2347; // Base count to start with

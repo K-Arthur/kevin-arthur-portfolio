@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaClipboardCheck, FaBrain } from 'react-icons/fa';
+import { FaTimes, FaClipboardCheck, FaBrain } from '@/lib/icons';
 import LeadMagnetForm from './LeadMagnetForm';
 
 const STORAGE_KEY = 'portfolio-lead-popup-dismissed';

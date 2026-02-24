@@ -1,6 +1,6 @@
 import { CloudinaryImage } from './OptimizedImage';
 import Link from 'next/link';
-import { FaArrowRight, FaLock } from 'react-icons/fa';
+import { FaArrowRight, FaLock } from '@/lib/icons';
 import { cn } from '@/lib/utils';
 import ScrollRevealContainer, { ScrollRevealItem } from './ui/ScrollRevealContainer';
 
@@ -16,7 +16,7 @@ export function FeaturedProjects({ posts = [] }) {
                     <ScrollRevealContainer
                         key={post.id}
                         variant="fadeUp"
-                        className="group relative w-full transition-all duration-300 hover:-translate-y-1"
+                        className="group relative w-full transition-transform duration-300 hover:-translate-y-1"
                     >
                         <div className={cn(
                             "flex flex-col gap-8 md:gap-12 items-center",
@@ -24,7 +24,7 @@ export function FeaturedProjects({ posts = [] }) {
                         )}>
                             {/* Image Side (Massive, Edge-to-Edge feel) */}
                             <div className="w-full lg:w-3/5 relative">
-                                <Link href={`/case-studies/${post.id}`} className="block relative w-full aspect-[4/3] md:aspect-[16/10] overflow-hidden rounded-2xl md:rounded-[2rem] bg-card border border-white/5 transition-all duration-500 group-hover:border-primary/30 group-hover:shadow-2xl group-hover:shadow-primary/10">
+                                <Link href={`/case-studies/${post.id}`} className="block relative w-full aspect-[4/3] md:aspect-[16/10] overflow-hidden rounded-2xl md:rounded-[2rem] bg-card border border-white/5 transition-[border-color,box-shadow] duration-500 group-hover:border-primary/30 group-hover:shadow-2xl group-hover:shadow-primary/10">
                                     <div className="absolute inset-0 z-10 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40" />
 
                                     {post.heroImage ? (

@@ -4,6 +4,9 @@ const withMDX = require('@next/mdx')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable SWC minifier with modern JavaScript support
+  swcMinify: true,
+  
   // Enable production source maps for debugging and Lighthouse insights
   productionBrowserSourceMaps: true,
   output: 'export',
@@ -96,11 +99,6 @@ const nextConfig = {
       },
     });
 
-    // Exclude legacy polyfills for modern browsers
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'next/dist/build/polyfills/polyfill-module.js': false,
-    };
 
     // Production optimizations for smaller bundles
     if (!dev && !isServer) {
@@ -109,8 +107,10 @@ const nextConfig = {
         ...config.optimization,
         usedExports: true,
         sideEffects: false,
+        minimize: true,
         splitChunks: {
           chunks: 'all',
+          maxSize: 244000, // Split chunks larger than 244KB
           cacheGroups: {
             // Separate three.js into its own chunk since it's large
             three: {
@@ -118,6 +118,7 @@ const nextConfig = {
               name: 'three-bundle',
               priority: 20,
               reuseExistingChunk: true,
+              enforce: true,
             },
             // Separate framer-motion into its own chunk
             framer: {
@@ -125,6 +126,15 @@ const nextConfig = {
               name: 'framer-motion-bundle',
               priority: 15,
               reuseExistingChunk: true,
+              enforce: true,
+            },
+            // Separate react-icons into its own chunk
+            icons: {
+              test: /[\\/]node_modules[\\/]react-icons[\\/]/,
+              name: 'icons-bundle',
+              priority: 12,
+              reuseExistingChunk: true,
+              enforce: true,
             },
             // Separate vendor libraries
             vendor: {
@@ -150,7 +160,16 @@ const nextConfig = {
     // Enable CSS optimization with critters - inlines critical CSS to reduce render-blocking
     optimizeCss: true,
     // Optimize package imports to reduce bundle duplication
-    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons', '@react-three/fiber', '@react-three/drei', 'recharts'],
+    optimizePackageImports: [
+      'lucide-react',
+      'framer-motion',
+      'react-icons/fa',
+      'react-icons/si',
+      'react-icons/bs',
+      '@react-three/fiber',
+      '@react-three/drei',
+      'recharts'
+    ],
   },
 
   // NOTE: Redirects are disabled for static export.

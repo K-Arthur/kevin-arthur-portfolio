@@ -190,9 +190,9 @@ const AboutPage = () => {
 
         <Section delay={0.4}>
           <SectionTitle icon={<FaBriefcase />}>Career Highlights</SectionTitle>
-          <div className="relative pl-8 sm:pl-10 md:pl-0">
+          <div className="relative md:pl-0">
             {/* Timeline Line */}
-            <div className="absolute left-[3px] md:left-1/2 top-4 bottom-0 w-px bg-border md:-translate-x-1/2" aria-hidden></div>
+            <div className="absolute left-5 md:left-1/2 top-4 bottom-0 w-px bg-border -translate-x-1/2" aria-hidden></div>
 
             <div className="space-y-10 sm:space-y-12 md:space-y-16 relative">
               {professionalExperience.map((job, index) => (
@@ -200,13 +200,13 @@ const AboutPage = () => {
                   key={index}
                   variant={index % 2 === 0 ? "slideLeft" : "slideRight"}
                   delay={index * 0.1}
-                  className={`relative flex flex-col md:flex-row gap-8 md:gap-16 items-start ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                  className={`relative flex flex-col md:flex-row gap-8 md:gap-16 items-start pl-10 md:pl-0 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
                 >
 
                   {/* Timeline Dot */}
-                  <div className="absolute left-[-29px] md:left-1/2 top-0 w-16 h-16 flex items-center justify-center md:-translate-x-1/2 z-10 pointer-events-none">
+                  <div className="absolute left-5 md:left-1/2 top-0 w-4 h-4 -translate-x-1/2 flex items-center justify-center z-10 pointer-events-none">
                     <div className="w-4 h-4 rounded-full bg-card border-2 border-primary shadow-[0_0_10px_rgba(var(--primary),0.4)] z-20 relative"></div>
-                    <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
+                    <div className="absolute w-16 h-16 -left-6 -top-6 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
                   </div>
 
                   {/* Date/Label Side */}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPaperPlane, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import { FaPaperPlane, FaCheckCircle, FaExclamationCircle } from '@/lib/icons';
 
 export default function InlineContactForm({ onSuccess }) {
     const [status, setStatus] = useState('idle'); // idle, submitting, success, error

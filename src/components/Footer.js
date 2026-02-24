@@ -1,6 +1,6 @@
 'use client';
 
-import { FaLinkedin, FaBehanceSquare } from 'react-icons/fa';
+import { FaLinkedin, FaBehanceSquare } from '@/lib/icons';
 import { usePathname } from 'next/navigation';
 import FooterLeadMagnet from './FooterLeadMagnet';
 
@@ -29,15 +29,18 @@ const Footer = ({ transparent = false, showLeadMagnet = true }) => {
   // Don't show lead magnet on lab page (already has them) or contact page
   const hideLeadMagnet = pathname === '/lab' || pathname === '/contact';
 
-  // Calculate min-height based on what's shown
+  // Calculate exact height based on what's shown to prevent layout shift
   // Without lead magnet: ~120px, with lead magnet: ~280px
-  const footerMinHeight = (showLeadMagnet && !hideLeadMagnet && !transparent) ? 'min-h-[280px]' : 'min-h-[120px]';
+  const footerHeight = (showLeadMagnet && !hideLeadMagnet && !transparent) ? 'h-[280px]' : 'h-[120px]';
 
   return (
     <footer
-      className={`${transparent ? 'bg-transparent border-t-0 mt-0 relative z-10' : 'glass-premium border-t border-border/50 mt-24'} ${footerMinHeight}`}
+      className={`${transparent ? 'bg-transparent border-t-0 mt-0 relative z-10' : 'glass-premium border-t border-border/50 mt-24'} ${footerHeight}`}
       aria-label="Footer"
-      style={{ contain: 'layout' }}
+      style={{ 
+        contain: 'layout style',
+        willChange: 'auto'
+      }}
     >
       {/* Lead Magnet Section */}
       {showLeadMagnet && !hideLeadMagnet && !transparent && (

@@ -1,6 +1,6 @@
 'use client';
 
-import { FaBriefcase, FaRocket } from 'react-icons/fa';
+import { FaBriefcase, FaRocket } from '@/lib/icons';
 import CaseStudyList from '@/components/CaseStudyList';
 import dynamic from 'next/dynamic';
 

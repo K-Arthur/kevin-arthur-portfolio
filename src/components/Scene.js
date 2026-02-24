@@ -420,19 +420,6 @@ const Scene = () => {
   useEffect(() => {
     setMounted(true);
     setQuality(getDeviceQuality());
-    const currentCanvas = canvasRef.current;
-
-    // Cleanup on unmount
-    return () => {
-      if (currentCanvas) {
-        const gl = currentCanvas.getContext('webgl');
-        if (gl) {
-          // Force garbage collection
-          gl.getExtension('WEBGL_lose_context')?.loseContext();
-          gl.getExtension('WEBKIT_WEBGL_lose_context')?.loseContext();
-        }
-      }
-    };
   }, []);
 
   // Performance optimization: Skip unnecessary renders

@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { FaCalendarAlt, FaEnvelope, FaArrowRight, FaTimes } from 'react-icons/fa';
+import { FaCalendarAlt, FaEnvelope, FaArrowRight, FaTimes } from '@/lib/icons';
 import { useState } from 'react';
 import InlineContactForm from './InlineContactForm';
 

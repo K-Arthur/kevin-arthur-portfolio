@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaCheck, FaArrowRight, FaStar } from 'react-icons/fa';
+import { FaCheck, FaArrowRight, FaStar } from '@/lib/icons';
 import MagneticButton from '@/components/MagneticButton';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
 

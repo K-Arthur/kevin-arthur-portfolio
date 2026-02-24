@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react';
 import { motion } from 'framer-motion';
-import { FaCheck, FaMinus } from 'react-icons/fa';
+import { FaCheck, FaMinus } from '@/lib/icons';
 
 const ComparisonTable = () => {
     // Feature categories and data

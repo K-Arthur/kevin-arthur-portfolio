@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { CloudinaryImage } from './OptimizedImage';
 import dynamic from 'next/dynamic';
 import { CursorTrigger } from '@/components/CursorProvider';
-import { FaArrowRight, FaRocket, FaFlask } from 'react-icons/fa';
+import { FaArrowRight, FaRocket, FaFlask } from '@/lib/icons';
 
 // Lazy load CometCard - requires JS for mouse-tracking 3D tilt, loads after LCP
 const CometCard = dynamic(
@@ -37,9 +37,9 @@ const CaseStudyList = ({ posts }) => {
                           src={heroImage}
                           alt={title}
                           fill
-                          preset="featured"
+                          preset="caseStudy"
                           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, 80vw"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
                         

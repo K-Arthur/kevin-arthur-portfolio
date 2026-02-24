@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaClipboardCheck, FaBrain, FaArrowRight } from 'react-icons/fa';
+import { FaClipboardCheck, FaBrain, FaArrowRight } from '@/lib/icons';
 
 /**
  * FooterLeadMagnet - Persistent lead magnet section for footer

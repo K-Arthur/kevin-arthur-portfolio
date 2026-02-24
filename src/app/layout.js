@@ -71,11 +71,11 @@ export default function RootLayout({ children }) {
           httpEquiv="Content-Security-Policy"
           content="
             default-src 'self';
-            script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://plausible.io;
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://plausible.io;
             style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-            img-src 'self' data: blob: https://res.cloudinary.com;
+            img-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://www.google-analytics.com;
             font-src 'self' https://fonts.gstatic.com;
-            connect-src 'self' https://www.google-analytics.com https://plausible.io;
+            connect-src 'self' https://www.google-analytics.com https://plausible.io https://www.googletagmanager.com;
             frame-src 'self' https://calendly.com;
             object-src 'none';
             base-uri 'self';
@@ -88,7 +88,7 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
 
         {/* Apple mobile web app config */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Kevin Arthur" />
 
@@ -96,31 +96,10 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
 
-        {/* Preload LCP image for faster rendering - optimized for mobile/desktop */}
-        <link
-          rel="preload"
-          as="image"
-          href="https://res.cloudinary.com/dov1tv077/image/upload/f_auto,q_auto:good,w_800/v1752155990/Welcome_screen_uwdoot.png"
-          type="image/webp"
-          fetchPriority="high"
-          media="(max-width: 768px)"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://res.cloudinary.com/dov1tv077/image/upload/f_auto,q_auto:good,w_1200/v1752155990/Welcome_screen_uwdoot.png"
-          type="image/webp"
-          fetchPriority="high"
-          media="(min-width: 769px)"
-        />
-        {/* Google Fonts preconnect handled automatically by next/font */}
-        {/* Note: Analytics preconnect hints removed - Partytown loads scripts in a web worker,
-            so preconnect from main thread is unused and causes console warnings */}
-
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href="/site.webmanifest" crossOrigin="use-credentials" />
 
         {/* JSON-LD Structured Data */}
         <script

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaTrophy, FaBolt, FaStar, FaCheckDouble, FaFire } from 'react-icons/fa';
+import { FaTrophy, FaBolt, FaStar, FaCheckDouble, FaFire } from '@/lib/icons';
 
 /**
  * AchievementBadge Component
