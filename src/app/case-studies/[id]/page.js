@@ -21,8 +21,13 @@ const ContextualCTA = dynamic(() => import('@/components/ContextualCTA'), { ssr:
 // This function gets called at build time
 export async function generateStaticParams() {
   const paths = getAllCaseStudyIds();
-  return paths;
+  // Ensure paths are properly formatted for Next.js 15+
+  return paths.map(path => ({
+    id: path.id,
+  }));
 }
+
+export const dynamicParams = false;
 
 export async function generateMetadata({ params }) {
   const { id } = await params;

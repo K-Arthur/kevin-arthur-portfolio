@@ -256,8 +256,8 @@ export const DottedGlowBackground = ({
         const lin = mod < 1 ? mod : 2 - mod; // 0..1..0
         const a = 0.25 + 0.55 * lin; // 0.25..0.8 linearly
 
-        // draw glow when bright
-        if (a > 0.6) {
+        // draw glow when bright (skip on mobile for performance)
+        if (a > 0.6 && !isMobileDevice) {
           const glow = (a - 0.6) / 0.4; // 0..1
           ctx.shadowColor = resolvedGlowColor;
           ctx.shadowBlur = 6 * glow;

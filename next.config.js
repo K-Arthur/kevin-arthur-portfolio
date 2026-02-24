@@ -12,7 +12,7 @@ const nextConfig = {
 
   // Enable production source maps for debugging and Lighthouse insights
   productionBrowserSourceMaps: true,
-  output: 'export',
+  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
 
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   images: {
@@ -160,8 +160,8 @@ const nextConfig = {
 
   // Add experimental features for better video handling and bundle optimization
   experimental: {
-    // Enable CSS optimization with critters - inlines critical CSS to reduce render-blocking
-    optimizeCss: true,
+    // Enable CSS optimization with critters in production - inlines critical CSS to reduce render-blocking
+    optimizeCss: process.env.NODE_ENV === 'production',
     // Optimize package imports to reduce bundle duplication
     optimizePackageImports: [
       'lucide-react',

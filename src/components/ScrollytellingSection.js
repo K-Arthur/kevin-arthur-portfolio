@@ -1,7 +1,8 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
+import { isIOS, isMobile } from '@/lib/ios-utils';
 
 /**
  * ScrollytellingSection - A scroll-linked narrative section component
@@ -58,6 +59,12 @@ export function ScrollytellingSection({
     );
 
     const blurFilter = useTransform(blur, (v) => `blur(${v}px)`);
+    
+    // Detect mobile/iOS to disable blur filter which causes scroll performance issues
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
+    useEffect(() => {
+        setIsMobileDevice(isMobile() || isIOS());
+    }, []);
 
     // Determine style based on transition type
     const getStyles = () => {
@@ -69,8 +76,9 @@ export function ScrollytellingSection({
             case 'blur-to-clear':
                 return {
                     opacity,
-                    filter: blurFilter,
-                    scale,
+                    // Disable blur filter on mobile/iOS to prevent scroll blur artifacts
+                    filter: isMobileDevice ? undefined : blurFilter,
+                    scale: isMobileDevice ? undefined : scale,
                 };
             case 'scale-up':
                 return {

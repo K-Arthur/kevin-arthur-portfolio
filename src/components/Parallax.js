@@ -2,15 +2,18 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
+import { isIOS, isMobile } from '@/lib/ios-utils';
 
 export default function Parallax({ children, offset = 50, className = '' }) {
   const ref = useRef(null);
   const prefersReducedMotion = useReducedMotion();
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
 
   // Only enable animations after mount to prevent hydration mismatch
   useEffect(() => {
     setIsMounted(true);
+    setIsMobileDevice(isMobile() || isIOS());
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -27,8 +30,8 @@ export default function Parallax({ children, offset = 50, className = '' }) {
   );
 
   // Server-side and initial client render: no motion (prevents hydration mismatch)
-  // Also disable if user prefers reduced motion
-  if (!isMounted || prefersReducedMotion) {
+  // Also disable if user prefers reduced motion or on mobile/iOS to prevent scroll blur
+  if (!isMounted || prefersReducedMotion || isMobileDevice) {
     return <div ref={ref} className={className}>{children}</div>;
   }
 

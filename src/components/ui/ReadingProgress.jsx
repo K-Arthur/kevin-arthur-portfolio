@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { isIOS, isMobile } from '@/lib/ios-utils';
 
 /**
  * ReadingProgress - A sleek progress indicator for long-form content
@@ -10,6 +11,7 @@ import { motion, useReducedMotion } from 'framer-motion';
  * - Respects reduced motion preferences
  * - Theme-aware (uses CSS variables)
  * - Performance optimized with requestAnimationFrame
+ * - Disabled animation on mobile/iOS to prevent scroll blur
  */
 export default function ReadingProgress({
     color = "var(--primary)",
@@ -18,7 +20,12 @@ export default function ReadingProgress({
     className = ""
 }) {
     const [progress, setProgress] = useState(0);
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
     const shouldReduceMotion = useReducedMotion();
+    
+    useEffect(() => {
+        setIsMobileDevice(isMobile() || isIOS());
+    }, []);
 
     useEffect(() => {
         let ticking = false;
@@ -57,7 +64,7 @@ export default function ReadingProgress({
                 }}
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
-                transition={shouldReduceMotion ? { duration: 0 } : {
+                transition={shouldReduceMotion || isMobileDevice ? { duration: 0 } : {
                     duration: 0.1,
                     ease: "linear"
                 }}
