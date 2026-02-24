@@ -39,10 +39,11 @@ export default function EfficiencyCalculator() {
 
             <div className="space-y-4 pt-6 border-t border-border">
                 <div className="flex justify-between items-end">
-                    <label className="text-sm font-medium text-muted-foreground">Weekly Cases Reviewed</label>
+                    <label htmlFor="cases-per-week" className="text-sm font-medium text-muted-foreground">Weekly Cases Reviewed</label>
                     <span className="text-lg font-bold text-foreground">{casesPerWeek}</span>
                 </div>
                 <input
+                    id="cases-per-week"
                     type="range"
                     min="10"
                     max="150"

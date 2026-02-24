@@ -99,11 +99,12 @@ export default function ConfidenceSimulator() {
             {/* Slider Control */}
             <div className="mt-10 px-2">
                 <div className="flex justify-between items-center mb-4">
-                    <label className="text-sm font-medium">Simulate AI Confidence Level</label>
+                    <label htmlFor="confidence-level" className="text-sm font-medium">Simulate AI Confidence Level</label>
                     <span className="text-xs font-mono bg-secondary px-2 py-1 rounded">{confidence}%</span>
                 </div>
 
                 <input
+                    id="confidence-level"
                     type="range"
                     min="50"
                     max="99"

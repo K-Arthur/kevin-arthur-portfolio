@@ -146,7 +146,7 @@ const Header = () => {
                   href={link.href}
                   className={`relative px-4 py-3 min-h-[44px] inline-flex items-center text-sm font-medium transition-colors duration-300 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${isActive
                     ? 'text-primary'
-                    : 'text-muted-foreground hover:text-foreground'
+                    : 'text-foreground/80 hover:text-foreground'
                     }`}
                   aria-current={isActive ? 'page' : undefined}
                 >

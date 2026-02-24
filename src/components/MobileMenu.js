@@ -211,7 +211,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                             <div className="px-4 pb-4 border-t border-border/30 pt-4">
                                 <Link
                                     href="/"
-                                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-all font-medium"
+                                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-foreground hover:bg-muted transition-all font-medium"
                                     onClick={onClose}
                                 >
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

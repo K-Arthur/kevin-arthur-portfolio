@@ -33,11 +33,11 @@ export default function Interactive404Game() {
                         // Spawn multiple at once for fun
                         for (let i = 0; i < 3; i++) setTimeout(spawnCandy, i * 100);
                     }}
-                    className="z-10 bg-[#FF4081] hover:bg-[#F50057] text-white font-black py-4 px-8 rounded-full shadow-[0_4px_14px_rgba(255,64,129,0.4)] border-b-4 border-[#C51162] active:border-b-0 active:translate-y-1 transition-all"
+                    className="z-10 bg-[#C51162] hover:bg-[#9B0A4A] text-white font-black py-4 px-8 rounded-full shadow-[0_4px_14px_rgba(197,17,98,0.4)] border-b-4 border-[#880E4F] active:border-b-0 active:translate-y-1 transition-all"
                 >
                     DO NOT PRESS
                 </motion.button>
-                <p className="mt-4 text-sm font-bold text-[#FF4081]/70">Seriously, don&apos;t.</p>
+                <p className="mt-4 text-sm font-bold text-[#C51162]">Seriously, don&apos;t.</p>
 
                 <AnimatePresence>
                     {candies.map(candy => (

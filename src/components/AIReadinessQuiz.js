@@ -653,7 +653,7 @@ export default function AIReadinessQuiz({ className = '', compact = false, noBac
 
               {/* Percentile */}
               {benchmarkData && (
-                <div className="text-left">
+                <div className="text-left" role="status" aria-label={`Your score is in the top ${100 - calculatePercentile(totalScore, benchmarkData)}% of all respondents`}>
                   <div className={`text-lg font-semibold ${getPercentileRank(calculatePercentile(totalScore, benchmarkData)).color}`}>
                     Top {100 - calculatePercentile(totalScore, benchmarkData)}%
                   </div>
