@@ -7,6 +7,7 @@ import StickyCTA from '@/components/StickyCTA';
 import { CursorProvider } from '@/components/CursorProvider';
 import WebVitalsWrapper from '@/components/WebVitalsWrapper';
 import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { personSchema, websiteSchema } from '@/lib/structured-data';
 
@@ -188,6 +189,13 @@ export default function RootLayout({ children }) {
             </div>
           </CursorProvider>
         </ThemeProvider>
+        {/* Vercel Analytics & Speed Insights - production only */}
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );
