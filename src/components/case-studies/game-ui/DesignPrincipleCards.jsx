@@ -30,16 +30,18 @@ const principles = [
 ];
 
 const CardFlip = ({ principle }) => {
+    const [isFlipped, setIsFlipped] = React.useState(false);
+
     return (
         <motion.div
             className="group perspective-1000 h-64 cursor-pointer"
-            whileHover="hover"
+            onHoverStart={() => setIsFlipped(true)}
+            onHoverEnd={() => setIsFlipped(false)}
+            onClick={() => setIsFlipped(!isFlipped)}
         >
             <motion.div
                 className="relative w-full h-full transition-transform duration-500 preserve-3d"
-                variants={{
-                    hover: { rotateY: 180 }
-                }}
+                animate={{ rotateY: isFlipped ? 180 : 0 }}
                 style={{ transformStyle: 'preserve-3d' }}
             >
                 {/* Front - Theme aware */}
@@ -52,7 +54,7 @@ const CardFlip = ({ principle }) => {
                         <h4 className="text-lg font-bold text-foreground mt-3">{principle.title}</h4>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">{principle.front}</p>
-                    <span className="text-[10px] text-primary font-mono uppercase tracking-widest self-end dark:text-[#00E5FF]">Hover to flip →</span>
+                    <span className="text-[10px] text-primary font-mono uppercase tracking-widest self-end dark:text-[#00E5FF]">Hover or tap to flip →</span>
                 </div>
 
                 {/* Back - Theme aware */}
@@ -86,7 +88,7 @@ export default function DesignPrincipleCards() {
                     <span className="text-xs font-mono text-primary tracking-widest uppercase dark:text-[#FF4081]">{"// UX Framework"}</span>
                     <h3 className="text-xl font-bold text-foreground mt-1">Player-First Design Principles</h3>
                     <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">
-                        The guiding rules that kept this UI legible at 0ms reaction time. Hover each card to see the solution.
+                        The guiding rules that kept this UI legible at 0ms reaction time. Hover or tap each card to see the solution.
                     </p>
                 </div>
 
