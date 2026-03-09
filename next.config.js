@@ -12,10 +12,11 @@ const nextConfig = {
 
   // Enable production source maps for debugging and Lighthouse insights
   productionBrowserSourceMaps: true,
-  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
+  // output: 'export' removed to enable Vercel edge/serverless capabilities
 
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   images: {
+    // Using unoptimized because Cloudinary already handles image sizing, formatting, and quality (f_auto,q_auto)
     unoptimized: true,
     remotePatterns: [
       {
@@ -33,10 +34,7 @@ const nextConfig = {
     ],
   },
 
-  // NOTE: Headers are disabled for static export.
-  // For static export (output: 'export'), configure headers at your CDN or web server level.
-  // To re-enable headers for server mode, uncomment the following:
-  /*
+  // Headers restored for robust caching and security at the Edge
   headers: async () => {
     return [
       {
@@ -50,12 +48,12 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://www.googletagmanager.com https://plausible.io",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://www.googletagmanager.com https://plausible.io https://vercel.live",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "img-src 'self' data: blob: https://res.cloudinary.com",
+              "img-src 'self' data: blob: https://res.cloudinary.com https://www.google-analytics.com https://www.googletagmanager.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://www.google-analytics.com https://plausible.io",
-              "frame-src 'self' https://calendly.com",
+              "connect-src 'self' https://www.google-analytics.com https://plausible.io https://vercel.live https://vitals.vercel-insights.com",
+              "frame-src 'self' https://calendly.com https://vercel.live",
             ].join('; '),
           },
           {
@@ -68,9 +66,26 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/image/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ];
   },
-  */
 
   // Add webpack configuration for video handling, Windows compatibility, and bundle optimization
   webpack: (config, { isServer, dev }) => {
@@ -179,9 +194,7 @@ const nextConfig = {
     disableOptimizedLoading: false,
   },
 
-  // NOTE: Redirects are disabled for static export.
-  // For static export, handle redirects at your CDN or web server level.
-  /*
+  // Redirects restored for serverless mode
   redirects: async () => {
     return [
       {
@@ -191,7 +204,6 @@ const nextConfig = {
       },
     ];
   },
-  */
 };
 
 module.exports = withMDX(nextConfig);

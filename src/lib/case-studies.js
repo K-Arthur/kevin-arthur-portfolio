@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { cache } from 'react';
 
 const postsDirectory = path.join(process.cwd(), 'content', 'case-studies');
 
@@ -13,7 +14,7 @@ const STRATEGIC_ORDER = [
   'kamen-rider-game-hud',                    // Concept: personal work
 ];
 
-export function getSortedCaseStudiesData() {
+export const getSortedCaseStudiesData = cache(() => {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
     const id = fileName.replace(/\.mdx$/, '');
@@ -50,7 +51,7 @@ export function getSortedCaseStudiesData() {
       return -1;
     }
   });
-}
+});
 
 // Alias function for the case studies page
 export function getCaseStudies() {
