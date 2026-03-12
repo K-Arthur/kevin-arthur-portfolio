@@ -165,9 +165,9 @@ const Header = () => {
           <div className="hidden lg:flex lg:flex-1 items-center justify-end gap-3">
             <ThemeSwitcher />
             <Button asChild variant="outline" size="default" className="rounded-full px-5 min-h-[44px]">
-              <Link href="/resume.pdf" target="_blank" download="Kevin_Arthur_Resume.pdf">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Kevin_Arthur_Resume.pdf">
                 Download Resume
-              </Link>
+              </a>
             </Button>
             <Button asChild size="default" className="rounded-full px-5 min-h-[44px]">
               <Link href="/contact">
