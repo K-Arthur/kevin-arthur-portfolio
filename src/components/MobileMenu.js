@@ -197,8 +197,14 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                                 </ul>
                             </nav>
 
-                            {/* Mobile Contact CTA */}
-                            <div className="px-4 pb-4">
+                            {/* Mobile Contact & Resume CTAs */}
+                            <div className="px-4 pb-4 space-y-3">
+                                <Button asChild variant="outline" className="w-full rounded-xl py-6 text-lg font-semibold border-primary/20 hover:bg-primary/5">
+                                    <Link href="/resume.pdf" target="_blank" download="Kevin_Arthur_Resume.pdf" onClick={onClose}>
+                                        <span className="mr-2">📄</span>
+                                        Download Resume
+                                    </Link>
+                                </Button>
                                 <Button asChild className="w-full rounded-xl py-6 text-lg font-semibold shadow-lg shadow-primary/20">
                                     <Link href="/contact" onClick={onClose}>
                                         <span className="mr-2">✉️</span>

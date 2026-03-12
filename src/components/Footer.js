@@ -1,10 +1,15 @@
 'use client';
 
-import { FaLinkedin, FaBehanceSquare } from '@/lib/icons';
+import { FaLinkedin, FaBehanceSquare, FaEnvelope } from '@/lib/icons';
 import { usePathname } from 'next/navigation';
 import FooterLeadMagnet from './FooterLeadMagnet';
 
 const socialLinks = [
+  {
+    href: 'mailto:hello@kevinarthur.design',
+    label: 'Email',
+    icon: FaEnvelope,
+  },
   {
     href: 'https://www.linkedin.com/in/kevinoarthur/',
     label: 'LinkedIn',
@@ -51,19 +56,21 @@ const Footer = ({ transparent = false, showLeadMagnet = true }) => {
         <div className="flex flex-col items-center gap-6">
           {/* Social Links */}
           <nav aria-label="Social media links" className="flex gap-6">
-            {socialLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors duration-300"
-                aria-label={link.label}
-              >
-                <span className="sr-only">{link.label}</span>
-                <link.icon className="h-6 w-6" aria-hidden="true" />
-              </a>
-            ))}
+            {socialLinks.map((link) => {
+              const isExternal = !link.href.startsWith('mailto:');
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                  aria-label={link.label}
+                >
+                  <span className="sr-only">{link.label}</span>
+                  <link.icon className="h-6 w-6" aria-hidden="true" />
+                </a>
+              );
+            })}
           </nav>
 
           {/* Copyright & Credits */}

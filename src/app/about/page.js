@@ -81,7 +81,7 @@ const AboutPage = () => {
                     speed={0.035}
                     characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
                   >
-                    {personalInfo.heroTitle1 ?? 'Product Designer'}
+                    {personalInfo.heroTitle1 ?? 'Design Engineer'}
                   </TextScramble>
                   <TextScramble
                     as="span"
@@ -321,15 +321,24 @@ const AboutPage = () => {
             <p className="text-muted-foreground mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed text-sm sm:text-base">
               I&apos;m currently accepting new projects. Let&apos;s discuss how I can help bring your vision to life.
             </p>
-            <a
-              href="https://calendly.com/arthurkevin27/15min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 btn-primary-enhanced btn-glow font-semibold rounded-xl text-base sm:text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 sm:hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              <span>Book a Quick Chat</span>
-              <FaCalendarAlt className="w-4 h-4" />
-            </a>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="https://calendly.com/arthurkevin27/15min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 btn-primary-enhanced btn-glow font-semibold rounded-xl text-base sm:text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 sm:hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <span>Book a Quick Chat</span>
+                <FaCalendarAlt className="w-4 h-4" />
+              </a>
+              <a
+                href="mailto:hello@kevinarthur.design"
+                className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 font-semibold rounded-xl text-base sm:text-lg transition-all border-2 border-primary/20 hover:bg-primary/5 focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                <span>Send me an email</span>
+                <span className="text-xl">✉️</span>
+              </a>
+            </div>
           </div>
         </Section>
 

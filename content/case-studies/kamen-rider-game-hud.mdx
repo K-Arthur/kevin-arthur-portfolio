@@ -35,114 +35,108 @@ results:
   { value: "100%", label: "Motion Accessible", context: "Reduced-motion support" }
 ]} />
 
-As a lifelong fan of Kamen Rider—and someone who's spent way too many hours absorbing the visual grammar of transformation sequences, suit designs, and the glorious chaos of tokusatsu action—this project was a dream playground. But beyond the "geeking out," this was a serious design exercise: **How do you make a HUD that feels as visually explosive as a Rider Kick, but remains 100% readable when the player has 0ms to react?**
+<CaseStudySummary
+  problem="Tokusatsu-inspired game UIs need to feel visually explosive and chaotic, but that same energy can make critical HUD information unreadable during fast-paced combat, leading to player frustration."
+  solution="Developed a 'Tech-Organic' visual language with a modular Figma design system that balances high-energy neon aesthetics with WCAG AA compliant contrast, cognitive load management, and graceful reduce-motion fallbacks."
+  role="UI/UX Designer (Concept), responsible for the full visual language, component system, and 7 high-fidelity screen designs across a 2-week sprint."
+  impact="Achieved a minimum 4.5:1 contrast ratio for WCAG AA compliance, designed 100% reduce-motion accessible interactions, and delivered 7 key screens from concept to high-fidelity in 2 weeks."
+/>
 
-This case study walks through the visual language, UX principles, and Figma component system I developed for a conceptual action game interface.
-
-## The Challenge
-
-### The Paradox of "Controlled Chaos"
-
-Tokusatsu (Japanese special effects shows like Kamen Rider, Super Sentai, and Ultraman) are defined by **sensory overload**: explosions, glowing effects, rapid transformations, dramatic camera angles. Fans *love* this. It's part of the DNA.
-
-But in a game, that same energy can kill the player—literally. If the health bar is obscured by a cool glitch effect, the player dies. If the combo meter is too subtle, the player loses momentum.
-
-> *"Every UI element in active combat is competing for the same 200ms of player attention. You have to earn the right to be loud."*
-
-The design goal was clear:
-- **Feel** chaotic and energized (honor the genre).
-- **Be** ruthlessly clear and accessible (serve the player).
+A concept project exploring a universal design challenge: **how to make a HUD that feels as visually explosive as a Rider Kick, but remains 100% readable when the player has 0ms to react.** This case study demonstrates how cognitive load management and accessibility thinking apply across *any* complex, information-dense interface — from game UIs to enterprise dashboards.
 
 ---
 
-## The Visual Language
+## The Paradox
 
-### Color Palette: Neon-Tech on Void Black
+Tokusatsu (Kamen Rider, Super Sentai, Ultraman) is defined by **sensory overload**: explosions, glowing effects, rapid transformations. Fans love it. But in a game, that same energy can kill the player — if the health bar is obscured by a glitch effect, the player dies. If the combo meter is too subtle, they lose momentum.
 
-The palette is intentionally limited but high-impact. Every color has a job.
+> *"Every UI element in active combat is competing for the same 200ms of player attention. You have to earn the right to be loud."*
+
+**Design goal:** Feel chaotic and energized (honor the genre). Be ruthlessly clear and accessible (serve the player).
+
+---
+
+## Strategic Approach
+
+### 1. Color System: Neon-Tech on Void Black
+
+Intentionally limited but high-impact palette — every color has a functional job.
 
 <ColorPaletteExplorer />
 
-The key insight was that on a dark (`#0A0A0A`) background, colors like Impact Orange (`#FF6B35`) and Rider Teal (`#00C9B7`) naturally pop at **WCAG AA/AAA levels** for text. This lets me be visually aggressive without sacrificing accessibility.
+The key insight: on a dark (`#0A0A0A`) background, colors like Impact Orange (`#FF6B35`) and Rider Teal (`#00C9B7`) naturally pop at **WCAG AA/AAA levels**. This lets the design be visually aggressive without sacrificing accessibility.
 
-### Typography: Sharp, Condensed, and Urgent
+### 2. Typography: Sharp, Condensed, and Urgent
 
-For UI text, I selected **Rajdhani** and **Orbitron**—semi-condensed, geometric sans-serifs that evoke a technological, slightly "industrial" feeling. These fonts are:
-- **Highly legible** at small sizes (critical for HUD elements).
-- **Aesthetically aligned** with the sci-fi/tokusatsu genre.
-- **Freely available** (important for a conceptual project that could be shared).
+**UI text:** Rajdhani and Orbitron — semi-condensed, geometric sans-serifs. Highly legible at small sizes (critical for HUD), aesthetically aligned with sci-fi/tokusatsu.
 
-Display text and titles use **Bebas Neue** and custom "glitched" treatments to add that sense of volatile energy.
+**Display text:** Bebas Neue with custom "glitched" treatments for volatile energy.
 
-### The "Glitched-Industrial" Aesthetic
+### 3. The "Glitched-Industrial" Aesthetic
 
-The visual motifs are pulled directly from what I love about Kamen Rider suit designs: the blend of organic curves and hard-edged technology. In UI terms, this translates to:
-- **Circuit-like patterns** running through backgrounds and dividers.
-- **Holographic textures** on panels and overlays.
-- **Subtle "glitch" effects** on hover states—scanlines, RGB shift, noise grain.
+Visual motifs pulled from Kamen Rider suit designs — organic curves meets hard-edged technology:
+- Circuit-like patterns in backgrounds and dividers
+- Holographic textures on panels and overlays
+- Subtle glitch effects on hover states — scanlines, RGB shift, noise grain
 
-This final point is crucial: the glitch effect is **never applied to critical information by default**. It's a decorative layer that appears on hover or in non-critical states. This ensures that a player who needs to see their health bar sees a clear, solid color—not a seizure-inducing lightshow.
+**Critical rule:** Glitch effects are **never applied to critical information by default.** They appear on hover or in non-critical states only. A player who needs to see their health bar sees a clear, solid color — not a seizure-inducing lightshow.
 
 ---
 
 ## Screen Gallery
 
-Explore the high-fidelity screens designed in Figma. **Click any image to view it fullscreen.**
-
 <GlitchGallery />
 
 ---
 
-## Player-First UX: The Guiding Principles
+## Player-First UX Principles
 
-This wasn't just about making things "look cool." Every design decision was filtered through a set of player-first UX principles, particularly around **cognitive load** and **accessibility**.
+Every design decision was filtered through cognitive load and accessibility principles:
 
 <DesignPrincipleCards />
 
 ---
 
-## Design System: The Figma Component Library
+## Design System
 
-To ensure consistency and scalability, I built a modular component system in Figma:
+Modular Figma component library ensuring consistency and scalability:
 
-### Button Components
-- **Primary Action** (Impact Orange fill, used for "Start Game," "Confirm")
-- **Secondary Action** (Outlined Rider Teal, used for "Back," "Options")
-- **Destructive Action** (Crimson Glow, used for "Delete Save," "Exit")
-- All buttons include defined `:hover`, `:focus`, and `:disabled` states with appropriate contrast.
+**Buttons:** Primary (Impact Orange), Secondary (Rider Teal outline), Destructive (Crimson Glow). All include `:hover`, `:focus`, `:disabled` states with appropriate contrast.
 
-### HUD Elements
-- **Health Bar:** Segmented design with clear "low health" color shift (green → yellow → red/pulsing).
-- **Energy Meter:** A secondary resource bar with a distinct visual profile (Rider Teal, vertical).
-- **Combo Counter:** A large, central number that scales up with consecutive hits, then fades gracefully.
+**HUD Elements:**
+- **Health Bar:** Segmented with clear "low health" color shift (green → yellow → red/pulsing)
+- **Energy Meter:** Distinct visual profile (Rider Teal, vertical)
+- **Combo Counter:** Scales up with consecutive hits, fades gracefully
 
-### Menu Frames
-- **Glass-Morph Panels:** Semi-transparent backgrounds with strong neon borders.
-- **Consistent Padding:** 24px minimum padding, 48px minimum touch targets for interactive elements.
-- **Clear Focus States:** A glowing neon outline that's impossible to miss.
+**Menu Frames:** Glass-morph panels with strong neon borders, 24px minimum padding, 48px minimum touch targets, glowing neon focus states.
 
 ---
 
-## The "Reduce Motion" Consideration
+## Accessibility: "Reduce Motion" by Design
 
-A significant portion of the visual identity relies on animation—glitches, pulses, and glows. For players who have "reduce motion" enabled in their OS settings (or a hypothetical in-game accessibility menu), the design gracefully degrades:
+For players with "reduce motion" enabled, the design **gracefully degrades** — baked in from the start, not bolted on:
 
-- All glitch effects become static, high-contrast borders.
-- Pulsing glows become solid colors.
-- Transition animations are replaced with instant state changes.
+- All glitch effects become static, high-contrast borders
+- Pulsing glows become solid colors
+- Transition animations are replaced with instant state changes
 
-This was baked into the thinking from the start, not bolted on as an afterthought.
+<ComparisonSlider 
+  beforeImage="https://res.cloudinary.com/dov1tv077/image/upload/v1773275598/Gameplay_-_Raw_Environment_tt8ape.png"
+  afterImage="https://res.cloudinary.com/dov1tv077/image/upload/v1773275598/Gameplay_-_HUD_1_ycbpkk.png"
+  beforeLabel="Raw Environment"
+  afterLabel="HUD Overlay"
+/>
 
 ---
 
 ## Key Takeaways
 
-1.  **Aesthetic and Accessibility are not mutually exclusive.** A dark theme with neon accents is naturally high-contrast. Lean into it.
-2.  **Design for the worst-case scenario.** If the UI is clear when the player is panicking, it's clear all the time.
-3.  **Decorative effects should be opt-in, not mandatory.** Put the "cool stuff" on hover states and in non-critical contexts.
-4.  **Build accessibility into your design system, not into individual screens.** If the component is accessible, every instance of it is accessible.
+1. **Aesthetic and accessibility are not mutually exclusive.** A dark theme with neon accents is naturally high-contrast. Lean into it.
+2. **Design for the worst-case scenario.** If the UI is clear when the player is panicking, it's clear all the time.
+3. **Decorative effects should be opt-in, not mandatory.** Cool stuff goes on hover states and non-critical contexts.
+4. **Build accessibility into the system, not individual screens.** If the component is accessible, every instance is accessible.
 
-This project was a passion piece, but it sharpened my thinking on how to balance brand identity with user needs. The principles here—especially around cognitive load—apply just as well to a fintech dashboard as they do to a Kamen Rider game.
+These principles — cognitive load management, accessible contrast, progressive disclosure of complexity — apply just as well to enterprise SaaS dashboards and healthcare interfaces as they do to a Kamen Rider game.
 
 ---
 

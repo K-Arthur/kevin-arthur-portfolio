@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { CloudinaryImage } from '@/components/OptimizedImage';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { mdxComponents } from '@/components/MdxComponents';
+import remarkGfm from 'remark-gfm';
 import { FaCalendarAlt, FaUserTie, FaTools, FaChartLine, FaArrowLeft, FaRocket, FaFlask } from 'react-icons/fa';
 import Link from 'next/link';
 import contentStyles from './CaseStudyContent.module.css';
@@ -204,8 +205,9 @@ export default async function CaseStudyPage({ params }) {
               components={mdxComponents}
               options={{
                 parseFrontmatter: true,
-                // Enable JS expressions for trusted content (required for v6+)
-                blockJS: false,
+                mdxOptions: {
+                  remarkPlugins: [remarkGfm],
+                },
               }}
             />
           </article>

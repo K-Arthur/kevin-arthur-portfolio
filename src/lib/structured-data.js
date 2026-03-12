@@ -13,8 +13,8 @@ export const personSchema = {
     "name": "Kevin Arthur",
     "givenName": "Kevin",
     "familyName": "Arthur",
-    "jobTitle": "Design Engineer & AI Interface Design Expert",
-    "description": "Design Engineer specializing in AI interface design, healthcare UX, and SaaS product design. Based in Vancouver, Canada.",
+    "jobTitle": "Product Designer & AI Interface Design Expert",
+    "description": "Product Designer specializing in AI interface design, healthcare UX, and SaaS product design. Based in Vancouver, Canada.",
     "url": BASE_URL,
     "image": `${BASE_URL}/images/profile-image.jpg`,
     "sameAs": [
@@ -105,7 +105,7 @@ export const websiteSchema = {
     "@type": "WebSite",
     "@id": `${BASE_URL}/#website`,
     "name": "Kevin Arthur Design Portfolio",
-    "description": "Design Engineer and SaaS Product Designer in Vancouver specializing in AI interface design",
+    "description": "Product Designer in Vancouver specializing in AI interface design and complex enterprise systems",
     "url": BASE_URL,
     "inLanguage": "en-US",
     "author": {

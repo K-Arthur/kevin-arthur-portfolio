@@ -88,7 +88,7 @@ class SceneErrorBoundary extends Component {
 }
 
 // Main component containing the 3D scene logic
-const SceneContent = ({ theme, quality }) => {
+const SceneContent = ({ theme, quality, isActive }) => {
   const colors = useMemo(() => {
     const primary = new Color(getHslColorFromCSSVar('--p', 'hsl(210, 90%, 55%)'));
     const secondary = new Color(getHslColorFromCSSVar('--s', 'hsl(280, 80%, 60%)'));
@@ -99,25 +99,13 @@ const SceneContent = ({ theme, quality }) => {
     return { primary, secondary };
   }, [theme]);
 
-  // Check if scene is in viewport
-  const [isInView, setIsInView] = useState(true);
-
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      setIsInView(!document.hidden);
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, []);
-
   return (
     <>
       <CustomLighting primaryColor={colors.primary} secondaryColor={colors.secondary} />
-      <GlassSphere color={colors.primary} theme={theme} quality={quality} isActive={isInView} />
-      <OrbitingSphere offset={3.5} color={colors.primary} speed={0.5} size={0.3} theme={theme} quality={quality} isActive={isInView} />
-      <OrbitingSphere offset={4.5} color={colors.secondary} speed={0.3} size={0.2} theme={theme} quality={quality} isActive={isInView} />
-      <AnimatedTorus color={colors.secondary} theme={theme} quality={quality} isActive={isInView} />
+      <GlassSphere color={colors.primary} theme={theme} quality={quality} isActive={isActive} />
+      <OrbitingSphere offset={3.5} color={colors.primary} speed={0.5} size={0.3} theme={theme} quality={quality} isActive={isActive} />
+      <OrbitingSphere offset={4.5} color={colors.secondary} speed={0.3} size={0.2} theme={theme} quality={quality} isActive={isActive} />
+      <AnimatedTorus color={colors.secondary} theme={theme} quality={quality} isActive={isActive} />
       {/* Only load environment for high quality devices to save bandwidth */}
       {quality === 'high' && (
         <SceneErrorBoundary>
@@ -415,6 +403,8 @@ const Scene = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [quality, setQuality] = useState('medium');
+  const [isInView, setIsInView] = useState(true);
+  const containerRef = useRef();
   const canvasRef = useRef();
 
   // Performance optimization: Detect device quality
@@ -423,12 +413,36 @@ const Scene = () => {
     setQuality(getDeviceQuality());
   }, []);
 
+  // Performance optimization: Stop rendering when not in view
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    let isIntersecting = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+      setIsInView(isIntersecting && !document.hidden);
+    }, { rootMargin: '150px' });
+    
+    observer.observe(containerRef.current);
+
+    const handleVisibilityChange = () => {
+      setIsInView(isIntersecting && !document.hidden);
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   // Performance optimization: Skip unnecessary renders
   const memoizedScene = useMemo(() => (
     <Suspense fallback={null}>
-      <SceneContent theme={resolvedTheme} quality={quality} />
+      <SceneContent theme={resolvedTheme} quality={quality} isActive={isInView} />
     </Suspense>
-  ), [resolvedTheme, quality]);
+  ), [resolvedTheme, quality, isInView]);
 
   // Add ARIA attributes for accessibility
   const ariaProps = {
@@ -442,6 +456,7 @@ const Scene = () => {
 
   return (
     <div
+      ref={containerRef}
       className={`absolute inset-0 z-0 transition-opacity duration-700 ${resolvedTheme === 'dark' ? 'opacity-35' : 'opacity-30'
         }`}
       {...ariaProps}
@@ -468,7 +483,7 @@ const Scene = () => {
           max: 1,
           debounce: quality === 'low' ? 200 : 100
         }}
-        frameloop="always" // Critical: Enable continuous rendering for mouse interactions
+        frameloop={isInView ? "always" : "demand"} // Critical: Dynamically pause rendering when offscreen
         onCreated={({ gl, performance }) => {
           gl.setClearColor(0x000000, 0);
           gl.setPixelRatio(Math.min(QUALITY_PRESETS[quality].dpr, window.devicePixelRatio));

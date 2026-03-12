@@ -11,7 +11,7 @@ const nextConfig = {
   },
 
   // Enable production source maps for debugging and Lighthouse insights
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   // output: 'export' removed to enable Vercel edge/serverless capabilities
 
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],

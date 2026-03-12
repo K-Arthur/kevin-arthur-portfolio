@@ -162,9 +162,14 @@ const Header = () => {
               );
             })}
           </div>
-          <div className="hidden lg:flex lg:flex-1 items-center justify-end gap-4">
+          <div className="hidden lg:flex lg:flex-1 items-center justify-end gap-3">
             <ThemeSwitcher />
-            <Button asChild size="default" className="rounded-full px-6 min-h-[44px]">
+            <Button asChild variant="outline" size="default" className="rounded-full px-5 min-h-[44px]">
+              <Link href="/resume.pdf" target="_blank" download="Kevin_Arthur_Resume.pdf">
+                Download Resume
+              </Link>
+            </Button>
+            <Button asChild size="default" className="rounded-full px-5 min-h-[44px]">
               <Link href="/contact">
                 Get in touch
               </Link>
@@ -184,20 +189,17 @@ const Header = () => {
               aria-label={mobileMenuOpen ? 'Close main menu' : 'Open main menu'}
             >
               <div className="flex flex-col justify-center items-center w-6 h-6">
-                <span 
-                  className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-200 ease-in-out ${
-                    mobileMenuOpen ? 'rotate-45 translate-y-[7px]' : 'rotate-0 translate-y-0'
-                  }`} 
+                <span
+                  className={`block h-0.5 w-5 bg-current rounded-full transition-all duration-200 ease-in-out ${mobileMenuOpen ? 'rotate-45 translate-y-[7px]' : 'rotate-0 translate-y-0'
+                    }`}
                 />
-                <span 
-                  className={`block h-0.5 w-5 bg-current rounded-full mt-1.5 transition-all duration-200 ease-in-out ${
-                    mobileMenuOpen ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
-                  }`} 
+                <span
+                  className={`block h-0.5 w-5 bg-current rounded-full mt-1.5 transition-all duration-200 ease-in-out ${mobileMenuOpen ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
+                    }`}
                 />
-                <span 
-                  className={`block h-0.5 w-5 bg-current rounded-full mt-1.5 transition-all duration-200 ease-in-out ${
-                    mobileMenuOpen ? '-rotate-45 -translate-y-[7px]' : 'rotate-0 translate-y-0'
-                  }`} 
+                <span
+                  className={`block h-0.5 w-5 bg-current rounded-full mt-1.5 transition-all duration-200 ease-in-out ${mobileMenuOpen ? '-rotate-45 -translate-y-[7px]' : 'rotate-0 translate-y-0'
+                    }`}
                 />
               </div>
             </button>

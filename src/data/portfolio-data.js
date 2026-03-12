@@ -9,8 +9,8 @@ export const personalInfo = {
   phone: '+1 (236) 833-7610',
   summary: "Product Designer with a foundation in Computer Science and experience shipping complex products across AI, healthcare, and fintech. I've led design for platforms serving 500+ facilities, built scalable design systems, and created interfaces that balance technical constraints with user needs. My work bridges design and engineering—translating complex requirements into intuitive experiences.",
   heroTitle1: 'Product Designer',
-  heroTitle2: '& Design Engineer',
-  differentiationStatement: 'I help product teams across fintech, SaaS, healthcare, and emerging tech ship clear, scalable experiences—from AI interfaces to enterprise workflows, strategy through implementation.',
+  heroTitle2: '',
+  differentiationStatement: 'I combine Product Design with Systems Programming and an MSc in Applied CS to help product teams ship clear, scalable experiences—from AI interfaces to enterprise workflows.',
 };
 
 export const recognition = [
@@ -18,7 +18,7 @@ export const recognition = [
     type: 'media',
     name: 'CNN',
     description: 'Featured on CNN',
-    context: 'Breakthrough African AI application',
+    context: 'Breakthrough African AI platform',
     logoPath: null,
     url: null,
   },
@@ -118,38 +118,38 @@ export const education = [
 ];
 
 export const professionalExperience = [
-    {
-        role: 'Product Designer',
-        company: 'MinoHealth AI Labs',
-        location: 'Accra, Ghana',
-        period: 'November 2023 - May 2025',
-        description: "Led UX design for Africa's first multimodal medical AI platform. Achieved 97% diagnostic accuracy, served 500+ healthcare facilities, featured on CNN. Designed interfaces for AI systems with transparent uncertainty handling and human-in-the-loop workflows.",
-        highlights: ['97% diagnostic accuracy (outperformed 75-86% radiologist baseline)', '500+ healthcare facilities across Ghana, Nigeria, Kenya', 'Featured on CNN; Forbes 30 Under 30 project', '15x faster diagnosis (45 min → 3 min)'],
-    },
-    {
-        role: 'Freelance UI/UX Designer',
-        company: 'Self Employed',
-        location: 'Remote',
-        period: 'April 2018 - Current',
-        description: 'Built design consultancy serving 10+ clients across fintech, e-commerce, and SaaS. Consistently delivered measurable improvements in conversion and user satisfaction.',
-        highlights: ['10+ clients across fintech, e-commerce, SaaS', 'End-to-end design from research to handoff', 'Design systems and component libraries'],
-    },
-    {
-        role: 'UI/UX Design Intern',
-        company: 'Charles Technology Africa Ltd',
-        location: 'Accra, Ghana',
-        period: 'November 2021 - January 2022',
-        description: 'Contributed to 5+ enterprise applications in fast-paced technology environment, supporting senior designers while developing strong analytical thinking and design problem-solving skills.',
-        highlights: ['5+ enterprise applications', 'Collaboration with senior designers', 'Analytical and design problem-solving'],
-    },
-    {
-        role: 'Creative Designer',
-        company: 'SISCODE/GH',
-        location: 'Accra, Ghana',
-        period: 'August 2021 - January 2022',
-        description: 'Developed comprehensive brand identity systems and visual design frameworks while mentoring junior team members and maintaining high design standards in collaborative agency environment.',
-        highlights: ['Brand identity systems', 'Mentored junior designers', 'High design standards in agency environment'],
-    },
+  {
+    role: 'Product Designer',
+    company: 'MinoHealth AI Labs',
+    location: 'Accra, Ghana',
+    period: 'November 2023 - May 2025',
+    description: "Led UX design for Africa's first multimodal medical AI platform. Achieved 97% diagnostic accuracy, served 500+ healthcare facilities, featured on CNN. Designed interfaces for AI systems with transparent uncertainty handling and human-in-the-loop workflows.",
+    highlights: ['97% diagnostic accuracy (outperformed 75-86% radiologist baseline)', '500+ healthcare facilities across Ghana, Nigeria, Kenya', 'Featured on CNN; Forbes 30 Under 30 project', '15x faster diagnosis (45 min → 3 min)'],
+  },
+  {
+    role: 'Freelance UI/UX Designer',
+    company: 'Self Employed',
+    location: 'Remote',
+    period: 'April 2018 - Current',
+    description: 'Built design consultancy serving 10+ clients across fintech, e-commerce, and SaaS. Consistently delivered measurable improvements in conversion and user satisfaction.',
+    highlights: ['10+ clients across fintech, e-commerce, SaaS', 'End-to-end design from research to handoff', 'Design systems and component libraries'],
+  },
+  {
+    role: 'UI/UX Design Intern',
+    company: 'Charles Technology Africa Ltd',
+    location: 'Accra, Ghana',
+    period: 'November 2021 - January 2022',
+    description: 'Contributed to 5+ enterprise applications in fast-paced technology environment, supporting senior designers while developing strong analytical thinking and design problem-solving skills.',
+    highlights: ['5+ enterprise applications', 'Collaboration with senior designers', 'Analytical and design problem-solving'],
+  },
+  {
+    role: 'Creative Designer',
+    company: 'SISCODE/GH',
+    location: 'Accra, Ghana',
+    period: 'August 2021 - January 2022',
+    description: 'Developed comprehensive brand identity systems and visual design frameworks while mentoring junior team members and maintaining high design standards in collaborative agency environment.',
+    highlights: ['Brand identity systems', 'Mentored junior designers', 'High design standards in agency environment'],
+  },
 ];
 
 export const expertiseAreas = [
@@ -200,9 +200,9 @@ export const testimonials = [
 ];
 
 export const projects = {
-    behance: {
-        name: 'Behance Portfolio',
-        url: 'https://www.behance.net/arthurkevin',
-        description: 'Showcases personal design projects.',
-    },
+  behance: {
+    name: 'Behance Portfolio',
+    url: 'https://www.behance.net/arthurkevin',
+    description: 'Showcases personal design projects.',
+  },
 };

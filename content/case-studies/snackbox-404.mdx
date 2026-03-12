@@ -25,113 +25,83 @@ results:
 
 ---
 
-Transformed SnackBox's 404 error page into an engaging brand moment that reduced bounce rates by 32% and increased search usage by 45%. This 1-week design sprint focused on creating a delightful error experience that aligns with SnackBox's fun, candy-inspired brand identity.
+<CaseStudySummary
+  problem="SnackBox's generic 404 error page was causing 23% immediate bounces and 7% of all site exits, bleeding revenue from users driven by outdated newsletter links."
+  solution="Designed a gamified, brand-aligned 404 experience featuring a candy-face emotional recovery moment, clear escape paths, and interactive delight elements to turn frustration into engagement."
+  role="Solo UI/UX Designer, handling research, design, usability testing, and developer handoff within a 1-week sprint."
+  impact="Reduced 404 bounce rate by 32%, increased site-search usage from error pages by 45%, and received positive stakeholder feedback calling it 'a charming brand moment.'"
+/>
 
-## The Tension
+SnackBox's 404 page was bleeding revenue — **23% immediate bounces** and **7% of all site exits** — primarily from outdated newsletter links hitting dead pages. In a **1-week solo sprint**, I designed a gamified error experience that **cut bounce rates by 32%** and **increased search usage by 45%**, turning a dead end into a brand moment.
 
-### The Constraint
-**1 week. Solo design. Zero brand guidelines for error states.** SnackBox's 404 page was bleeding users—23% immediate bounces, 7% of all site exits. The challenge wasn't just fixing a page; it was turning frustration into delight while staying on-brand.
+---
 
-### The Business Problem
-Outdated newsletter links were driving traffic to broken pages. Every bounced user = lost revenue. But SnackBox's fun, candy-inspired brand had no playbook for error handling.
+## Business Constraint
 
-> *"A 404 can feel like a dead end—or a micro-moment to surprise and delight."*
+**1 week. Solo design. Zero brand guidelines for error states.** Outdated newsletter links were driving traffic to broken pages at scale — every bounced user represented lost revenue. SnackBox's playful, candy-inspired brand had no playbook for error handling.
 
-### Success Criteria
+> *"A 404 can feel like a dead end — or a micro-moment to surprise and delight."*
+
+**Success criteria:**
 1. Reduce bounce rate from 404s by 20%+ (achieved 32%)
 2. Increase engagement with recovery paths (search, categories)
 3. Reinforce brand personality through playful error handling
 
-## Research & Insights
+---
 
-### User Behavior Analysis
+## Strategic Approach
+
+### Research: Understanding the Drop-Off
+
+**Behavioral analysis (Hotjar + Google Analytics):**
 - Heatmaps showed users scrolling past generic error messages
 - Session recordings revealed confusion when landing on 404 pages
 - 68% of users didn't use the browser's back button
-  
-### Competitive Analysis
-- Reviewed error pages from top e-commerce and subscription services
-- Identified patterns in successful 404 designs (search bars, popular links)
-- Noted opportunities for brand differentiation
-
-### Analytics & User Testing
-- 7% of site exits originated from 404s
-- Most common source: outdated newsletter links
-- Test participants felt blank-slate 404s were "jarring" and "uninspiring"
 - 80% expected navigation aids (home link, search)
 
-> **Key Takeaway:** A 404 can feel like a dead end—or a micro-moment to surprise and delight.
+**Competitive audit:** Reviewed error pages from top e-commerce and subscription services. Best-in-class 404s converted frustration into discovery opportunities.
 
----
+### Design Strategy: Frustration → Delight
 
-## Technical Bridge: The Conceptual Leap
+Four principles drove the design:
 
-### The Insight
-Frustration → Delight. Instead of apologizing for the error, I designed an experience that makes users smile. The candy-face "reaction" creates an empathy moment—the brand acknowledges the problem with personality.
-
-### Design Strategy
-1. **Emotional Recovery**: Candy-face creates immediate emotional connection
-2. **Clear Escape**: "GO BACK →" button achieves 90% visibility in testing
-3. **Secondary Paths**: Search bar + "Shop Bestsellers" for users who want to continue shopping
-4. **Interactive Delight**: A gamified element to reset the user's mood
+1. **Emotional Recovery** — candy-face "reaction" creating an immediate empathy moment
+2. **Clear Escape** — "GO BACK →" button achieved 90% visibility in testing
+3. **Secondary Paths** — search bar + "Shop Bestsellers" for users who want to continue shopping
+4. **Interactive Delight** — a gamified element to reset the user's mood
 
 <Interactive404Game />
 
-### Micro-Interaction Details
-- Gentle bounce animation on candy-face (runs once to avoid distraction)
-- Button pulse on load draws attention to primary CTA
-- Enlarged touch targets for mobile accessibility (critical for e-commerce)
-
-### Visual Design & Interaction
+### Visual Execution
 
 <CandyFace />
 
-- **Final Comps:**
-  - **Image:** Gummy candies arranged into a surprised "face"
-  - **404 Treatment:** Oversized "4" characters in white with hot-pink drop-shadows; the "0" replaced by a candy bowl
-  - **CTA Button:** Outlined hot-pink "GO BACK →" with hover animation
-  - **Typography:** Bold sans-serif; all-caps for CTAs, sentence case for body text
+- **Image:** Gummy candies arranged into a surprised "face"
+- **404 Treatment:** Oversized "4" characters in white with hot-pink drop-shadows; the "0" replaced by a candy bowl
+- **CTA Button:** Outlined hot-pink "GO BACK →" with hover animation
+- **Micro-interactions:** Gentle bounce on candy-face (runs once to avoid distraction), button pulse on load
 
-- **Micro-interaction (GIF):**
-  - Gentle bounce on the candy-face
-  - Button pulse on load
+### Validation
 
-### Usability Testing & Iteration
-
-- **Prototype Test (10 users):**
-  - 9/10 immediately noticed the "Go Back" button
-  - 7/10 smiled or commented on the candy face—"nice touch!"
-- **Tweaks:**
-  - Enlarged button hit-area on mobile
-  - Added drop-shadow under candy bowl for depth
-  - Animation runs only once to avoid distraction
+**Prototype test (10 users):**
+- 9/10 immediately noticed the "Go Back" button
+- 7/10 smiled or commented on the candy face — *"nice touch!"*
+- Iterated: enlarged button hit-area on mobile, added drop-shadow for depth, animation runs only once
 
 ---
 
-## Results
+## Business Outcomes
 
-### Outcome & Impact
-
-- **Metrics (after 2 weeks):**
+| Metric | Result | Context |
+|--------|--------|---------|
+| **Bounce Rate** | ↓ 32% | On 404 pages, 2 weeks post-launch |
+| **Search Usage** | ↑ 45% | From error page recovery |
+| **"Go Back" Clicks** | ↑ 15% | vs. previous generic 404 page |
+| **Sprint Time** | 1 week | Concept → deployment |
 
 <BounceRateCounter />
 
-  - 404 bounce-rate ↓ 32%
-  - 404 bounce-rate ↓ 32%
-  - +15% clicks on "Go Back" vs previous page
-  - +45% site-search usage from 404
+> *"This turned a missed page into a charming brand moment."* — Stakeholders
 
-- **Qualitative Feedback:**
-
-> "This turned a missed page into a charming brand moment." – Stakeholders
-
-### Learnings & Next Steps
-
-- **What Worked:**
-  - Brand assets created emotional connection
-  - Clear hierarchy drove users back on track
-- **Future Enhancements:**
-  - Personalized suggested links by referrer
-  - "Shake" animation if users linger
-
-> **Takeaway:** Even "small" pages can deliver big brand moments and recover user frustration.
+### Key Takeaway
+Even "small" pages can deliver outsized business impact. Brand-aligned error handling turns frustration into engagement — and the principles apply far beyond 404 pages.

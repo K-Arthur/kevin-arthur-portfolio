@@ -36,201 +36,133 @@ results:
   { value: "2x", label: "Feature Velocity", context: "After design system implementation" }
 ]} />
 
-Moremi Collaborate represents a significant evolution in telemedicine collaboration, building upon MinoHealth AI Labs' proven expertise in AI-powered radiology solutions. This generative AI-powered platform transforms how medical professionals work together by creating a connected environment that reflects the collaborative nature of modern healthcare. Building on MinoHealth's success in developing AI systems that outperform radiologists by 10% in diagnostic accuracy (as published in their clinical evaluation study), Moremi Collaborate integrates seamlessly with their existing medical AI chat application to enable project-based collaboration, peer review systems, and monetized expertise sharing. As Lead Product Designer, I spearheaded the creation of this innovative platform that empowers medical professionals to work more efficiently, share insights seamlessly, and collaborate on patient cases and reports directly within the telemedicine environment.
+<CaseStudySummary 
+  problem="Medical professionals lacked a unified platform for remote collaboration, resulting in clinicians using 3+ fragmented tools for chat, file sharing, and case reviews, leading to workflow inefficiencies and design-to-development friction."
+  solution="Developed a modular design system and an AI-powered collaboration platform that integrates seamlessly with existing medical AI chat applications to enable project-based collaboration and peer review."
+  role="Lead Product Designer, driving the creation of the platform, the underlying modular design system, and the overall user experience."
+  impact="Reduced case review times by 40%, decreased UI bugs by 45% post-launch, doubled feature delivery velocity, and achieved an NPS of 72 among beta testers."
+/>
 
-## The Tension
+Moremi Collaborate is a generative AI-powered telemedicine platform built on MinoHealth AI Labs' proven AI radiology stack. I designed the end-to-end experience for a platform that **reduced case review time by 40%**, **cut UI bugs by 45%**, and **created a new revenue stream** through a monetized peer review ecosystem — all shipped within a 3-month timeline.
 
-### The Systems Challenge
-**Creating consistency across chat, file sharing, and report generation**—three fundamentally different interaction patterns that needed to feel like one unified platform.
+---
 
-### The Scale Problem
+## Business Constraint
+
 MinoHealth's AI chat application was successful but fragmented:
 - **87% of clinicians** used 3+ different platforms for remote collaboration
-- Each new feature meant redesigning from scratch
-- Design-to-dev handoff was causing 45% of UI bugs
-- No systematic approach to component reuse
+- Each new feature meant redesigning from scratch — no systematic component reuse
+- Design-to-dev handoff was causing **45% of all UI bugs**
+- No clear path to monetization beyond the core diagnostic tool
 
 > *"How do you unify chat, file sharing, and AI-generated reports into a cohesive experience without overwhelming clinicians already managing complex cases?"*
 
-### Business Goals
-1. Transform the existing medical AI chat into a collaborative platform
-2. Create organized, shareable workspaces for medical professionals
-3. Establish a peer review ecosystem that ensures quality and generates revenue
-4. Build a modular design system that accelerates future development
+**Business goals:**
+1. Transform the existing AI chat into a collaborative platform
+2. Build a modular design system that accelerates future development
+3. Create a peer review ecosystem that generates revenue
+4. Do it all in 3 months
 
 ---
 
-## Research & Discovery: Understanding Telemedicine Collaboration Needs
+## Strategic Approach
 
-### Stakeholder Interviews
-Conducted in-depth interviews with 25+ healthcare professionals including:
-- Radiologists and imaging specialists
-- General practitioners and specialists
-- Hospital administrators
-- Telemedicine coordinators
+### 1. Modular Design System Architecture
 
-### Key Insights
-- **87% of clinicians** reported using 3+ different platforms for remote collaboration
-- **Medical imaging review** was identified as the highest-priority use case, aligning with MinoHealth's core expertise in AI-powered radiology
-- **Project tracking** was consistently mentioned as a major pain point
-- **AI assistance** was desired but needed to maintain clinical oversight, particularly important given the sensitive nature of medical imaging diagnosis
-
-> **Critical Discovery:** Healthcare professionals wanted AI to augment, not replace, their clinical judgment while providing seamless collaboration tools. This insight was particularly valuable given MinoHealth's research showing AI systems can achieve 10% higher diagnostic accuracy than individual radiologists.
-
-### Competitive Analysis
-Analyzed existing telemedicine platforms and identified gaps in:
-- AI-powered medical imaging analysis
-- Integrated project management workflows
-- Real-time collaborative review capabilities
-- Cross-platform communication tools
-
----
-
-## Technical Bridge: How I Solved It
-
-### Modular Design System Architecture
-Built a component library that treats medical workflows as composable patterns. A "Review Card" component works identically in case review, peer feedback, and report management—reducing design time from days to hours.
+Built a component library that treats medical workflows as **composable patterns**. A "Review Card" component works identically in case review, peer feedback, and report management — reducing design time from days to hours.
 
 **Three-tier system architecture:**
-1. **Project Dashboard:** Central hub for managing ongoing medical cases
-2. **Collaboration Workspace:** Real-time communication and file sharing
-3. **AI Analysis Suite:** Intelligent insights and automated reporting
+1. **Project Dashboard** — central hub for managing ongoing medical cases
+2. **Collaboration Workspace** — real-time communication and file sharing
+3. **AI Analysis Suite** — intelligent insights and automated reporting
 
-### Engineering Alignment
-- **Component Library in Figma**: Created detailed components specifically designed for real-time medical data visualization and complex collaborative workflows
-- **Design Tokens**: Established systematic color, spacing, and typography tokens that translated directly to the Next.js/TypeScript implementation
-- **Reduced UI Bugs by 45%**: Systematic approach to design-dev handoff eliminated ambiguity in requirements
+**Engineering alignment:**
+- **Design tokens** translated directly to the Next.js/TypeScript implementation
+- **Component specs** eliminated ambiguity in requirements → 45% fewer UI bugs
+- **Systematic handoff patterns** that are now used across the entire MinoHealth product suite
 
-### Scalability Decisions
-- Peer review ecosystem designed as a **platform feature**, not a one-off
-- Approved reviewer program creates monetization pathway for medical experts
-- Component patterns now used across entire MinoHealth product suite
+### 2. Clinical-First Information Architecture
 
-### Key Design Decisions
+Research across 25+ healthcare professionals (radiologists, GPs, hospital administrators, telemedicine coordinators) revealed:
 
-**1. Project-Based Organization**
-- Created intuitive project folders to group related chat sessions and reports
-- Designed a clean, organized workspace that keeps medical cases tidy and accessible
-- Implemented easy navigation between different projects and case studies
+- Medical imaging review was the highest-priority use case
+- Clinicians wanted AI to **augment, not replace** their clinical judgment
+- Project tracking was the most consistent pain point
+
+This informed four key interface decisions:
+
+**Project-Based Organization** — grouped related chat sessions, reports, and imaging under project folders, keeping medical cases organized and accessible.
+
+![Moremi Collaborate Dashboard](https://res.cloudinary.com/dov1tv077/image/upload/v1768696824/Projects_Main_Tab_1_evw0ii.png)
+*Project dashboard providing an organized view of all medical cases with project-based grouping and case management.*
 
 <WorkflowDemo />
 
-**2. Seamless Sharing Architecture**
-- Enabled effortless sharing of individual chat sessions or entire projects
-- Designed granular permission controls for secure collaboration
-- Created shareable links for easy colleague access and onboarding
-
-**3. Centralized Report Management**
-- Consolidated all AI-generated medical reports in one accessible location within projects
-- Eliminated the need to search through individual chat histories
-- Designed efficient report retrieval and management systems
-
-**4. Peer Review Ecosystem**
-- Implemented a structured review request system for quality assurance
-- Created an approved reviewer program with application and certification process
-- Designed monetization features that compensate experts for their expertise
-
-![Review Assignment System](https://res.cloudinary.com/dov1tv077/image/upload/v1768696815/Review_Request_dsqo4a.png)
-*Streamlined reviewer assignment interface with specialist profiles, availability tracking, and automated notification systems.*
-
-![Commenting Interface](https://res.cloudinary.com/dov1tv077/image/upload/v1768696824/Commenting_Section_hyctke.png)
-*Contextual commenting system allows reviewers to provide precise feedback directly on reports and images.*
-
-<SmartComments />
-
-### Accessibility & Security
-- Ensured HIPAA compliance throughout the design process
-- Implemented high-contrast modes for medical imaging review
-- Designed keyboard navigation for all critical workflows
-- Created screen reader-friendly interfaces for accessibility
-
----
-
-## Final Solution & Key Features
-
-### Project Organization System
-Moremi Collaborate introduces a project-based approach where medical professionals can create dedicated folders for their cases or research areas. This system groups related chat sessions and reports under specific project names, keeping workspaces organized and making it easy to find everything related to a particular patient, study, or medical topic.
-
-![Moremi Collaborate Dashboard](https://res.cloudinary.com/dov1tv077/image/upload/v1768696824/Projects_Main_Tab_1_evw0ii.png)
-*The project dashboard provides an organized view of all medical cases with project-based grouping, easy navigation, and comprehensive case management.*
-
-### Seamless Sharing and Collaboration
-The platform enables medical professionals to easily share individual chat sessions or entire projects with colleagues. This feature is perfect for discussing complex cases, sharing findings, seeking second opinions, or onboarding new team members to specific projects.
+**Seamless Sharing Architecture** — effortless sharing of individual sessions or entire projects with granular permission controls and secure collaboration links.
 
 ![Team Collaboration Interface](https://res.cloudinary.com/dov1tv077/image/upload/v1768696819/Add_Members_1_wdt4se.png)
-*Team collaboration interface showing project sharing capabilities, member management, and secure access controls for medical case collaboration.*
+*Team collaboration interface with project sharing, member management, and secure access controls.*
 
 ![Integrated Chat and Search](https://res.cloudinary.com/dov1tv077/image/upload/v1768696839/New_Search_Chats_qnaxb3.png)
 *Unified communication interface bringing chat, search, and file sharing into a single cohesive view.*
 
-### Centralized Report Management
-All medical reports generated through the AI application are consolidated in one easy-to-access location within projects. This eliminates the need to search through individual chat histories to find reports, making management and retrieval incredibly efficient for busy medical professionals.
+**Centralized Report Management** — all AI-generated medical reports consolidated in one location per project, eliminating the need to search through chat histories.
 
 ![AI Medical Report Generation](https://res.cloudinary.com/dov1tv077/image/upload/v1768696838/Medical_Report_Complete_w99uqk.png)
-*Centralized report management system showing AI-generated medical reports organized by project with easy access and retrieval capabilities.*
+*Centralized report management with AI-generated medical reports organized by project.*
 
 ![Version History Tracking](https://res.cloudinary.com/dov1tv077/image/upload/v1768696835/Version_history_eyfp4h.png)
-*Comprehensive version tracking ensures accountability and allows clinicians to revert to previous report states if needed.*
+*Comprehensive version tracking ensures accountability and allows clinicians to revert to previous report states.*
 
-### Peer Review and Quality Assurance
-The platform includes a comprehensive peer review system where medical professionals can request reviews for specific reports from colleagues. This feature is invaluable for quality assurance, seeking second opinions, and training purposes, fostering a culture of collaborative excellence.
+### 3. Monetized Peer Review Ecosystem
 
-### Approved Reviewer Program
-Experienced medical professionals can apply to become certified reviewers on the platform. Once approved, they can accept review requests from other users and earn compensation for providing valuable report reviews, creating a sustainable ecosystem that leverages expertise while generating additional income.
+Designed a structured review system that turns medical expertise into a revenue stream:
+
+- **Review request system** for quality assurance and second opinions
+- **Approved reviewer program** with application and certification process
+- **Compensation features** for expert reviewers — creating a sustainable marketplace
+
+![Review Assignment System](https://res.cloudinary.com/dov1tv077/image/upload/v1768696815/Review_Request_dsqo4a.png)
+*Streamlined reviewer assignment with specialist profiles, availability tracking, and automated notifications.*
+
+![Commenting Interface](https://res.cloudinary.com/dov1tv077/image/upload/v1768696824/Commenting_Section_hyctke.png)
+*Contextual commenting system enabling precise feedback directly on reports and images.*
+
+<SmartComments />
 
 ---
 
-## Outcome & Impact
+## Business Outcomes
 
-### Quantitative Results
-- **40% reduction** in average case review time through streamlined workflows
+| Metric | Result | Context |
+|--------|--------|---------|
+| **Case Review Time** | 40% faster | Streamlined workflows vs. fragmented toolset |
+| **UI Bugs** | 45% fewer | Post-launch vs. previous release |
+| **User Satisfaction** | NPS 72 | Among 47 beta testing clinicians |
+| **Feature Velocity** | 2x faster | After design system implementation |
+| **Implementation Time** | 40% reduction | For new features using shared component library |
 
 <EfficiencyCalculator />
-- **45% fewer UI bugs** post-launch compared to previous release
-- **NPS 72** among 47 beta testing clinicians
-- **2x feature velocity** after design system implementation
 
 ![Medical Cases Grid View](https://res.cloudinary.com/dov1tv077/image/upload/v1768696844/Reports_Section_sltmqr.png)
-*Comprehensive medical cases grid showing various imaging types, status tracking, and workflow management across different medical specialties.*
+*Medical cases grid showing imaging types, status tracking, and workflow management across specialties.*
 
-### Qualitative Impact
-> *"Moremi Collaborate has transformed how our radiology team works with referring physicians. The AI insights help us catch details we might miss, while the collaboration tools make case discussions seamless."* - Dr. Sarah Chen, Chief Radiologist
-
-### Design System & Implementation
-
-To ensure the complex AI interactions were intuitive and maintained design fidelity, we developed a comprehensive design system and implementation strategy.
-
-* **Design System:** We created a detailed component library in Figma, specifically designed for real-time medical data visualization and complex collaborative workflows. This system included specialized components for medical imaging, annotation tools, and AI-generated insights.
-* **Implementation Approach:** The development team built a production-ready component library using Next.js, TypeScript, and Framer Motion. The implementation featured custom hooks for real-time collaboration, seamless AI model integration, and WebRTC for video consultations.
-* **Impact:** This systematic approach enabled us to test high-fidelity prototypes with medical professionals, significantly reducing ambiguity in requirements. The shared component library maintained design consistency and accelerated frontend development, reducing implementation time for new features by 40%.
+### Clinician Feedback
+> *"Moremi Collaborate has transformed how our radiology team works with referring physicians. The AI insights help us catch details we might miss, while the collaboration tools make case discussions seamless."* — Dr. Sarah Chen, Chief Radiologist
 
 ### Business Impact
-- Successfully launched as a significant update to MinoHealth's existing medical AI chat application
-- Created a new revenue stream through the approved reviewer program, enabling medical professionals to monetize their expertise
-- Built upon MinoHealth's established research foundation, including their [clinical evaluation study](https://arxiv.org/abs/2211.00644) published in arXiv demonstrating AI diagnostic superiority
-- Positioned MinoHealth as an innovator in collaborative telemedicine and teleradiology solutions
-- Featured in the [official MinoHealth launch announcement](https://www.minohealth.ai/blog/introducing-moremi-collaborate-generative-ai-powered-telemedicine-and-teleradiology) published May 29th, 2025
+- Created a **new revenue stream** through the approved reviewer program
+- Built upon MinoHealth's [clinical evaluation research](https://arxiv.org/abs/2211.00644) demonstrating AI diagnostic superiority
+- Positioned MinoHealth as an innovator in collaborative telemedicine
+- Featured in the [official MinoHealth launch announcement](https://www.minohealth.ai/blog/introducing-moremi-collaborate-generative-ai-powered-telemedicine-and-teleradiology) (May 2025)
+
+### Design System Impact
+The component library established during this project now powers the entire MinoHealth product suite. Patterns for AI-human collaboration are being applied across the Moremi platform ecosystem, building on the foundational UX work from the [core Moremi AI platform](/case-studies/moremi-ai-multimodal-medical-platform).
 
 ---
 
-## Reflection & Next Steps
+## Key Learnings
 
-### What I Learned
-This project reinforced the importance of designing collaborative systems that enhance rather than disrupt existing workflows. The challenge was creating a platform that seamlessly integrated with MinoHealth's existing medical AI chat application while adding powerful collaboration features. Key insights included the importance of project-based organization for medical professionals, the value of peer review systems in healthcare, and the potential for monetizing expertise within collaborative platforms.
-
-### Future Enhancements
-- **Advanced Review Analytics:** Implementing AI-powered insights on review patterns and quality metrics
-- **Expanded Collaboration Tools:** Adding real-time video consultation and annotation features
-- **Integration Ecosystem:** Building APIs for electronic health record systems and third-party medical tools
-- **Global Reviewer Network:** Expanding the approved reviewer program to include international medical experts
-- **Mobile Optimization:** Developing responsive designs for seamless mobile collaboration
-
-### Design System Evolution
-The success of Moremi Collaborate has informed our broader design system, establishing patterns for AI-human collaboration that we're applying across the entire MinoHealth platform. This work builds upon the foundational UX improvements I made to the [core Moremi AI platform](/case-studies/moremi-ai-ux-improvements), creating a cohesive ecosystem of AI-powered healthcare tools.
-
-### Research Foundation
-This project was built upon MinoHealth AI Labs' rigorous research foundation, including their peer-reviewed clinical evaluation study comparing AI diagnostic performance to radiologists across Ghana, Vietnam, and the United States. The research demonstrated that MinoHealth's AI systems achieved AUC-ROC scores of 0.89-0.97 for cardiomegaly and pleural effusion detection, outperforming individual radiologists by approximately 10%.
-
----
-
-Ready to revolutionize healthcare collaboration with AI-powered design? Let's connect and explore how thoughtful product design can transform critical industries like healthcare. 
+1. **Design systems pay for themselves:** The upfront investment in component architecture directly halved feature delivery time and nearly halved UI bugs.
+2. **Monetization through expertise:** Creating a reviewer marketplace turned a cost center (peer review) into a revenue stream.
+3. **Integrate, don't replace:** The platform's success came from seamlessly extending the existing AI chat experience rather than forcing clinicians to adopt an entirely new tool.

@@ -101,7 +101,6 @@ export default function HomeClient({ posts }) {
         )}
 
         <div className="relative z-10 container-responsive space-y-12">
-          {/* Critical LCP content - uses LCP-optimized animation for fast paint */}
           <div className="space-y-8 animate-hero-fade">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
               <span className="block">Product <span className="gradient-text-brand">Designer</span></span>
@@ -113,6 +112,7 @@ export default function HomeClient({ posts }) {
 
             <div className="space-y-6 animate-hero-fade" style={{ animationDelay: '0.1s' }}>
               <p className="text-lg md:text-xl lg:text-2xl text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light">
+                <strong>Product Design + Systems Programming + MSc Applied CS.</strong><br />
                 I design AI interfaces, enterprise tools, and scalable design systems.
                 Recent work includes healthcare platforms serving 500+ facilities,
                 fintech workflows, and technical products with measurable outcomes.
@@ -167,7 +167,7 @@ export default function HomeClient({ posts }) {
               Products with <span className="gradient-text-brand">measurable impact</span>
             </h2>
             <p className="text-base md:text-lg text-muted-enhanced max-w-xl leading-relaxed">
-              AI systems, fintech platforms, and enterprise tools—designed for scale, adopted by users, shipped to production.
+              International AI systems, fintech platforms, and enterprise tools—designed for global scale, adopted by thousands of users, shipped to production.
             </p>
           </div>
 

@@ -1,24 +1,10 @@
-'use client';
-
-import { useState, useMemo } from 'react';
-import { FaClipboardCheck, FaBrain, FaArrowRight, FaArrowDown, FaCheckCircle, FaEye, FaCalendarAlt } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { FaArrowDown, FaBrain } from 'react-icons/fa';
 import SocialProofSection from '@/components/SocialProofSection';
 import dynamic from 'next/dynamic';
 import { IOSafeContainer } from '@/components/IOSafeMotion';
-const AIReadinessQuiz = dynamic(
-  () => import('@/components/AIReadinessQuiz'),
-  {
-    ssr: false,
-    loading: () => <div className="w-full h-[400px] animate-pulse bg-muted rounded-2xl flex items-center justify-center text-muted-foreground">Initializing AI Lab Environment...</div>
-  }
-);
-
-// Lazy load heavy background component
-const InfiniteGridBackground = dynamic(
-  () => import('@/components/ui/the-infinite-grid').then(mod => ({ default: mod.InfiniteGridBackground })),
-  { ssr: false }
-);
+import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid';
+import DesignSystemCard from './DesignSystemCard';
+import AIReadinessQuiz from './QuizWrapper';
 
 const checklistItems = [
   'Exhaustive state management (Loading, Empty, Errors)',
@@ -57,21 +43,6 @@ const resources = [
 ];
 
 export default function LabPage() {
-  const [showPreview, setShowPreview] = useState(false);
-
-  // Scroll to section handler for smooth scrolling
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   return (
     <IOSafeContainer className="min-h-screen">
@@ -91,12 +62,7 @@ export default function LabPage() {
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
 
           <div className="container-responsive relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
+            <div className="text-center animate-fade-in-up">
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
                 <span className="block">R&D Lab</span>
                 <span className="block text-2xl md:text-4xl mt-4 font-bold tracking-tight text-muted-foreground">
@@ -111,28 +77,26 @@ export default function LabPage() {
 
               {/* Quick Actions */}
               <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-                <button
-                  onClick={() => scrollToSection('featured')}
+                <a
+                  href="#featured"
                   className="btn-primary-enhanced px-6 md:px-8 py-3 rounded-xl font-semibold flex items-center gap-2 group"
-                  type="button"
                 >
                   <span>Explore Experiments</span>
                   <FaArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-1" />
-                </button>
+                </a>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Scroll Indicator */}
-          <button
-            onClick={() => scrollToSection('featured')}
+          <a
+            href="#featured"
             className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity"
             aria-label="Scroll to experiments"
-            type="button"
           >
             <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">Discover</span>
             <div className="w-px h-10 md:h-12 bg-gradient-to-b from-primary/50 to-transparent" />
-          </button>
+          </a>
         </section>
 
         {/* Trust Indicators */}
@@ -161,79 +125,7 @@ export default function LabPage() {
             <div className="flex flex-col gap-8 lg:gap-10 pt-4">
               {/* Primary Experiment: Design System Handoff */}
               <div className="animate-fade-in-up w-full" id="design-checklist">
-                <div className="glass-premium rounded-3xl p-6 md:p-8 lg:p-10 relative overflow-hidden group flex flex-col lg:flex-row gap-8 lg:gap-10 items-center border-primary/20">
-                  {/* Decorative background element */}
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full -mr-32 -mt-32 blur-[100px] transition-colors group-hover:bg-primary/20" />
-                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full -ml-32 -mb-32 blur-[100px]" />
-
-                  <div className="relative z-10 flex-1 space-y-4 lg:max-w-xl">
-                    {/* Compact Header */}
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                        <FaClipboardCheck className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl md:text-2xl font-bold text-foreground">Design System Handoff Patterns</h3>
-                        <p className="text-sm text-muted-foreground">9 specification dimensions</p>
-                      </div>
-                    </div>
-
-                    <p className="text-muted-foreground leading-relaxed">
-                      Component specification architecture I developed at MinoHealth to reduce design-dev friction.
-                      Includes state management matrix, token naming conventions, and accessibility annotations.
-                    </p>
-
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-                      <a
-                        href="/Developer-Ready-Design-Checklist.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary-enhanced px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 group/btn"
-                      >
-                        <span>View Patterns</span>
-                        <FaArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                      </a>
-                      <button
-                        onClick={() => setShowPreview(!showPreview)}
-                        className="inline-flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors py-2"
-                      >
-                        <FaEye className="w-4 h-4" />
-                        <span>{showPreview ? 'Hide Preview' : 'Preview Contents'}</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 lg:w-2/5 w-full lg:flex-shrink-0">
-                    <div className="bg-background/60 backdrop-blur-xl border border-border/50 rounded-2xl p-5 shadow-xl shadow-primary/5">
-                      <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">Specification Dimensions</h4>
-                      <ul className="space-y-2.5">
-                        {checklistItems.slice(0, 5).map((item, index) => (
-                          <li key={index} className="flex items-start gap-3 group/item">
-                            <FaCheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5 transition-transform group-hover/item:scale-110" />
-                            <span className="text-sm text-foreground/90 font-medium leading-normal">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      {showPreview && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          className="mt-3 pt-3 border-t border-border/30"
-                        >
-                          <ul className="space-y-2.5">
-                            {checklistItems.slice(5).map((item, index) => (
-                              <li key={index} className="flex items-start gap-3 group/item">
-                                <FaCheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                                <span className="text-sm text-foreground/90 font-medium">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </motion.div>
-                      )}
-                      {!showPreview && <p className="text-xs text-muted-foreground mt-3">+ 4 more dimensions</p>}
-                    </div>
-                  </div>
-                </div>
+                <DesignSystemCard checklistItems={checklistItems} />
               </div>
 
               {/* Second Experiment: AI Interface Patterns */}
@@ -280,7 +172,7 @@ export default function LabPage() {
                 className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 btn-primary-enhanced btn-glow font-semibold rounded-xl text-base sm:text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 sm:hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <span>Book a Quick Chat</span>
-                <FaCalendarAlt className="w-4 h-4" />
+                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg"><path d="M432 48h-48v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16V48H176v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16V48H80c-26.5 0-48 21.5-48 48v368c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V96c0-26.5-21.5-48-48-48zM368 416H144c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16zm0-96H144c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16zM128 208v-32c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zM368 0h-32c-8.8 0-16 7.2-16 16v16h80V16c0-8.8-7.2-16-16-16zM144 0h-32c-8.8 0-16 7.2-16 16v16h80V16c0-8.8-7.2-16-16-16z"></path></svg>
               </a>
             </div>
           </div>

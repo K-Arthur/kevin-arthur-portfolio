@@ -7,6 +7,18 @@ export default function PaperToggle() {
 
     return (
         <div className="my-12 w-full max-w-3xl mx-auto border border-border/50 rounded-xl overflow-hidden shadow-xl transition-all duration-500 bg-background">
+            {/* Scoped style override: forces dark text inside paper-mode content area,
+                overriding the .caseStudyContent p color rule from the CSS Module */}
+            <style>{`
+                [data-paper-mode="true"] h4,
+                [data-paper-mode="true"] p {
+                    color: #0f172a !important;
+                }
+                [data-paper-mode="true"] h4 {
+                    color: #020617 !important;
+                }
+            `}</style>
+
             <div className="bg-secondary/30 backdrop-blur-sm p-4 flex items-center justify-between border-b border-border/50">
                 <div className="flex items-center gap-3">
                     <span className="text-sm font-medium text-foreground">Reading Experience Simulator</span>
@@ -41,15 +53,15 @@ export default function PaperToggle() {
 
                 {/* Content */}
                 <div className={`relative z-10 p-8 md:p-12 transition-all duration-700`}>
-                    <div className="max-w-xl mx-auto space-y-6">
+                    <div className="max-w-xl mx-auto space-y-6" data-paper-mode={isPaperMode ? "true" : "false"}>
                         <motion.h4
                             layout
-                            className={`text-2xl md:text-3xl font-bold leading-tight ${isPaperMode ? 'font-serif tracking-tight text-slate-950' : 'font-sans tracking-tight text-foreground'}`}
+                            className={`text-2xl md:text-3xl font-bold leading-tight ${isPaperMode ? 'font-serif tracking-tight' : 'font-sans tracking-tight text-foreground'}`}
                         >
                             Redefining Research Communication
                         </motion.h4>
 
-                        <motion.div layout className={`space-y-4 text-base md:text-lg leading-relaxed ${isPaperMode ? 'font-serif text-slate-900' : 'font-sans text-foreground'}`}>
+                        <motion.div layout className={`space-y-4 text-base md:text-lg leading-relaxed ${isPaperMode ? 'font-serif' : 'font-sans text-foreground'}`}>
                             <p>
                                 Scientific discovery moves faster than the publication cycle. We needed a platform that honored the rigor of academic research while embracing the immediacy of the digital age.
                             </p>
