@@ -85,7 +85,7 @@ Here's the thing most people don't realize about a VS Code extension: it isn't o
 
 The two halves can only talk through an **asynchronous `postMessage` IPC bridge**. Every state change, every render, every persisted byte crosses that wire as a serialized message.
 
-![Architecture: the Extension Host (Node.js) and the isolated Webview panel communicate only through an asynchronous postMessage IPC bridge; the host talks to opencode serve over the HTTP SDK and owns the durable globalState store](/images/case-studies/opencode-harness/architecture-ipc.svg)
+<ArchitectureExplorer />
 
 The backend follows a deliberate **thin-orchestrator pattern**: `ChatProvider` delegates to focused services (`TabManager`, `StreamCoordinator`, `MessageRouter`, `DiffHandler`) rather than accumulating logic. That separation matters for the bug hunt ahead — when state is owned by many small services and rendered across a process boundary, it's dangerously easy for one side to hold a value the other side has already moved past.
 
@@ -112,15 +112,13 @@ Here's where it actually bit, across real features:
 
 The context-fill indicator was computed once when a session opened and then cached in a local variable. As the conversation grew, the *real* fill climbed — but the bar kept reporting the initialization snapshot. The plumbing was perfect; the displayed number was a lie.
 
-![Context management — @-mentions, file references, and live usage tracking](/images/case-studies/opencode-harness/feature-context.png)
-*Context tracking has to re-derive continuously. The original implementation cached the fill at session init and never updated the write path — classic Silent Staleness.*
+<StalenessSimulator />
 
 ### The model selector that didn't persist
 
 Switching a tab's model updated the in-memory UI immediately, so it _looked_ wired. But for some paths the selection never reached the write path down to `globalState`. Reload the window and the tab reverted to a stale default — the choice was real in the DOM and dead on disk.
 
-![Model and provider controls — per-tab selection across 75+ models](/images/case-studies/opencode-harness/feature-models.png)
-*Per-tab model selection: the read path rendered correctly while the write path to durable storage was silently dropped on certain transitions.*
+<ModelSwitcher />
 
 ### Chat-panel and RTL toggles that reset on reload
 
@@ -174,11 +172,10 @@ Concretely, this meant:
 - **Writes are contracts.** Every user-mutable preference — model per tab, RTL direction, panel state, observed token/cost usage — has a guaranteed serialization step into `globalState`. If you can change it, it persists, full stop.
 - **Persistence is hardened.** State is serialized through a defined shape (a *state contract*) so a window reload reconstructs the exact session picture — quota, cost, context fill, and per-tab model — instead of resetting to defaults.
 
-![Reviewing changes — side-by-side diff with accept/discard and per-file navigation](/images/case-studies/opencode-harness/feature-review.png)
-*Diff review state — which files changed, what's accepted, what's pending — is re-derived from the session and persisted, so it survives reloads instead of evaporating.*
+<DiffReviewDemo />
 
-![Coding workflow — tool calls, code diffs, and structured responses](/images/case-studies/opencode-harness/feature-workflow.png)
-*The full agentic loop rendered deterministically: each tool call, edit, and result is a projection of live state, not a one-time cached render.*
+![Inside the editor: the OpenCode panel running a coding session next to the StreamCoordinator source that renders each chunk from live stream state](/images/case-studies/opencode-harness/workflow-ide.png)
+*The real thing, in context: the agentic loop on the left, the code that streams it on the right. Each tool call, edit, and result is a projection of live state — not a one-time cached render.*
 
 ---
 
@@ -206,8 +203,10 @@ Eighteen Playwright snapshot specs photograph the webview in known states and fa
 - `diff-wrapping.spec.ts` — long tokens wrap; no container deformation under scaling.
 - `revert.spec.ts`, `messages.spec.ts`, `subagent-panel.spec.ts`, `webview-contract.spec.ts`, and more — each pins a UI state that must re-derive correctly.
 
-![Transparent tool execution — search, read, edit, and run operations](/images/case-studies/opencode-harness/feature-tools.png)
-*Each tool-execution state is pinned by a visual checkpoint, so a regression in how live state renders becomes a failed build instead of a silent production drift.*
+![A real tool-execution session in the OpenCode panel beside the renderer that re-derives each tool card from its live call record](/images/case-studies/opencode-harness/tools-ide.png)
+*Exactly the kind of UI state the visual snapshots pin: tool cards, statuses, and outputs that must re-render correctly from live state every time.*
+
+<TestWall />
 
 > **The outcome:** Silent Staleness went from an invisible, untyped, untestable production risk to a loud, repeatable, automated failure. A dead wire now turns the build red.
 

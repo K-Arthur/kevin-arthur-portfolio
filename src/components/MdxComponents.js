@@ -20,6 +20,11 @@ import DesignPrincipleCards from './case-studies/game-ui/DesignPrincipleCards';
 import ComparisonSlider from './case-studies/game-ui/ComparisonSlider';
 import CaseStudySummary from './case-studies/CaseStudySummary';
 import PrincipleCallout from './case-studies/PrincipleCallout';
+import StalenessSimulator from './case-studies/opencode/StalenessSimulator';
+import ModelSwitcher from './case-studies/opencode/ModelSwitcher';
+import DiffReviewDemo from './case-studies/opencode/DiffReviewDemo';
+import TestWall from './case-studies/opencode/TestWall';
+import ArchitectureExplorer from './case-studies/opencode/ArchitectureExplorer';
 import { ClickableImage } from './ui/ImageLightbox';
 
 // Custom component to replace the default <img> tag in MDX content
@@ -57,4 +62,9 @@ export const mdxComponents = {
   ComparisonSlider,
   CaseStudySummary,
   PrincipleCallout,
+  StalenessSimulator,
+  ModelSwitcher,
+  DiffReviewDemo,
+  TestWall,
+  ArchitectureExplorer,
 };
