@@ -171,7 +171,7 @@ export default function HomeClient({ posts }) {
             </p>
           </div>
 
-          <FeaturedProjects posts={posts?.filter(post => post.id !== 'minohealth-radiology' && !['kamen-rider-game-hud', 'snackbox-404'].includes(post.id)).slice(0, 2) || []} />
+          <FeaturedProjects posts={posts?.filter(post => post.id !== 'minohealth-radiology' && !['kamen-rider-game-hud', 'snackbox-404'].includes(post.id)).slice(0, 3) || []} />
 
           <div className="mt-20 md:mt-32 text-center">
             <MagneticButton

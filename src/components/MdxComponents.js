@@ -19,6 +19,7 @@ import ColorPaletteExplorer from './case-studies/game-ui/ColorPaletteExplorer';
 import DesignPrincipleCards from './case-studies/game-ui/DesignPrincipleCards';
 import ComparisonSlider from './case-studies/game-ui/ComparisonSlider';
 import CaseStudySummary from './case-studies/CaseStudySummary';
+import PrincipleCallout from './case-studies/PrincipleCallout';
 import { ClickableImage } from './ui/ImageLightbox';
 
 // Custom component to replace the default <img> tag in MDX content
@@ -55,4 +56,5 @@ export const mdxComponents = {
   DesignPrincipleCards,
   ComparisonSlider,
   CaseStudySummary,
+  PrincipleCallout,
 };

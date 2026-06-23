@@ -1,0 +1,241 @@
+---
+title: "OpenCode Harness: Engineering a Deterministic AI Development Interface"
+publishedAt: "2026-06-22"
+role: "Lead Engineer & Product Designer"
+duration: "2026 – Present · Ongoing (beta)"
+status: "shipped"
+industry: "developer-tools"
+tools:
+  - TypeScript
+  - VS Code Extension API
+  - Webview UI
+  - Node.js IPC
+  - Playwright
+  - esbuild
+heroImage: "/images/case-studies/opencode-harness/overview-ide.png"
+heroImageAlt: "OpenCode Harness inside a full VS Code window — TypeScript editor showing the state-persistence code beside the docked OpenCode chat panel with model selection and live context"
+summary: "An open-source VS Code client I built for the opencode AI agent — full chat, real diff review, and several sessions running in tabs. The hard part wasn't the features; it was hunting down 'Silent Staleness', a bug where the data was right under the hood but the UI quietly trusted stale, cached values. The fix was rebuilding the interface around live state that re-derives on every change and persists to ExtensionContext.globalState."
+metaDescription: "Engineering case study: building a deterministic AI development interface as a VS Code extension. Eliminated the 'Silent Staleness' anti-pattern with active re-derivation, hardened state contracts, and 300+ automated tests across unit, contract, and visual layers."
+results:
+  - value: "300+"
+    label: "Automated Tests"
+    context: "Unit, integration, contract & visual layers"
+  - value: "109"
+    label: "Contract-Verified Surfaces"
+    context: "46 commands · 20 keybindings · 43 settings"
+  - value: "18"
+    label: "Visual Regression Gates"
+    context: "Playwright snapshots guarding the webview"
+  - value: "75+"
+    label: "AI Models Supported"
+    context: "Per-tab selection: Claude, GPT, Gemini & more"
+---
+
+<ResultsHighlight results={[
+  { value: "300+", label: "Automated Tests", context: "Unit, integration, contract & visual layers" },
+  { value: "109", label: "Contract-Verified Surfaces", context: "46 commands · 20 keybindings · 43 settings" },
+  { value: "18", label: "Visual Regression Gates", context: "Playwright snapshots guarding the webview" },
+  { value: "75+", label: "AI Models Supported", context: "Per-tab selection: Claude, GPT, Gemini & more" }
+]} />
+
+<CaseStudySummary
+  problem="I built this to live inside my editor all day, which meant the people using it — starting with me — would notice the instant the UI lied. And it did lie, in a way I started calling 'Silent Staleness'. The data underneath was correct, but the interface kept trusting cached values and start-up snapshots that never refreshed. Features looked wired; some were quietly dead."
+  solution="I rebuilt the state pipeline around one simple rule I now call Active Re-Derivation: the UI never trusts a cached local — it rebuilds itself from live state on every change, then writes that truth down to ExtensionContext.globalState. I paired that with strict CSS containment so the layout can't deform when fonts scale or text flips to RTL, and a wall of automated tests so these dead wires can't quietly creep back."
+  role="Lead Engineer & Product Designer — I designed and built all of it solo: the host/webview split, the IPC bridge, the state-persistence layer, the accessibility work, and the contract + visual testing framework."
+  impact="Shipped a free, open-source VS Code client with multiple concurrent AI sessions, 75+ models, and a UI I can actually trust — backed by 300+ automated tests. Silent Staleness went from an invisible production risk to a loud, repeatable test failure."
+/>
+
+OpenCode Harness is an open-source VS Code extension I built to wrap the [opencode](https://opencode.ai) CLI agent in a real graphical client — a chat panel, a proper side-by-side diff viewer, and several sessions running in tabs at once. It starts the agent's server for you and talks to it over an HTTP SDK, so the whole agentic loop — tool calls, diffs, subagents, reasoning — lives inside the editor instead of scrolling past in a terminal you keep flipping back to.
+
+> **Open source** — read the code on [GitHub](https://github.com/K-Arthur/opencode-harness) or install it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=koarthur.opencode-harness). Everything described below is in the public repo.
+
+I'm going to skip the feature tour. What's actually worth your time is the story of one specific, maddening class of bug I had to chase down — and the architecture change that finally put it to rest.
+
+---
+
+## 1. Why I Built It — and Why the Bar Was Higher Than I Expected
+
+Honestly, this started as a tool for myself. I was living in the opencode CLI all day and kept hitting the same friction: scrolling back through older chat items was painful, re-reading or reviewing a long response in a terminal was clumsy, and I was forever bouncing between the CLI and my editor (VS Codium) just to actually *look* at the code the agent was changing. I wanted the diff review in the same window. I wanted to do all my work in one place instead of paying a context-switch tax all day long.
+
+So I built the GUI I wished already existed — and then it kept growing. When people started asking for voice input, I added a fully local voice mode. Piece by piece it became something that gives me more granular control than the CLI exposes on its own, with plenty more I still want to add. It's a client over the same opencode server, so it can't do anything the agent itself can't — but it can make all of it far nicer to actually live in.
+
+That origin is exactly why the quality bar turned out to be so unforgiving. Most web apps get to be a little bit wrong — a button that lags a frame, a counter that's stale until the next refresh — and people just shrug. Developer tools don't get that grace. The folks using them write software for a living; they're the most likely to notice, the most likely to distrust, and the most likely to uninstall the moment the interface tells them something untrue.
+
+<PrincipleCallout>
+In a developer tool, the UI is not a view of the truth — it _is_ the contract. A passing data layer is not a passing feature.
+</PrincipleCallout>
+
+That standard raised the bar for OpenCode Harness in three ways:
+
+- **It runs inside the IDE.** The chat panel lives in a sandboxed webview docked next to a real editor. It has to survive window reloads, theme changes, font resizing, and RTL languages without flinching.
+- **It's stateful and long-lived.** Sessions run concurrently (default cap of 5), each with its own model and history. State has to persist across reloads, not reset to a hopeful default.
+- **It's judged by experts.** When the context-usage bar says 40% and the real number is 80%, an engineer notices. Trust, once broken, doesn't come back.
+
+![OpenCode Harness inside a full VS Code window — the state-persistence code open in the editor beside the docked OpenCode chat panel](/images/case-studies/opencode-harness/overview-ide.png)
+*OpenCode Harness docked inside VS Code, beside the very `globalState` persistence code this case study is about: per-tab model selection, session controls, and live context — all of which must reflect live state, not a cached snapshot.*
+
+---
+
+## 2. The Architecture of an Extension
+
+Here's the thing most people don't realize about a VS Code extension: it isn't one program, it's two — separated by a hard process boundary. Once that clicked for me, everything else about this bug made sense.
+
+- **The Extension Host** runs in **Node.js**. It owns the file system, spawns the `opencode serve` process, holds the SDK client, and is the only side that can touch `ExtensionContext.globalState` (the durable key-value store that survives reloads).
+- **The Webview Panel** runs in an **isolated DOM** — effectively a sandboxed browser iframe. It owns rendering. It has _no_ direct access to Node, the file system, or persisted storage.
+
+The two halves can only talk through an **asynchronous `postMessage` IPC bridge**. Every state change, every render, every persisted byte crosses that wire as a serialized message.
+
+![Architecture: the Extension Host (Node.js) and the isolated Webview panel communicate only through an asynchronous postMessage IPC bridge; the host talks to opencode serve over the HTTP SDK and owns the durable globalState store](/images/case-studies/opencode-harness/architecture-ipc.svg)
+
+The backend follows a deliberate **thin-orchestrator pattern**: `ChatProvider` delegates to focused services (`TabManager`, `StreamCoordinator`, `MessageRouter`, `DiffHandler`) rather than accumulating logic. That separation matters for the bug hunt ahead — when state is owned by many small services and rendered across a process boundary, it's dangerously easy for one side to hold a value the other side has already moved past.
+
+<PrincipleCallout>
+A process boundary is a truth boundary. Anything cached on the far side of an async wire is a stale value waiting to happen.
+</PrincipleCallout>
+
+---
+
+## 3. The Engineering Challenge: Exposing the Dead-Wire Bug
+
+I started calling it **Silent Staleness**. The pattern is insidious precisely because nothing throws.
+
+Picture the data plumbing as a circuit. The wire from the source to the UI is intact — values flow, the component renders, no error fires. But one of two things has quietly failed:
+
+1. **The read path trusts a cached local.** A value was captured once at initialization and then read forever after, even as the underlying system state moved on.
+2. **The write path is dead.** A user action mutated state in the UI, but the mutation never triggered its serialization — so on the next reload, or the next re-render from authoritative state, the change evaporates.
+
+Either way the symptom is the same and maddening: **it works once, looks correct, and silently drifts.** No stack trace. No red console. Just a slow erosion of trust.
+
+Here's where it actually bit, across real features:
+
+### The context-usage bar that froze at init
+
+The context-fill indicator was computed once when a session opened and then cached in a local variable. As the conversation grew, the *real* fill climbed — but the bar kept reporting the initialization snapshot. The plumbing was perfect; the displayed number was a lie.
+
+![Context management — @-mentions, file references, and live usage tracking](/images/case-studies/opencode-harness/feature-context.png)
+*Context tracking has to re-derive continuously. The original implementation cached the fill at session init and never updated the write path — classic Silent Staleness.*
+
+### The model selector that didn't persist
+
+Switching a tab's model updated the in-memory UI immediately, so it _looked_ wired. But for some paths the selection never reached the write path down to `globalState`. Reload the window and the tab reverted to a stale default — the choice was real in the DOM and dead on disk.
+
+![Model and provider controls — per-tab selection across 75+ models](/images/case-studies/opencode-harness/feature-models.png)
+*Per-tab model selection: the read path rendered correctly while the write path to durable storage was silently dropped on certain transitions.*
+
+### Chat-panel and RTL toggles that reset on reload
+
+The RTL/LTR text-direction toggle and chat-panel layout preferences are pure UI state — exactly the kind of thing a user sets once and expects to stick. When the serialization step was missing, every reload re-derived from a default-LTR snapshot instead of the user's actual last choice.
+
+> **The diagnosis:** Every one of these had working data underneath. The defect was never in the *plumbing* — it was in trusting a cached value (dead read) or failing to fire the persist step (dead write). You cannot test your way out of this with data-layer tests alone, because the data layer passes. The lie lives at the UI/persistence seam.
+
+---
+
+## 4. The Structural Remediation
+
+The fix had two fronts: stop the **layout** from deforming, and stop the **state** from lying.
+
+### 4a. Layout containment: surviving font and RTL scaling shifts
+
+The webview has to render correctly while the user changes the chat font size (8–32px), inherits arbitrary editor fonts, and flips the entire text direction to RTL. Without strict containment, long unbroken tokens — file paths, URLs, hashes, minified diff lines — blow out their containers and deform the layout the moment scaling changes.
+
+The remedy was strict CSS encapsulation built on design tokens, with aggressive wrapping as a hard guarantee rather than a hope:
+
+```css
+/* Tokenized, contained, and wrap-anywhere — so no single
+   long token can deform the panel under font/RTL scaling. */
+.message-body,
+.tool-output,
+.diff-line {
+  min-width: 0;                 /* let flex/grid children actually shrink */
+  overflow-wrap: anywhere;      /* break inside long unbreakable tokens */
+  word-break: break-word;
+  font-size: var(--chat-font-size);
+  font-family: var(--chat-font-family, var(--vscode-editor-font-family));
+}
+
+[dir="rtl"] .message-body { text-align: start; } /* logical, not physical */
+```
+
+The principle is *logical* layout — `start`/`end` instead of `left`/`right`, `min-width: 0` so containers can shrink, and `overflow-wrap: anywhere` so a 200-character token never wins a fight with its container. This is guarded directly by visual tests (`diff-wrapping.spec.ts`, `chat-context-usage.spec.ts`).
+
+### 4b. Active Re-Derivation: the state architecture that doesn't lie
+
+This is the heart of the fix. I deleted the assumption that a cached local is ever trustworthy and replaced it with a one-directional discipline:
+
+<PrincipleCallout title="Architectural Principle — Active Re-Derivation">
+The UI never trusts a cached local. On every relevant signal it re-derives its components from live system state, then serializes that derived truth down to `globalState`. Storage is the single source of truth; the DOM is a projection of it.
+</PrincipleCallout>
+
+![Before and after: the Silent Staleness flow caches at init and lets the write path die, so the UI drifts silently; the Active Re-Derivation flow derives from live state, serializes to globalState, and renders from that derived truth, with mutations and reloads feeding back into live state](/images/case-studies/opencode-harness/state-rederivation.svg)
+
+Concretely, this meant:
+
+- **Reads re-derive.** The context-usage bar, quota, and cost are recomputed from live values on each update and on resume — the status strip restores the last *valid* persisted fill rather than re-rendering an init snapshot.
+- **Writes are contracts.** Every user-mutable preference — model per tab, RTL direction, panel state, observed token/cost usage — has a guaranteed serialization step into `globalState`. If you can change it, it persists, full stop.
+- **Persistence is hardened.** State is serialized through a defined shape (a *state contract*) so a window reload reconstructs the exact session picture — quota, cost, context fill, and per-tab model — instead of resetting to defaults.
+
+![Reviewing changes — side-by-side diff with accept/discard and per-file navigation](/images/case-studies/opencode-harness/feature-review.png)
+*Diff review state — which files changed, what's accepted, what's pending — is re-derived from the session and persisted, so it survives reloads instead of evaporating.*
+
+![Coding workflow — tool calls, code diffs, and structured responses](/images/case-studies/opencode-harness/feature-workflow.png)
+*The full agentic loop rendered deterministically: each tool call, edit, and result is a projection of live state, not a one-time cached render.*
+
+---
+
+## 5. Preventing Future Regressions
+
+Killing the bug once is not the job. The job is making it *impossible to silently reintroduce.* Silent Staleness slips past humans because it never throws — so the test wall had to catch exactly the things humans miss.
+
+### Contract testing of `package.json`
+
+Every command, keybinding, and setting an extension exposes is declared in `package.json`. A surface declared but not wired (or wired but not declared) is a dead wire by definition. Contract tests assert the manifest and the implementation agree across all **109 declared surfaces**:
+
+- **46 commands** — each declared command resolves to a real handler.
+- **20 keybindings** — each binding points to a registered command.
+- **43 settings** — each setting is read by the code that claims to honor it.
+
+### Structural validation loops & message-contract tests
+
+The IPC bridge is a serialization seam — the exact place stale or malformed state hides. A dedicated message-contract suite (`message-contract.test.ts`) and a round-trip test assert that every message shape that crosses the host↔webview wire serializes and deserializes losslessly, so the webview can never silently drop a field the host sent.
+
+### UI state checkpoints (visual regression)
+
+Eighteen Playwright snapshot specs photograph the webview in known states and fail the build on unexpected pixel drift — directly targeting the features Silent Staleness attacked:
+
+- `chat-context-usage.spec.ts` — the usage bar reflects live fill, not an init snapshot.
+- `diff-wrapping.spec.ts` — long tokens wrap; no container deformation under scaling.
+- `revert.spec.ts`, `messages.spec.ts`, `subagent-panel.spec.ts`, `webview-contract.spec.ts`, and more — each pins a UI state that must re-derive correctly.
+
+![Transparent tool execution — search, read, edit, and run operations](/images/case-studies/opencode-harness/feature-tools.png)
+*Each tool-execution state is pinned by a visual checkpoint, so a regression in how live state renders becomes a failed build instead of a silent production drift.*
+
+> **The outcome:** Silent Staleness went from an invisible, untyped, untestable production risk to a loud, repeatable, automated failure. A dead wire now turns the build red.
+
+---
+
+## Engineering Outcomes
+
+| Dimension | Result | Detail |
+|---|---|---|
+| **State architecture** | Active Re-Derivation | UI re-derives from live state, serializes to `globalState`; storage is the single source of truth |
+| **Layout robustness** | Zero deformation under scaling | Tokenized CSS + `overflow-wrap: anywhere` + logical layout, guarded by visual tests |
+| **Test coverage** | 300+ automated tests | Unit, integration, contract, round-trip, and 18 visual regression gates |
+| **Contract surface** | 109 verified surfaces | 46 commands · 20 keybindings · 43 settings asserted against the manifest |
+| **Concurrency** | 5 concurrent sessions | Independent tabs, each with its own model, mode, and persisted history |
+| **Reach** | 75+ models | Per-tab selection across Claude, GPT, Gemini, and dozens more |
+| **Accessibility** | WCAG-aligned | 24×24px touch targets (2.5.5), AAA high-contrast preset, full keyboard nav, focus traps, `prefers-reduced-motion` |
+
+---
+
+## Key Learnings
+
+1. **A passing data layer is not a passing feature.** The most dangerous bugs are the ones that never throw. Silent Staleness lived entirely at the UI/persistence seam, where data-layer tests are blind.
+2. **Re-derive, don't cache.** Caching a value across an async process boundary is a stale value waiting to happen. Treating durable storage as the single source of truth — and the DOM as a disposable projection — made the interface deterministic.
+3. **If you can change it, it must persist.** Every user-mutable affordance needs a guaranteed write path. A toggle that doesn't survive reload isn't a feature; it's a dead wire wearing a feature's clothes.
+4. **Make the invisible loud.** The real win wasn't the fix — it was the contract and visual test wall that converts this entire class of defect into a red build before it can ever ship.
+
+> **The takeaway:** If there's one thing I carried out of this, it's that building software people can actually trust is less about piling on features and more about refusing to let the interface lie — even quietly, even once. Swapping fragile cached locals for an architecture that re-derives from live state turned a tool that *looked* wired into one I can prove actually is.
+
+---
+
+**Explore the project:** the full source is on [GitHub](https://github.com/K-Arthur/opencode-harness) (MIT licensed), and the extension is live on the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=koarthur.opencode-harness).

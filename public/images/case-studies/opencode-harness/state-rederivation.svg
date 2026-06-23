@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" role="img" aria-label="Comparison diagram. Left: the Silent Staleness anti-pattern, where state is cached at init, rendered from cache, the write path never fires, and the UI drifts silently. Right: Active Re-Derivation, where live system state is derived, serialized to globalState, and rendered from derived truth, with mutations and reloads flowing back into live state.">
+  <defs>
+    <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="aGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#34d399"/>
+    </marker>
+    <marker id="aRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f87171"/>
+    </marker>
+  </defs>
+
+  <rect x="1" y="1" width="958" height="518" rx="18" fill="#0b1220" stroke="#1f2937" stroke-width="2"/>
+  <text x="32" y="40" fill="#e2e8f0" font-size="20" font-weight="700">Re-derive, don&#8217;t cache</text>
+
+  <!-- BEFORE -->
+  <rect x="32" y="64" width="416" height="424" rx="12" fill="#160f12" stroke="#7f1d1d" stroke-width="1.5"/>
+  <text x="52" y="94" fill="#fca5a5" font-size="15" font-weight="700">&#10007; Silent Staleness</text>
+  <text x="52" y="114" fill="#9ca3af" font-size="11.5">data plumbing works &#8212; the displayed value lies</text>
+
+  <g text-anchor="middle">
+    <rect x="140" y="132" width="200" height="44" rx="8" fill="#1f2937" stroke="#52525b"/>
+    <text x="240" y="159" fill="#e5e7eb" font-size="13">init</text>
+
+    <rect x="140" y="206" width="200" height="44" rx="8" fill="#1f2937" stroke="#52525b"/>
+    <text x="240" y="233" fill="#e5e7eb" font-size="13">cache local variable</text>
+
+    <rect x="140" y="280" width="200" height="44" rx="8" fill="#1f2937" stroke="#52525b"/>
+    <text x="240" y="307" fill="#e5e7eb" font-size="13">render from cache</text>
+
+    <rect x="140" y="402" width="200" height="48" rx="8" fill="#2a1416" stroke="#b91c1c"/>
+    <text x="240" y="424" fill="#fecaca" font-size="13" font-weight="600">drifts silently</text>
+    <text x="240" y="441" fill="#fca5a5" font-size="10.5">no error &#183; no stack trace</text>
+  </g>
+  <line x1="240" y1="176" x2="240" y2="204" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a2)"/>
+  <line x1="240" y1="250" x2="240" y2="278" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a2)"/>
+  <line x1="240" y1="324" x2="240" y2="400" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a2)"/>
+
+  <!-- dead write path -->
+  <rect x="52" y="338" width="120" height="36" rx="8" fill="#1f2937" stroke="#52525b"/>
+  <text x="112" y="361" fill="#e5e7eb" font-size="11.5" text-anchor="middle">user mutates</text>
+  <path d="M112 338 C112 300 120 250 138 228" fill="none" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#aRed)"/>
+  <text x="60" y="312" fill="#f87171" font-size="10.5">write path never fires</text>
+
+  <!-- AFTER -->
+  <rect x="512" y="64" width="416" height="424" rx="12" fill="#0c1512" stroke="#14532d" stroke-width="1.5"/>
+  <text x="532" y="94" fill="#6ee7b7" font-size="15" font-weight="700">&#10003; Active Re-Derivation</text>
+  <text x="532" y="114" fill="#9ca3af" font-size="11.5">storage is truth &#183; the DOM is a projection</text>
+
+  <g text-anchor="middle">
+    <rect x="620" y="132" width="200" height="44" rx="8" fill="#11261c" stroke="#15803d"/>
+    <text x="720" y="159" fill="#d1fae5" font-size="13" font-weight="600">live system state</text>
+
+    <rect x="620" y="206" width="200" height="44" rx="8" fill="#11261c" stroke="#15803d"/>
+    <text x="720" y="233" fill="#d1fae5" font-size="13">derive component state</text>
+
+    <rect x="620" y="280" width="200" height="44" rx="8" fill="#11261c" stroke="#818cf8"/>
+    <text x="720" y="302" fill="#c7d2fe" font-size="13">serialize &#8594; globalState</text>
+    <text x="720" y="318" fill="#a5b4fc" font-size="10" >state contract</text>
+
+    <rect x="620" y="354" width="200" height="44" rx="8" fill="#11261c" stroke="#15803d"/>
+    <text x="720" y="381" fill="#d1fae5" font-size="13">render from derived truth</text>
+  </g>
+  <line x1="720" y1="176" x2="720" y2="204" stroke="#34d399" stroke-width="1.5" marker-end="url(#aGreen)"/>
+  <line x1="720" y1="250" x2="720" y2="278" stroke="#34d399" stroke-width="1.5" marker-end="url(#aGreen)"/>
+  <line x1="720" y1="324" x2="720" y2="352" stroke="#34d399" stroke-width="1.5" marker-end="url(#aGreen)"/>
+
+  <!-- feedback: mutate / reload -> live state -->
+  <rect x="532" y="424" width="376" height="40" rx="8" fill="#0f1f18" stroke="#166534"/>
+  <text x="720" y="449" fill="#bbf7d0" font-size="12" text-anchor="middle">user mutates &#183; reload &#183; resume  &#8594;  re-derive from live state</text>
+  <path d="M560 424 C540 360 540 220 618 154" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#aGreen)"/>
+
+  <!-- arrow before -> after -->
+  <path d="M452 276 L508 276" fill="none" stroke="#818cf8" stroke-width="3" marker-end="url(#a2)"/>
+  <text x="480" y="266" fill="#a5b4fc" font-size="10" text-anchor="middle" font-weight="700">refactor</text>
+</svg>

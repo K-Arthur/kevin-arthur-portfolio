@@ -8,6 +8,7 @@ const postsDirectory = path.join(process.cwd(), 'content', 'case-studies');
 // Strategic ordering: Flagship work first, then supporting, then concepts
 const STRATEGIC_ORDER = [
   'moremi-ai-multimodal-medical-platform',  // 🏆 Flagship: 14mo, CNN, real impact
+  'opencode-harness',                        // ⚙️ Engineering flagship: deterministic AI dev tool
   'moremi-collaborate',                      // Strong follow-up: shipped feature
   'minohealth-ai-blog',                      // Supporting: content design
   'snackbox-404',                            // Micro-project: shipped
