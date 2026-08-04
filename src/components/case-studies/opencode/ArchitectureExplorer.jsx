@@ -55,13 +55,20 @@ function Node({ id, node, active, onClick }) {
 export default function ArchitectureExplorer() {
   const [active, setActive] = useState('ipc');
   const [pinging, setPinging] = useState(false);
+  const [wireActive, setWireActive] = useState(false);
   const reduce = useReducedMotion();
   const node = NODES[active];
 
   const ping = () => {
-    if (reduce) return;
     setPinging(false);
-    requestAnimationFrame(() => setPinging(true));
+    requestAnimationFrame(() => {
+      if (reduce) {
+        setWireActive(true);
+        setTimeout(() => setWireActive(false), 800);
+      } else {
+        setPinging(true);
+      }
+    });
   };
 
   return (
@@ -87,7 +94,7 @@ export default function ArchitectureExplorer() {
 
         {/* travelling packet */}
         <div className="relative h-6 mt-2" aria-hidden="true">
-          <div className="absolute top-1/2 left-0 right-0 h-px bg-border" />
+          <div className={`absolute top-1/2 left-0 right-0 h-px transition-colors duration-300 ${wireActive ? 'bg-cyan-400' : 'bg-border'}`} />
           {pinging && (
             <motion.div
               initial={{ left: '4%', opacity: 0 }}
