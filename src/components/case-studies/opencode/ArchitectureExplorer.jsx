@@ -79,7 +79,7 @@ export default function ArchitectureExplorer() {
 
       {/* node row with animated wire */}
       <div className="relative">
-        <div className="flex items-stretch gap-3">
+        <div className="flex flex-col md:flex-row items-stretch gap-3">
           <Node id="host" node={NODES.host} active={active === 'host'} onClick={setActive} />
           <Node id="ipc" node={NODES.ipc} active={active === 'ipc'} onClick={setActive} />
           <Node id="webview" node={NODES.webview} active={active === 'webview'} onClick={setActive} />
