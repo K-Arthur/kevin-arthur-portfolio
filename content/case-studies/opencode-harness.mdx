@@ -15,39 +15,41 @@ tools:
 heroImage: "/images/case-studies/opencode-harness/overview-ide.png"
 heroImageAlt: "OpenCode Harness inside a full VS Code window — TypeScript editor showing the state-persistence code beside the docked OpenCode chat panel with model selection and live context"
 summary: "An open-source VS Code client I built for the opencode AI agent — full chat, real diff review, and several sessions running in tabs. The hard part wasn't the features; it was hunting down 'Silent Staleness', a bug where the data was right under the hood but the UI quietly trusted stale, cached values. The fix was rebuilding the interface around live state that re-derives on every change and persists to ExtensionContext.globalState."
-metaDescription: "Engineering case study: building a deterministic AI development interface as a VS Code extension. Eliminated the 'Silent Staleness' anti-pattern with active re-derivation, hardened state contracts, and 300+ automated tests across unit, contract, and visual layers."
+metaDescription: "Engineering case study: building a deterministic AI development interface as a VS Code extension. Eliminated the 'Silent Staleness' anti-pattern with active re-derivation, hardened state contracts, and 6,000+ automated tests across unit, contract, and visual layers."
 results:
-  - value: "300+"
+  - value: "5,070"
+    label: "Downloads on Open VSX"
+    context: "Free installs of the beta client · MIT licensed"
+  - value: "6,000+"
     label: "Automated Tests"
     context: "Unit, integration, contract & visual layers"
-  - value: "109"
+  - value: "121"
     label: "Contract-Verified Surfaces"
-    context: "46 commands · 20 keybindings · 43 settings"
+    context: "50 commands · 20 keybindings · 51 settings"
   - value: "18"
     label: "Visual Regression Gates"
-    context: "Playwright snapshots guarding the webview"
-  - value: "75+"
-    label: "AI Models Supported"
-    context: "Per-tab selection: Claude, GPT, Gemini & more"
+    context: "Playwright snapshot suites guarding the webview"
 ---
 
 <ResultsHighlight results={[
-  { value: "300+", label: "Automated Tests", context: "Unit, integration, contract & visual layers" },
-  { value: "109", label: "Contract-Verified Surfaces", context: "46 commands · 20 keybindings · 43 settings" },
-  { value: "18", label: "Visual Regression Gates", context: "Playwright snapshots guarding the webview" },
-  { value: "75+", label: "AI Models Supported", context: "Per-tab selection: Claude, GPT, Gemini & more" }
+  { value: "5,070", label: "Downloads on Open VSX", context: "Free installs of the beta client · MIT licensed" },
+  { value: "6,000+", label: "Automated Tests", context: "Unit, integration, contract & visual layers" },
+  { value: "121", label: "Contract-Verified Surfaces", context: "50 commands · 20 keybindings · 51 settings" },
+  { value: "18", label: "Visual Regression Gates", context: "Playwright snapshot suites guarding the webview" }
 ]} />
 
 <CaseStudySummary
   problem="I built this to live inside my editor all day, which meant the people using it — starting with me — would notice the instant the UI lied. And it did lie, in a way I started calling 'Silent Staleness'. The data underneath was correct, but the interface kept trusting cached values and start-up snapshots that never refreshed. Features looked wired; some were quietly dead."
   solution="I rebuilt the state pipeline around one simple rule I now call Active Re-Derivation: the UI never trusts a cached local — it rebuilds itself from live state on every change, then writes that truth down to ExtensionContext.globalState. I paired that with strict CSS containment so the layout can't deform when fonts scale or text flips to RTL, and a wall of automated tests so these dead wires can't quietly creep back."
   role="Lead Engineer & Product Designer — I designed and built all of it solo: the host/webview split, the IPC bridge, the state-persistence layer, the accessibility work, and the contract + visual testing framework."
-  impact="Shipped a free, open-source VS Code client with multiple concurrent AI sessions, 75+ models, and a UI I can actually trust — backed by 300+ automated tests. Silent Staleness went from an invisible production risk to a loud, repeatable test failure."
+  impact="Shipped a free, open-source VS Code client with multiple concurrent AI sessions, 75+ models, and a UI I can actually trust — backed by 6,000+ automated tests. Silent Staleness went from an invisible production risk to a loud, repeatable test failure."
 />
 
 OpenCode Harness is an open-source VS Code extension I built to wrap the [opencode](https://opencode.ai) CLI agent in a real graphical client — a chat panel, a proper side-by-side diff viewer, and several sessions running in tabs at once. It starts the agent's server for you and talks to it over an HTTP SDK, so the whole agentic loop — tool calls, diffs, subagents, reasoning — lives inside the editor instead of scrolling past in a terminal you keep flipping back to.
 
-> **Open source** — read the code on [GitHub](https://github.com/K-Arthur/opencode-harness) or install it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=koarthur.opencode-harness). Everything described below is in the public repo.
+> **Open source** — read the code on [GitHub](https://github.com/K-Arthur/opencode-harness) or install it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=koarthur.opencode-harness) or [Open VSX](https://open-vsx.org/extension/koarthur/opencode-harness). Everything described below is in the public repo.
+
+> **Current stats (v0.4.70)** — 5,070 downloads on Open VSX, 148 installs with a 5.0★ rating on the VS Code Marketplace, and 11 GitHub stars across a repo with 9 open issues and an active master branch (MIT licensed). The extension tracks the opencode SDK closely, so these numbers move fast.
 
 I'm going to skip the feature tour. What's actually worth your time is the story of one specific, maddening class of bug I had to chase down — and the architecture change that finally put it to rest.
 
@@ -68,7 +70,7 @@ In a developer tool, the UI is not a view of the truth — it _is_ the contract.
 That standard raised the bar for OpenCode Harness in three ways:
 
 - **It runs inside the IDE.** The chat panel lives in a sandboxed webview docked next to a real editor. It has to survive window reloads, theme changes, font resizing, and RTL languages without flinching.
-- **It's stateful and long-lived.** Sessions run concurrently (default cap of 5), each with its own model and history. State has to persist across reloads, not reset to a hopeful default.
+- **It's stateful and long-lived.** Sessions run concurrently — by default 5 simultaneous streams across up to 20 open tabs, with up to 50 sessions stored and restored after a reload. Each has its own model and history. State has to persist across reloads, not reset to a hopeful default.
 - **It's judged by experts.** When the context-usage bar says 40% and the real number is 80%, an engineer notices. Trust, once broken, doesn't come back.
 
 ![OpenCode Harness inside a full VS Code window — the state-persistence code open in the editor beside the docked OpenCode chat panel](/images/case-studies/opencode-harness/overview-ide.png)
@@ -87,7 +89,7 @@ The two halves can only talk through an **asynchronous `postMessage` IPC bridge*
 
 <ArchitectureExplorer />
 
-The backend follows a deliberate **thin-orchestrator pattern**: `ChatProvider` delegates to focused services (`TabManager`, `StreamCoordinator`, `MessageRouter`, `DiffHandler`) rather than accumulating logic. That separation matters for the bug hunt ahead — when state is owned by many small services and rendered across a process boundary, it's dangerously easy for one side to hold a value the other side has already moved past.
+The backend follows a deliberate **thin-orchestrator pattern**: `ChatProvider` delegates to focused services (`TabManager`, `StreamCoordinator`, `MessageRouter`, `SessionDiffHandler`) rather than accumulating logic. That separation matters for the bug hunt ahead — when state is owned by many small services and rendered across a process boundary, it's dangerously easy for one side to hold a value the other side has already moved past.
 
 <PrincipleCallout>
 A process boundary is a truth boundary. Anything cached on the far side of an async wire is a stale value waiting to happen.
@@ -185,11 +187,11 @@ Killing the bug once is not the job. The job is making it *impossible to silentl
 
 ### Contract testing of `package.json`
 
-Every command, keybinding, and setting an extension exposes is declared in `package.json`. A surface declared but not wired (or wired but not declared) is a dead wire by definition. Contract tests assert the manifest and the implementation agree across all **109 declared surfaces**:
+Every command, keybinding, and setting an extension exposes is declared in `package.json`. A surface declared but not wired (or wired but not declared) is a dead wire by definition. Contract tests assert the manifest and the implementation agree across all **121 declared surfaces**:
 
-- **46 commands** — each declared command resolves to a real handler.
+- **50 commands** — each declared command resolves to a real handler.
 - **20 keybindings** — each binding points to a registered command.
-- **43 settings** — each setting is read by the code that claims to honor it.
+- **51 settings** — each setting is read by the code that claims to honor it.
 
 ### Structural validation loops & message-contract tests
 
@@ -197,7 +199,7 @@ The IPC bridge is a serialization seam — the exact place stale or malformed st
 
 ### UI state checkpoints (visual regression)
 
-Eighteen Playwright snapshot specs photograph the webview in known states and fail the build on unexpected pixel drift — directly targeting the features Silent Staleness attacked:
+Eighteen Playwright snapshot suites photograph the webview in known states and fail the build on unexpected pixel drift — 170+ visual assertions directly targeting the features Silent Staleness attacked:
 
 - `chat-context-usage.spec.ts` — the usage bar reflects live fill, not an init snapshot.
 - `diff-wrapping.spec.ts` — long tokens wrap; no container deformation under scaling.
@@ -218,11 +220,12 @@ Eighteen Playwright snapshot specs photograph the webview in known states and fa
 |---|---|---|
 | **State architecture** | Active Re-Derivation | UI re-derives from live state, serializes to `globalState`; storage is the single source of truth |
 | **Layout robustness** | Zero deformation under scaling | Tokenized CSS + `overflow-wrap: anywhere` + logical layout, guarded by visual tests |
-| **Test coverage** | 300+ automated tests | Unit, integration, contract, round-trip, and 18 visual regression gates |
-| **Contract surface** | 109 verified surfaces | 46 commands · 20 keybindings · 43 settings asserted against the manifest |
-| **Concurrency** | 5 concurrent sessions | Independent tabs, each with its own model, mode, and persisted history |
+| **Test coverage** | 6,000+ automated tests | Unit, integration, contract, round-trip, and 18 visual regression suites |
+| **Contract surface** | 121 verified surfaces | 50 commands · 20 keybindings · 51 settings asserted against the manifest |
+| **Concurrency** | 5 streams · 20 tabs · 50 sessions | Independent tabs, each with its own model, mode, and persisted history |
 | **Reach** | 75+ models | Per-tab selection across Claude, GPT, Gemini, and dozens more |
-| **Accessibility** | WCAG-aligned | 24×24px touch targets (2.5.5), AAA high-contrast preset, full keyboard nav, focus traps, `prefers-reduced-motion` |
+| **Adoption** | 5,000+ downloads | 5,070 on Open VSX, 148 installs (5.0★) on the VS Code Marketplace, 11 GitHub stars |
+| **Accessibility** | WCAG-aligned | 24×24px touch targets (WCAG 2.5.5), high-contrast presets, full keyboard nav, focus traps, `prefers-reduced-motion` |
 
 ---
 

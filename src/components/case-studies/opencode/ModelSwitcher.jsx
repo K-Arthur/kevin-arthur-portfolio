@@ -38,7 +38,7 @@ export default function ModelSwitcher() {
     <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
       <div className="mb-6">
         <h4 className="font-bold text-lg">Per-tab model selection</h4>
-        <p className="text-sm text-muted-foreground">Each tab is an independent worker. Switch one tab's model — the others don't budge — then reload to see the choice persist.</p>
+        <p className="text-sm text-muted-foreground">Each tab is an independent worker. Switch one tab&apos;s model — the others don&apos;t budge — then reload to see the choice persist.</p>
       </div>
 
       {/* Tabs */}

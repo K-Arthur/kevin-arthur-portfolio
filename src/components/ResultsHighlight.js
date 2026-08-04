@@ -11,12 +11,12 @@ function AnimatedValue({ value, isInView }) {
     const shouldReduceMotion = useReducedMotion();
     const hasAnimated = useRef(false);
 
-    // Parse numeric portion and suffix from value (e.g., "97%" -> 97, "%")
+    // Parse numeric portion and suffix from value (e.g., "97%" -> 97, "%", or "6,000+" -> 6000, "+")
     const parseValue = (val) => {
         const str = String(val);
-        const numMatch = str.match(/^([0-9.]+)/);
-        const numericPart = numMatch ? parseFloat(numMatch[1]) : null;
-        const suffix = str.replace(/^[0-9.]+/, '');
+        const numMatch = str.match(/^([0-9.,]+)/);
+        const numericPart = numMatch ? parseFloat(numMatch[1].replace(/,/g, '')) : null;
+        const suffix = str.replace(/^[0-9.,]+/, '');
         return { numericPart, suffix };
     };
 
@@ -43,7 +43,7 @@ function AnimatedValue({ value, isInView }) {
             const current = numericPart * eased;
 
             if (Number.isInteger(numericPart)) {
-                setDisplayValue(`${Math.round(current)}${suffix}`);
+                setDisplayValue(`${Math.round(current).toLocaleString('en-US')}${suffix}`);
             } else {
                 setDisplayValue(`${current.toFixed(1)}${suffix}`);
             }

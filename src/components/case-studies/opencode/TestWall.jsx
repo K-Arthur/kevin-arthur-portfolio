@@ -7,13 +7,13 @@ const LAYERS = [
   { key: 'integration', label: 'Integration', desc: 'Host services talking to a real opencode server session.', weight: 18 },
   { key: 'contract', label: 'Contract', desc: 'package.json manifest ↔ implementation agree on every surface.', weight: 14 },
   { key: 'roundtrip', label: 'Round-trip', desc: 'Every postMessage shape serializes/deserializes losslessly.', weight: 10 },
-  { key: 'visual', label: 'Visual', desc: '18 Playwright snapshots pin the webview in known states.', weight: 18 },
+  { key: 'visual', label: 'Visual', desc: '18 Playwright snapshot suites — 170+ visual assertions — pin the webview in known states.', weight: 18 },
 ];
 
 const SURFACES = [
-  { n: 46, label: 'commands' },
+  { n: 50, label: 'commands' },
   { n: 20, label: 'keybindings' },
-  { n: 43, label: 'settings' },
+  { n: 51, label: 'settings' },
 ];
 
 function Count({ to, suffix = '', start }) {
@@ -31,7 +31,7 @@ function Count({ to, suffix = '', start }) {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [start, to, reduce]);
-  return <>{v}{suffix}</>;
+  return <>{v.toLocaleString('en-US')}{suffix}</>;
 }
 
 export default function TestWall() {
@@ -49,7 +49,7 @@ export default function TestWall() {
           <p className="text-sm text-muted-foreground">What turns a silent dead wire into a red build.</p>
         </div>
         <div className="text-right">
-          <div className="text-4xl font-bold text-primary tabular-nums"><Count to={300} suffix="+" start={inView} /></div>
+          <div className="text-4xl font-bold text-primary tabular-nums"><Count to={6000} suffix="+" start={inView} /></div>
           <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">automated tests</div>
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function TestWall() {
       <div className="rounded-xl border border-border bg-background p-4">
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Contract-verified surfaces</span>
-          <span className="text-sm font-bold text-primary tabular-nums"><Count to={109} start={inView} /></span>
+          <span className="text-sm font-bold text-primary tabular-nums"><Count to={121} start={inView} /></span>
         </div>
         <div className="grid grid-cols-3 gap-3">
           {SURFACES.map((s) => (
