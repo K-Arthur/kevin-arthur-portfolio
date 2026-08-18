@@ -25,6 +25,10 @@ import ModelSwitcher from './case-studies/opencode/ModelSwitcher';
 import DiffReviewDemo from './case-studies/opencode/DiffReviewDemo';
 import TestWall from './case-studies/opencode/TestWall';
 import ArchitectureExplorer from './case-studies/opencode/ArchitectureExplorer';
+import RenderPipelineExplorer from './case-studies/varve/RenderPipelineExplorer';
+import DocumentModelExplorer from './case-studies/varve/DocumentModelExplorer';
+import DisciplineSwitcher from './case-studies/varve/DisciplineSwitcher';
+import MonorepoStats from './case-studies/varve/MonorepoStats';
 import { ClickableImage } from './ui/ImageLightbox';
 
 // Custom component to replace the default <img> tag in MDX content
@@ -67,4 +71,8 @@ export const mdxComponents = {
   DiffReviewDemo,
   TestWall,
   ArchitectureExplorer,
+  RenderPipelineExplorer,
+  DocumentModelExplorer,
+  DisciplineSwitcher,
+  MonorepoStats,
 };
