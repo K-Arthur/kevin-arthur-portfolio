@@ -1,8 +1,8 @@
 /**
  * Lighthouse CI Configuration
  * 
- * This configuration runs Lighthouse audits on the static export
- * and enforces quality thresholds to prevent regressions.
+ * This configuration runs Lighthouse audits against the Next.js
+ * production server and enforces quality thresholds to prevent regressions.
  * 
  * @see https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md
  */
@@ -10,13 +10,14 @@ module.exports = {
   ci: {
     // Collect Lighthouse results
     collect: {
-      // Serve static files from the output directory
-      staticDistDir: './out',
-      // Explicitly test homepage (/) and other key pages
-      // Without this, LHCI tests all HTML files including 404.html
+      // Start the Next.js production server (no static export — serverless mode)
+      startServerCommand: 'npm run start',
+      startServerReadyPattern: 'Ready',
+      startServerReadyTimeout: 30000,
+      // Explicitly test homepage and case studies
       url: [
-        'http://localhost/',
-        'http://localhost/case-studies.html',
+        'http://localhost:3000/',
+        'http://localhost:3000/case-studies',
       ],
       // Number of runs to reduce variance
       numberOfRuns: 3,
