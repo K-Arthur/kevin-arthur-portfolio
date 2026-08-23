@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const NODE_TYPES = [
@@ -74,7 +74,32 @@ const SHARED_BASE = [
 
 export default function DocumentModelExplorer() {
   const [active, setActive] = useState('shape');
+  const tabListRef = useRef(null);
   const node = NODE_TYPES.find((n) => n.id === active);
+
+  const handleKeyDown = (e) => {
+    const currentIndex = NODE_TYPES.findIndex((n) => n.id === active);
+    let newIndex = currentIndex;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      newIndex = (currentIndex + 1) % NODE_TYPES.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      newIndex = (currentIndex - 1 + NODE_TYPES.length) % NODE_TYPES.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      newIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      newIndex = NODE_TYPES.length - 1;
+    } else {
+      return;
+    }
+
+    setActive(NODE_TYPES[newIndex].id);
+    tabListRef.current?.children[newIndex]?.focus();
+  };
 
   return (
     <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
@@ -84,10 +109,21 @@ export default function DocumentModelExplorer() {
       </div>
 
       {/* Node type selector */}
-      <div className="flex flex-wrap gap-2 mb-5">
+      <div
+        ref={tabListRef}
+        role="tablist"
+        aria-label="Node types"
+        className="flex flex-wrap gap-2 mb-5"
+        onKeyDown={handleKeyDown}
+      >
         {NODE_TYPES.map((n) => (
           <button
             key={n.id}
+            role="tab"
+            id={`node-tab-${n.id}`}
+            aria-selected={active === n.id}
+            aria-controls={`node-panel-${n.id}`}
+            tabIndex={active === n.id ? 0 : -1}
             onClick={() => setActive(n.id)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors focus:outline-none focus:ring-2 focus:ring-ring ${
               active === n.id
@@ -123,6 +159,9 @@ export default function DocumentModelExplorer() {
       <AnimatePresence mode="wait">
         <motion.div
           key={active}
+          role="tabpanel"
+          id={`node-panel-${active}`}
+          aria-labelledby={`node-tab-${active}`}
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}

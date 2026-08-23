@@ -43,7 +43,13 @@ export const personSchema = {
         "SaaS Product Design",
         "Design Systems",
         "Telemedicine UX",
-        "Data Visualization"
+        "Data Visualization",
+        "Creative Tools Design",
+        "Design Engineering",
+        "Cross-Platform Applications",
+        "Local-First Software",
+        "Interaction Design",
+        "Product Design"
     ]
 };
 
@@ -61,7 +67,7 @@ export function getCaseStudySchema(caseStudy) {
             ? `${BASE_URL}${caseStudy.heroImage.startsWith('/') ? '' : '/'}${caseStudy.heroImage}`
             : null;
 
-    return {
+    const schema = {
         "@context": "https://schema.org",
         "@type": "Article",
         "@id": `${BASE_URL}/case-studies/${caseStudy.id || caseStudy.slug}`,
@@ -95,6 +101,25 @@ export function getCaseStudySchema(caseStudy) {
         "articleSection": "Case Studies",
         "inLanguage": "en-US"
     };
+
+    // For creative-tools case studies, add the software being discussed as a referenced entity
+    if (caseStudy.industry === 'creative-tools' && caseStudy.id === 'varve') {
+        schema.mentions = {
+            "@type": "SoftwareApplication",
+            "name": "Varve",
+            "applicationCategory": "DesignApplication",
+            "operatingSystem": "Linux, macOS, Windows",
+            "url": "https://varve.studio",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "description": "Community Edition — free, no subscription"
+            }
+        };
+    }
+
+    return schema;
 }
 
 /**

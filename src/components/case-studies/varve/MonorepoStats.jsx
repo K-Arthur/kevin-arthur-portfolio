@@ -5,10 +5,10 @@ import { motion, useInView, useReducedMotion } from 'framer-motion';
 const STATS = [
   { value: 13, label: 'Rust Crates', suffix: '', desc: 'Core, engine, layout, effects, print, WASM, colour, media, and more' },
   { value: 20, label: 'TypeScript Packages', suffix: '', desc: 'Editor, scene, tokens, UI, codegen, platform, prototype, and more' },
-  { value: 97, label: 'UI Components', suffix: '', desc: 'Buttons, inputs, dialogs, menus, color pickers, all with APG patterns' },
-  { value: 55, label: 'Editor Tools', suffix: '', desc: 'Pen, pencil, node edit, text, warp, clone stamp, and more' },
-  { value: 100, label: 'Architecture ADRs', suffix: '+', desc: 'Documented decisions for rendering, layout, tokens, history, and more' },
-  { value: 755, label: 'Token Lines', suffix: '', desc: 'OKLCH colors, fluid typography, 3 themes, motion, spacing' },
+  { value: 123, label: 'UI Component Files', suffix: '', desc: 'Buttons, inputs, dialogs, menus, color pickers — all with APG patterns and Storybook stories' },
+  { value: 161, label: 'Architecture ADRs', suffix: '', desc: 'Documented decisions for rendering, layout, tokens, history, multi-window, and more' },
+  { value: 82, label: 'Architecture Docs', suffix: '', desc: 'Deep documentation of render pipeline, paint system, motion, image enhancement, and more' },
+  { value: 10, label: 'CI Workflows', suffix: '', desc: 'GitHub Actions for Rust, JS, E2E, visual regression, release, and security' },
 ];
 
 function AnimatedNumber({ to, suffix, start }) {
@@ -50,6 +50,7 @@ export default function MonorepoStats() {
           <motion.button
             key={s.label}
             onClick={() => setSelected(selected === i ? null : i)}
+            aria-pressed={selected === i}
             initial={{ opacity: 0, y: 10 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.08 * i, type: 'spring', stiffness: 100, damping: 15 }}

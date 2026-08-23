@@ -29,6 +29,9 @@ import RenderPipelineExplorer from './case-studies/varve/RenderPipelineExplorer'
 import DocumentModelExplorer from './case-studies/varve/DocumentModelExplorer';
 import DisciplineSwitcher from './case-studies/varve/DisciplineSwitcher';
 import MonorepoStats from './case-studies/varve/MonorepoStats';
+import ProjectTimeline from './case-studies/varve/ProjectTimeline';
+import FailureExplorer from './case-studies/varve/FailureExplorer';
+import DecisionStory from './case-studies/DecisionStory';
 import { ClickableImage } from './ui/ImageLightbox';
 
 // Custom component to replace the default <img> tag in MDX content
@@ -75,4 +78,7 @@ export const mdxComponents = {
   DocumentModelExplorer,
   DisciplineSwitcher,
   MonorepoStats,
+  ProjectTimeline,
+  FailureExplorer,
+  DecisionStory,
 };

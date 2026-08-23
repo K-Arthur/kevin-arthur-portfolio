@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const DISCIPLINES = [
@@ -67,7 +67,32 @@ const DISCIPLINES = [
 
 export default function DisciplineSwitcher() {
   const [active, setActive] = useState('vector');
+  const tabListRef = useRef(null);
   const d = DISCIPLINES.find((x) => x.id === active);
+
+  const handleKeyDown = (e) => {
+    const currentIndex = DISCIPLINES.findIndex((disc) => disc.id === active);
+    let newIndex = currentIndex;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      newIndex = (currentIndex + 1) % DISCIPLINES.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      newIndex = (currentIndex - 1 + DISCIPLINES.length) % DISCIPLINES.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      newIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      newIndex = DISCIPLINES.length - 1;
+    } else {
+      return;
+    }
+
+    setActive(DISCIPLINES[newIndex].id);
+    tabListRef.current?.children[newIndex]?.focus();
+  };
 
   return (
     <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
@@ -77,10 +102,21 @@ export default function DisciplineSwitcher() {
       </div>
 
       {/* Discipline tabs */}
-      <div className="flex flex-wrap gap-1.5 mb-5 p-1 bg-secondary/30 rounded-xl">
+      <div
+        ref={tabListRef}
+        role="tablist"
+        aria-label="Creative disciplines"
+        className="flex flex-wrap gap-1.5 mb-5 p-1 bg-secondary/30 rounded-xl"
+        onKeyDown={handleKeyDown}
+      >
         {DISCIPLINES.map((disc) => (
           <button
             key={disc.id}
+            role="tab"
+            id={`tab-${disc.id}`}
+            aria-selected={active === disc.id}
+            aria-controls={`tabpanel-${disc.id}`}
+            tabIndex={active === disc.id ? 0 : -1}
             onClick={() => setActive(disc.id)}
             className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all focus:outline-none focus:ring-2 focus:ring-ring flex-1 justify-center min-w-[80px] ${
               active === disc.id
@@ -99,6 +135,9 @@ export default function DisciplineSwitcher() {
       <AnimatePresence mode="wait">
         <motion.div
           key={active}
+          role="tabpanel"
+          id={`tabpanel-${active}`}
+          aria-labelledby={`tab-${active}`}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}

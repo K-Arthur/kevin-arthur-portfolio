@@ -85,6 +85,21 @@ function Arrow({ active }) {
   );
 }
 
+function RenderPoint({ text }) {
+  const parts = text.split(/`([^`]+)`/g);
+  return (
+    <span>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <code key={i} className="font-mono text-primary text-[0.9em]">{part}</code>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </span>
+  );
+}
+
 export default function RenderPipelineExplorer() {
   const [active, setActive] = useState('engine');
   const [pingActive, setPingActive] = useState(false);
@@ -158,7 +173,7 @@ export default function RenderPipelineExplorer() {
           {stage.points.map((p, i) => (
             <li key={i} className="text-sm text-foreground/80 flex gap-2">
               <span className="text-primary mt-0.5">▸</span>
-              <span dangerouslySetInnerHTML={{ __html: p.replace(/`([^`]+)`/g, '<code class="font-mono text-primary text-[0.9em]">$1</code>') }} />
+              <RenderPoint text={p} />
             </li>
           ))}
         </ul>
@@ -167,7 +182,7 @@ export default function RenderPipelineExplorer() {
       {/* Performance stat */}
       <div className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground">
         <span className="font-mono font-bold text-primary">86.4 fps</span>
-        <span>measured at 960×600 — 10× faster than pixel-push</span>
+        <span>measured at 960×600 — 10× faster than pixel-push (8.5 fps)</span>
       </div>
     </div>
   );
