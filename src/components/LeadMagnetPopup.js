@@ -40,6 +40,7 @@ export default function LeadMagnetPopup({
   const hasTriggeredRef = useRef(false);
   const hasEngagedRef = useRef(false);
   const idleTimerRef = useRef(null);
+  const modalRef = useRef(null);
 
   const content = {
     'design-checklist': {
@@ -199,6 +200,56 @@ export default function LeadMagnetPopup({
     }
   };
 
+  // Escape key handler and focus trap
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleDismiss();
+        return;
+      }
+
+      // Focus trap
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    // Focus the first focusable element in the modal
+    const timer = setTimeout(() => {
+      if (modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        focusable[0]?.focus();
+      }
+    }, 100);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(timer);
+    };
+  }, [isVisible]);
+
   if (isDismissed && !isVisible) return null;
 
   return (
@@ -221,6 +272,7 @@ export default function LeadMagnetPopup({
 
           {/* Modal */}
           <motion.div
+            ref={modalRef}
             className="relative w-full max-w-md bg-card border border-border/50 rounded-2xl shadow-2xl overflow-hidden"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -233,7 +285,7 @@ export default function LeadMagnetPopup({
             {/* Close Button */}
             <button
               onClick={handleDismiss}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors z-10"
+              className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors z-10"
               aria-label="Close popup"
             >
               <FaTimes className="w-4 h-4" />

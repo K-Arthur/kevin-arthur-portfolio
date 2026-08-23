@@ -63,7 +63,7 @@ const Footer = ({ transparent = false, showLeadMagnet = true }) => {
                   key={link.href}
                   href={link.href}
                   {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                  className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-muted-foreground hover:text-primary transition-colors duration-300"
                   aria-label={link.label}
                 >
                   <span className="sr-only">{link.label}</span>
@@ -75,7 +75,7 @@ const Footer = ({ transparent = false, showLeadMagnet = true }) => {
 
           {/* Copyright & Credits */}
           <p className="text-sm text-muted-foreground text-center">
-            &copy; {currentYear} Kevin Arthur. Designed & Built with care.
+            &copy; {currentYear} Kevin Arthur. Designed & Built by Kevin Arthur.
           </p>
         </div>
       </div>

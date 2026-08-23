@@ -9,7 +9,7 @@ import {
   expertiseAreas,
   designPhilosophy,
 } from '@/data/portfolio-data';
-import { FaBriefcase, FaGraduationCap, FaArrowRight, FaBrain, FaCalendarAlt } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaArrowRight, FaBrain, FaCalendarAlt, FaEnvelope } from 'react-icons/fa';
 
 import { CometCard } from '@/components/ui/comet-card';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
@@ -163,7 +163,7 @@ const AboutPage = () => {
         <Section>
           <SectionTitle icon={<FaBrain />}>Expertise Areas</SectionTitle>
           <p className="text-muted-foreground mb-6 sm:mb-10 max-w-2xl leading-relaxed text-sm sm:text-base">
-            Senior-level specializations that differentiate my work.
+            Areas of focus that shape how I approach complex product challenges.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
             {expertiseAreas.map((area, index) => (
@@ -192,7 +192,7 @@ const AboutPage = () => {
           <SectionTitle icon={<FaBriefcase />}>Career Highlights</SectionTitle>
           <div className="relative md:pl-0">
             {/* Timeline Line */}
-            <div className="absolute left-5 md:left-1/2 top-4 bottom-0 w-px bg-border -translate-x-1/2" aria-hidden></div>
+            <div className="absolute left-5 md:left-1/2 top-4 bottom-0 w-px bg-border -translate-x-1/2" aria-hidden="true"></div>
 
             <div className="space-y-10 sm:space-y-12 md:space-y-16 relative">
               {professionalExperience.map((job, index) => (
@@ -259,7 +259,7 @@ const AboutPage = () => {
 
         <Section delay={0.6}>
           <SectionTitle icon={<FaGraduationCap />}>Education</SectionTitle>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {education.map((edu, index) => (
               <CometCard key={index} className="w-full h-full">
                 <div className="relative h-full w-full p-5 sm:p-6 md:p-8 bg-card/40 border border-border rounded-2xl backdrop-blur-md flex flex-col shadow-sm">
@@ -328,15 +328,15 @@ const AboutPage = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 btn-primary-enhanced btn-glow font-semibold rounded-xl text-base sm:text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 sm:hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <span>Book a Quick Chat</span>
+                <span>Book a free 15-min call</span>
                 <FaCalendarAlt className="w-4 h-4" />
               </a>
               <a
                 href="mailto:hello@kevinarthur.design"
                 className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 font-semibold rounded-xl text-base sm:text-lg transition-all border-2 border-primary/20 hover:bg-primary/5 focus-visible:ring-2 focus-visible:ring-primary"
               >
-                <span>Send me an email</span>
-                <span className="text-xl">✉️</span>
+                <span>Send an email</span>
+                <FaEnvelope className="w-4 h-4" />
               </a>
             </div>
           </div>

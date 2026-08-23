@@ -19,6 +19,7 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
   const [rotation, setRotation] = useState(0);
   const lightboxRef = useRef(null);
   const imageRef = useRef(null);
+  const previousFocusRef = useRef(null);
   const [portalElement, setPortalElement] = useState(null);
 
   useEffect(() => {
@@ -62,6 +63,9 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
   }, [onClose, onNext, onPrev]);
 
   useEffect(() => {
+    // Store the element that had focus before the lightbox opened
+    previousFocusRef.current = document.activeElement;
+
     window.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
 
@@ -72,6 +76,10 @@ const MediaLightbox = memo(({ media, currentIndex, onClose, onNext, onPrev }) =>
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
+      // Return focus to the element that triggered the lightbox
+      if (previousFocusRef.current && typeof previousFocusRef.current.focus === 'function') {
+        previousFocusRef.current.focus();
+      }
     };
   }, [handleKeyDown]);
 

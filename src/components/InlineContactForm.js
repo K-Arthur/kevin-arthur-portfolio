@@ -26,6 +26,7 @@ export default function InlineContactForm({ onSuccess }) {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center"
+                role="status"
             >
                 <FaCheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-foreground mb-2">Message Sent!</h3>
@@ -43,7 +44,7 @@ export default function InlineContactForm({ onSuccess }) {
             className="space-y-4 text-left w-full max-w-xl mx-auto bg-background/40 p-6 md:p-8 rounded-2xl border border-border/30 backdrop-blur-md shadow-sm"
         >
             {status === 'error' && (
-                <div className="bg-destructive/10 border border-destructive/20 text-destructive p-3 rounded-lg flex items-center gap-2 text-sm">
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive p-3 rounded-lg flex items-center gap-2 text-sm" role="alert">
                     <FaExclamationCircle />
                     There was an error sending your message. Please try again.
                 </div>

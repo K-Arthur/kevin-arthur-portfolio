@@ -103,19 +103,18 @@ export default function HomeClient({ posts }) {
         <div className="relative z-10 container-responsive space-y-12">
           <div className="space-y-8 animate-hero-fade">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
-              <span className="block">Product <span className="gradient-text-brand">Designer</span></span>
-              <span className="block text-2xl md:text-4xl lg:text-5xl mt-4 font-bold tracking-tight text-foreground">
-                <span className="block">Designing systems where complexity</span>
-                <span className="text-primary block">meets clarity.</span>
-              </span>
+              Product <span className="gradient-text-brand">Designer</span>
             </h1>
+            <p className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+              <span className="block">AI interfaces, healthcare UX,</span>
+              <span className="text-primary block">and design systems.</span>
+            </p>
 
             <div className="space-y-6 animate-hero-fade" style={{ animationDelay: '0.1s' }}>
               <p className="text-lg md:text-xl lg:text-2xl text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light">
-                <strong>Product Design + Systems Programming + MSc Applied CS.</strong><br />
-                I design AI interfaces, enterprise tools, and scalable design systems.
-                Recent work includes healthcare platforms serving 500+ facilities,
-                fintech workflows, and technical products with measurable outcomes.
+                I help product teams ship clear, scalable experiences for complex products.
+                Recent work includes a medical AI platform serving 500+ facilities,
+                a local-first design tool, and an open-source VS Code extension.
               </p>
             </div>
           </div>
@@ -137,21 +136,21 @@ export default function HomeClient({ posts }) {
               className="group inline-flex items-center justify-center gap-2 btn-secondary-enhanced btn-interactive font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
             >
               <FaCalendarAlt className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>Schedule a Call</span>
+              <span>Book a free 15-min call</span>
             </MagneticButton>
           </div>
         </div>
       </div>
 
       {/* Featured Teaser */}
-      {posts?.some(p => p.id === 'minohealth-radiology') && (
+      {posts?.some(p => p.id === 'minohealth-ai-blog') && (
         <section className="relative z-20 -mt-8 sm:-mt-12 mb-16 md:mb-24 w-full px-4 md:px-8 max-w-7xl mx-auto shadow-2xl">
           <div className="flex justify-center mb-8 md:mb-12 animate-fade-in-up animation-delay-500">
             <span className="text-xs font-bold tracking-widest text-primary uppercase bg-primary/10 px-4 py-1.5 rounded-full border border-primary/20 backdrop-blur-sm">
               Featured Case Study
             </span>
           </div>
-          <FeaturedProjects posts={[posts.find(p => p.id === 'minohealth-radiology')]} />
+          <FeaturedProjects posts={[posts.find(p => p.id === 'minohealth-ai-blog')]} />
         </section>
       )}
 
@@ -171,7 +170,7 @@ export default function HomeClient({ posts }) {
             </p>
           </div>
 
-          <FeaturedProjects posts={posts?.filter(post => post.id !== 'minohealth-radiology' && !['kamen-rider-game-hud', 'snackbox-404'].includes(post.id)).slice(0, 3) || []} />
+          <FeaturedProjects posts={posts?.filter(post => post.id !== 'minohealth-ai-blog' && !['kamen-rider-game-hud', 'snackbox-404'].includes(post.id)).slice(0, 3) || []} />
 
           <div className="mt-20 md:mt-32 text-center">
             <MagneticButton
@@ -237,7 +236,7 @@ export default function HomeClient({ posts }) {
                 className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-interactive btn-glow font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
               >
                 <FaCalendarAlt className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span>Schedule a Call</span>
+                <span>Book a free 15-min call</span>
               </MagneticButton>
               <MagneticButton
                 href="/case-studies"

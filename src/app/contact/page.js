@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaArrowRight, FaExternalLinkAlt, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaArrowRight, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { personalInfo } from '@/data/portfolio-data';
 import { getContextualMessage, formatSourceName } from '@/data/contact-config';
 import { HandWrittenTitle } from '@/components/ui/hand-writing-text';
@@ -33,7 +33,7 @@ const contactInfo = [
 
 const quickActions = [
   {
-    label: 'Book a 15-Min Call',
+    label: 'Book a free 15-min call',
     description: 'No pitch, just conversation. Let\'s discuss your project together.',
     icon: <FaCalendarAlt className="w-6 h-6" />,
     href: 'https://calendly.com/arthurkevin27/15min',
@@ -63,10 +63,8 @@ const ContactContent = () => {
   const [source, setSource] = useState(null);
 
   useEffect(() => {
-    const plan = searchParams.get('plan');
-    const billing = searchParams.get('billing');
     const sourceParam = searchParams.get('source');
-    const caseStudyId = searchParams.get('case');
+    const caseStudyTitle = searchParams.get('caseStudyTitle');
 
     // Set source for display
     if (sourceParam) {
@@ -76,9 +74,7 @@ const ContactContent = () => {
     // Generate contextual message using centralized config
     const contextualMessage = getContextualMessage({
       source: sourceParam,
-      plan,
-      billing,
-      caseStudyId
+      caseStudyTitle,
     });
 
     if (contextualMessage) {
@@ -169,7 +165,7 @@ const ContactContent = () => {
                 </h3>
                 <p className="text-sm text-muted-foreground flex-1">{action.description}</p>
                 <span className={`inline-flex items-center gap-2 font-medium text-sm mt-4 ${action.primary ? 'text-primary' : 'text-muted-foreground group-hover:text-primary'}`}>
-                  {action.primary ? 'Schedule now' : action.external ? 'Open profile' : 'Send email'}
+                  {action.primary ? 'Book now' : action.external ? 'Open profile' : 'Send email'}
                   <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </a>
@@ -229,7 +225,7 @@ const ContactContent = () => {
             </div>
 
             {formStatus === 'success' && (
-              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center">
+              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center" role="status">
                 <FaCheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-foreground mb-2">Message Sent!</h3>
                 <p className="text-muted-foreground">Thanks for reaching out. I&apos;ll get back to you within 24 hours.</p>
@@ -237,7 +233,7 @@ const ContactContent = () => {
             )}
 
             {formStatus === 'error' && (
-              <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 mb-6 flex items-center gap-3">
+              <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 mb-6 flex items-center gap-3" role="alert">
                 <FaExclamationCircle className="w-5 h-5 text-destructive flex-shrink-0" />
                 <p className="text-destructive text-sm">
                   There was an error sending your message. Please try again or email me directly at{' '}
@@ -250,12 +246,12 @@ const ContactContent = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
+                    <label htmlFor="contact-name" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
                       Name
                     </label>
                     <input
                       type="text"
-                      id="name"
+                      id="contact-name"
                       name="name"
                       required
                       className="w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
@@ -264,12 +260,12 @@ const ContactContent = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
+                    <label htmlFor="contact-email" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
                       Email
                     </label>
                     <input
                       type="email"
-                      id="email"
+                      id="contact-email"
                       name="email"
                       required
                       className="w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-muted-foreground/50"
@@ -279,11 +275,11 @@ const ContactContent = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
+                  <label htmlFor="contact-message" className="block text-sm font-medium text-foreground mb-2 uppercase tracking-wide">
                     Message
                   </label>
                   <textarea
-                    id="message"
+                    id="contact-message"
                     name="message"
                     rows="6"
                     required

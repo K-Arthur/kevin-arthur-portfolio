@@ -109,7 +109,7 @@ export default function StickyCTA({
                         {/* Dismiss Button */}
                         <button
                             onClick={handleDismiss}
-                            className="absolute -top-2 -right-2 w-8 h-8 bg-card border border-border/50 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shadow-lg"
+                            className="absolute -top-2 -right-2 w-11 h-11 bg-card border border-border/50 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shadow-lg"
                             aria-label="Dismiss contact options"
                         >
                             <FaTimes className="w-3 h-3" />
@@ -123,7 +123,7 @@ export default function StickyCTA({
                             className="group flex w-full shadow-lg items-center justify-center gap-3 btn-primary-enhanced font-bold text-lg px-6 py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02]"
                         >
                             <FaCalendarAlt className="w-5 h-5" />
-                            Book a Quick Chat
+                            Book a free 15-min call
                             <FaArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                         </a>
                     </div>

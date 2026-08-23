@@ -272,6 +272,45 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
     }
   };
 
+  // Keyboard handler: show controls on focus, Space/Enter to play/pause
+  const handleContainerKeyDown = (e) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      // Only handle if focus is on the container itself or video, not on a control
+      if (e.target === containerRef.current || e.target.tagName === 'VIDEO') {
+        e.preventDefault();
+        togglePlay();
+      }
+    }
+    // Always show controls when user interacts via keyboard
+    if (['Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+      setShowControls(true);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+      controlsTimeoutRef.current = setTimeout(() => {
+        setShowControls(false);
+      }, 5000);
+    }
+  };
+
+  const handleFocus = () => {
+    setShowControls(true);
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+  };
+
+  const handleBlur = (e) => {
+    // Only hide controls if focus leaves the container entirely
+    if (containerRef.current && !containerRef.current.contains(e.relatedTarget)) {
+      if (isPlaying) {
+        controlsTimeoutRef.current = setTimeout(() => {
+          setShowControls(false);
+        }, 3000);
+      }
+    }
+  };
+
   const optimalVideoSize = getVideoStyle();
 
   // Video format detection and fallback
@@ -362,6 +401,12 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
       onMouseLeave={handleMouseLeave}
       onContextMenu={handleContextMenu}
       onRightClick={handleRightClick}
+      onKeyDown={handleContainerKeyDown}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      tabIndex={0}
+      role="region"
+      aria-label="Video player"
     >
       {/* Video Container with Download Prevention */}
       <div className="w-full h-full flex items-center justify-center">
@@ -378,14 +423,11 @@ const VideoPlayer = ({ src, poster, className = '', autoPlay = false }) => {
           onContextMenu={handleContextMenu}
           controlsList="nodownload nofullscreen noremoteplayback"
           disablePictureInPicture
-          aria-label="Video player"
         >
           {/* Multiple source elements for better compatibility */}
           {getVideoSources(src).map((source, index) => (
             <source key={index} src={source.src} type={source.type} />
           ))}
-          {/* Captions track - can be populated with actual captions if available */}
-          <track kind="captions" src="" label="Captions" default />
           <p className="text-white text-center p-4">
             Your browser does not support the video tag.
           </p>

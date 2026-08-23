@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
@@ -67,9 +67,11 @@ export function GlobalLightboxModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [image, setImage] = useState({ src: '', alt: '' });
     const [scale, setScale] = useState(1);
+    const previousFocusRef = useRef(null);
 
     useEffect(() => {
         const unsubscribe = lightboxEvents.subscribe((src, alt) => {
+            previousFocusRef.current = document.activeElement;
             setImage({ src, alt });
             setScale(1);
             setIsOpen(true);
@@ -88,6 +90,9 @@ export function GlobalLightboxModal() {
         return () => {
             window.removeEventListener('keydown', handleKey);
             document.body.style.overflow = 'unset';
+            if (!isOpen && previousFocusRef.current && typeof previousFocusRef.current.focus === 'function') {
+                previousFocusRef.current.focus();
+            }
         };
     }, [isOpen]);
 

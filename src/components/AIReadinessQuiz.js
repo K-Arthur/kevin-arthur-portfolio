@@ -256,6 +256,8 @@ export default function AIReadinessQuiz({ className = '', compact = false, noBac
   const [hasTrackedStart, setHasTrackedStart] = useState(false);
   const [activeResultsTab, setActiveResultsTab] = useState('insights');
   const quizRef = useRef(null); // Added quizRef
+  const shareModalRef = useRef(null);
+  const shareModalPreviousFocusRef = useRef(null);
 
   // Scroll to top when results are shown
   useEffect(() => {
@@ -267,6 +269,52 @@ export default function AIReadinessQuiz({ className = '', compact = false, noBac
       }, 100);
     }
   }, [showResults]);
+
+  // Share modal focus trap and Escape handler
+  useEffect(() => {
+    if (!showShareModal) return;
+
+    shareModalPreviousFocusRef.current = document.activeElement;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setShowShareModal(false);
+        return;
+      }
+      if (e.key === 'Tab' && shareModalRef.current) {
+        const focusable = shareModalRef.current.querySelectorAll(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    const timer = setTimeout(() => {
+      shareModalRef.current?.querySelector('button')?.focus();
+    }, 100);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(timer);
+      if (shareModalPreviousFocusRef.current && typeof shareModalPreviousFocusRef.current.focus === 'function') {
+        shareModalPreviousFocusRef.current.focus();
+      }
+    };
+  }, [showShareModal]);
 
   // Gamification state
   const [totalPoints, setTotalPoints] = useState(0);
@@ -585,7 +633,33 @@ export default function AIReadinessQuiz({ className = '', compact = false, noBac
                 {questions[currentQuestion].question}
               </h3>
 
-              <div className="space-y-2.5 sm:space-y-3" role="radiogroup" aria-labelledby={`question-${currentQuestion}-title`}>
+              <div
+                className="space-y-2.5 sm:space-y-3"
+                role="radiogroup"
+                aria-labelledby={`question-${currentQuestion}-title`}
+                onKeyDown={(e) => {
+                  const options = questions[currentQuestion].options;
+                  const currentIndex = options.findIndex(o => answers[currentQuestion] === o.score);
+                  const activeIndex = currentIndex >= 0 ? currentIndex : 0;
+
+                  let nextIndex = activeIndex;
+                  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    nextIndex = Math.min(activeIndex + 1, options.length - 1);
+                  } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    nextIndex = Math.max(activeIndex - 1, 0);
+                  }
+
+                  if (nextIndex !== activeIndex) {
+                    handleAnswer(options[nextIndex].score);
+                    setTimeout(() => {
+                      const radio = document.querySelector(`[data-question="${currentQuestion}"][tabindex="0"]`);
+                      radio?.focus();
+                    }, 50);
+                  }
+                }}
+              >
                 {questions[currentQuestion].options.map((option, index) => {
                   const isSelected = answers[currentQuestion] === option.score;
                   return (
@@ -859,13 +933,17 @@ export default function AIReadinessQuiz({ className = '', compact = false, noBac
             onClick={() => setShowShareModal(false)}
           >
             <motion.div
+              ref={shareModalRef}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               className="card-enhanced p-6 rounded-2xl max-w-md w-full"
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="share-modal-title"
             >
-              <h3 className="text-xl font-bold text-foreground mb-4 text-center">
+              <h3 id="share-modal-title" className="text-xl font-bold text-foreground mb-4 text-center">
                 Share Your Score
               </h3>
 
