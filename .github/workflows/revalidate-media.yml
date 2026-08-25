@@ -1,5 +1,8 @@
 name: Revalidate Media Metadata
 
+# Manual, on-demand revalidation of cached media metadata on the deployed site.
+# Triggered by a human (or another workflow) via workflow_dispatch only.
+
 on:
   workflow_dispatch:
     inputs:
@@ -8,19 +11,50 @@ on:
         required: false
         default: 'Manual trigger'
 
+# This workflow only makes an outbound HTTP request; it needs no repository
+# permissions. Least-privilege: no token scope granted.
+permissions: {}
+
+concurrency:
+  group: revalidate-media
+  cancel-in-progress: false
+
 jobs:
   revalidate:
     runs-on: ubuntu-latest
-    
+    timeout-minutes: 5
     steps:
       - name: Trigger Media Revalidation
+        # Secrets and the free-form `reason` input are passed via environment
+        # variables (never interpolated directly into the shell command) to
+        # avoid shell injection. `jq` safely serializes `reason` into the JSON
+        # body regardless of its contents.
+        env:
+          VERCEL_DOMAIN: ${{ secrets.VERCEL_DOMAIN }}
+          REVALIDATE_TOKEN: ${{ secrets.REVALIDATE_TOKEN }}
+          REASON: ${{ github.event.inputs.reason }}
         run: |
-          curl -X POST "${{ secrets.VERCEL_DOMAIN }}/api/revalidate-media" \
+          if [ -z "$VERCEL_DOMAIN" ] || [ -z "$REVALIDATE_TOKEN" ]; then
+            echo "::error::Required secrets VERCEL_DOMAIN / REVALIDATE_TOKEN are not configured for this workflow."
+            exit 1
+          fi
+
+          PAYLOAD=$(jq -n --arg reason "$REASON" '{ reason: $REASON }')
+
+          HTTP_CODE=$(curl -s -o /tmp/revalidate-response.txt -w '%{http_code}' \
+            -X POST "$VERCEL_DOMAIN/api/revalidate-media" \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.REVALIDATE_TOKEN }}" \
-            -d '{"reason": "${{ github.event.inputs.reason }}"}'
-        
-      - name: Log completion
-        run: |
+            -H "Authorization: Bearer $REVALIDATE_TOKEN" \
+            -d "$PAYLOAD")
+
+          echo "Reason: $REASON"
+          echo "HTTP status: $HTTP_CODE"
+          echo "Response body:"
+          cat /tmp/revalidate-response.txt
+
+          if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then
+            echo "::error::Revalidation request failed with HTTP $HTTP_CODE"
+            exit 1
+          fi
+
           echo "Media revalidation triggered successfully"
-          echo "Reason: ${{ github.event.inputs.reason }}" 
