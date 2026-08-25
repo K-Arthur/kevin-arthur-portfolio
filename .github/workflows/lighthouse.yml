@@ -1,41 +1,64 @@
 name: Lighthouse CI
 
+# Performance / accessibility / best-practices / SEO quality gate.
+#
+# This runs the Lighthouse CI audit against the production server and enforces a
+# curated set of assertions. It is intentionally SEPARATE from the primary
+# correctness gate (see ci.yml) so that a noisy performance "opportunity" audit
+# can never mask a real build/lint/type failure, and vice-versa.
+#
+# History: this workflow was red on every run for ~6 months. The root cause was
+# the `lighthouse:no-pwa` preset, which marks EVERY Lighthouse audit as an
+# error-level assertion. That made the pipeline fail continuously and therefore
+# uselessly. We now use an explicit, curated assertion set (see lighthouserc.js)
+# so the check is meaningful and stable.
+
 on:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-  # Allow manual triggering
   workflow_dispatch:
+
+# Read-only by default; only the optional PR-comment step needs pull-request write.
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lighthouse:
     name: Lighthouse Audit
     runs-on: ubuntu-latest
-    
+    timeout-minutes: 20
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Build project
         run: npm run build
-        
+
       - name: Run Lighthouse CI
-        run: |
-          npm install -g @lhci/cli@0.15.x
-          lhci autorun
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-          
+        # `@lhci/cli` is a devDependency, so the local binary is on PATH via npx
+        # (no global install, no network round-trip, no version drift).
+        run: npx --no-install lhci autorun
+
+      - name: Write Lighthouse summary
+        if: always()
+        run: node scripts/lhci-summary.js >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload Lighthouse reports
         uses: actions/upload-artifact@v4
         if: always()
@@ -45,75 +68,65 @@ jobs:
             .lighthouseci/
             !.lighthouseci/*.db
           retention-days: 30
-          
+
       - name: Comment PR with results
+        # Only comment on PRs from this repository (fork PRs have no write
+        # permission to the base repo, so the call would fail with 403).
+        # continue-on-error keeps a comment failure from failing the audit.
         uses: actions/github-script@v7
-        if: github.event_name == 'pull_request' && always()
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          always()
+        continue-on-error: true
         with:
           script: |
             const fs = require('fs');
             const path = require('path');
-            
-            // Find the Lighthouse results
+
             const lhciDir = '.lighthouseci';
             if (!fs.existsSync(lhciDir)) {
               console.log('No Lighthouse results found');
               return;
             }
-            
-            const files = fs.readdirSync(lhciDir);
-            const jsonFiles = files.filter(f => f.endsWith('.json') && !f.includes('assertion'));
-            
-            if (jsonFiles.length === 0) {
+
+            const reportFiles = fs
+              .readdirSync(lhciDir)
+              .filter((f) => f.endsWith('.json') && f !== 'assertion-results.json')
+              .map((f) => path.join(lhciDir, f))
+              .map((p) => {
+                try {
+                  return JSON.parse(fs.readFileSync(p, 'utf8'));
+                } catch {
+                  return null;
+                }
+              })
+              .filter((r) => r && r.categories && r.finalUrl);
+
+            if (reportFiles.length === 0) {
               console.log('No Lighthouse JSON reports found');
               return;
             }
-            
-            // Read the first report
-            const reportPath = path.join(lhciDir, jsonFiles[0]);
-            const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-            
-            const { categories, finalUrl } = report;
-            
-            // Format scores
-            const formatScore = (score) => {
-              const percentage = Math.round(score * 100);
-              let emoji = '🟢';
-              if (percentage < 90) emoji = '🟡';
-              if (percentage < 50) emoji = '🔴';
-              return `${emoji} ${percentage}`;
-            };
-            
-            const body = `## ⚡ Lighthouse CI Results
-            
-            **URL:** ${finalUrl}
-            
-            | Category | Score |
-            |----------|-------|
-            | Performance | ${formatScore(categories.performance?.score)} |
-            | Accessibility | ${formatScore(categories.accessibility?.score)} |
-            | Best Practices | ${formatScore(categories['best-practices']?.score)} |
-            | SEO | ${formatScore(categories.seo?.score)} |
-            | PWA | ${formatScore(categories.pwa?.score)} |
-            
-            <details>
-            <summary>View detailed metrics</summary>
-            
-            | Metric | Value |
-            |--------|-------|
-            | First Contentful Paint | ${report.audits['first-contentful-paint']?.displayValue || 'N/A'} |
-            | Largest Contentful Paint | ${report.audits['largest-contentful-paint']?.displayValue || 'N/A'} |
-            | Total Blocking Time | ${report.audits['total-blocking-time']?.displayValue || 'N/A'} |
-            | Cumulative Layout Shift | ${report.audits['cumulative-layout-shift']?.displayValue || 'N/A'} |
-            | Speed Index | ${report.audits['speed-index']?.displayValue || 'N/A'} |
-            
-            </details>
-            
-            *Report generated by [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci)*`;
-            
-            github.rest.issues.createComment({
+
+            const scorePct = (s) => (typeof s === 'number' ? Math.round(s * 100) : 'n/a');
+            const emoji = (p) => (p === 'n/a' ? '⚪' : p >= 90 ? '🟢' : p >= 50 ? '🟡' : '🔴');
+
+            let body = '## ⚡ Lighthouse CI Results\n\n';
+            for (const report of reportFiles) {
+              body += `**${report.finalUrl}**\n\n`;
+              body += '| Category | Score |\n|----------|-------|\n';
+              for (const key of Object.keys(report.categories)) {
+                const c = report.categories[key];
+                const pct = scorePct(c.score);
+                body += `| ${c.title} | ${emoji(pct)} ${pct} |\n`;
+              }
+              body += '\n';
+            }
+            body += '\n*Report generated by [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci). Full reports are attached as a workflow artifact.*';
+
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: body
+              body,
             });
