@@ -45,7 +45,7 @@ export default function TestWall() {
     <div ref={ref} className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
       <div className="mb-6 flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h4 className="font-bold text-lg">The test wall</h4>
+          <h3 className="font-bold text-lg">The test wall</h3>
           <p className="text-sm text-muted-foreground">What turns a silent dead wire into a red build.</p>
         </div>
         <div className="text-right">
@@ -57,11 +57,10 @@ export default function TestWall() {
       {/* stacked layer bar */}
       <div className="flex h-4 w-full rounded-full overflow-hidden mb-3" role="group" aria-label="Test layers by share">
         {LAYERS.map((l, i) => (
-          <motion.button key={l.key} onClick={() => setActive(l.key)}
+          <motion.div key={l.key}
             initial={{ width: 0 }} animate={inView ? { width: `${l.weight}%` } : {}}
             transition={reduce ? { duration: 0 } : { delay: 0.1 * i, type: 'spring', stiffness: 90, damping: 18 }}
-            aria-label={l.label}
-            className={`h-full border-r border-card last:border-r-0 transition-opacity ${active === l.key ? 'opacity-100' : 'opacity-50 hover:opacity-80'} ${
+            className={`h-full border-r border-card last:border-r-0 transition-opacity ${active === l.key ? 'opacity-100' : 'opacity-50'} ${
               ['bg-primary','bg-emerald-500','bg-amber-500','bg-sky-500','bg-violet-500'][i]}`} />
         ))}
       </div>
@@ -70,7 +69,7 @@ export default function TestWall() {
       <div className="flex flex-wrap gap-2 mb-4">
         {LAYERS.map((l) => (
           <button key={l.key} onClick={() => setActive(l.key)}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-colors focus:outline-none focus:ring-2 focus:ring-ring ${
+            className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors focus:outline-none focus:ring-2 focus:ring-ring min-h-[24px] ${
               active === l.key ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted-foreground hover:bg-secondary'}`}>
             {l.label}
           </button>

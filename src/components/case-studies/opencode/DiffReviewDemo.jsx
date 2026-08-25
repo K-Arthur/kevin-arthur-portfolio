@@ -36,8 +36,8 @@ export default function DiffReviewDemo() {
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
                   className={`whitespace-pre px-2 rounded ${
-                    line.type === 'add' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                    : line.type === 'del' ? 'bg-red-500/10 text-red-600 dark:text-red-400'
+                    line.type === 'add' ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
+                    : line.type === 'del' ? 'bg-red-500/10 text-red-700 dark:text-red-400'
                     : 'text-muted-foreground'}`}>
                   <span className="select-none opacity-50 mr-2">{line.type === 'add' ? '+' : line.type === 'del' ? '-' : ' '}</span>
                   {line.text}
@@ -65,7 +65,7 @@ export default function DiffReviewDemo() {
         )}
         {state === 'applied' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3">
-            <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">✓ Applied via WorkspaceEdit · checkpoint saved</span>
+            <span className="text-sm font-medium text-emerald-700 dark:text-emerald-400">✓ Applied via WorkspaceEdit · checkpoint saved</span>
             <button onClick={reset}
               className="ml-auto px-3 py-1.5 rounded-lg border border-border text-sm font-medium hover:bg-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-ring">
               ↩ Roll back

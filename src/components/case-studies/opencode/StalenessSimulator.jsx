@@ -29,7 +29,7 @@ function Bar({ title, pct, tokens, tone, note }) {
       </div>
       <div className="mt-2 flex items-center justify-between">
         <span className="text-2xl font-bold tabular-nums">{pct}%</span>
-        <span className={`text-[11px] font-medium ${tone === 'bad' ? 'text-red-500' : 'text-emerald-500'}`}>{note}</span>
+        <span className={`text-[11px] font-medium ${tone === 'bad' ? 'text-red-700 dark:text-red-400' : 'text-emerald-700 dark:text-emerald-400'}`}>{note}</span>
       </div>
     </div>
   );
@@ -68,7 +68,7 @@ export default function StalenessSimulator() {
   return (
     <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
       <div className="mb-6">
-        <h4 className="font-bold text-lg">Silent Staleness, live</h4>
+        <h3 className="font-bold text-lg">Silent Staleness, live</h3>
         <p className="text-sm text-muted-foreground">Send turns and reload the window. Watch the cached readout drift from the truth — without ever throwing an error.</p>
       </div>
 
@@ -81,7 +81,7 @@ export default function StalenessSimulator() {
       {drift > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          className="mt-4 text-sm rounded-lg border border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 px-4 py-2 font-medium"
+          className="mt-4 text-sm rounded-lg border border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-400 px-4 py-2 font-medium"
         >
           The cached context bar is telling the user {cachedPct}% when the real fill is {realPct}%. No stack trace. Just a quiet lie.
         </motion.div>

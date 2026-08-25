@@ -127,7 +127,7 @@ export default function ColorPaletteExplorer() {
                                     style={{ backgroundColor: activeColor.hex }}
                                 />
                                 <div>
-                                    <h4 className="font-bold text-lg text-foreground">{activeColor.name}</h4>
+                                    <h3 className="font-bold text-lg text-foreground">{activeColor.name}</h3>
                                     <p className="text-xs font-mono text-muted-foreground uppercase">{activeColor.hex}</p>
                                 </div>
                             </div>

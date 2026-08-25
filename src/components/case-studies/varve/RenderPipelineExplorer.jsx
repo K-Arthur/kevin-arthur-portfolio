@@ -115,7 +115,7 @@ export default function RenderPipelineExplorer() {
     <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
       <div className="mb-6 flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h4 className="font-bold text-lg">The IR-Replay Pipeline</h4>
+          <h3 className="font-bold text-lg">The IR-Replay Pipeline</h3>
           <p className="text-sm text-muted-foreground">Tap a stage to see what it owns. Then send a draw command across the wire.</p>
         </div>
         <button

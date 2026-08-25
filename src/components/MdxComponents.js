@@ -1,38 +1,44 @@
 // MdxComponents - Server-compatible component mappings for MDX content
 // Note: The 'img' component is a server component that renders as the ClickableImage client component
-import Image from 'next/image';
-import ResultsHighlight from './ResultsHighlight';
-import ReadabilityChart from './case-studies/minohealth/ReadabilityChart';
-import PaperToggle from './case-studies/minohealth/PaperToggle';
-import ImageComparison from './case-studies/minohealth/ImageComparison';
-import AccuracyGraph from './case-studies/moremi/AccuracyGraph';
-import ConfidenceSimulator from './case-studies/moremi/ConfidenceSimulator';
-import HeatmapToggle from './case-studies/moremi/HeatmapToggle';
-import EfficiencyCalculator from './case-studies/moremi-collaborate/EfficiencyCalculator';
-import WorkflowDemo from './case-studies/moremi-collaborate/WorkflowDemo';
-import SmartComments from './case-studies/moremi-collaborate/SmartComments';
-import BounceRateCounter from './case-studies/snackbox/BounceRateCounter';
-import CandyFace from './case-studies/snackbox/CandyFace';
-import Interactive404Game from './case-studies/snackbox/Interactive404Game';
-import GlitchGallery from './case-studies/game-ui/GlitchGallery';
-import ColorPaletteExplorer from './case-studies/game-ui/ColorPaletteExplorer';
-import DesignPrincipleCards from './case-studies/game-ui/DesignPrincipleCards';
-import ComparisonSlider from './case-studies/game-ui/ComparisonSlider';
-import CaseStudySummary from './case-studies/CaseStudySummary';
-import PrincipleCallout from './case-studies/PrincipleCallout';
-import StalenessSimulator from './case-studies/opencode/StalenessSimulator';
-import ModelSwitcher from './case-studies/opencode/ModelSwitcher';
-import DiffReviewDemo from './case-studies/opencode/DiffReviewDemo';
-import TestWall from './case-studies/opencode/TestWall';
-import ArchitectureExplorer from './case-studies/opencode/ArchitectureExplorer';
-import RenderPipelineExplorer from './case-studies/varve/RenderPipelineExplorer';
-import DocumentModelExplorer from './case-studies/varve/DocumentModelExplorer';
-import DisciplineSwitcher from './case-studies/varve/DisciplineSwitcher';
-import MonorepoStats from './case-studies/varve/MonorepoStats';
-import ProjectTimeline from './case-studies/varve/ProjectTimeline';
-import FailureExplorer from './case-studies/varve/FailureExplorer';
-import DecisionStory from './case-studies/DecisionStory';
+//
+// Heavy interactive components (three.js, charts, games, framer-motion demos) are
+// loaded lazily via MdxLazy so their JavaScript is code-split and only mounted
+// when scrolled near the viewport. This keeps them off the initial critical path
+// and is the biggest win for LCP / TBT / TTI on the case-study pages.
 import { ClickableImage } from './ui/ImageLightbox';
+import {
+  ResultsHighlight,
+  ReadabilityChart,
+  PaperToggle,
+  ImageComparison,
+  AccuracyGraph,
+  ConfidenceSimulator,
+  HeatmapToggle,
+  EfficiencyCalculator,
+  WorkflowDemo,
+  SmartComments,
+  BounceRateCounter,
+  CandyFace,
+  Interactive404Game,
+  GlitchGallery,
+  ColorPaletteExplorer,
+  DesignPrincipleCards,
+  ComparisonSlider,
+  CaseStudySummary,
+  PrincipleCallout,
+  StalenessSimulator,
+  ModelSwitcher,
+  DiffReviewDemo,
+  TestWall,
+  ArchitectureExplorer,
+  RenderPipelineExplorer,
+  DocumentModelExplorer,
+  DisciplineSwitcher,
+  MonorepoStats,
+  ProjectTimeline,
+  FailureExplorer,
+  DecisionStory,
+} from './MdxLazy';
 
 // Custom component to replace the default <img> tag in MDX content
 // Using the ClickableImage client component for fullscreen capability

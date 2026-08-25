@@ -85,7 +85,7 @@ export default function ProjectTimeline() {
 
   return (
     <section aria-label="Project evolution timeline" className="my-12">
-      <h3 className="text-xl font-bold mb-6 text-foreground">Project Evolution</h3>
+      <h2 className="text-xl font-bold mb-6 text-foreground">Project Evolution</h2>
       
       {/* Timeline */}
       <div className="relative">

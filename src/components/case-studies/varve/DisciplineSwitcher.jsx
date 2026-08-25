@@ -97,7 +97,7 @@ export default function DisciplineSwitcher() {
   return (
     <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
       <div className="mb-6">
-        <h4 className="font-bold text-lg">Six Disciplines, One Document</h4>
+        <h3 className="font-bold text-lg">Six Disciplines, One Document</h3>
         <p className="text-sm text-muted-foreground">Switch between modes to see how the same scene graph serves each workflow.</p>
       </div>
 

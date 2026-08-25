@@ -16,8 +16,13 @@ const nextConfig = {
 
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   images: {
-    // Using unoptimized because Cloudinary already handles image sizing, formatting, and quality (f_auto,q_auto)
-    unoptimized: true,
+    // Custom loader builds responsive, modern-format Cloudinary URLs
+    // (f_auto,q_auto,c_limit,w_<width>) for every <Image>. This keeps
+    // Cloudinary as the source of truth while letting Next.js auto-generate a
+    // device-width srcSet, fixing the "modern-image-formats" and
+    // "uses-responsive-images" opportunities site-wide.
+    loader: 'custom',
+    loaderFile: './src/lib/imageLoader.js',
     remotePatterns: [
       {
         protocol: 'https',

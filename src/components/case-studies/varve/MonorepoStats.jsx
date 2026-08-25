@@ -41,7 +41,7 @@ export default function MonorepoStats() {
   return (
     <div ref={ref} className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
       <div className="mb-6">
-        <h4 className="font-bold text-lg">Monorepo Scale</h4>
+        <h3 className="font-bold text-lg">Monorepo Scale</h3>
         <p className="text-sm text-muted-foreground">33 packages across two languages, one workspace. Tap a stat to see what it covers.</p>
       </div>
 

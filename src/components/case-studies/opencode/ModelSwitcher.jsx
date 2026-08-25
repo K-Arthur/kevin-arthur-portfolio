@@ -37,7 +37,7 @@ export default function ModelSwitcher() {
   return (
     <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
       <div className="mb-6">
-        <h4 className="font-bold text-lg">Per-tab model selection</h4>
+        <h3 className="font-bold text-lg">Per-tab model selection</h3>
         <p className="text-sm text-muted-foreground">Each tab is an independent worker. Switch one tab&apos;s model — the others don&apos;t budge — then reload to see the choice persist.</p>
       </div>
 
@@ -103,7 +103,7 @@ export default function ModelSwitcher() {
           </button>
           {reloaded && (
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              className="mt-2 text-[11px] text-emerald-500 font-medium">
+              className="mt-2 text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
               ✓ All three model choices restored from globalState — nothing reverted to a default.
             </motion.p>
           )}

@@ -37,7 +37,7 @@ export default function ConfidenceSimulator() {
     return (
         <div className="w-full max-w-xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-2xl">
             <div className="text-center mb-8">
-                <h4 className="font-bold text-lg">Designing for Trust</h4>
+                <h3 className="font-bold text-lg">Designing for Trust</h3>
                 <p className="text-sm text-muted-foreground">Use the slider to see how the UI communicates uncertainty.</p>
             </div>
 
