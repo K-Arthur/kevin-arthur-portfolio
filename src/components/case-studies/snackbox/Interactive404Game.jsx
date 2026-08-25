@@ -9,7 +9,9 @@ export default function Interactive404Game() {
         const id = Date.now() + Math.random();
         const type = Math.floor(Math.random() * 4);
         const x = Math.random() * 80 + 10;
-        setCandies(prev => [...prev, { id, type, x }]);
+        const rotate = Math.random() > 0.5 ? 360 : -360;
+        const xOffset = (Math.random() - 0.5) * 50;
+        setCandies(prev => [...prev, { id, type, x, rotate, xOffset }]);
 
         setTimeout(() => {
             setCandies(prev => prev.filter(c => c.id !== id));
@@ -46,8 +48,8 @@ export default function Interactive404Game() {
                             initial={{ y: -100, x: 0, rotate: 0 }}
                             animate={{
                                 y: 400,
-                                rotate: Math.random() > 0.5 ? 360 : -360,
-                                x: (Math.random() - 0.5) * 50
+                                rotate: candy.rotate,
+                                x: candy.xOffset
                             }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 1.5, type: "spring", bounce: 0.25 }}

@@ -9,6 +9,7 @@ import {
   useAnimationFrame
 } from "framer-motion";
 import { isIOS, prefersReducedMotion, isMobile } from "@/lib/ios-utils";
+import { useMounted, useClientValue } from "@/lib/use-mounted";
 
 interface InfiniteGridBackgroundProps {
   className?: string;
@@ -34,16 +35,10 @@ export const InfiniteGridBackground = ({
   fullPage = false,
 }: InfiniteGridBackgroundProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMobileDevice = useClientValue(() => isMobile() || isIOS(), false);
+  const reducedMotion = useClientValue(() => prefersReducedMotion(), false);
+  const isMounted = useMounted();
   const [isVisible, setIsVisible] = useState(true); // IntersectionObserver state
-
-  useEffect(() => {
-    setIsMounted(true);
-    setIsMobileDevice(isMobile() || isIOS());
-    setReducedMotion(prefersReducedMotion());
-  }, []);
 
   // IntersectionObserver to pause animation when off-screen
   useEffect(() => {

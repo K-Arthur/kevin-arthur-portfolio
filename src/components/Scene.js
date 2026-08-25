@@ -215,12 +215,13 @@ const GlassSphere = ({ color, theme, quality, isActive }) => {
 // Orbiting spheres with iridescent material
 const OrbitingSphere = ({ offset, color, speed, size = 0.3, theme, quality, isActive }) => {
   const sphereRef = useRef();
-  const timeOffset = useRef(Math.random() * Math.PI * 2);
+  const timeOffset = useRef(0);
   const initialPosition = useRef(new Vector3());
   const lastUpdate = useRef(0);
 
   // Initialize position once on mount
   useEffect(() => {
+    timeOffset.current = Math.random() * Math.PI * 2;
     const angle = Math.random() * Math.PI * 2;
     initialPosition.current.set(
       Math.cos(angle) * offset,

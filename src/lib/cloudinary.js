@@ -220,7 +220,7 @@ export function applyCloudinaryPreset(url, presetName = 'featured', overrides = 
   };
 }
 
-export default {
+const cloudinary = {
   optimizeCloudinaryUrl,
   generateCloudinarySrcSet,
   parseCloudinaryUrl,
@@ -228,3 +228,5 @@ export default {
   DEFAULT_SIZES,
   CLOUDINARY_PRESETS,
 };
+
+export default cloudinary;

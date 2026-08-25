@@ -23,6 +23,56 @@ import LeadMagnetForm from './LeadMagnetForm';
  * popularity metrics, and waitlist functionality
  */
 
+const TYPE_ICONS = {
+  checklist: FaClipboardCheck,
+  quiz: FaBrain,
+  pdf: FaFilePdf,
+};
+
+function getTypeIcon(type) {
+  return TYPE_ICONS[type] || FaFilePdf;
+}
+
+function getTypeColor(type) {
+  switch (type) {
+    case 'checklist':
+      return 'text-primary bg-primary/10 border-primary/20';
+    case 'quiz':
+      return 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20';
+    case 'pdf':
+      return 'text-rose-500 bg-rose-500/10 border-rose-500/20';
+    default:
+      return 'text-muted-foreground bg-muted border-border';
+  }
+}
+
+function StatusBadge({ status }) {
+  switch (status) {
+    case 'available':
+      return (
+        <span className="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20 shadow-sm">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          Available
+        </span>
+      );
+    case 'coming-soon':
+      return (
+        <span className="inline-flex items-center gap-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-amber-500/20 shadow-sm">
+          <FaClock className="w-2.5 h-2.5" />
+          Waitlist
+        </span>
+      );
+    case 'concept':
+      return (
+        <span className="inline-flex items-center gap-1.5 bg-muted text-muted-foreground px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-border shadow-sm">
+          Concept
+        </span>
+      );
+    default:
+      return null;
+  }
+}
+
 function ResourceCard({ resource, className = '' }) {
   const [showForm, setShowForm] = useState(false);
 
@@ -39,59 +89,6 @@ function ResourceCard({ resource, className = '' }) {
     featured,
     link,
   } = resource;
-
-  const getTypeIcon = (type) => {
-    switch (type) {
-      case 'checklist':
-        return FaClipboardCheck;
-      case 'quiz':
-        return FaBrain;
-      case 'pdf':
-        return FaFilePdf;
-      default:
-        return FaFilePdf;
-    }
-  };
-
-  const getTypeColor = (type) => {
-    switch (type) {
-      case 'checklist':
-        return 'text-primary bg-primary/10 border-primary/20';
-      case 'quiz':
-        return 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20';
-      case 'pdf':
-        return 'text-rose-500 bg-rose-500/10 border-rose-500/20';
-      default:
-        return 'text-muted-foreground bg-muted border-border';
-    }
-  };
-
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'available':
-        return (
-          <span className="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20 shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Available
-          </span>
-        );
-      case 'coming-soon':
-        return (
-          <span className="inline-flex items-center gap-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-amber-500/20 shadow-sm">
-            <FaClock className="w-2.5 h-2.5" />
-            Waitlist
-          </span>
-        );
-      case 'concept':
-        return (
-          <span className="inline-flex items-center gap-1.5 bg-muted text-muted-foreground px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-border shadow-sm">
-            Concept
-          </span>
-        );
-      default:
-        return null;
-    }
-  };
 
   const TypeIcon = getTypeIcon(type);
   const typeColor = getTypeColor(type);
@@ -122,7 +119,7 @@ function ResourceCard({ resource, className = '' }) {
 
       {/* Status Badge */}
       <div className="mb-4">
-        {getStatusBadge(status)}
+        <StatusBadge status={status} />
       </div>
 
       {/* Content */}

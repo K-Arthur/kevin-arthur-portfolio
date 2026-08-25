@@ -4,6 +4,9 @@ import { useRef, useState, useCallback } from 'react';
 import { motion, useSpring, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 
+// Create the motion-enabled Link once at module scope instead of during render.
+const MotionLink = motion.create(Link);
+
 /**
  * MagneticButton - A button component with magnetic hover behavior
  * 
@@ -123,9 +126,7 @@ export default function MagneticButton({
             );
         }
 
-        // Create a motion component from Next.js Link using motion.create (React 19 compatible)
-        const MotionLink = motion.create(Link);
-        
+        // Render as motion-enabled Link (created once at module scope)
         return (
             <MotionLink
                 href={href}

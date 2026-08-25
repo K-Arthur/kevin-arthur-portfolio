@@ -27,9 +27,13 @@ export function TextScramble({
   onScrambleComplete,
   ...props
 }: TextScrambleProps) {
-  const MotionComponent = motion.create(
-    Component as keyof JSX.IntrinsicElements
-  );
+  // Use the stable, pre-created motion element for the requested tag instead of
+  // creating a new component during render (avoids react-hooks/static-components).
+  const MotionComponent = (
+    typeof Component === 'string' && Component in motion
+      ? motion[Component as keyof typeof motion]
+      : motion.span
+  ) as typeof motion.span;
   const [displayText, setDisplayText] = useState('');
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const animatingRef = useRef(false);

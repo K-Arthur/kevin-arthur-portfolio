@@ -220,7 +220,7 @@ export default async function CaseStudyPage({ params }) {
 
           {/* Back to Case Studies Link */}
           <div className="mt-20 pt-10 border-t border-border/50 text-center">
-            <a
+            <Link
               href="/case-studies"
               className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
@@ -239,7 +239,7 @@ export default async function CaseStudyPage({ params }) {
                 />
               </svg>
               Back To Case Studies
-            </a>
+            </Link>
           </div>
         </main>
       </div>

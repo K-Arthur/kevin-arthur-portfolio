@@ -1,15 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTheme } from 'next-themes';
 import { motion } from 'framer-motion';
 import { FaSun, FaMoon } from '@/lib/icons';
+import { useMounted } from '@/lib/use-mounted';
 
 const ThemeSwitcher = ({ className = '' }) => {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const { theme, setTheme, resolvedTheme } = useTheme();
-
-  useEffect(() => setMounted(true), []);
 
   if (!mounted) return null;
 

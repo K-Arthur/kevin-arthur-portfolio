@@ -1,20 +1,15 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import { isIOS, isMobile } from '@/lib/ios-utils';
+import { useMounted, useClientValue } from '@/lib/use-mounted';
 
 export default function Parallax({ children, offset = 50, className = '' }) {
   const ref = useRef(null);
   const prefersReducedMotion = useReducedMotion();
-  const [isMounted, setIsMounted] = useState(false);
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
-
-  // Only enable animations after mount to prevent hydration mismatch
-  useEffect(() => {
-    setIsMounted(true);
-    setIsMobileDevice(isMobile() || isIOS());
-  }, []);
+  const isMounted = useMounted();
+  const isMobileDevice = useClientValue(() => isMobile() || isIOS(), false);
 
   const { scrollYProgress } = useScroll({
     target: ref,

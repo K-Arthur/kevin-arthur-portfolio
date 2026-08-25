@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { isIOS, isMobile } from '@/lib/ios-utils';
+import { useClientValue } from '@/lib/use-mounted';
 
 /**
  * ReadingProgress - A sleek progress indicator for long-form content
@@ -20,12 +21,8 @@ export default function ReadingProgress({
     className = ""
 }) {
     const [progress, setProgress] = useState(0);
-    const [isMobileDevice, setIsMobileDevice] = useState(false);
+    const isMobileDevice = useClientValue(() => isMobile() || isIOS(), false);
     const shouldReduceMotion = useReducedMotion();
-    
-    useEffect(() => {
-        setIsMobileDevice(isMobile() || isIOS());
-    }, []);
 
     useEffect(() => {
         let ticking = false;

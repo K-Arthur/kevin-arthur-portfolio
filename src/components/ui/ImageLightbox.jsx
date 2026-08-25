@@ -48,7 +48,7 @@ export function ClickableImage({ src, alt, width, height, className, sizes, qual
             {isCloudinary ? (
                 <CloudinaryImage {...imageProps} preset="gallery" />
             ) : (
-                <Image {...imageProps} quality={quality || 90} />
+                <Image {...imageProps} alt={alt || ''} quality={quality || 90} />
             )}
             {/* Zoom indicator */}
             <motion.span

@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { Suspense, useState, useEffect, useRef } from 'react';
+import { useMounted } from '@/lib/use-mounted';
 import { FaArrowRight, FaCalendarAlt } from 'react-icons/fa';
 import MagneticButton from '@/components/MagneticButton';
 import Footer from '@/components/Footer';
@@ -29,14 +30,12 @@ function SceneLoadingFallback() {
 
 
 export default function HomeClient({ posts }) {
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useMounted();
   const [shouldLoadScene, setShouldLoadScene] = useState(false);
   const [shouldLoadShader, setShouldLoadShader] = useState(false);
   const ctaSectionRef = useRef(null);
 
   useEffect(() => {
-    setIsClient(true);
-
     // Defer heavy 3D loading until browser is idle for better performance
     let loaded = false;
     const loadScene = () => {

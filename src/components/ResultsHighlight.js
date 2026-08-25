@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useMounted } from '@/lib/use-mounted';
 
 /**
  * AnimatedValue - Inline animated counter for result values
@@ -69,14 +70,9 @@ function AnimatedValue({ value, isInView }) {
  * @param {Array} props.results - Array of { value, label, context? }
  */
 export default function ResultsHighlight({ results }) {
-    const [isMounted, setIsMounted] = useState(false);
+    const isMounted = useMounted();
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-    // Only enable animations after mount to prevent hydration mismatch
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     if (!results || results.length === 0) return null;
 
