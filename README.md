@@ -127,6 +127,25 @@ You can change the object's color, distortion, speed, and other properties withi
 
 ---
 
+## 🔧 CI/CD & Local Development
+
+This project is validated by GitHub Actions. See **[`CI.md`](./CI.md)** for the full
+overview, how to reproduce CI locally (CachyOS/Arch), how to debug failing runs, and
+the list of required secrets.
+
+Quick local parity check (matches the `CI` workflow):
+
+```bash
+nvm install && nvm use   # reads .nvmrc (Node 22)
+npm ci
+npm run ci:local         # lint + type-check + build
+```
+
+> The Lighthouse quality gate runs separately and is intentionally non-blocking;
+> it is a regression signal, not an absolute grade (CI runs against a localhost server).
+
+---
+
 ## ⚡ Performance Optimizations
 
 This portfolio is optimized for fast loading and smooth interactions across all devices.
