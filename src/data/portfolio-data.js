@@ -1,12 +1,12 @@
 import { FaPencilRuler, FaUsers, FaVial, FaFigma, FaCode, FaVideo, FaSyncAlt, FaDatabase, FaBrain, FaPaintBrush, FaBullhorn } from 'react-icons/fa';
-import { SiAdobecreativecloud, SiPhp } from 'react-icons/si';
-import { BsDiagram3, BsWindow, BsGit } from 'react-icons/bs';
+import { SiPhp } from 'react-icons/si';
+import { BsDiagram3, BsWindow, BsGit, BsPalette2 } from 'react-icons/bs';
 
 export const personalInfo = {
   name: 'Kevin Arthur',
   location: 'Vancouver, Canada',
   email: 'hello@kevinarthur.design',
-  phone: '+1 (236) 833-7610',
+  phone: '+1 (672) 380-2593',
   summary: "Product Designer with a foundation in Computer Science and experience shipping complex products across AI, healthcare, and fintech. I've led design for platforms serving 500+ facilities, built scalable design systems, and created interfaces that balance technical constraints with user needs. My work bridges design and engineering—translating complex requirements into intuitive experiences.",
   heroTitle1: 'Product Designer',
   heroTitle2: '',
@@ -84,7 +84,7 @@ export const skills = {
   ],
   'Technical Skills': [
     { name: 'Figma', icon: <FaFigma /> },
-    { name: 'Adobe Suite', icon: <SiAdobecreativecloud /> },
+    { name: 'Adobe Suite', icon: <BsPalette2 /> },
     { name: 'HTML/CSS/JS', icon: <FaCode /> },
     { name: 'PHP', icon: <SiPhp /> },
     { name: 'Database Management', icon: <FaDatabase /> },
@@ -108,12 +108,6 @@ export const education = [
       'Honours: Second Class Upper',
       'Capstone Project: Diabetic Retinopathy Detection Using Deep Learning',
     ],
-  },
-  {
-    degree: 'High School Diploma',
-    institution: 'St. Augustine\'s College, Cape Coast, Ghana',
-    period: 'Graduated June 2019',
-    details: ['Key Subjects: Math (A1), Physics (A1), Elective Math (B2), Science (B2)'],
   },
 ];
 
@@ -172,32 +166,7 @@ export const expertiseAreas = [
 
 export const designPhilosophy = "I believe great design happens when strategy meets creativity. Every project I take on is an opportunity to solve real problems and create meaningful impact through thoughtful, user-centered design. For AI products, that means designing for uncertainty—making confidence levels visible, enabling human override, and keeping the human in the loop.";
 
-export const testimonials = [
-  {
-    name: 'Sarah Chen',
-    role: 'Product Design Lead',
-    company: 'MedFlow Health',
-    quote: 'This checklist saved our team weeks of back-and-forth with developers. The handoff is now seamless.',
-    initials: 'SC',
-    rating: 5,
-  },
-  {
-    name: 'Marcus Johnson',
-    role: 'Senior Frontend Developer',
-    company: 'PayStream',
-    quote: 'Finally, a design system that speaks my language. The semantic tokens and state management rules are exactly what we needed.',
-    initials: 'MJ',
-    rating: 5,
-  },
-  {
-    name: 'Emily Rodriguez',
-    role: 'UX Manager',
-    company: 'CloudSync SaaS',
-    quote: 'We implemented this checklist across 3 product teams. Developer questions dropped by 80% in first month.',
-    initials: 'ER',
-    rating: 5,
-  },
-];
+export const testimonials = [];
 
 export const projects = {
   behance: {

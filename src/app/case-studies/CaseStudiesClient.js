@@ -48,16 +48,16 @@ export default function CaseStudiesClient({ posts }) {
             {/* Quick Stats - Reflecting current scale achieved */}
             <div className="grid grid-cols-3 gap-2 sm:gap-6 md:gap-10 mt-6 sm:mt-8 max-w-lg sm:max-w-none mx-auto px-4 sm:px-0 animate-fade-in-up animation-delay-800">
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">50+</div>
-                <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider mt-1">Countries Reached</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">97%</div>
+                <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider mt-1">Diagnostic Accuracy</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">$2.9M</div>
                 <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider mt-1">Platform Revenue</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">40%</div>
-                <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider mt-1">Workflow Efficiency</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">500+</div>
+                <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider mt-1">Facilities Served</div>
               </div>
             </div>
           </div>

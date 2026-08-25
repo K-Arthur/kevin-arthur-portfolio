@@ -5,10 +5,10 @@ export const dynamic = 'force-static';
 
 export const metadata = {
   title: 'Kevin Arthur | Product Designer',
-  description: 'Product Designer specializing in complex systems—AI interfaces, enterprise tools, and design systems. Recent work includes healthcare platforms and fintech products.',
+  description: 'Product Designer specializing in AI interfaces, healthcare UX, and complex enterprise systems. Case studies with measurable outcomes.',
   openGraph: {
     title: 'Kevin Arthur | Product Designer',
-    description: 'Product Designer specializing in complex systems—AI interfaces, enterprise tools, and design systems. Recent work includes healthcare platforms and fintech products.',
+    description: 'Product Designer specializing in AI interfaces, healthcare UX, and complex enterprise systems.',
   },
 };
 

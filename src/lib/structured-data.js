@@ -129,8 +129,8 @@ export const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${BASE_URL}/#website`,
-    "name": "Kevin Arthur Design Portfolio",
-    "description": "Product Designer in Vancouver specializing in AI interface design and complex enterprise systems",
+    "name": "Kevin Arthur Design",
+    "description": "Product Designer in Vancouver specializing in AI interface design, healthcare UX, and complex enterprise systems",
     "url": BASE_URL,
     "inLanguage": "en-US",
     "author": {
@@ -142,13 +142,5 @@ export const websiteSchema = {
         "@type": "Person",
         "@id": `${BASE_URL}/#person`,
         "name": "Kevin Arthur"
-    },
-    "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": `${BASE_URL}/case-studies?q={search_term_string}`
-        },
-        "query-input": "required name=search_term_string"
     }
 };

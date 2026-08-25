@@ -104,7 +104,7 @@ export default function DocumentModelExplorer() {
   return (
     <div className="w-full max-w-3xl mx-auto my-12 p-6 md:p-8 rounded-2xl border border-border bg-card shadow-xl">
       <div className="mb-6">
-        <h4 className="font-bold text-lg">One Scene Graph, Five Node Types</h4>
+        <h3 className="font-bold text-lg">One Scene Graph, Five Node Types</h3>
         <p className="text-sm text-muted-foreground">Every node shares a common base. Tap a type to see what it adds.</p>
       </div>
 

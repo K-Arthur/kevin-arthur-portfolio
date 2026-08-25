@@ -66,13 +66,13 @@ export default function LabPage() {
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
                 <span className="block">R&D Lab</span>
                 <span className="block text-2xl md:text-4xl mt-4 font-bold tracking-tight text-muted-foreground">
-                  Technical experiments & design system architecture
+                  Prototypes, patterns, and explorations
                 </span>
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-8">
-                Prototypes, patterns, and component explorations from production work.
-                Each experiment includes problem context, implementation approach, and lessons learned.
+                Experiments from production work—design system architecture, AI interface patterns, and component engineering.
+                Each includes problem context, implementation approach, and lessons learned.
               </p>
 
               {/* Quick Actions */}
@@ -171,7 +171,7 @@ export default function LabPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 btn-primary-enhanced btn-glow font-semibold rounded-xl text-base sm:text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 sm:hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <span>Book a Quick Chat</span>
+                <span>Book a free 15-min call</span>
                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg"><path d="M432 48h-48v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16V48H176v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16V48H80c-26.5 0-48 21.5-48 48v368c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V96c0-26.5-21.5-48-48-48zM368 416H144c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16zm0-96H144c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16zM128 208v-32c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zM368 0h-32c-8.8 0-16 7.2-16 16v16h80V16c0-8.8-7.2-16-16-16zM144 0h-32c-8.8 0-16 7.2-16 16v16h80V16c0-8.8-7.2-16-16-16z"></path></svg>
               </a>
             </div>

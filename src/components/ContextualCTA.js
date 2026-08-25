@@ -96,7 +96,7 @@ export default function ContextualCTA({
                         className="group inline-flex items-center justify-center gap-3 btn-primary-enhanced font-semibold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
                     >
                         <FaCalendarAlt className="w-4 h-4" />
-                        Book a 15-Min Call
+                        Book a free 15-min call
                         <FaArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </a>
 

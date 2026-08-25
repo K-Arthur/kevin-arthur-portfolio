@@ -26,20 +26,20 @@ const firaCode = Fira_Code({
 
 export const metadata = {
   title: {
-    default: 'Kevin Arthur | Product Designer & AI Interface Design Expert | Vancouver',
+    default: 'Kevin Arthur | Product Designer',
     template: '%s | Kevin Arthur Design'
   },
-  description: 'Product Designer in Vancouver specializing in AI interface design and complex enterprise systems. Case studies: 97% diagnostic accuracy, 500+ healthcare facilities. Expert in healthcare UX, design systems, and data-heavy platforms.',
-  keywords: ['Product Designer Vancouver', 'AI Interface Design Expert', 'Healthcare UX Designer', 'SaaS Product Designer', 'Design Systems', 'Enterprise UX Consultant'],
+  description: 'Product Designer in Vancouver specializing in AI interface design, healthcare UX, and complex enterprise systems. Case studies with measurable outcomes.',
+  keywords: ['Product Designer Vancouver', 'AI Interface Design', 'Healthcare UX Designer', 'SaaS Product Designer', 'Design Systems', 'Enterprise UX Consultant'],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   alternates: {
     canonical: './',
   },
   openGraph: {
-    title: 'Kevin Arthur | Product Designer & AI Interface Design Expert',
-    description: 'Vancouver-based Product Designer creating AI-powered healthcare interfaces. 97% diagnostic accuracy. 500+ facilities served.',
+    title: 'Kevin Arthur | Product Designer',
+    description: 'Product Designer specializing in AI interface design, healthcare UX, and complex enterprise systems. Vancouver, Canada.',
     url: '/',
-    siteName: 'Kevin Arthur Design Portfolio',
+    siteName: 'Kevin Arthur Design',
     locale: 'en_US',
     type: 'website',
   },
@@ -55,9 +55,9 @@ export const metadata = {
     },
   },
   twitter: {
-    title: 'Kevin Arthur | Product Designer & AI Interface Expert',
+    title: 'Kevin Arthur | Product Designer',
     card: 'summary_large_image',
-    description: 'Product Designer specializing in AI interface design | Healthcare UX | Vancouver',
+    description: 'Product Designer specializing in AI interface design, healthcare UX, and design systems. Vancouver, Canada.',
   },
 };
 

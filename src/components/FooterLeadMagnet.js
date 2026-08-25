@@ -14,7 +14,7 @@ export default function FooterLeadMagnet({ className = '' }) {
       id: 'design-checklist',
       icon: FaClipboardCheck,
       title: 'Design Checklist',
-      description: 'Ship designs that developers love. 12 critical specs for perfect handoffs.',
+      description: 'Component specification architecture for clean design-to-dev handoffs.',
       href: '/lab#design-checklist',
       cta: 'Get Free Checklist',
     },
