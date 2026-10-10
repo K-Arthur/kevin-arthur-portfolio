@@ -1,357 +1,280 @@
 ---
-title: "Building Varve: A Local-First Design Tool That Taught Me Every UX Decision Is a Systems Decision"
-publishedAt: "2026-08-22"
-updatedAt: "2026-08-22"
-role: "Creator, Product Designer & Engineer"
-duration: "Jun 2026 – Present · Public beta"
+title: "Varve v0.5.0: Designing a Local-First Suite and Shipping the Editor in Code"
+publishedAt: "2026-10-09"
+updatedAt: "2026-10-09"
+role: "Founder, Designer & Engineer"
+duration: "Jun 2026 – Present · Public beta v0.5.0"
 status: "shipped"
 industry: "creative-tools"
 tools:
   - TypeScript
+  - React
   - Rust
+  - WASM
   - Tauri
-  - Canvas2D
-  - WebGPU
   - DTCG Tokens
-  - Playwright
+  - Canvas2D
 heroImage: "/images/case-studies/varve/workspace-light.png"
-heroImageAlt: "Varve editor showing a poster design with vector shapes, layers panel, and properties inspector — one document spanning vector, layout, typography, motion, and print"
-summary: "I designed and engineered Varve, a local-first desktop design tool that unifies vector editing, page layout, typography, motion, prototyping, and print production around a single document model. The hardest problem was not building each discipline in isolation — it was making them share one scene graph, one rendering pipeline, and one undo history without turning the architecture into six disconnected applications."
-metaDescription: "Design engineering case study: how building Varve — a local-first, cross-platform design tool for Linux, macOS, and Windows — changed how I think about document models, rendering architecture, creative tool UX, and the gap between what design tools offer on Linux versus other platforms. 161 architecture decisions, 13 Rust crates, 20 TypeScript packages."
+heroImageAlt: "Varve editor showing a poster design with vector shapes, layers panel, and properties inspector"
+summary: "I designed and engineered Varve, a free, local-first design suite now in public beta (v0.5.0, released 9 Oct 2026). A React/TypeScript editor sits on a Rust/WASM engine. Six task workspaces share one document. No account. Source-available under FSL-1.1-MIT."
+metaDescription: "Design engineering case study: Varve v0.5.0 — a local-first design suite I designed and shipped. React/TypeScript editor, Rust/WASM engine, DTCG tokens, six workspaces, Linux/macOS/Windows, browser demo. 25 GitHub stars (Oct 2026)."
 results:
-  - value: "161"
-    label: "Architecture ADRs"
-    context: "Documented decisions covering rendering, layout, tokens, history, multi-window, and more"
-  - value: "33"
-    label: "Packages & Crates"
-    context: "13 Rust crates + 20 TypeScript packages in one monorepo"
-  - value: "86.4 fps"
-    label: "IR-Replay Rendering"
-    context: "Measured at 960×600 — 10× faster than pixel-push baseline (8.5 fps)"
-  - value: "3"
-    label: "Platforms Shipped"
-    context: "Linux, macOS, and Windows — all from one codebase, no subscription"
+  - value: "v0.5.0"
+    label: "Public beta"
+    context: "Released 9 Oct 2026 — Linux, macOS, Windows"
+  - value: "6"
+    label: "Task workspaces"
+    context: "Design, Print, Draw, Photo, Motion, Email — one document"
+  - value: "25"
+    label: "GitHub stars"
+    context: "As of Oct 2026"
+  - value: "1,903"
+    label: "Browser tests"
+    context: "0.5.0 checkpoint — docs/how-varve-is-built.md"
 ---
 
 <ResultsHighlight results={[
-  { value: "161", label: "Architecture ADRs", context: "Documented decisions covering rendering, layout, tokens, history, multi-window, and more" },
-  { value: "33", label: "Packages & Crates", context: "13 Rust crates + 20 TypeScript packages in one monorepo" },
-  { value: "86.4 fps", label: "IR-Replay Rendering", context: "Measured at 960×600 — 10× faster than pixel-push baseline (8.5 fps)" },
-  { value: "3", label: "Platforms Shipped", context: "Linux, macOS, and Windows — all from one codebase, no subscription" }
+  { value: "v0.5.0", label: "Public beta", context: "Released 9 Oct 2026 — Linux, macOS, Windows" },
+  { value: "6", label: "Task workspaces", context: "Design, Print, Draw, Photo, Motion, Email — one document" },
+  { value: "25", label: "GitHub stars", context: "As of Oct 2026" },
+  { value: "1,903", label: "Browser tests", context: "0.5.0 checkpoint — docs/how-varve-is-built.md" }
 ]} />
 
 <CaseStudySummary
-  problem="Creative professionals switch between vector editors, layout tools, animation software, and print production systems — each with its own file format, undo model, and UI conventions. On Linux, the problem is worse: most professional design tools either don't ship native builds, ship late, ship with reduced features, or require workarounds that break the workflow. Design intent leaks across every tool boundary, and an entire platform is treated as an afterthought."
-  solution="Built Varve: a local-first desktop application where vector editing, page layout, typography, motion, prototyping, and print production share one document model, one scene graph, and one rendering pipeline. Ships as a cross-platform desktop app — Linux first — with no subscription, no cloud account, and files stored locally."
-  role="Creator, Product Designer & Engineer — I designed the product direction, interaction model, visual systems, and design tokens; engineered the editor architecture, rendering pipeline, scene model, design system, testing infrastructure, and release engineering; and shipped all three platform builds."
-  impact="Shipped a public beta (v0.2.0) spanning 33 packages and crates, 161 architecture decision records, a deterministic screenshot pipeline, and a rendering system that replays compact IR at 86 fps across Linux, macOS, and Windows."
+  problem="Creative work crosses vector, layout, type, photo, motion, and print — and each tool boundary leaks design intent. On Linux, most professional suites are late, reduced, or missing. Subscription tools also assume an account and a cloud."
+  solution="Built Varve: six task workspaces on one document model. A React/TypeScript editor on a Rust/WASM engine, with its own DTCG token design system. Local-first, no account. Desktop builds for Linux, macOS, and Windows, plus a bounded browser demo."
+  role="Founder, Designer & Engineer — product direction, interface design, design tokens, editor architecture, and the production code that ships."
+  impact="Public beta v0.5.0 (9 Oct 2026). 25 GitHub stars as of Oct 2026. Source-available under FSL-1.1-MIT. Community Edition is free."
 />
 
-Varve is a local-first design tool for vector, layout, typography, motion, prototyping, and print — one application, no subscription, no cloud account. I designed and built it because I kept hitting two walls that no existing tool was solving together.
+Varve is a local-first design suite for vector, layout, typography, motion, prototyping, print, photo, and email — one application, no subscription, no cloud account. I designed the product and I ship the editor in code.
 
-<MonorepoStats />
+> **Source-available** — read the code on [GitHub](https://github.com/K-Arthur/varve) or download the beta from [varve.studio](https://varve.studio). Licensed **FSL-1.1-MIT** (not OSI-approved open source; each release converts to MIT two years after it ships).
 
-**The first wall was fragmentation.** Every creative project I worked on required switching between three or four separate tools. A vector illustration lives in one app. The page layout lives in another. The animation lives in a third. The print-ready export lives in a fourth. By the time the work crosses those boundaries, someone has to manually reconstruct what the designer actually meant. Each transition doesn't just cost time — it costs *design intent*: the relationship between a type hierarchy in a layout and the same hierarchy in a vector illustration, the connection between a motion keyframe and the layout it animates, the constraint between a print page and the screen composition it came from.
-
-**The second wall was the platform.** I work on Linux. The creative tools industry treats Linux as a second-class citizen — if it's supported at all. Figma runs in a browser. Illustrator doesn't ship native Linux builds. InDesign and After Effects don't exist on the platform. The tools that do run on Linux — Inkscape, GIMP, Krita — are excellent at what they do, but they don't cover the full creative workflow, and they weren't designed for the multi-disciplinary, multi-format work I needed to do. The gap isn't just about features. It's about priority. When a design tool company decides which platform to invest in first, Linux is almost never the answer. The result is that Linux users either dual-boot, use VMs, accept degraded web versions, or build their own tools.
-
-> **The core insight:** The problem isn't that any single discipline is unserved. The problem is that creative work crosses disciplines constantly, and every tool boundary is a place where design intent leaks out — and if you're on Linux, the boundaries are even wider because the tools themselves don't reach you.
-
-> **Open source** — read the code on [GitHub](https://github.com/K-Arthur/varve) or download the beta from [varve.studio](https://varve.studio). Everything described below is in the public repo.
-
-> **Current status (v0.2.0)** — Public beta. 5,066 commits across 13 Rust crates and 20 TypeScript packages, with 161 architecture decision records. All builds are unsigned. The `.varve` document format can still change between releases.
+> **Current status (v0.5.0, 9 Oct 2026)** — Public beta. Six task workspaces. Linux, macOS (Apple Silicon), and Windows installers. An experimental browser demo at [varve.studio/try](https://varve.studio/try/). 25 GitHub stars (Oct 2026). Installers are unsigned. The `.varve` format can still change.
 
 ---
 
-## 1. Why I Built It — and Why the Problem Is Harder Than It Looks
+## Problem
 
-The existing tools are excellent at what they do. Figma is extraordinary for interface design. Illustrator is deep for vector work. InDesign owns print layout. After Effects handles motion. But none of them treat these as parts of the same problem. Each tool has its own document model, its own coordinate system, its own undo history, and its own definition of what a "layer" means.
+I kept hitting two walls that no existing tool solved together.
 
-And most of them don't run natively on Linux.
+**Fragmentation.** A vector illustration lives in one app. The page lives in another. Motion lives in a third. Print export lives in a fourth. Each hop costs *design intent*: the relationship between a type hierarchy and the illustration it sits on, the constraint between a print page and the screen composition it came from.
+
+**The platform.** I work on Linux. Figma is a browser. Illustrator, InDesign, and After Effects do not ship native Linux builds. Inkscape, GIMP, and Krita are strong at their jobs and do not cover the full multi-discipline workflow.
+
+> **The core insight:** The problem is not that any single discipline is unserved. The problem is that creative work crosses disciplines constantly — and if you are on Linux, the tools themselves often do not reach you.
 
 <PrincipleCallout>
-A design tool's document model is its opinion about what design is. If the model only understands rectangles and text, it can't hold a layout. If it only understands frames and components, it can't hold a vector illustration. The model has to be broad enough to hold all of it — or you end up building several tools that happen to share a window.
+A design tool's document model is its opinion about what design is. If the model only understands rectangles and text, it cannot hold a layout. If it only understands frames and components, it cannot hold a vector illustration.
 </PrincipleCallout>
 
-I wasn't interested in building a better version of any single tool. I was interested in the question: *what happens when you treat all six creative disciplines as parts of the same problem, and you refuse to make Linux an afterthought?*
+---
 
-That question turned out to be much harder than I expected. Not because any one discipline is impossibly complex, but because the systems that connect them — the document model, the rendering pipeline, the undo history, the design tokens, the release engineering — all have to be designed for a level of integration that no existing tool attempts.
+## Constraints
+
+These were product constraints, not just engineering ones:
+
+- **Local-first, no account.** Core editing works offline. Files live on disk as `.varve`. Network is opt-in (model downloads, font/icon search, update checks).
+- **Linux is first-class, not a port.** WebKitGTK does not give you WebGPU for free. The renderer has to work today on the platform I develop on.
+- **One document, six jobs.** Design, Print, Draw, Photo, Motion, and Email share a scene — they cannot be six apps that happen to share a window.
+- **I am a solo founder.** Scope, interface, and what ships are my calls. I build with AI coding assistants and I am accountable for every change. That is documented in [how Varve is built](https://github.com/K-Arthur/varve/blob/master/docs/how-varve-is-built.md).
+- **Honest beta.** Interfaces and the document schema can still change. Signing is not done yet. The browser demo is bounded; the full product is the desktop app.
 
 ---
 
-## 2. What I Believed at the Beginning
+## Design decisions
 
-When I started the project — originally named "Strata" — I had a set of assumptions that seemed reasonable. Some turned out to be right. Several were wrong.
-
-**What I thought would be easy:**
-- Building a canvas that renders shapes. (It was.)
-- Making a layer tree. (It was.)
-- Getting a basic inspector working. (It was.)
-
-**What I underestimated:**
-- How deeply the rendering architecture would constrain the product. The choice between pixel-push and IR-replay wasn't a performance optimization — it determined whether the engine could run natively, whether the webview could stay lightweight, whether the product could ship on Linux without a bundled Chromium, and whether the canvas would feel responsive enough for direct manipulation.
-- How the document model would become the product opinion. I initially thought of the scene graph as an engineering detail. It turned out to be the single most consequential design decision: what nodes exist, what they can contain, how they compose — that *is* the product.
-- How cross-platform support would compound. "Compiles for three platforms" is not "works on three platforms." WebKitGTK on Linux behaves differently from WebKit on macOS. WebView2 on Windows has its own quirks. Each platform introduced constraints that reshaped the architecture.
-- How local-first would change everything. I chose local-first for privacy and offline access. It turned out to change assumptions about undo semantics, file recovery, future sync strategies, and even how the UI communicates state to the user.
-
----
-
-## 3. The First Major Collision with Reality
-
-The foundational architectural decision was made on day one. I needed to solve a problem that doesn't exist in browser-based design tools: the native Rust engine and the Tauri webview live in different runtime contexts. A native `wgpu` GPU surface cannot exist inside the webview DOM. So I had to choose how to bridge them.
-
-I built a spike. The first approach was **pixel-push**: the Rust engine renders to a bitmap, pushes it across the IPC boundary, and the webview displays it. It worked. It was also impossibly slow — **8.5 fps at 960×600**. The canvas felt dead. Dragging a shape was a slideshow.
-
-The second approach was **IR-replay**: the Rust engine computes the scene and emits a compact render-command IR — a flat draw list measured in kilobytes. The IR crosses the Tauri IPC boundary and is replayed onto a Canvas2D or WebGPU surface in the webview. **86.4 fps at 960×600** — roughly 10× faster.
-
-This wasn't just a performance fix. It was a product-defining decision:
-
-- The engine could use full Rust performance for layout, hit-testing, and effect computation, unbounded by WASM or browser memory limits.
-- The webview stayed lightweight — no bundled Chromium, no GPU surface management, just a canvas that replays commands.
-- The product could ship on Linux without depending on a specific browser runtime.
-- The renderer became deterministic and testable — it never touches the scene graph, it receives a flat draw list.
-
-I recorded this in ADR-0001. It was the first of 161 architecture decisions, and it held through every subsequent evolution of the product.
-
-> **The lesson:** The hardest architecture decisions aren't about which library to use. They're about where to draw the boundary between systems — and what that boundary makes possible or impossible.
-
----
-
-## 4. Decision Stories
-
-### 4.1 One Scene Graph, Six Disciplines
+### One scene graph, six workspaces
 
 <DecisionStory
-  title="Single scene graph for six disciplines"
+  title="Single scene graph for six task workspaces"
   constraint="Creative work crosses disciplines constantly, but each tool typically has its own document model, coordinate system, and undo history."
   options={[
     'Build six separate models with import/export bridges',
     'Build one scene graph where all disciplines are node types',
     'Build a core model with discipline-specific extensions',
   ]}
-  choice="One scene graph where vector paths, text frames, layout containers, keyframes, and print pages are all node types in the same hierarchy."
-  why="Import bridges lose design intent. Extensions create implicit coupling. A single model means a vector illustration inside a layout frame is the same object — not a copy, not an import, not a flattened proxy."
-  tradeoff="The model must be broad enough to hold all six disciplines, which means every new capability touches every existing one. Adding motion keyframes required rethinking how the undo history works for the entire document."
-  lesson="The document model is the product opinion. If the model only understands rectangles, it cannot hold a layout. If it only understands frames, it cannot hold an illustration."
+  choice="One scene graph. Design, Print, Draw, Photo, Motion, and Email are workspaces over the same document — panels dock, split, float, and restore."
+  why="Import bridges lose design intent. Extensions create implicit coupling. A vector illustration inside a layout frame stays the same object — not a flattened proxy."
+  tradeoff="Every new capability touches every existing one. Breadth is the product; depth in any one discipline lags a specialist tool."
+  lesson="The document model is the product opinion."
 />
-
-The scene model (`@varve/scene`) defines every node type the application can represent:
 
 <DocumentModelExplorer />
 
-**Shape nodes** — rectangles, ellipses, lines, polygons, stars, and Bézier paths with fills, strokes, effects, and transforms. These are the atoms of vector editing.
-
-**Text nodes** — rich text with character and paragraph formatting, OpenType features, variable font axes, text-on-path, and adaptive contrast. Not a simplified text box — a full typographic system with HarfBuzz shaping on the native side.
-
-**Frame nodes** — layout-capable containers with CSS-native flex and grid styling. Frames can hold any other node type, which means a frame can contain vector art, text, or nested layouts. This is how page layout and vector editing share the same tree.
-
-**Group nodes** — isolated containers with effects and blend modes. Groups can contain any combination of shapes, text, and frames.
-
-**Table nodes** — responsive tables that reflow across breakpoints. Native, not imported.
-
-Every node shares a common base with opacity, blend mode, rotation, fills, strokes, effects, masks, constraints, and warps. The effects system includes drop shadows, inner shadows, blurs, glows, glass materials, chromatic aberration, and glitch — all composable on any node type.
-
-> **What this means for a designer:** You can take a vector illustration, place it inside a layout frame, add typography with OpenType features, animate it on a timeline, and export it as a print-ready PDF — all without leaving the document. The illustration doesn't get "flattened" or "imported" — it stays a live node in the same graph.
+v0.5.0 makes that opinion visible in the chrome: **six task workspaces** — Design, Print, Draw, Photo, Motion, Email — sharing one document. Logo tools stay in Design; code export is available from every workspace.
 
 ![Varve workspace showing a poster design with vector shapes, text, and layout frames in the same document](/images/case-studies/varve/workspace-light.png)
-*The same document holds vector shapes, typed headlines, layout frames, and color swatches — all as nodes in one scene graph.*
+*The same document holds vector shapes, typed headlines, and layout frames — nodes in one scene graph, not imports.*
 
-### 4.2 Canvas2D Versus WebGPU
+### IR-replay instead of pixel-push
+
+The native Rust engine and the Tauri webview live in different runtimes. A native `wgpu` surface cannot sit inside the webview DOM.
 
 <DecisionStory
-  title="Canvas2D as primary renderer"
-  constraint="WebGPU is not available on WebKitGTK (Linux), and Linux is the primary development platform."
+  title="IR-replay across the engine / editor boundary"
+  constraint="A native GPU surface cannot live in the webview. Pixel-pushing bitmaps across IPC is too slow for direct manipulation."
   options={[
-    'Ship only with WebGPU (blocks Linux)',
-    'Ship only with Canvas2D (limits future GPU capabilities)',
-    'Ship with Canvas2D as primary, WebGPU as opt-in for supported platforms',
+    'Pixel-push: native raster → RGBA → IPC → canvas',
+    'Native overlay window over the webview',
+    'IR-replay: native engine emits a compact draw list; the webview replays it',
   ]}
-  choice="Canvas2D as the production path, WebGPU as an opt-in path for macOS and Windows. The system builds a structural render plan: WebGPU runs what it can handle, Canvas2D fills the gaps."
-  why="Canvas2D works everywhere, including WebKitGTK on Linux. The pluggable compositor means the product ships today while GPU support grows organically."
-  tradeoff="Canvas2D has inherent limits for complex effects and large documents. The WebGPU path is growing but not complete. Some effects are slower than they would be on a fully GPU-accelerated pipeline."
-  lesson="Shipping today on all platforms with a capable renderer beats shipping eventually on some platforms with a perfect one."
+  choice="IR-replay. The Rust engine computes the scene and emits a compact render IR. The React editor replays it to Canvas2D by default; WebGPU and WebGL2 are opt-in experiments."
+  why="ADR-0001 (27 Jun 2026) measured IR-replay at 86.4 fps vs 8.5 fps pixel-push at 960×600 on CachyOS / WebKitGTK — about 10× faster and 55× smaller per frame."
+  tradeoff="Canvas2D cannot express every GPU effect. WebGPU/WebGL2 remain experimental with Canvas2D fallback. Results depend on browser, driver, and hardware."
+  lesson="The hardest architecture decisions are where to draw the boundary — and what that boundary makes possible."
 />
 
 <RenderPipelineExplorer />
 
-### 4.3 Local-First as a Product Decision
+### Local-first as a product decision
 
 <DecisionStory
   title="Local-first persistence"
-  constraint="Creative professionals need offline access, file ownership, and predictable performance. Cloud-dependent tools fail when the network fails."
+  constraint="Creative work needs offline access, file ownership, and predictable performance. Cloud-dependent tools fail when the network fails."
   options={[
-    'Cloud-first with offline caching (Figma model)',
+    'Cloud-first with offline caching',
     'Local-first with optional cloud sync',
     'Local-only with export for sharing',
   ]}
-  choice="Local-first. Files are stored as `.varve` files on disk. No cloud account, no subscription, no server dependency. Collaboration is scaffolded (Yjs CRDTs) but not yet shipped."
-  why="Local-first means your work is available offline, your files are yours, performance is predictable (no network round-trips for every edit), and privacy is structural (no data leaves the machine unless you export it). This matters especially on Linux, where users tend to value local ownership and data sovereignty."
-  tradeoff="Real-time collaboration — the most common feature request — is not available yet. Local-first changes product assumptions around ownership, recovery, sync, and failure in ways that cloud-first does not."
-  lesson="Local-first is not merely a storage strategy. It changes product assumptions around ownership, recovery, sync, privacy, and failure."
-/>
-
-### 4.4 Monorepo with Impact-Aware Validation
-
-<DecisionStory
-  title="Workspace-based validation tiers"
-  constraint="33 packages and crates need coordinated testing, but running the full suite on every commit is too slow for rapid iteration."
-  options={[
-    'Run all tests on every commit (slow feedback)',
-    'Run only tests for changed packages (misses downstream effects)',
-    'Run impact-aware validation that selects tests by dependency analysis',
-  ]}
-  choice="Impact-aware validation tiers (0–4) that select tests by dependency analysis, not by convention. `pnpm verify:affected` determines what needs testing based on what changed."
-  why="A change to `@varve/tokens` affects the UI, the editor, and the website. A change to `varve-trace` affects only the image tracing pipeline. Impact-aware validation runs the right tests at the right depth."
-  tradeoff="The validation tiers require maintained dependency metadata. If the dependency graph is wrong, tests are missed. Full suite requires explicit escalation with a stated reason."
-  lesson="Test strategy is an architecture decision. The shape of the dependency graph determines the shape of the test graph."
+  choice="Local-first. `.varve` files on disk. No account. Collaboration is UI scaffolding only — no transport yet."
+  why="Privacy is structural: document data does not leave the machine unless you export it or you opt into a networked feature."
+  tradeoff="Real-time collaboration is the most common missing workflow. I shipped ownership and offline first."
+  lesson="Local-first is not a storage strategy. It changes ownership, recovery, sync, and failure."
 />
 
 ---
 
-## 5. Architecture as a UX Decision
+## From token to code
 
-The architecture wasn't chosen for its own sake. Every technical decision was made because it changed what the product could be.
+The design system has to work in two places at once: the **editor chrome** and the **document canvas**. A swatch in the inspector and the fill on a shape need the same source of truth.
 
-### The design system: tokens that travel
+`@varve/tokens` implements **DTCG** (W3C Design Tokens Format). `@varve/ui` turns those tokens into CSS and APG-pattern React components. v0.5.0 also ships **manual token sync**: import and re-import token sources, review mapping diagnostics — no automatic write-back, no Git watcher.
 
-The design system had to solve a problem most design systems don't: it needs to work in two places at once. The editor UI uses the same tokens as the documents it creates. A color swatch in the inspector and the same color applied to a vector shape need to come from the same source of truth.
+That is the path a control actually takes:
 
-The token engine (`@varve/tokens`) implements the DTCG 2025.10 specification — a W3C community group standard for design token interchange. The CSS output (`@varve/ui`) includes OKLCH color space, three themes (light, dark, high contrast), fluid typography, a 4-point spacing grid, and motion tokens that respect `prefers-reduced-motion`. The component library includes 123 component files following APG (ARIA Authoring Practices Guide) patterns, all with Storybook stories and automated tests.
+1. **Token (DTCG)** — a color, space, or type token in the design-system source.
+2. **CSS custom property** — emitted by `@varve/ui` (OKLCH, light / dark / high-contrast).
+3. **React component** — inspector control, button, or panel, following APG patterns.
+4. **Scene application** — the same token value can be applied to a node fill, so the chrome and the artwork do not drift.
 
-> **What this means for the product:** The design system isn't a separate deliverable. It's the living surface of the application. Every token change propagates to both the UI and the document canvas. The system is self-consistent.
+```ts
+// Schematic of the published pipeline — DTCG in, CSS + React out.
+// Tokens live in @varve/tokens; components live in @varve/ui.
+const color = tokens.color.bg.panel; // DTCG → typed token
+// CSS: --color-bg-panel: oklch(...);
+<button className="bg-[var(--color-bg-panel)]">Export</button>
+```
 
-### Typography as a first-class system
+> **What this means for the product:** the design system is not a separate deliverable. It is the living surface of the application. Token import is a designer workflow, not a build-only step.
 
-Typography in Varve is not a text tool — it's a typographic system. The text pipeline runs through HarfBuzz on the native side for shaping, with a full Unicode implementation. The scene model supports character formatting, paragraph formatting, text stories (threaded text across linked frames), text on path, and adaptive contrast for accessibility.
+![Type controls for the selected text](/images/case-studies/varve/typography-light.png)
+*Typography edited on the canvas — the same token and type system that styles the inspector.*
 
-![Typography specimen showing variable font axes and OpenType features edited on-canvas](/images/case-studies/varve/typography-light.png)
-*Typography edited directly on the canvas — weight, tracking, optical size, and OpenType features controlled in place, not in a modal.*
+---
 
-### Motion, prototyping, and print
+## Architecture
+
+From the public README:
+
+```
+Desktop shell (Tauri)
+        ↓
+Editor / scene model  (@varve/editor, @varve/scene)
+        ↓
+Engine abstraction     (@varve/engine — Tauri / WASM / in-memory)
+        ↓
+Rust native ⇄ WASM     (crates/varve-core, varve-layout, varve-effects, …)
+        ↓
+Render IR
+        ↓
+Canvas2D (default) / WebGPU and WebGL2 (experimental, opt-in)
+```
+
+| Package | Purpose |
+|---|---|
+| `@varve/ui` | Design system tokens, APG-pattern components |
+| `@varve/editor` | Editor shell, canvas, layers, inspector, tools |
+| `@varve/engine` | WASM / native / stub facade with IR-replay |
+| `@varve/scene` | Immutable document model with ops |
+| `@varve/codegen` | SVG, React, Svelte, Vue, Flutter, SwiftUI, email HTML, and more |
+| `@varve/platform` | Tauri / web / memory |
+
+The **native desktop app is the full product**. The browser build at `/try/` runs the editor on the WASM engine with honest capability messaging — print, inference, and other desktop-only paths are not implied by the demo.
 
 <DisciplineSwitcher />
 
-The motion system provides keyframe animation with Oklab color interpolation, path morphing, smart animate, and auto-keyframe assist. The prototype engine supports triggers, actions, transitions, and variable-based conditional logic. The print pipeline handles font outlining, CMYK conversion through ICC profiles, and PDF generation as PDF/X-1a and PDF/X-4 — production print, not `window.print()`.
-
-A designer can compose a multi-page editorial spread, animate a prototype for screen, and export a print-ready PDF — all from the same document.
-
-![Two-page editorial spread with layout frames, typography, and color blocks](/images/case-studies/varve/layout-light.png)
-*A multi-page editorial layout: the same frame nodes, text stories, and color system used for vector illustrations and motion — no format conversion required.*
+v0.5.0 widened what those workspaces can hold: illustration and tablet controls, comic lettering, photo retouch, Shape Builder, reusable patterns, presentation decks, local Wasm plugins, and consent-first desktop updates. Motion remains in public beta. RAW development and model-based photo features have documented limits.
 
 ---
 
-## 6. Things That Did Not Work
+## Testing
 
-Strong work requires honest failures. Here are the ones that changed the product or the process.
+Nothing is trusted just because a tool wrote it. [How Varve is built](https://github.com/K-Arthur/varve/blob/master/docs/how-varve-is-built.md) states the 0.5.0 checkpoint:
+
+- **1,903 browser test cases** against the real canvas
+- **1,909 unit test files**
+- Visual comparisons and a WebAssembly build
+- Impact-aware CI on every push; full suite weekly
+- Releases built in CI from the tagged commit, then checked on Linux, Windows, and macOS (upgrade, save and reopen, export)
+- SHA-256 checksums, SBOMs, and build provenance on every release
+- Installers are **not code-signed** yet
+
+Screenshots in this case study come from the deterministic capture pipeline in the Varve repo — seeded documents, not hand-edited marketing art.
+
+> **The distinction that matters:** "The function passed" is not the same as "the editor visibly behaved correctly."
+
+---
+
+## How I build (and how AI is involved)
+
+I make Varve on my own. I decide what it should be, design it, direct the work, review and test it, and I am responsible for every change that ships. AI coding assistants — Claude Code, Codex, Cursor, Devin, opencode, Windsurf — draft a large share of the TypeScript editor, the Rust engine, the desktop shell, tests, scripts, and docs. I review, rework, and test on my Linux machine (CachyOS).
+
+That disclosure lives in the repo: [docs/how-varve-is-built.md](https://github.com/K-Arthur/varve/blob/master/docs/how-varve-is-built.md). Commits do not carry AI co-author tags; the page is the disclosure instead.
+
+Varve's *product* AI is separate: optional, on-device (background removal, enhancement, object selection, generative edit). There is no Varve-hosted inference service. v0.5.0 does not generate images from a text prompt.
+
+---
+
+## What didn't work
 
 <FailureExplorer />
 
----
+Early releases taught the same lesson as the architecture: **release engineering is a product surface.** v0.1.0 could not publish. A static `eval` import painted a white screen in the WebView. Bundled WebKit/GTK broke on newer Linux hosts. I shipped v0.5.0 only after the tagged candidate passed release and publication gates.
 
-## 7. Testing the Interface, Not Just the Code
-
-The testing strategy spans multiple layers because the product has multiple layers:
-
-- **Unit tests** — Vitest for TypeScript, `cargo test` with property-based testing for Rust.
-- **Component tests** — Testing Library for React component behavior.
-- **Integration tests** — Cross-package contract tests.
-- **E2E tests** — Playwright for web-based workflows, WebDriverIO for native desktop.
-- **Visual regression** — Playwright screenshot comparison at 1x and 2x DPR.
-- **Benchmarks** — Vitest benchmarks for canvas, table, palette, and layout performance.
-- **Mutation testing** — Stryker for TypeScript mutation analysis.
-- **Fuzz tests** — Property-based fuzzing for raster math.
-
-The deterministic screenshot pipeline deserves special mention. Every product screenshot is generated by driving the real application into a known state — not by hand-editing images. The capture script opens real `.varve` documents, sets viewport, zoom, selection, and theme, then captures. If a scene can't be produced, it's recorded as skipped with a reason, and any previous output is deleted rather than silently replaced.
-
-> **The distinction that matters:** "The function passed" is not the same as "the editor visibly behaved correctly." The visual regression suite catches exactly the things unit tests miss — a token that renders at the wrong weight, a panel that clips at the wrong breakpoint, a theme that breaks contrast at a specific viewport.
+Breadth still taxes consistency. Each new workspace touches every existing one. That tension is not solved; the workspace switcher is how I keep it usable.
 
 ---
 
-## 8. Shipping It: The Release Engineering Story
+## What's next
 
-Turning 33 packages into something people can install required a release pipeline that handles Linux (AppImage, deb, RPM), macOS (DMG for Apple Silicon), and Windows (NSIS installer). The first release (v0.1.0) was broken on arrival — the GitHub Actions workflow referenced a non-existent directory, and a static import of an eval-using module broke the WebView entirely. The second release (v0.1.1) fixed the pipeline but exposed a WebKit/GTK incompatibility on modern Linux hosts. The third (v0.1.2) was the first release that actually worked reliably.
+**Shipped in v0.5.0**
+- Six task workspaces on one document
+- React/TypeScript editor on a Rust/WASM engine
+- DTCG tokens and manual token sync
+- Local-first desktop builds (Linux, macOS, Windows)
+- Bounded browser demo at `/try/`
 
-The CI pipeline (10 GitHub Actions workflows) now includes change-lane detection, supply-chain security (all Actions pinned to full commit SHAs), secret scanning, installer size gates, and product truth verification. Every release is a draft-then-publish flow — tags build a draft, a human reviews and publishes.
+**Working but evolving**
+- WebGPU / WebGL2 (opt-in, hardware-dependent)
+- Motion (public beta)
+- Photo / RAW and model-assisted workflows (documented limits)
+- Code export and local Wasm plugins
 
-> **The lesson:** Release engineering is not a final-pass activity. It requires the same rigor as the product itself, and it reveals its assumptions at the worst possible time.
-
----
-
-## 9. Tradeoffs and What I Would Change
-
-**Breadth versus depth.** Varve covers six disciplines, which means no single discipline is as deep as a dedicated tool. The pen tool is capable but not as deep as Illustrator's. The timeline is functional but not as mature as After Effects'. This is a deliberate tradeoff: the value is in the integration, not in matching every feature of every specialist tool.
-
-**Canvas2D versus GPU.** Shipping with Canvas2D as the primary renderer was the right call for cross-platform compatibility — it works on WebKitGTK, which means Linux works today. But Canvas2D has inherent limits for complex effects and large documents. The WebGPU path is growing, but it's not complete.
-
-**Local-first versus collaboration.** Real-time collaboration is scaffolded in the codebase but not shipped. Local-first was the right architectural choice for privacy, offline operation, and performance — but it means collaborative workflows aren't available yet.
-
-**Scope of the public beta.** The `.varve` format can still change between releases. Windows and macOS builds are unsigned. These are known limitations that affect trust. I chose to ship the beta and iterate rather than wait for production polish — but I don't pretend the current state is production-ready.
-
----
-
-## 10. What I Would Do Differently
-
-**Establish release engineering on day one.** The v0.1.0 failure was preventable. A basic "can it install and launch" smoke test before the first tag would have caught both critical bugs.
-
-**Build deterministic test fixtures earlier.** The screenshot pipeline was built after many features were already in place. If it had existed from the start, visual regressions would have been caught earlier and documentation screenshots would never have gone stale.
-
-**Define supported platforms explicitly before coding.** "Runs on Linux" turned out to mean different things for different Linux configurations. A explicit platform matrix — tested, not just compiled — would have prevented the WebKitGTK surprise.
-
-**Spend more time on the vertical slice.** The first usable editor was built fast, but it set patterns that had to be revisited. A slightly slower start with more attention to the undo model, selection semantics, and canvas coordinate system would have saved refactoring later.
-
-**Formalize design tokens sooner.** The token system was built mid-project. Earlier adoption would have prevented inconsistencies between the editor UI and the document canvas that had to be manually reconciled.
-
----
-
-## 11. What I Am Still Solving
-
-### Shipped
-- Vector, layout, typography, motion, prototyping, and print in one document model
-- Cross-platform desktop builds (Linux, macOS, Windows)
-- Deterministic screenshot pipeline
-- 161 architecture decision records
-- Local-first persistence with `.varve` files
-
-### Working but evolving
-- WebGPU rendering (opt-in on macOS and Windows)
-- Paint tools and brush system
-- Figma import adapter
-- Image enhancement and AI-powered features
-
-### Experimental
-- Natural-language asset search
-- Depth-aware effects
-- Email template authoring
-- Browser demo at `/try/`
-
-### Not yet solved
-- Real-time collaboration via CRDT
-- Code signing for macOS and Windows
+**Not yet solved**
+- Real-time collaboration (UI scaffolding only)
+- Platform code signing / notarization
 - Production-stable `.varve` format
-- Full browser/WASM build
+- Automatic token write-back
+- Full browser/WASM product (the demo is not that)
 
 ---
-
-## 12. Reflection
 
 <PrincipleCallout title="The core lesson">
-If there's one thing I learned, it's that the hardest part of building a creative tool isn't any single feature — it's maintaining a coherent architecture across disciplines that were never designed to coexist. The reward is a product where the seams disappear, and the designer sees one canvas instead of six tools.
+The hardest part of a creative tool is not any single feature — it is keeping architecture and interaction design as one problem. IR-replay is a UX decision. The scene graph is a product opinion. Local-first is a privacy decision. I designed those surfaces and I shipped them in code.
 </PrincipleCallout>
 
-The lesson I carry out of building Varve is that **complex tools fail when architecture and interaction design are treated separately.**
+**Explore the project:** [varve.studio](https://varve.studio) · [github.com/K-Arthur/varve](https://github.com/K-Arthur/varve) (FSL-1.1-MIT, source-available).
 
-Every rendering decision is also an interaction decision. The IR-replay pipeline isn't just fast — it makes the canvas feel alive, which changes how a designer experiments. The pluggable compositor isn't just extensible — it means the product ships on Linux today while GPU support grows, which changes who can use it.
-
-Every document model decision is also a product decision. A single scene graph that holds vector, layout, typography, motion, and print isn't just an engineering achievement — it's an opinion about what design is. It says that these disciplines are not separate activities but overlapping concerns in the same creative process.
-
-Every local-first decision is also a privacy decision. Storing files locally isn't just a storage strategy — it's a statement about who owns the work and what happens when the network is unavailable. On Linux, where users tend to value sovereignty over their tools and data, this isn't a nice-to-have — it's a requirement.
-
-Building the tool changed how I think about design systems. The tokens that style the application are the same tokens that style the documents it creates. The components that make the inspector are built from the same design language as the canvas. The boundary between "the tool" and "the work" dissolved.
-
-And building it on Linux — where the constraints are tighter, the platform quirks are sharper, and the tooling gaps are wider — made every decision more deliberate. When you can't rely on the platform to provide a GPU surface, a browser runtime, or a code-signing certificate, you have to design systems that work without those assumptions. That constraint made the architecture stronger.
-
----
-
-**Explore the project:** the full source is on [GitHub](https://github.com/K-Arthur/varve) (FSL-1.1-MIT licensed), and the beta is available from [varve.studio](https://varve.studio).
-
-**Next case study:** [OpenCode Harness](/case-studies/opencode-harness) — engineering a deterministic AI development interface, where state correctness and debugging discipline complement the systems thinking in this project.
+**Related work:** [OpenCode Harness](/case-studies/opencode-harness) — a deterministic AI development interface, where state correctness is the design problem. [Moremi AI](/case-studies/moremi-ai-multimodal-medical-platform) — the clinical product-design work that came before Varve.

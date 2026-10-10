@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaEnvelope, FaCalendarAlt, FaTimes, FaArrowRight } from '@/lib/icons';
+import { FaEnvelope, FaTimes, FaArrowRight } from '@/lib/icons';
 
 const STORAGE_KEY = 'portfolio-sticky-cta-dismissed';
 
@@ -16,7 +16,7 @@ const STORAGE_KEY = 'portfolio-sticky-cta-dismissed';
  * - Dismissible with localStorage persistence
  */
 export default function StickyCTA({
-    schedulingUrl = 'https://calendly.com/arthurkevin27/15min',
+    schedulingUrl = '/contact',
     emailAddress = 'hello@kevinarthur.design',
     scrollThreshold = 400,
 }) {
@@ -118,12 +118,10 @@ export default function StickyCTA({
                         {/* CTA Button */}
                         <a
                             href={schedulingUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             className="group flex w-full shadow-lg items-center justify-center gap-3 btn-primary-enhanced font-bold text-lg px-6 py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02]"
                         >
-                            <FaCalendarAlt className="w-5 h-5" />
-                            Book a free 15-min call
+                            <FaEnvelope className="w-5 h-5" />
+                            Get in touch
                             <FaArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                         </a>
                     </div>

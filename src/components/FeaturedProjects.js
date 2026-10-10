@@ -4,7 +4,7 @@ import { FaArrowRight, FaLock } from '@/lib/icons';
 import { cn } from '@/lib/utils';
 import ScrollRevealContainer, { ScrollRevealItem } from './ui/ScrollRevealContainer';
 
-export function FeaturedProjects({ posts = [] }) {
+export function FeaturedProjects({ posts = [], titleAs: TitleTag = 'h2' }) {
     if (!posts || posts.length === 0) return null;
 
     return (
@@ -86,9 +86,9 @@ export function FeaturedProjects({ posts = [] }) {
 
                                 <div className="space-y-3">
                                     <Link href={`/case-studies/${post.id}`} className="group-hover:text-primary transition-colors">
-                                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-[1.15] text-balance text-foreground">
+                                        <TitleTag className="text-2xl md:text-3xl lg:text-4xl font-bold leading-[1.15] text-balance text-foreground">
                                             {post.title}
-                                        </h2>
+                                        </TitleTag>
                                     </Link>
                                     <p className="text-base md:text-lg text-muted-enhanced leading-relaxed text-pretty max-w-xl">
                                         {post.summary || post.metaDescription}

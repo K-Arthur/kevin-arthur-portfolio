@@ -59,6 +59,9 @@ const nextConfig = {
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self' https://www.google-analytics.com https://plausible.io https://vercel.live https://vitals.vercel-insights.com",
               "frame-src 'self' https://calendly.com https://vercel.live",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "upgrade-insecure-requests",
             ].join('; '),
           },
           {

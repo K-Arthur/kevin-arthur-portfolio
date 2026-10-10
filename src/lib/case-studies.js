@@ -7,14 +7,22 @@ const postsDirectory = path.join(process.cwd(), 'content', 'case-studies');
 
 // Strategic ordering: Flagship work first, then supporting, then concepts
 const STRATEGIC_ORDER = [
-  'moremi-ai-multimodal-medical-platform',  // 🏆 Flagship: 14mo, CNN, real impact
-  'varve',                                   // 🎨 Design engineering flagship: local-first creative tool
-  'opencode-harness',                        // ⚙️ Engineering flagship: deterministic AI dev tool
+  'varve',                                   // Featured: design-engineering flagship, public beta v0.5.0
+  'moremi-ai-multimodal-medical-platform',  // Product design for clinical-AI tools
+  'opencode-harness',                        // Engineering flagship: deterministic AI dev tool
   'moremi-collaborate',                      // Strong follow-up: shipped feature
   'minohealth-ai-blog',                      // Supporting: content design
   'snackbox-404',                            // Micro-project: shipped
   'kamen-rider-game-hud',                    // Concept: personal work
 ];
+
+export function isDraftOrNoindex(post) {
+  return Boolean(post?.draft || post?.noindex);
+}
+
+export function isListedCaseStudy(post) {
+  return !post?.draft;
+}
 
 export const getSortedCaseStudiesData = cache(() => {
   const fileNames = fs.readdirSync(postsDirectory);
@@ -31,7 +39,7 @@ export const getSortedCaseStudiesData = cache(() => {
   });
 
   // Sort by strategic priority first, then by date for items not in the order list
-  return allPostsData.sort((a, b) => {
+  allPostsData.sort((a, b) => {
     const indexA = STRATEGIC_ORDER.indexOf(a.id);
     const indexB = STRATEGIC_ORDER.indexOf(b.id);
 
@@ -53,11 +61,18 @@ export const getSortedCaseStudiesData = cache(() => {
       return -1;
     }
   });
+
+  return allPostsData;
 });
+
+/** Public listings and sitemap — drafts stay on disk and generate a noindex page. */
+export function getListedCaseStudiesData() {
+  return getSortedCaseStudiesData().filter(isListedCaseStudy);
+}
 
 // Alias function for the case studies page
 export function getCaseStudies() {
-  return getSortedCaseStudiesData();
+  return getListedCaseStudiesData();
 }
 
 export function getAllCaseStudyIds() {

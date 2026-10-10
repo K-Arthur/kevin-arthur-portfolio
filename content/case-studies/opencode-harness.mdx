@@ -1,6 +1,7 @@
 ---
 title: "OpenCode Harness: Engineering a Deterministic AI Development Interface"
 publishedAt: "2026-06-22"
+updatedAt: "2026-10-10"
 role: "Lead Engineer & Product Designer"
 duration: "2026 – Present · Ongoing (beta)"
 status: "shipped"
@@ -15,11 +16,14 @@ tools:
 heroImage: "/images/case-studies/opencode-harness/overview-ide.png"
 heroImageAlt: "OpenCode Harness inside a full VS Code window — TypeScript editor showing the state-persistence code beside the docked OpenCode chat panel with model selection and live context"
 summary: "An open-source VS Code client I built for the opencode AI agent — full chat, real diff review, and several sessions running in tabs. The hard part wasn't the features; it was hunting down 'Silent Staleness', a bug where the data was right under the hood but the UI quietly trusted stale, cached values. The fix was rebuilding the interface around live state that re-derives on every change and persists to ExtensionContext.globalState."
-metaDescription: "Engineering case study: building a deterministic AI development interface as a VS Code extension. Eliminated the 'Silent Staleness' anti-pattern with active re-derivation, hardened state contracts, and 6,000+ automated tests across unit, contract, and visual layers."
+metaDescription: "Engineering case study: OpenCode Harness, a VS Code client I built for the opencode agent. Active re-derivation kills Silent Staleness. 8,736 Open VSX downloads and 16 GitHub stars (Oct 2026). 6,000+ automated tests."
 results:
-  - value: "5,070"
+  - value: "8,736"
     label: "Downloads on Open VSX"
-    context: "Free installs of the beta client · MIT licensed"
+    context: "As of Oct 2026 · MIT licensed"
+  - value: "16"
+    label: "GitHub stars"
+    context: "As of Oct 2026"
   - value: "6,000+"
     label: "Automated Tests"
     context: "Unit, integration, contract & visual layers"
@@ -32,10 +36,10 @@ results:
 ---
 
 <ResultsHighlight results={[
-  { value: "5,070", label: "Downloads on Open VSX", context: "Free installs of the beta client · MIT licensed" },
+  { value: "8,736", label: "Downloads on Open VSX", context: "As of Oct 2026 · MIT licensed" },
+  { value: "16", label: "GitHub stars", context: "As of Oct 2026" },
   { value: "6,000+", label: "Automated Tests", context: "Unit, integration, contract & visual layers" },
-  { value: "121", label: "Contract-Verified Surfaces", context: "50 commands · 20 keybindings · 51 settings" },
-  { value: "18", label: "Visual Regression Gates", context: "Playwright snapshot suites guarding the webview" }
+  { value: "121", label: "Contract-Verified Surfaces", context: "50 commands · 20 keybindings · 51 settings" }
 ]} />
 
 <CaseStudySummary
@@ -49,13 +53,13 @@ OpenCode Harness is an open-source VS Code extension I built to wrap the [openco
 
 > **Open source** — read the code on [GitHub](https://github.com/K-Arthur/opencode-harness) or install it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=koarthur.opencode-harness) or [Open VSX](https://open-vsx.org/extension/koarthur/opencode-harness). Everything described below is in the public repo.
 
-> **Current stats (v0.4.70)** — 5,070 downloads on Open VSX, 148 installs with a 5.0★ rating on the VS Code Marketplace, and 11 GitHub stars across a repo with 9 open issues and an active master branch (MIT licensed). The extension tracks the opencode SDK closely, so these numbers move fast.
+> **Current stats (as of Oct 2026)** — 8,736 downloads on Open VSX and 16 GitHub stars. The extension tracks the opencode SDK closely, so these numbers move fast.
 
 I'm going to skip the feature tour. What's actually worth your time is the story of one specific, maddening class of bug I had to chase down — and the architecture change that finally put it to rest.
 
 ---
 
-## 1. Why I Built It — and Why the Bar Was Higher Than I Expected
+## Why I built it
 
 Honestly, this started as a tool for myself. I was living in the opencode CLI all day and kept hitting the same friction: scrolling back through older chat items was painful, re-reading or reviewing a long response in a terminal was clumsy, and I was forever bouncing between the CLI and my editor (VS Codium) just to actually *look* at the code the agent was changing. I wanted the diff review in the same window. I wanted to do all my work in one place instead of paying a context-switch tax all day long.
 
@@ -224,7 +228,7 @@ Eighteen Playwright snapshot suites photograph the webview in known states and f
 | **Contract surface** | 121 verified surfaces | 50 commands · 20 keybindings · 51 settings asserted against the manifest |
 | **Concurrency** | 5 streams · 20 tabs · 50 sessions | Independent tabs, each with its own model, mode, and persisted history |
 | **Reach** | 75+ models | Per-tab selection across Claude, GPT, Gemini, and dozens more |
-| **Adoption** | 5,000+ downloads | 5,070 on Open VSX, 148 installs (5.0★) on the VS Code Marketplace, 11 GitHub stars |
+| **Adoption** | 8,736 Open VSX downloads | 16 GitHub stars · as of Oct 2026 |
 | **Accessibility** | WCAG-aligned | 24×24px touch targets (WCAG 2.5.5), high-contrast presets, full keyboard nav, focus traps, `prefers-reduced-motion` |
 
 ---
@@ -240,4 +244,6 @@ Eighteen Playwright snapshot suites photograph the webview in known states and f
 
 ---
 
-**Explore the project:** the full source is on [GitHub](https://github.com/K-Arthur/opencode-harness) (MIT licensed), and the extension is live on the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=koarthur.opencode-harness).
+**Explore the project:** the full source is on [GitHub](https://github.com/K-Arthur/opencode-harness) (MIT licensed), and the extension is live on the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=koarthur.opencode-harness) and [Open VSX](https://open-vsx.org/extension/koarthur/opencode-harness).
+
+**Related work:** [Varve](/case-studies/varve) — the same design-to-code loop on a local-first design suite. [Moremi AI](/case-studies/moremi-ai-multimodal-medical-platform) — designing for uncertainty in a different domain.

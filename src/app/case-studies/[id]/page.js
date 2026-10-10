@@ -1,13 +1,14 @@
-import { getCaseStudyData, getAllCaseStudyIds } from '@/lib/case-studies';
+import { getCaseStudyData, getAllCaseStudyIds, isDraftOrNoindex } from '@/lib/case-studies';
 import { notFound } from 'next/navigation';
 import { CloudinaryImage } from '@/components/OptimizedImage';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { mdxComponents } from '@/components/MdxComponents';
 import remarkGfm from 'remark-gfm';
-import { FaCalendarAlt, FaUserTie, FaTools, FaChartLine, FaArrowLeft, FaRocket, FaFlask } from 'react-icons/fa';
+import { FaUserTie, FaTools, FaChartLine, FaArrowLeft, FaRocket, FaFlask } from 'react-icons/fa';
 import Link from 'next/link';
 import contentStyles from './CaseStudyContent.module.css';
 import { getCaseStudySchema } from '@/lib/structured-data';
+import { toAbsoluteUrl } from '@/lib/site-url';
 import dynamic from 'next/dynamic';
 import {
   DottedGlowBackgroundWrapper,
@@ -33,17 +34,24 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const postData = await getCaseStudyData(id);
+  if (!postData) {
+    return { title: 'Case study' };
+  }
+  const noindex = isDraftOrNoindex(postData);
   return {
     title: postData.title,
     description: postData.metaDescription || postData.summary,
     alternates: {
       canonical: `/case-studies/${id}`,
     },
+    robots: noindex ? { index: false, follow: false } : undefined,
     openGraph: {
       title: postData.title,
       description: postData.metaDescription || postData.summary,
       type: 'article',
-      images: postData.heroImage ? [{ url: postData.heroImage, alt: postData.heroImageAlt || postData.title }] : [],
+      images: postData.heroImage
+        ? [{ url: toAbsoluteUrl(postData.heroImage), alt: postData.heroImageAlt || postData.title }]
+        : [{ url: toAbsoluteUrl('/images/og-default.png'), alt: postData.title }],
     },
   };
 }
@@ -64,16 +72,18 @@ export default async function CaseStudyPage({ params }) {
     notFound();
   }
 
-  const caseStudySchema = getCaseStudySchema(postData);
+  const caseStudySchema = isDraftOrNoindex(postData) ? null : getCaseStudySchema(postData);
   const isConcept = postData.status === 'concept';
 
   return (
     <>
       {/* JSON-LD Structured Data for Case Study */}
+      {caseStudySchema && (
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
       />
+      )}
       {/* Global Lightbox for clickable images */}
       <CaseStudyLightboxWrapper />
       {/* Reading Progress Indicator */}
@@ -215,7 +225,7 @@ export default async function CaseStudyPage({ params }) {
           {/* Contextual CTA based on case study industry */}
           <ContextualCTA
             industry={postData.industry || 'general'}
-            schedulingUrl="https://calendly.com/arthurkevin27/15min"
+            schedulingUrl="/contact"
           />
 
           {/* Back to Case Studies Link */}

@@ -1,10 +1,11 @@
-import { getSortedCaseStudiesData } from '@/lib/case-studies';
+import { getListedCaseStudiesData, isDraftOrNoindex } from '@/lib/case-studies';
+import { getSiteUrl } from '@/lib/site-url';
 
 // Force static generation for export
 export const dynamic = 'force-static';
 
 export default async function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kevinarthur.design';
+  const baseUrl = getSiteUrl();
 
   // Static pages
   const routes = [
@@ -23,7 +24,7 @@ export default async function sitemap() {
   // Dynamic pages (Case Studies from Markdown)
   let caseStudies = [];
   try {
-    const allPostsData = getSortedCaseStudiesData();
+    const allPostsData = getListedCaseStudiesData().filter((post) => !isDraftOrNoindex(post));
     caseStudies = allPostsData.map((post) => ({
       url: `${baseUrl}/case-studies/${post.id}`,
       lastModified: new Date(),

@@ -18,6 +18,7 @@
 export {
   FaArrowRight,
   FaLinkedin,
+  FaGithub,
   FaBehanceSquare,
   FaRocket,
   FaFlask,

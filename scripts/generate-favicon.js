@@ -33,9 +33,8 @@ sizes.forEach(size => {
   console.log(`Generated ${filename}`);
 });
 
-// Create main favicon.ico reference (browsers will use SVG)
-fs.writeFileSync(path.join(publicDir, 'favicon.ico'), '');
-console.log('Created favicon.ico placeholder');
+// favicon.ico is generated from the existing PNG/SVG icons by scripts/build-favicon.py
+// Do not write a 0-byte placeholder here.
 
 // Create site.webmanifest
 const manifest = {
