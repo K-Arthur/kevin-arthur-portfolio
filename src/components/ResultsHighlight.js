@@ -73,8 +73,9 @@ export default function ResultsHighlight({ results }) {
     const isMounted = useMounted();
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
+    const visible = (results || []).filter((item) => item && item.confirmed !== false);
 
-    if (!results || results.length === 0) return null;
+    if (visible.length === 0) return null;
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -113,7 +114,7 @@ export default function ResultsHighlight({ results }) {
                 animate={isMounted ? "visible" : "hidden"}
                 viewport={{ once: true, amount: 0.3 }}
             >
-                {results.map((result, index) => (
+                {visible.map((result, index) => (
                     <motion.div
                         key={index}
                         className="text-center space-y-2"
