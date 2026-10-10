@@ -2,8 +2,9 @@ import { recognition } from '@/data/portfolio-data';
 import { cn } from '@/lib/utils';
 
 export default function RecognitionSection({ className = '' }) {
-  const mediaItems = recognition.filter(r => r.type === 'media' || r.type === 'award');
-  const impactItems = recognition.filter(r => r.type === 'impact');
+  const confirmed = recognition.filter((r) => r.confirmed !== false);
+  const mediaItems = confirmed.filter(r => r.type === 'media' || r.type === 'award');
+  const impactItems = confirmed.filter(r => r.type === 'impact');
 
   if (mediaItems.length === 0 && impactItems.length === 0) {
     return null;
