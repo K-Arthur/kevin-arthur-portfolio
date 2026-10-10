@@ -128,7 +128,7 @@ export default function HomeClient({ posts }) {
         <div className="relative z-10 container-responsive space-y-12">
           <div className="space-y-8 animate-hero-fade">
             <p className="text-xs sm:text-sm font-medium tracking-wide text-muted-enhanced max-w-3xl mx-auto leading-relaxed px-2">
-              Kevin Arthur · Design Engineer &amp; Product Designer · Vancouver, remote in Canada
+              Kevin Arthur · Design Engineer &amp; Product Designer · Vancouver, Canada
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground text-balance">
               I design product interfaces and <span className="gradient-text-brand">ship them in code.</span>
@@ -137,6 +137,9 @@ export default function HomeClient({ posts }) {
             <div className="space-y-6 animate-hero-fade" style={{ animationDelay: '0.1s' }}>
               <p className="text-lg md:text-xl lg:text-2xl text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light">
                 I founded Varve, a free, local-first design suite, and built its React/TypeScript editor — now in public beta (v0.5.0, Oct 2026). Before that I owned product design for clinical-AI tools at minoHealth AI Labs.
+              </p>
+              <p className="text-base md:text-lg text-muted-enhanced max-w-3xl mx-auto leading-relaxed">
+                Open to remote roles.
               </p>
             </div>
           </div>
@@ -216,7 +219,7 @@ export default function HomeClient({ posts }) {
           <div className="max-w-3xl">
             <p className="text-sm font-semibold tracking-widest text-primary uppercase mb-4">About</p>
             <h2 id="about-teaser-heading" className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-              Design engineer in Vancouver
+              Design engineer and product designer
             </h2>
             <p className="text-base md:text-lg text-muted-enhanced leading-relaxed mb-8">
               Kevin Arthur is a design engineer and product designer based in Vancouver, Canada. He founded Varve, a free, local-first design suite (public beta v0.5.0, October 2026), and designed and built its React and TypeScript editor. From 2023 to 2025 he was a product designer for clinical-AI tools at minoHealth AI Labs.
@@ -248,7 +251,7 @@ export default function HomeClient({ posts }) {
               Open to design engineer and <span className="text-primary">frontend roles</span>
             </h2>
             <p className="text-lg text-muted-enhanced max-w-3xl mx-auto mb-10">
-              Remote in Canada, or Vancouver. If you&apos;re hiring a designer who ships in React and TypeScript, get in touch.
+              If you&apos;re hiring a designer who ships in React and TypeScript, get in touch.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 flex-wrap w-full sm:w-auto">
               <MagneticButton

@@ -16,7 +16,7 @@ export const personSchema = {
     "givenName": "Kevin",
     "familyName": "Arthur",
     "jobTitle": "Design Engineer & Product Designer",
-    "description": "Design Engineer and Product Designer who ships product interfaces in React and TypeScript. Founder of Varve. Based in Vancouver, Canada; open to remote roles in Canada.",
+    "description": "Design Engineer and Product Designer who ships product interfaces in React and TypeScript. Founder of Varve. Based in Vancouver, Canada.",
     "url": BASE_URL,
     "image": toAbsoluteUrl('/images/profile-image.jpg'),
     "sameAs": [
@@ -132,7 +132,7 @@ export const websiteSchema = {
     "@type": "WebSite",
     "@id": `${BASE_URL}/#website`,
     "name": "Kevin Arthur Design",
-    "description": "Design Engineer and Product Designer in Vancouver. I design product interfaces and ship them in React and TypeScript. Open to remote roles in Canada.",
+    "description": "Design Engineer and Product Designer in Vancouver, Canada. I design product interfaces and ship them in React and TypeScript.",
     "url": BASE_URL,
     "inLanguage": "en-US",
     "author": {

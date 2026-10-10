@@ -152,7 +152,7 @@ export default function LabPage() {
             <div className="text-center py-10 sm:py-16 card-enhanced rounded-2xl bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 px-4 sm:px-6">
               <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3 sm:mb-4">Open to design engineer and frontend roles</h2>
               <p className="text-muted-foreground mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed text-sm sm:text-base">
-                Remote in Canada, or Vancouver. If you&apos;re hiring a designer who ships in React and TypeScript, get in touch.
+                If you&apos;re hiring a designer who ships in React and TypeScript, get in touch.
               </p>
               <a
                 href="/contact"

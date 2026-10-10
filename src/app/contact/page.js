@@ -44,7 +44,7 @@ export default function ContactPage() {
             Get in touch
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed">
-            Open to design engineer and frontend roles. Remote in Canada, or Vancouver.
+            Open to remote roles.
           </p>
         </header>
 

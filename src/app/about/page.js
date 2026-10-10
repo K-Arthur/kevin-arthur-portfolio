@@ -169,7 +169,7 @@ export default function AboutPage() {
           <div className="text-center py-10 sm:py-16 card-enhanced rounded-2xl bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 px-4 sm:px-6">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3 sm:mb-4">Get in touch</h2>
             <p className="text-muted-foreground mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed text-sm sm:text-base">
-              Open to design engineer and frontend roles. Remote in Canada, or Vancouver.
+              Open to design engineer and frontend roles.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link

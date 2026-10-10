@@ -28,7 +28,7 @@ const industryContent = {
     },
     general: {
         headline: "Open to design engineer and frontend roles",
-        subtext: "Remote in Canada, or Vancouver. If you're hiring a designer who ships in React and TypeScript, get in touch.",
+        subtext: "If you're hiring a designer who ships in React and TypeScript, get in touch.",
     },
 };
 

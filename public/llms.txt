@@ -1,6 +1,6 @@
 # Kevin Arthur
 
-Kevin Arthur is a design engineer and product designer based in Vancouver, Canada. He designs product interfaces and ships them in React and TypeScript. Open to remote roles in Canada.
+Kevin Arthur is a design engineer and product designer based in Vancouver, Canada. He designs product interfaces and ships them in React and TypeScript.
 
 ## Products
 
