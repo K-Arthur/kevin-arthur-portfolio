@@ -222,7 +222,7 @@ export default function HomeClient({ posts }) {
               Design engineer and product designer
             </h2>
             <p className="text-base md:text-lg text-muted-enhanced leading-relaxed mb-8">
-              Kevin Arthur is a design engineer and product designer based in Vancouver, Canada. He founded Varve, a free, local-first design suite (public beta v0.5.0, October 2026), and designed and built its React and TypeScript editor. From 2023 to 2025 he was a product designer for clinical-AI tools at minoHealth AI Labs.
+              Kevin Arthur is a design engineer and product designer. He founded Varve, a free, local-first design suite (public beta v0.5.0, October 2026), and designed and built its React and TypeScript editor. From 2023 to 2025 he was a product designer for clinical-AI tools at minoHealth AI Labs.
             </p>
             <Link
               href="/about"
