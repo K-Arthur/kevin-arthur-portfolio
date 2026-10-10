@@ -19,14 +19,14 @@ summary: "An open-source VS Code client I built for the opencode AI agent — fu
 metaDescription: "Engineering case study: OpenCode Harness, a VS Code client I built for the opencode agent. Active re-derivation kills Silent Staleness. 8,736 Open VSX downloads and 16 GitHub stars (Oct 2026). 6,000+ automated tests."
 results:
   - value: "8,736"
-    label: "Downloads on Open VSX"
-    context: "As of Oct 2026 · MIT licensed"
+    label: "Downloads (Oct 2026)"
+    context: "Open VSX · MIT licensed"
   - value: "16"
-    label: "GitHub stars"
+    label: "GitHub stars (Oct 2026)"
     context: "As of Oct 2026"
   - value: "6,000+"
     label: "Automated Tests"
-    context: "Unit, integration, contract & visual layers"
+    context: "Unit, integration, contract & visual layers — github.com/K-Arthur/opencode-harness/tree/master/tests"
   - value: "121"
     label: "Contract-Verified Surfaces"
     context: "50 commands · 20 keybindings · 51 settings"
@@ -36,8 +36,8 @@ results:
 ---
 
 <ResultsHighlight results={[
-  { value: "8,736", label: "Downloads on Open VSX", context: "As of Oct 2026 · MIT licensed" },
-  { value: "16", label: "GitHub stars", context: "As of Oct 2026" },
+  { value: "8,736", label: "Downloads (Oct 2026)", context: "Open VSX · MIT licensed" },
+  { value: "16", label: "GitHub stars (Oct 2026)", context: "As of Oct 2026" },
   { value: "6,000+", label: "Automated Tests", context: "Unit, integration, contract & visual layers" },
   { value: "121", label: "Contract-Verified Surfaces", context: "50 commands · 20 keybindings · 51 settings" }
 ]} />
@@ -46,14 +46,14 @@ results:
   problem="I built this to live inside my editor all day, which meant the people using it — starting with me — would notice the instant the UI lied. And it did lie, in a way I started calling 'Silent Staleness'. The data underneath was correct, but the interface kept trusting cached values and start-up snapshots that never refreshed. Features looked wired; some were quietly dead."
   solution="I rebuilt the state pipeline around one simple rule I now call Active Re-Derivation: the UI never trusts a cached local — it rebuilds itself from live state on every change, then writes that truth down to ExtensionContext.globalState. I paired that with strict CSS containment so the layout can't deform when fonts scale or text flips to RTL, and a wall of automated tests so these dead wires can't quietly creep back."
   role="Lead Engineer & Product Designer — I designed and built all of it solo: the host/webview split, the IPC bridge, the state-persistence layer, the accessibility work, and the contract + visual testing framework."
-  impact="Shipped a free, open-source VS Code client with multiple concurrent AI sessions, 75+ models, and a UI I can actually trust — backed by 6,000+ automated tests. Silent Staleness went from an invisible production risk to a loud, repeatable test failure."
+  impact="Shipped a free, open-source VS Code client with multiple concurrent AI sessions, 75+ models, and a UI I can actually trust — backed by 6,000+ automated tests in the public tests directory. Silent Staleness went from an invisible production risk to a loud, repeatable test failure."
 />
 
 OpenCode Harness is an open-source VS Code extension I built to wrap the [opencode](https://opencode.ai) CLI agent in a real graphical client — a chat panel, a proper side-by-side diff viewer, and several sessions running in tabs at once. It starts the agent's server for you and talks to it over an HTTP SDK, so the whole agentic loop — tool calls, diffs, subagents, reasoning — lives inside the editor instead of scrolling past in a terminal you keep flipping back to.
 
 > **Open source** — read the code on [GitHub](https://github.com/K-Arthur/opencode-harness) or install it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=koarthur.opencode-harness) or [Open VSX](https://open-vsx.org/extension/koarthur/opencode-harness). Everything described below is in the public repo.
 
-> **Current stats (as of Oct 2026)** — 8,736 downloads on Open VSX and 16 GitHub stars. The extension tracks the opencode SDK closely, so these numbers move fast.
+> **Current stats (as of Oct 2026)** — 8,736 downloads on Open VSX and 16 GitHub stars. [6,000+ automated tests](https://github.com/K-Arthur/opencode-harness/tree/master/tests) (6,220 `it`/`test` calls in the public repo). The extension tracks the opencode SDK closely, so these numbers move fast.
 
 I'm going to skip the feature tour. What's actually worth your time is the story of one specific, maddening class of bug I had to chase down — and the architecture change that finally put it to rest.
 

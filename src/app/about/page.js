@@ -161,13 +161,8 @@ export default function AboutPage() {
         <Section>
           <SectionTitle icon={<FaGraduationCap />}>Education</SectionTitle>
           <p className="text-base sm:text-lg text-foreground leading-relaxed">
-            {education[0]?.degree}
+            {education[0]?.degree}. {education[1]?.degree}, {education[1]?.institution} ({education[1]?.period}).
           </p>
-          {education[1] && (
-            <p className="text-sm text-muted-foreground mt-2">
-              {education[1].degree}, {education[1].institution} ({education[1].period})
-            </p>
-          )}
         </Section>
 
         <Section>

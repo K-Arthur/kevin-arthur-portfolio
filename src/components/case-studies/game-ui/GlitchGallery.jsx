@@ -173,19 +173,19 @@ export default function GlitchGallery({ images }) {
     const [lightboxIndex, setLightboxIndex] = useState(null);
 
     const defaultImages = [
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725657/Main_Menu_-_Press_Start_llbfhm.png", alt: "Main Menu - Press Start" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725660/Main_Menu_-_New_Game_mpplzh.png", alt: "Main Menu - New Game" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725668/Mission_Select_vcdg2w.png", alt: "Mission Select Screen" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725647/Main_Menu_-_Load_Game_pjadsr.png", alt: "Load Game Screen" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725666/Main_Menu_-_Settings_p1gtc6.png", alt: "Settings Menu" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725665/Option_Screen_cysvfk.png", alt: "Options Screen" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725664/Select_Save_umh4bq.png", alt: "Save Selection" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725643/Main_Menu_-_Gallery_nf3ynk.png", alt: "Gallery Main Menu" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725643/Gallery_Menu_sshzbr.png", alt: "Gallery Selection" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725634/Gallery_View_xqu25c.png", alt: "Gallery View" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725642/Difficulty_Select_nosixm.png", alt: "Difficulty Select" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725657/Map_Loading_Screen_dpobg4.png", alt: "Map Loading" },
-        { src: "https://res.cloudinary.com/dov1tv077/image/upload/v1769725624/Loading_Screen_llxrsj.png", alt: "Loading Screen" },
+        { src: "/images/case-studies/kamen-rider/main-menu-press-start.webp", alt: "Main menu — Press Start" },
+        { src: "/images/case-studies/kamen-rider/main-menu-new-game.webp", alt: "Main menu — New Game" },
+        { src: "/images/case-studies/kamen-rider/mission-select.webp", alt: "Mission Select screen" },
+        { src: "/images/case-studies/kamen-rider/main-menu-load-game.webp", alt: "Main menu — Load Game" },
+        { src: "/images/case-studies/kamen-rider/main-menu-settings.webp", alt: "Main menu — Settings" },
+        { src: "/images/case-studies/kamen-rider/option-screen.webp", alt: "Options screen" },
+        { src: "/images/case-studies/kamen-rider/select-save.webp", alt: "Save selection" },
+        { src: "/images/case-studies/kamen-rider/main-menu-gallery.webp", alt: "Main menu — Gallery" },
+        { src: "/images/case-studies/kamen-rider/gallery-menu.webp", alt: "Gallery selection" },
+        { src: "/images/case-studies/kamen-rider/gallery-view.webp", alt: "Gallery view" },
+        { src: "/images/case-studies/kamen-rider/difficulty-select.webp", alt: "Difficulty select" },
+        { src: "/images/case-studies/kamen-rider/map-loading.webp", alt: "Map loading" },
+        { src: "/images/case-studies/kamen-rider/loading-screen.webp", alt: "Loading screen" },
     ];
 
     const galleryImages = images || defaultImages;

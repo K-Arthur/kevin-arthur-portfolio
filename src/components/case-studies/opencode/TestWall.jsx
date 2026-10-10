@@ -49,8 +49,15 @@ export default function TestWall() {
           <p className="text-sm text-muted-foreground">What turns a silent dead wire into a red build.</p>
         </div>
         <div className="text-right">
-          <div className="text-4xl font-bold text-primary tabular-nums"><Count to={6000} suffix="+" start={inView} /></div>
-          <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">automated tests</div>
+          <a
+            href="https://github.com/K-Arthur/opencode-harness/tree/master/tests"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-right hover:opacity-80"
+          >
+            <div className="text-4xl font-bold text-primary tabular-nums"><Count to={6000} suffix="+" start={inView} /></div>
+            <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">automated tests</div>
+          </a>
         </div>
       </div>
 
