@@ -6,10 +6,10 @@ export const dynamic = 'force-static';
 
 export const metadata = {
   title: 'Kevin Arthur | Design Engineer & Product Designer',
-  description: 'Kevin Arthur, Design Engineer in Vancouver. I design product interfaces and ship them in React and TypeScript. Founder of Varve, a local-first design suite.',
+  description: 'Kevin Arthur, Design Engineer in Vancouver, Canada. I design product interfaces and ship them in React and TypeScript. Founder of Varve, a local-first design suite.',
   openGraph: {
     title: 'Kevin Arthur | Design Engineer & Product Designer',
-    description: 'Kevin Arthur, Design Engineer in Vancouver. I design product interfaces and ship them in React and TypeScript. Founder of Varve, a local-first design suite.',
+    description: 'Kevin Arthur, Design Engineer in Vancouver, Canada. I design product interfaces and ship them in React and TypeScript. Founder of Varve, a local-first design suite.',
     url: '/',
     type: 'website',
     siteName: 'Kevin Arthur Design',
@@ -19,7 +19,7 @@ export const metadata = {
         url: '/images/og-default.png',
         width: 1200,
         height: 630,
-        alt: 'Kevin Arthur — Design Engineer · Vancouver',
+        alt: 'Kevin Arthur — Design Engineer · Vancouver, Canada',
       },
     ],
   },

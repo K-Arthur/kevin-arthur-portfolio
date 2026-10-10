@@ -8,7 +8,7 @@ export const personalInfo = {
   email: 'hello@kevinarthur.design',
   phone: '+1 672-380-2593',
   tel: '+16723802593',
-  summary: "I take complex products from research and Figma to production React and TypeScript. Based in Vancouver, open to remote roles in Canada.",
+  summary: "I take complex products from research and Figma to production React and TypeScript.",
   heroTitle1: 'Design Engineer',
   heroTitle2: 'Product Designer',
   differentiationStatement: 'I design product interfaces and ship them in code — React, TypeScript, and Next.js — for teams that need both craft and implementation.',

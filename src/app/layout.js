@@ -32,15 +32,15 @@ export const metadata = {
     default: 'Kevin Arthur | Design Engineer & Product Designer',
     template: '%s | Kevin Arthur Design'
   },
-  description: 'Kevin Arthur, Design Engineer in Vancouver. I design product interfaces and ship them in React and TypeScript. Founder of Varve, a local-first design suite.',
-  keywords: ['Design Engineer', 'Product Designer', 'Frontend Engineer', 'React', 'TypeScript', 'Next.js', 'Vancouver', 'Canada remote', 'Varve'],
+  description: 'Kevin Arthur, Design Engineer in Vancouver, Canada. I design product interfaces and ship them in React and TypeScript. Founder of Varve, a local-first design suite.',
+  keywords: ['Design Engineer', 'Product Designer', 'Frontend Engineer', 'React', 'TypeScript', 'Next.js', 'Vancouver', 'Canada', 'Varve'],
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: './',
   },
   openGraph: {
     title: 'Kevin Arthur | Design Engineer & Product Designer',
-    description: 'I design product interfaces and ship them in code. Design Engineer and Product Designer in Vancouver, open to remote roles in Canada.',
+    description: 'I design product interfaces and ship them in code. Design Engineer and Product Designer in Vancouver, Canada.',
     url: '/',
     siteName: 'Kevin Arthur Design',
     locale: 'en_US',
@@ -68,7 +68,7 @@ export const metadata = {
   twitter: {
     title: 'Kevin Arthur | Design Engineer & Product Designer',
     card: 'summary_large_image',
-    description: 'I design product interfaces and ship them in code. Vancouver, open to remote roles in Canada.',
+    description: 'I design product interfaces and ship them in code. Vancouver, Canada.',
     images: ['/images/og-default.png'],
   },
 };
