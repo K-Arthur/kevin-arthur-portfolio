@@ -1,25 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { getContextualMessage } from '@/data/contact-config';
 
 export default function ContactForm() {
   const searchParams = useSearchParams();
-  const [message, setMessage] = useState('');
-  const [formStatus, setFormStatus] = useState('idle');
-
-  useEffect(() => {
-    const contextualMessage = getContextualMessage({
+  const [message, setMessage] = useState(() =>
+    getContextualMessage({
       source: searchParams.get('source'),
       caseStudyTitle: searchParams.get('caseStudyTitle'),
-    });
-
-    if (contextualMessage) {
-      setMessage(contextualMessage);
-    }
-  }, [searchParams]);
+    })
+  );
+  const [formStatus, setFormStatus] = useState('idle');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
