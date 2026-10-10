@@ -1,48 +1,11 @@
 "use client";
-import { useRef } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 /**
- * ScrollRevealContainer - Wrapper for scroll-triggered reveal animations
- * 
- * Features:
- * - Multiple animation variants (fade, slide, scale)
- * - Stagger support for child elements
- * - Respects reduced motion preferences
- * - Customizable viewport margin and threshold
+ * CSS scroll-reveal — no framer-motion on the homepage card path.
+ * Respects prefers-reduced-motion.
  */
-
-const variants = {
-    fade: {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 }
-    },
-    slideUp: {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0 }
-    },
-    slideDown: {
-        hidden: { opacity: 0, y: -30 },
-        visible: { opacity: 1, y: 0 }
-    },
-    slideLeft: {
-        hidden: { opacity: 0, x: 30 },
-        visible: { opacity: 1, x: 0 }
-    },
-    slideRight: {
-        hidden: { opacity: 0, x: -30 },
-        visible: { opacity: 1, x: 0 }
-    },
-    scale: {
-        hidden: { opacity: 0, scale: 0.9 },
-        visible: { opacity: 1, scale: 1 }
-    },
-    scaleUp: {
-        hidden: { opacity: 0, scale: 0.8, y: 20 },
-        visible: { opacity: 1, scale: 1, y: 0 }
-    }
-};
-
 export default function ScrollRevealContainer({
     children,
     variant = "slideUp",
@@ -52,80 +15,56 @@ export default function ScrollRevealContainer({
     viewportMargin = "-100px",
     once = true,
     className = "",
-    as = "div"
+    as: Tag = "div",
+    immediate = false,
 }) {
     const ref = useRef(null);
-    const isInView = useInView(ref, {
-        once,
-        margin: viewportMargin
-    });
-    const shouldReduceMotion = useReducedMotion();
+    const [shown, setShown] = useState(immediate);
 
-    const selectedVariant = variants[variant] || variants.slideUp;
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
 
-    // If reduced motion, show immediately without animation
-    if (shouldReduceMotion) {
-        const Component = as;
-        return (
-            <Component ref={ref} className={className}>
-                {children}
-            </Component>
+        if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setShown(true);
+            return;
+        }
+
+        const io = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setShown(true);
+                    if (once) io.disconnect();
+                } else if (!once) {
+                    setShown(false);
+                }
+            },
+            { rootMargin: viewportMargin }
         );
-    }
-
-    const MotionComponent = motion[as] || motion.div;
+        io.observe(el);
+        return () => io.disconnect();
+    }, [once, viewportMargin]);
 
     return (
-        <MotionComponent
+        <Tag
             ref={ref}
-            className={className}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={{
-                hidden: selectedVariant.hidden,
-                visible: {
-                    ...selectedVariant.visible,
-                    transition: {
-                        duration,
-                        delay,
-                        ease: [0.25, 0.46, 0.45, 0.94],
-                        staggerChildren: staggerChildren > 0 ? staggerChildren : undefined
-                    }
-                }
+            className={cn('scroll-reveal', shown && 'scroll-reveal-in', className)}
+            style={{
+                '--scroll-reveal-duration': `${duration}s`,
+                '--scroll-reveal-delay': `${delay}s`,
             }}
+            data-variant={variant}
+            data-stagger={staggerChildren || undefined}
         >
             {children}
-        </MotionComponent>
+        </Tag>
     );
 }
 
-/**
- * ScrollRevealItem - Child component for staggered animations
- * Use inside ScrollRevealContainer with staggerChildren > 0
- */
 export function ScrollRevealItem({
     children,
     className = "",
-    as = "div"
+    as: Tag = "div"
 }) {
-    const shouldReduceMotion = useReducedMotion();
-
-    if (shouldReduceMotion) {
-        const Component = as;
-        return <Component className={className}>{children}</Component>;
-    }
-
-    const MotionComponent = motion[as] || motion.div;
-
-    return (
-        <MotionComponent
-            className={className}
-            variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 }
-            }}
-        >
-            {children}
-        </MotionComponent>
-    );
+    return <Tag className={className}>{children}</Tag>;
 }

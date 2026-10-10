@@ -368,6 +368,29 @@
     animation: heroFadeIn 0.4s ease-out forwards;
   }
 
+  /* CSS scroll-reveal (replaces framer-motion on homepage cards) */
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition-property: opacity, transform;
+    transition-duration: var(--scroll-reveal-duration, 0.5s);
+    transition-delay: var(--scroll-reveal-delay, 0s);
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scroll-reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
   .animation-delay-200 {
     animation-delay: 0.2s;
   }

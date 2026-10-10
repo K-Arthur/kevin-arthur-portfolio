@@ -189,7 +189,7 @@ export default function HomeClient({ posts }) {
               Featured case study
             </h2>
           </div>
-          <FeaturedProjects posts={[featuredPost]} titleAs="h3" />
+          <FeaturedProjects posts={[featuredPost]} titleAs="h3" priorityFirst />
         </section>
       )}
 

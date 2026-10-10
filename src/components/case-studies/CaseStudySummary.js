@@ -8,19 +8,19 @@ const CaseStudySummary = ({ problem, solution, role, impact }) => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         <div>
-          <h4 className="font-semibold text-primary mb-2 text-sm uppercase tracking-wider">The Problem</h4>
+          <h3 className="font-semibold text-primary mb-2 text-sm uppercase tracking-wider">The Problem</h3>
           <p className="text-muted-foreground text-base leading-relaxed">{problem}</p>
         </div>
         <div>
-          <h4 className="font-semibold text-primary mb-2 text-sm uppercase tracking-wider">The Solution</h4>
+          <h3 className="font-semibold text-primary mb-2 text-sm uppercase tracking-wider">The Solution</h3>
           <p className="text-muted-foreground text-base leading-relaxed">{solution}</p>
         </div>
         <div>
-          <h4 className="font-semibold text-primary mb-2 text-sm uppercase tracking-wider">My Role</h4>
+          <h3 className="font-semibold text-primary mb-2 text-sm uppercase tracking-wider">My Role</h3>
           <p className="text-muted-foreground text-base leading-relaxed">{role}</p>
         </div>
         <div>
-          <h4 className="font-semibold text-primary mb-2 text-sm uppercase tracking-wider">Business Impact</h4>
+          <h3 className="font-semibold text-primary mb-2 text-sm uppercase tracking-wider">Business Impact</h3>
           <p className="text-muted-foreground text-base leading-relaxed font-medium">{impact}</p>
         </div>
       </div>

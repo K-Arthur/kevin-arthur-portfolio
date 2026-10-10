@@ -2,14 +2,12 @@ import { onCLS, onINP, onFCP, onLCP, onTTFB } from 'web-vitals';
 
 // Export the report function
 export function reportWebVitals(metric) {
-  console.log(metric);
-  
-  // Send to analytics
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', metric.name, {
-      value: Math.round(metric.value),
-      event_label: metric.id,
-      non_interaction: true,
+  if (typeof window !== 'undefined' && window.plausible) {
+    window.plausible(metric.name, {
+      props: {
+        value: Math.round(metric.value),
+        id: metric.id,
+      },
     });
   }
 }

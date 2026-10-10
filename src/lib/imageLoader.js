@@ -10,7 +10,9 @@
  * and "image-delivery-insight" opportunities for ALL images, not just the ones
  * that happen to pass through CloudinaryImage with a srcSet.
  *
- * Non-Cloudinary URLs are returned untouched (served as-is, unoptimized).
+ * Used only when passed as the `loader` prop on Cloudinary <Image>s.
+ * Local images go through the default Next.js optimizer (AVIF/WebP).
+ * Non-Cloudinary URLs are returned untouched if this loader is called anyway.
  *
  * @param {{ src: string, width: number, quality?: string|number }} params
  * @returns {string}

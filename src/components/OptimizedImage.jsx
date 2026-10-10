@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { optimizeCloudinaryUrl, generateCloudinarySrcSet, DEFAULT_SIZES } from '@/lib/cloudinary';
+import cloudinaryLoader from '@/lib/imageLoader';
 
 /**
  * OptimizedImage Component
@@ -36,7 +37,7 @@ export function OptimizedImage({
   const isCloudinary = src && typeof src === 'string' && src.includes('res.cloudinary.com');
 
   if (!isCloudinary) {
-    // Use standard Next.js Image for non-Cloudinary images
+    // Default Next optimizer — AVIF/WebP + responsive srcset for local files
     return (
       <Image
         src={src}
@@ -80,6 +81,7 @@ export function OptimizedImage({
 
   return (
     <Image
+      loader={cloudinaryLoader}
       src={optimizedSrc}
       alt={alt}
       width={width}
@@ -119,7 +121,7 @@ export function CloudinaryImage({
   ...props
 }) {
   if (!src || typeof src !== 'string' || !src.includes('res.cloudinary.com')) {
-    // Fall back to standard Image for non-Cloudinary URLs
+    // Local / non-Cloudinary: Next.js optimizer (AVIF/WebP)
     return (
       <Image
         src={src}
@@ -165,6 +167,7 @@ export function CloudinaryImage({
 
   return (
     <Image
+      loader={cloudinaryLoader}
       src={optimizedSrc}
       alt={alt}
       width={width}
