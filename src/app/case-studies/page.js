@@ -1,4 +1,4 @@
-import { getSortedCaseStudiesData } from '@/lib/case-studies';
+import { getListedCaseStudiesData } from '@/lib/case-studies';
 import CaseStudiesClient from './CaseStudiesClient';
 import PageBackdrop from '@/components/PageBackdrop';
 import { FaBriefcase } from 'react-icons/fa';
@@ -18,7 +18,7 @@ export const metadata = {
 };
 
 export default function CaseStudiesPage() {
-  const allPostsData = getSortedCaseStudiesData();
+  const allPostsData = getListedCaseStudiesData();
 
   return (
     <div className="relative min-h-screen">

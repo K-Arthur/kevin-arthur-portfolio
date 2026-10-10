@@ -95,8 +95,7 @@ export const professionalExperience = [
     role: 'Founder, Designer & Engineer',
     company: 'Varve',
     location: 'Vancouver, Canada',
-    // TODO: Kevin to confirm — Varve start date. Site previously said Jun 2026; resume may disagree. Using Jul 2026 per brief (repo created 2026-07-02; ADR-0001 dated 2026-06-27).
-    period: 'Jul 2026 – Present',
+    period: 'Jun 2026 – Present',
     description: 'I design and ship Varve, a free, local-first design suite: a React/TypeScript editor on a Rust/WASM engine, its own DTCG token design system, and six task workspaces. Public beta v0.5.0 on Linux, macOS and Windows. Source-available under FSL-1.1-MIT.',
     highlights: [
       'Product direction, interface design, and production editor code',
@@ -162,8 +161,6 @@ export const expertiseAreas = [
 ];
 
 export const designPhilosophy = "Great design happens when strategy meets implementation. I design for uncertainty in AI products, and I ship the interface in code so the tokens, states, and constraints stay honest.";
-
-export const testimonials = [];
 
 export const projects = {
   behance: {

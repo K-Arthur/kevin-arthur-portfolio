@@ -1,4 +1,4 @@
-import { getSortedCaseStudiesData } from '@/lib/case-studies';
+import { getListedCaseStudiesData } from '@/lib/case-studies';
 import HomeClient from './HomeClient';
 
 export const dynamic = 'force-static';
@@ -21,7 +21,7 @@ export const metadata = {
 };
 
 export default function HomePage() {
-    const allPostsData = getSortedCaseStudiesData();
+    const allPostsData = getListedCaseStudiesData();
 
     return <HomeClient posts={allPostsData} />;
 }

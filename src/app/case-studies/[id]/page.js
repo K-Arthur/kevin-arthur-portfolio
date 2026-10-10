@@ -1,4 +1,4 @@
-import { getCaseStudyData, getAllCaseStudyIds } from '@/lib/case-studies';
+import { getCaseStudyData, getAllCaseStudyIds, isDraftOrNoindex } from '@/lib/case-studies';
 import { notFound } from 'next/navigation';
 import { CloudinaryImage } from '@/components/OptimizedImage';
 import { MDXRemote } from 'next-mdx-remote/rsc';
@@ -34,12 +34,17 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const postData = await getCaseStudyData(id);
+  if (!postData) {
+    return { title: 'Case study' };
+  }
+  const noindex = isDraftOrNoindex(postData);
   return {
     title: postData.title,
     description: postData.metaDescription || postData.summary,
     alternates: {
       canonical: `/case-studies/${id}`,
     },
+    robots: noindex ? { index: false, follow: false } : undefined,
     openGraph: {
       title: postData.title,
       description: postData.metaDescription || postData.summary,
@@ -67,16 +72,18 @@ export default async function CaseStudyPage({ params }) {
     notFound();
   }
 
-  const caseStudySchema = getCaseStudySchema(postData);
+  const caseStudySchema = isDraftOrNoindex(postData) ? null : getCaseStudySchema(postData);
   const isConcept = postData.status === 'concept';
 
   return (
     <>
       {/* JSON-LD Structured Data for Case Study */}
+      {caseStudySchema && (
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
       />
+      )}
       {/* Global Lightbox for clickable images */}
       <CaseStudyLightboxWrapper />
       {/* Reading Progress Indicator */}

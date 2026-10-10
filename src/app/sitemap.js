@@ -1,4 +1,4 @@
-import { getSortedCaseStudiesData } from '@/lib/case-studies';
+import { getListedCaseStudiesData, isDraftOrNoindex } from '@/lib/case-studies';
 import { getSiteUrl } from '@/lib/site-url';
 
 // Force static generation for export
@@ -24,7 +24,7 @@ export default async function sitemap() {
   // Dynamic pages (Case Studies from Markdown)
   let caseStudies = [];
   try {
-    const allPostsData = getSortedCaseStudiesData();
+    const allPostsData = getListedCaseStudiesData().filter((post) => !isDraftOrNoindex(post));
     caseStudies = allPostsData.map((post) => ({
       url: `${baseUrl}/case-studies/${post.id}`,
       lastModified: new Date(),

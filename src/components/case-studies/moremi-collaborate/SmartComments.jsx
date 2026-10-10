@@ -92,7 +92,7 @@ export default function SmartComments() {
                                 >
                                     <div className="flex items-center gap-2 mb-2">
                                         <div className="w-5 h-5 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full"></div>
-                                        <span className="text-[10px] font-bold text-muted-foreground">Dr. Arthur</span>
+                                        <span className="text-[10px] font-bold text-muted-foreground">You</span>
                                     </div>
                                     <input
                                         autoFocus

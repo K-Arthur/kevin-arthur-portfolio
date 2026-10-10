@@ -6,7 +6,7 @@ import { useReducedMotion } from 'framer-motion';
 
 const MILESTONES = [
   {
-    date: 'Jun 27, 2026',
+    date: 'Jun 28, 2026',
     label: 'First commit',
     shortLabel: 'Start',
     color: 'bg-blue-500',

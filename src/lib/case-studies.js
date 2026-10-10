@@ -16,6 +16,14 @@ const STRATEGIC_ORDER = [
   'kamen-rider-game-hud',                    // Concept: personal work
 ];
 
+export function isDraftOrNoindex(post) {
+  return Boolean(post?.draft || post?.noindex);
+}
+
+export function isListedCaseStudy(post) {
+  return !post?.draft;
+}
+
 export const getSortedCaseStudiesData = cache(() => {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
@@ -31,7 +39,7 @@ export const getSortedCaseStudiesData = cache(() => {
   });
 
   // Sort by strategic priority first, then by date for items not in the order list
-  return allPostsData.sort((a, b) => {
+  allPostsData.sort((a, b) => {
     const indexA = STRATEGIC_ORDER.indexOf(a.id);
     const indexB = STRATEGIC_ORDER.indexOf(b.id);
 
@@ -53,11 +61,18 @@ export const getSortedCaseStudiesData = cache(() => {
       return -1;
     }
   });
+
+  return allPostsData;
 });
+
+/** Public listings and sitemap — drafts stay on disk and generate a noindex page. */
+export function getListedCaseStudiesData() {
+  return getSortedCaseStudiesData().filter(isListedCaseStudy);
+}
 
 // Alias function for the case studies page
 export function getCaseStudies() {
-  return getSortedCaseStudiesData();
+  return getListedCaseStudiesData();
 }
 
 export function getAllCaseStudyIds() {
