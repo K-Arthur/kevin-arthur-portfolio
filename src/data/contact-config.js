@@ -5,10 +5,10 @@
 
 export const contactContexts = {
     sources: {
-        home: "Hi Kevin,\n\nI found you through your homepage and I'm interested in working together.\n\nHere's what I'm looking for:",
-        lab: "Hi Kevin,\n\nI saw your experimental work in the Lab and I'm impressed! I'd love to discuss a project.\n\nHere are the details:",
-        about: "Hi Kevin,\n\nAfter reading about your background and approach, I think we'd be a great fit.\n\nHere's what I have in mind:",
-        'case-study': "Hi Kevin,\n\nI was impressed by your case study work and would love to discuss a similar project.\n\nHere's what I'm thinking:"
+        home: "Hi Kevin,\n\nI found you through your homepage. I'm hiring for a design engineer / frontend role and would like to talk.\n\nHere's the role:",
+        lab: "Hi Kevin,\n\nI saw your experimental work in the Lab. I'd like to talk about a design engineer or frontend role.\n\nHere are the details:",
+        about: "Hi Kevin,\n\nAfter reading about your background, I think you'd be a fit for a role on our team.\n\nHere's what I have in mind:",
+        'case-study': "Hi Kevin,\n\nI was impressed by your case study work and would like to discuss a role.\n\nHere's what I'm thinking:"
     }
 };
 
@@ -20,7 +20,7 @@ export const contactContexts = {
 export const getContextualMessage = ({ source, caseStudyTitle }) => {
     // Case study with specific project
     if (source === 'case-study' && caseStudyTitle) {
-        return `Hi Kevin,\n\nI was inspired by your "${caseStudyTitle}" case study and would love to discuss a similar project.\n\nHere's what I have in mind:`;
+        return `Hi Kevin,\n\nI was inspired by your "${caseStudyTitle}" case study and would like to discuss a role.\n\nHere's what I have in mind:`;
     }
 
     // General source-based messages

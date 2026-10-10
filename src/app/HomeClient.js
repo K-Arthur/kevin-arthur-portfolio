@@ -3,10 +3,9 @@
 import dynamic from 'next/dynamic';
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { useMounted } from '@/lib/use-mounted';
-import { FaArrowRight, FaCalendarAlt } from 'react-icons/fa';
+import { FaArrowRight, FaDownload, FaGithub } from 'react-icons/fa';
 import MagneticButton from '@/components/MagneticButton';
 import Footer from '@/components/Footer';
-import { TrustStrip } from '@/components/TrustStrip';
 import { FeaturedProjects } from '@/components/FeaturedProjects';
 
 const ShaderAnimation = dynamic(() => import('@/components/ui/shader-animation').then(mod => mod.ShaderAnimation), {
@@ -89,6 +88,9 @@ export default function HomeClient({ posts }) {
     };
   }, []);
 
+  const featuredPost = posts?.find(p => p.id === 'varve');
+  const listingPosts = posts?.filter(post => post.id !== 'varve' && !['kamen-rider-game-hud', 'snackbox-404'].includes(post.id)).slice(0, 3) || [];
+
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
       {/* Hero Section */}
@@ -101,60 +103,64 @@ export default function HomeClient({ posts }) {
 
         <div className="relative z-10 container-responsive space-y-12">
           <div className="space-y-8 animate-hero-fade">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
-              Product <span className="gradient-text-brand">Designer</span>
-            </h1>
-            <p className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-              <span className="block">AI interfaces, healthcare UX,</span>
-              <span className="text-primary block">and design systems.</span>
+            <p className="text-xs sm:text-sm font-medium tracking-wide text-muted-enhanced max-w-3xl mx-auto leading-relaxed px-2">
+              Design Engineer · Product Designer · Frontend (React, TypeScript, Next.js) · Vancouver, open to remote roles in Canada
             </p>
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground text-balance">
+              I design product interfaces and <span className="gradient-text-brand">ship them in code.</span>
+            </h1>
 
             <div className="space-y-6 animate-hero-fade" style={{ animationDelay: '0.1s' }}>
               <p className="text-lg md:text-xl lg:text-2xl text-muted-enhanced max-w-3xl mx-auto leading-relaxed font-light">
-                I help product teams ship clear, scalable experiences for complex products.
-                Recent work includes a medical AI platform serving 500+ facilities,
-                a local-first design tool, and an open-source VS Code extension.
+                I take complex products from research and Figma to production React and TypeScript. I&apos;m the founder and designer-engineer of Varve, a free, local-first design suite now in public beta (v0.5.0) on Linux, macOS and Windows. Before that I owned product design for clinical-AI tools at minoHealth AI Labs.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 w-full sm:w-auto animate-hero-fade" style={{ animationDelay: '0.2s' }}>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 w-full sm:w-auto animate-hero-fade flex-wrap" style={{ animationDelay: '0.2s' }}>
             <MagneticButton
-              href="/case-studies"
+              href="/case-studies/varve"
               strength={0.3}
               className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-interactive btn-glow font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
             >
-              <span>View Case Studies</span>
+              <span>See the Varve case study</span>
               <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </MagneticButton>
             <MagneticButton
-              href="https://calendly.com/arthurkevin27/15min"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               strength={0.25}
               className="group inline-flex items-center justify-center gap-2 btn-secondary-enhanced btn-interactive font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
             >
-              <FaCalendarAlt className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>Book a free 15-min call</span>
+              <FaDownload className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>Download resume</span>
+            </MagneticButton>
+            <MagneticButton
+              href="https://github.com/K-Arthur"
+              target="_blank"
+              rel="noopener noreferrer"
+              strength={0.2}
+              className="group inline-flex items-center justify-center gap-2 btn-secondary-enhanced btn-interactive font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
+            >
+              <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>GitHub</span>
             </MagneticButton>
           </div>
         </div>
       </div>
 
       {/* Featured Teaser */}
-      {posts?.some(p => p.id === 'minohealth-ai-blog') && (
+      {featuredPost && (
         <section className="relative z-20 -mt-8 sm:-mt-12 mb-16 md:mb-24 w-full px-4 md:px-8 max-w-7xl mx-auto shadow-2xl">
           <div className="flex justify-center mb-8 md:mb-12 animate-fade-in-up animation-delay-500">
             <span className="text-xs font-bold tracking-widest text-primary uppercase bg-primary/10 px-4 py-1.5 rounded-full border border-primary/20 backdrop-blur-sm">
               Featured Case Study
             </span>
           </div>
-          <FeaturedProjects posts={[posts.find(p => p.id === 'minohealth-ai-blog')]} />
+          <FeaturedProjects posts={[featuredPost]} />
         </section>
       )}
-
-      {/* High-Leverage Trust Section */}
-      <TrustStrip className="relative z-10" />
 
       {/* Featured Case Studies (Bespoke Zig-Zag Layout) */}
       <section className="py-20 md:py-32 relative z-10 w-full" aria-labelledby="featured-work-heading">
@@ -162,14 +168,14 @@ export default function HomeClient({ posts }) {
           <div className="mb-16 md:mb-24 animate-fade-in-up text-center lg:text-left">
             <p className="text-sm font-semibold tracking-widest text-primary uppercase mb-4">Selected work</p>
             <h2 id="featured-work-heading" className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-              Products with <span className="gradient-text-brand">measurable impact</span>
+              Design and <span className="gradient-text-brand">code, shipped</span>
             </h2>
             <p className="text-base md:text-lg text-muted-enhanced max-w-xl leading-relaxed">
-              International AI systems, fintech platforms, and enterprise tools—designed for global scale, adopted by thousands of users, shipped to production.
+              A local-first design suite I built, clinical-AI product design, and a VS Code client for an AI coding agent.
             </p>
           </div>
 
-          <FeaturedProjects posts={posts?.filter(post => post.id !== 'minohealth-ai-blog' && !['kamen-rider-game-hud', 'snackbox-404'].includes(post.id)).slice(0, 3) || []} />
+          <FeaturedProjects posts={listingPosts} />
 
           <div className="mt-20 md:mt-32 text-center">
             <MagneticButton
@@ -220,29 +226,26 @@ export default function HomeClient({ posts }) {
               id="cta-heading"
               className="text-4xl md:text-5xl font-bold text-foreground mb-4"
             >
-              Let&apos;s Talk About <span className="text-primary">Your Product</span>
+              Open to design engineer and <span className="text-primary">frontend roles</span>
             </h2>
             <p className="text-lg text-muted-enhanced max-w-3xl mx-auto mb-10">
-              I help teams design complex systems that users trust and adopt.
-              Currently open to product design roles and select consulting engagements.
+              Remote in Canada, or Vancouver. If you&apos;re hiring a designer who ships in React and TypeScript, get in touch.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0 flex-wrap w-full sm:w-auto">
               <MagneticButton
-                href="https://calendly.com/arthurkevin27/15min"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/contact"
                 strength={0.3}
                 className="group inline-flex items-center justify-center gap-2 btn-primary-enhanced btn-interactive btn-glow font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
               >
-                <FaCalendarAlt className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span>Book a free 15-min call</span>
+                <span>Get in touch</span>
+                <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </MagneticButton>
               <MagneticButton
-                href="/case-studies"
+                href="/case-studies/varve"
                 strength={0.2}
                 className="group inline-flex items-center justify-center gap-2 btn-secondary-enhanced btn-interactive font-semibold px-6 py-3.5 sm:px-8 sm:py-4 text-base sm:text-lg rounded-xl w-full sm:w-auto min-h-[52px]"
               >
-                <span>View Case Studies</span>
+                <span>See the Varve case study</span>
                 <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </MagneticButton>
             </div>

@@ -1,4 +1,4 @@
-import { FaPencilRuler, FaUsers, FaVial, FaFigma, FaCode, FaVideo, FaSyncAlt, FaDatabase, FaBrain, FaPaintBrush, FaBullhorn } from 'react-icons/fa';
+import { FaUsers, FaVial, FaFigma, FaCode, FaVideo, FaSyncAlt, FaDatabase, FaBrain, FaPaintBrush, FaBullhorn } from 'react-icons/fa';
 import { SiPhp } from 'react-icons/si';
 import { BsDiagram3, BsWindow, BsGit, BsPalette2 } from 'react-icons/bs';
 
@@ -6,69 +6,50 @@ export const personalInfo = {
   name: 'Kevin Arthur',
   location: 'Vancouver, Canada',
   email: 'hello@kevinarthur.design',
-  phone: '+1 (672) 380-2593',
-  summary: "Product Designer with a foundation in Computer Science and experience shipping complex products across AI, healthcare, and fintech. I've led design for platforms serving 500+ facilities, built scalable design systems, and created interfaces that balance technical constraints with user needs. My work bridges design and engineering—translating complex requirements into intuitive experiences.",
-  heroTitle1: 'Product Designer',
-  heroTitle2: '',
-  differentiationStatement: 'I combine Product Design with Systems Programming and an MSc in Applied CS to help product teams ship clear, scalable experiences—from AI interfaces to enterprise workflows.',
+  phone: '+1 672-380-2593',
+  tel: '+16723802593',
+  summary: "I'm a Design Engineer and Product Designer. I take complex products from research and Figma to production React and TypeScript. I'm the founder and designer-engineer of Varve, a free, local-first design suite now in public beta (v0.5.0) on Linux, macOS and Windows. Before that I owned product design for clinical-AI tools at minoHealth AI Labs.",
+  heroTitle1: 'Design Engineer',
+  heroTitle2: 'Product Designer',
+  differentiationStatement: 'I design product interfaces and ship them in code — React, TypeScript, and Next.js — for teams that need both craft and implementation.',
 };
 
 export const recognition = [
+  // Kevin to confirm — figures aligned with the resume, not the previous 50+ / 7+ years claims.
   {
-    type: 'media',
-    name: 'CNN',
-    description: 'Featured on CNN',
-    context: 'Breakthrough African AI platform',
-    logoPath: null,
-    url: null,
-  },
-  {
-    type: 'award',
-    name: 'Forbes 30 Under 30',
-    description: 'Lead Designer on Forbes 30 Under 30 project',
-    context: 'MinoHealth CEO featured for healthcare innovation',
-    logoPath: null,
-    url: null,
+    type: 'impact',
+    value: '20+',
+    label: 'Projects',
+    context: 'Product design and frontend work across healthtech, SaaS, and tools',
   },
   {
     type: 'impact',
-    value: '50+',
-    label: 'Projects Delivered',
-    context: 'Across fintech, SaaS, e-commerce, and healthtech',
-  },
-  {
-    type: 'impact',
-    value: '7+',
-    label: 'Years Experience',
-    context: 'Design and development from concept to launch',
-  },
-  {
-    type: 'impact',
-    value: '10+',
-    label: 'Industries Served',
-    context: 'From startups to enterprise and global partners',
+    value: '2018',
+    label: 'Designing since',
+    context: 'Independent design practice through product and engineering roles',
   },
 ];
 
 export const featuredCaseStudy = {
-  id: 'moremi-ai-multimodal-medical-platform',
-  title: 'Achieving 97% Diagnostic Accuracy and 15x Faster Diagnoses through Mobile-First AI Design',
-  summary: "Led the UX design for Moremi AI, Africa's first multimodal medical AI platform, achieving 97% diagnostic accuracy and serving healthcare providers across Ghana, Nigeria, and Kenya.",
-  heroImage: 'https://res.cloudinary.com/dov1tv077/image/upload/v1752155990/Welcome_screen_uwdoot.png',
-  heroImageAlt: 'Mobile UI for AI Radiology Dashboard showing diagnostic analysis interface with 97% accuracy metrics',
-  role: 'Lead UI/UX Designer',
-  industry: 'Healthtech',
+  id: 'varve',
+  title: 'Varve: a local-first design suite I designed and shipped in code',
+  summary: 'Founder and designer-engineer of Varve, a free, local-first design suite in public beta (v0.5.0) — six task workspaces on a React/TypeScript editor and a Rust/WASM engine.',
+  heroImage: '/images/case-studies/varve/workspace-light.png',
+  heroImageAlt: 'Varve editor showing a poster design with vector shapes, layers panel, and properties inspector',
+  role: 'Founder, Designer & Engineer',
+  industry: 'creative-tools',
   results: [
-    { value: '97%', label: 'Diagnostic Accuracy' },
-    { value: '500+', label: 'Healthcare Facilities' },
-    { value: '15x', label: 'Faster Diagnosis' },
+    { value: 'v0.5.0', label: 'Public beta' },
+    { value: '6', label: 'Task workspaces' },
+    { value: '25', label: 'GitHub stars' },
   ],
-  href: '/case-studies/moremi-ai-multimodal-medical-platform',
+  href: '/case-studies/varve',
 };
 
 export const socialProfiles = {
   linkedin: 'https://www.linkedin.com/in/kevinoarthur/',
   behance: 'https://www.behance.net/arthurkevin',
+  github: 'https://github.com/K-Arthur',
 };
 
 export const skills = {
@@ -96,66 +77,82 @@ export const skills = {
 
 export const education = [
   {
-    degree: 'Master of Science in Applied Computer Science',
-    institution: 'Fairleigh Dickinson University, Vancouver, BC',
-    period: 'Currently pursuing (Expected December 2026)',
+    degree: 'MSc Applied Computer Science, Fairleigh Dickinson University Vancouver, expected Dec 2026',
+    institution: '',
+    period: '',
+    compact: true,
   },
   {
-    degree: 'Bachelor of Science in Computer Science',
-    institution: 'Kwame Nkrumah University of Science And Technology, Kumasi, Ghana',
+    degree: 'BSc Computer Science',
+    institution: 'Kwame Nkrumah University of Science And Technology',
     period: 'Graduated November 2023',
-    details: [
-      'Honours: Second Class Upper',
-      'Capstone Project: Diabetic Retinopathy Detection Using Deep Learning',
-    ],
+    compact: true,
   },
 ];
 
 export const professionalExperience = [
   {
+    role: 'Founder, Designer & Engineer',
+    company: 'Varve',
+    location: 'Vancouver, Canada',
+    // TODO: Kevin to confirm — Varve start date. Site previously said Jun 2026; resume may disagree. Using Jul 2026 per brief (repo created 2026-07-02; ADR-0001 dated 2026-06-27).
+    period: 'Jul 2026 – Present',
+    description: 'I design and ship Varve, a free, local-first design suite: a React/TypeScript editor on a Rust/WASM engine, its own DTCG token design system, and six task workspaces. Public beta v0.5.0 on Linux, macOS and Windows. Source-available under FSL-1.1-MIT.',
+    highlights: [
+      'Product direction, interface design, and production editor code',
+      'Local-first desktop app — no account required',
+      'Browser demo at varve.studio/try',
+    ],
+  },
+  {
     role: 'Product Designer',
-    company: 'MinoHealth AI Labs',
+    company: 'minoHealth AI Labs',
     location: 'Accra, Ghana',
-    period: 'November 2023 - May 2025',
-    description: "Led UX design for Africa's first multimodal medical AI platform. Achieved 97% diagnostic accuracy, served 500+ healthcare facilities, featured on CNN. Designed interfaces for AI systems with transparent uncertainty handling and human-in-the-loop workflows.",
-    highlights: ['97% diagnostic accuracy (outperformed 75-86% radiologist baseline)', '500+ healthcare facilities across Ghana, Nigeria, Kenya', 'Featured on CNN; Forbes 30 Under 30 project', '15x faster diagnosis (45 min → 3 min)'],
+    period: 'November 2023 – May 2025',
+    description: 'Owned product design for clinical-AI tools, including Moremi AI. Designed clinical workflows, AI-uncertainty states, and a WCAG 2.2-oriented component system used by clinicians on phones and desktops.',
+    highlights: [
+      // Kevin to confirm — design metrics from the Moremi case study brief.
+      '+25% task success after design iteration',
+      '+15% workflow efficiency',
+      'WCAG 2.2-oriented design system in Figma and React/TypeScript',
+    ],
   },
   {
     role: 'Freelance UI/UX Designer',
     company: 'Self Employed',
     location: 'Remote',
-    period: 'April 2018 - Current',
-    description: 'Built design consultancy serving 10+ clients across fintech, e-commerce, and SaaS. Consistently delivered measurable improvements in conversion and user satisfaction.',
-    highlights: ['10+ clients across fintech, e-commerce, SaaS', 'End-to-end design from research to handoff', 'Design systems and component libraries'],
+    period: 'April 2018 – Current',
+    description: 'Independent product and interface design across fintech, e-commerce, and SaaS — research through handoff and production UI.',
+    highlights: ['End-to-end design from research to handoff', 'Design systems and component libraries'],
   },
   {
     role: 'UI/UX Design Intern',
     company: 'Charles Technology Africa Ltd',
     location: 'Accra, Ghana',
-    period: 'November 2021 - January 2022',
-    description: 'Contributed to 5+ enterprise applications in fast-paced technology environment, supporting senior designers while developing strong analytical thinking and design problem-solving skills.',
-    highlights: ['5+ enterprise applications', 'Collaboration with senior designers', 'Analytical and design problem-solving'],
+    period: 'November 2021 – January 2022',
+    description: 'Supported enterprise application design alongside senior designers.',
+    compact: true,
   },
   {
     role: 'Creative Designer',
     company: 'SISCODE/GH',
     location: 'Accra, Ghana',
-    period: 'August 2021 - January 2022',
-    description: 'Developed comprehensive brand identity systems and visual design frameworks while mentoring junior team members and maintaining high design standards in collaborative agency environment.',
-    highlights: ['Brand identity systems', 'Mentored junior designers', 'High design standards in agency environment'],
+    period: 'August 2021 – January 2022',
+    description: 'Brand identity systems and visual design in a collaborative agency environment.',
+    highlights: ['Brand identity systems', 'Mentored junior designers'],
   },
 ];
 
 export const expertiseAreas = [
   {
-    title: 'AI & Complex Interfaces',
-    description: 'Designing for uncertainty, confidence scoring, and human-in-the-loop workflows. Experience with healthcare AI, diagnostic tools, and technical products where clarity is critical.',
-    caseStudyId: 'moremi-ai-multimodal-medical-platform',
+    title: 'Design Engineering',
+    description: 'Shipping the interface in React and TypeScript — tokens, components, and the editor chrome — not just handing off mocks.',
+    caseStudyId: 'varve',
   },
   {
-    title: 'Design Systems',
-    description: 'Component libraries and patterns that scale. Built systems used across 500+ facilities, reducing design debt and improving design-to-dev handoff.',
-    caseStudyId: 'moremi-collaborate',
+    title: 'AI & Complex Interfaces',
+    description: 'Designing for uncertainty, confidence scoring, and human-in-the-loop workflows. Clinical-AI tools and developer tools where the UI is the contract.',
+    caseStudyId: 'moremi-ai-multimodal-medical-platform',
   },
   {
     title: 'Product Design',
@@ -164,7 +161,7 @@ export const expertiseAreas = [
   },
 ];
 
-export const designPhilosophy = "I believe great design happens when strategy meets creativity. Every project I take on is an opportunity to solve real problems and create meaningful impact through thoughtful, user-centered design. For AI products, that means designing for uncertainty—making confidence levels visible, enabling human override, and keeping the human in the loop.";
+export const designPhilosophy = "Great design happens when strategy meets implementation. I design for uncertainty in AI products, and I ship the interface in code so the tokens, states, and constraints stay honest.";
 
 export const testimonials = [];
 

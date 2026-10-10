@@ -10,6 +10,7 @@ import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { personSchema, websiteSchema } from '@/lib/structured-data';
+import { getSiteUrl } from '@/lib/site-url';
 
 // Load fonts
 const jost = Jost({
@@ -24,24 +25,34 @@ const firaCode = Fira_Code({
   display: 'swap'
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata = {
   title: {
-    default: 'Kevin Arthur | Product Designer',
+    default: 'Kevin Arthur | Design Engineer & Product Designer',
     template: '%s | Kevin Arthur Design'
   },
-  description: 'Product Designer in Vancouver specializing in AI interface design, healthcare UX, and complex enterprise systems. Case studies with measurable outcomes.',
-  keywords: ['Product Designer Vancouver', 'AI Interface Design', 'Healthcare UX Designer', 'SaaS Product Designer', 'Design Systems', 'Enterprise UX Consultant'],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  description: 'I design product interfaces and ship them in code. Design Engineer and Product Designer in Vancouver, open to remote roles in Canada. Founder of Varve (v0.5.0). React, TypeScript, Next.js.',
+  keywords: ['Design Engineer', 'Product Designer', 'Frontend Engineer', 'React', 'TypeScript', 'Next.js', 'Vancouver', 'Canada remote', 'Varve'],
+  metadataBase: new URL(siteUrl),
   alternates: {
     canonical: './',
   },
   openGraph: {
-    title: 'Kevin Arthur | Product Designer',
-    description: 'Product Designer specializing in AI interface design, healthcare UX, and complex enterprise systems. Vancouver, Canada.',
+    title: 'Kevin Arthur | Design Engineer & Product Designer',
+    description: 'I design product interfaces and ship them in code. Design Engineer and Product Designer in Vancouver, open to remote roles in Canada.',
     url: '/',
     siteName: 'Kevin Arthur Design',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/images/og-default.png',
+        width: 1200,
+        height: 630,
+        alt: 'Kevin Arthur — Design Engineer and Product Designer. I design product interfaces and ship them in code.',
+      },
+    ],
   },
   robots: {
     index: true,
@@ -55,35 +66,23 @@ export const metadata = {
     },
   },
   twitter: {
-    title: 'Kevin Arthur | Product Designer',
+    title: 'Kevin Arthur | Design Engineer & Product Designer',
     card: 'summary_large_image',
-    description: 'Product Designer specializing in AI interface design, healthcare UX, and design systems. Vancouver, Canada.',
+    description: 'I design product interfaces and ship them in code. Vancouver, open to remote roles in Canada.',
+    images: ['/images/og-default.png'],
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-
-        {/* Content Security Policy - protects against XSS attacks */}
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="
-            default-src 'self';
-            script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://plausible.io https://vercel.live;
-            style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-            img-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://www.google-analytics.com;
-            font-src 'self' https://fonts.gstatic.com;
-            connect-src 'self' https://www.google-analytics.com https://plausible.io https://www.googletagmanager.com https://vercel.live;
-            frame-src 'self' https://calendly.com https://vercel.live;
-            object-src 'none';
-            base-uri 'self';
-            upgrade-insecure-requests;
-          "
-        />
-
         {/* Theme color for address bar - matches manifest */}
         <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
@@ -156,21 +155,24 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Service Worker Registration for PWA */}
+        {/* Unregister the old home-page cache SW so returning visitors drop it */}
         <Script
-          id="service-worker"
+          id="service-worker-unregister"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then((registration) => {
-                      console.log('SW registered: ', registration);
-                    })
-                    .catch((error) => {
-                      console.log('SW registration failed: ', error);
-                    });
+                navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                  registrations.forEach(function (registration) {
+                    registration.unregister();
+                  });
+                });
+              }
+              if (window.caches) {
+                caches.keys().then(function (keys) {
+                  keys.forEach(function (key) {
+                    caches.delete(key);
+                  });
                 });
               }
             `,

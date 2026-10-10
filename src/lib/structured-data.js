@@ -3,7 +3,9 @@
  * Used to help search engines understand portfolio content
  */
 
-const BASE_URL = "https://kevinarthur.design";
+import { getSiteUrl, toAbsoluteUrl } from '@/lib/site-url';
+
+const BASE_URL = getSiteUrl();
 
 // Person schema for layout/about pages
 export const personSchema = {
@@ -13,13 +15,14 @@ export const personSchema = {
     "name": "Kevin Arthur",
     "givenName": "Kevin",
     "familyName": "Arthur",
-    "jobTitle": "Product Designer & AI Interface Design Expert",
-    "description": "Product Designer specializing in AI interface design, healthcare UX, and SaaS product design. Based in Vancouver, Canada.",
+    "jobTitle": "Design Engineer & Product Designer",
+    "description": "Design Engineer and Product Designer who ships product interfaces in React and TypeScript. Founder of Varve. Based in Vancouver, Canada; open to remote roles in Canada. MSc Applied Computer Science at Fairleigh Dickinson University Vancouver, expected Dec 2026.",
     "url": BASE_URL,
-    "image": `${BASE_URL}/images/profile-image.jpg`,
+    "image": toAbsoluteUrl('/images/profile-image.jpg'),
     "sameAs": [
         "https://www.linkedin.com/in/kevinoarthur/",
-        "https://www.behance.net/arthurkevin"
+        "https://www.behance.net/arthurkevin",
+        "https://github.com/K-Arthur"
     ],
     "address": {
         "@type": "PostalAddress",
@@ -30,26 +33,21 @@ export const personSchema = {
     "alumniOf": [
         {
             "@type": "CollegeOrUniversity",
-            "name": "Fairleigh Dickinson University"
-        },
-        {
-            "@type": "CollegeOrUniversity",
             "name": "Kwame Nkrumah University of Science And Technology"
         }
     ],
     "knowsAbout": [
+        "Design Engineering",
+        "Product Design",
+        "React",
+        "TypeScript",
+        "Next.js",
         "AI Interface Design",
         "Healthcare UX",
-        "SaaS Product Design",
         "Design Systems",
-        "Telemedicine UX",
-        "Data Visualization",
-        "Creative Tools Design",
-        "Design Engineering",
-        "Cross-Platform Applications",
         "Local-First Software",
-        "Interaction Design",
-        "Product Design"
+        "Cross-Platform Applications",
+        "Interaction Design"
     ]
 };
 
@@ -60,12 +58,7 @@ export const personSchema = {
  */
 export function getCaseStudySchema(caseStudy) {
     if (!caseStudy) return null;
-    // Ensure image URL is absolute
-    const imageUrl = caseStudy.heroImage?.startsWith('http')
-        ? caseStudy.heroImage
-        : caseStudy.heroImage
-            ? `${BASE_URL}${caseStudy.heroImage.startsWith('/') ? '' : '/'}${caseStudy.heroImage}`
-            : null;
+    const imageUrl = toAbsoluteUrl(caseStudy.heroImage);
 
     const schema = {
         "@context": "https://schema.org",
@@ -97,12 +90,11 @@ export function getCaseStudySchema(caseStudy) {
             "@type": "WebPage",
             "@id": `${BASE_URL}/case-studies/${caseStudy.id || caseStudy.slug}`
         },
-        "keywords": caseStudy.tags?.join(', ') || "AI Interface Design, Healthcare UX, Case Study, Product Design",
+        "keywords": caseStudy.tags?.join(', ') || "Design Engineering, Product Design, Case Study",
         "articleSection": "Case Studies",
         "inLanguage": "en-US"
     };
 
-    // For creative-tools case studies, add the software being discussed as a referenced entity
     if (caseStudy.industry === 'creative-tools' && caseStudy.id === 'varve') {
         schema.mentions = {
             "@type": "SoftwareApplication",
@@ -114,7 +106,7 @@ export function getCaseStudySchema(caseStudy) {
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "USD",
-                "description": "Community Edition — free, no subscription"
+                "description": "Community Edition — free, no subscription, source-available (FSL-1.1-MIT)"
             }
         };
     }
@@ -130,7 +122,7 @@ export const websiteSchema = {
     "@type": "WebSite",
     "@id": `${BASE_URL}/#website`,
     "name": "Kevin Arthur Design",
-    "description": "Product Designer in Vancouver specializing in AI interface design, healthcare UX, and complex enterprise systems",
+    "description": "Design Engineer and Product Designer in Vancouver. I design product interfaces and ship them in React and TypeScript. Open to remote roles in Canada.",
     "url": BASE_URL,
     "inLanguage": "en-US",
     "author": {

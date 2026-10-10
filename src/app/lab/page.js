@@ -1,6 +1,4 @@
 import { FaArrowDown, FaBrain } from 'react-icons/fa';
-import SocialProofSection from '@/components/SocialProofSection';
-import dynamic from 'next/dynamic';
 import { IOSafeContainer } from '@/components/IOSafeMotion';
 import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid';
 import DesignSystemCard from './DesignSystemCard';
@@ -99,15 +97,6 @@ export default function LabPage() {
           </a>
         </section>
 
-        {/* Trust Indicators */}
-        <div className="relative z-10 -mt-8 px-4 sm:px-6 lg:px-8">
-          <div className="container-responsive">
-            <div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl py-4 md:py-6 px-4 md:px-6 shadow-xl shadow-black/5">
-              <SocialProofSection />
-            </div>
-          </div>
-        </div>
-
         {/* Featured Experiments Section */}
         <section className="py-16 md:py-24" id="featured">
           <div className="container-responsive">
@@ -161,17 +150,15 @@ export default function LabPage() {
         <section className="py-12 sm:py-16 md:py-20 relative">
           <div className="container-responsive">
             <div className="text-center py-10 sm:py-16 card-enhanced rounded-2xl bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 px-4 sm:px-6">
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3 sm:mb-4">Ready to Work Together?</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3 sm:mb-4">Open to design engineer and frontend roles</h2>
               <p className="text-muted-foreground mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed text-sm sm:text-base">
-                I&apos;m currently accepting new projects. Let&apos;s discuss how I can help bring your vision to life.
+                Remote in Canada, or Vancouver. If you&apos;re hiring a designer who ships in React and TypeScript, get in touch.
               </p>
               <a
-                href="https://calendly.com/arthurkevin27/15min"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/contact"
                 className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[44px] px-6 sm:px-8 py-3.5 sm:py-4 btn-primary-enhanced btn-glow font-semibold rounded-xl text-base sm:text-lg transition-all shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 sm:hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <span>Book a free 15-min call</span>
+                <span>Get in touch</span>
                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg"><path d="M432 48h-48v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16V48H176v16c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16V48H80c-26.5 0-48 21.5-48 48v368c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V96c0-26.5-21.5-48-48-48zM368 416H144c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16zm0-96H144c-8.8 0-16-7.2-16-16v-16c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16zM128 208v-32c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zM368 0h-32c-8.8 0-16 7.2-16 16v16h80V16c0-8.8-7.2-16-16-16zM144 0h-32c-8.8 0-16 7.2-16 16v16h80V16c0-8.8-7.2-16-16-16z"></path></svg>
               </a>
             </div>

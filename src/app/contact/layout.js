@@ -1,13 +1,12 @@
-// Server-side metadata for Contact page
 export const metadata = {
     title: 'Contact',
-    description: 'Get in touch to discuss product design, AI interfaces, healthcare UX, or design systems. Available for consulting and full-time roles in Vancouver and remote.',
+    description: 'Get in touch — open to design engineer and frontend roles. Remote in Canada, or Vancouver. Email hello@kevinarthur.design or call +1 672-380-2593.',
     alternates: {
         canonical: '/contact',
     },
     openGraph: {
-        title: 'Contact Kevin Arthur | Product Designer',
-        description: 'Get in touch to discuss your next AI interface or healthcare UX project.',
+        title: 'Contact Kevin Arthur | Design Engineer & Product Designer',
+        description: 'Open to design engineer and frontend roles. Remote in Canada, or Vancouver.',
     },
 };
 

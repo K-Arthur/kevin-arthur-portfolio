@@ -28,7 +28,7 @@ Developer-Ready Design Checklist
    • Form & Input Handling
 
 Built from 4+ years designing healthcare AI, SaaS, and fintech products.
-Kevin Arthur | kevinarthur.design
+Kevin Arthur | www.kevinarthur.design
 `;
 
 function generateStaticPDF() {
@@ -144,12 +144,12 @@ function generateStaticPDF() {
   
   <div class="cta">
     <p>Need help implementing these patterns?</p>
-    <p><a href="https://calendly.com/arthurkevin27/15min">Book a free 15-minute call →</a></p>
+    <p><a href="https://www.kevinarthur.design/contact">Get in touch →</a></p>
   </div>
   
   <div class="footer">
     <p>Built from 4+ years designing healthcare AI, SaaS, and fintech products.</p>
-    <p>Kevin Arthur | kevinarthur.design</p>
+    <p>Kevin Arthur | www.kevinarthur.design</p>
   </div>
 </body>
 </html>`;

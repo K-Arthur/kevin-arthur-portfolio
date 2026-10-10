@@ -164,6 +164,14 @@ const Header = () => {
           </div>
           <div className="hidden lg:flex lg:flex-1 items-center justify-end gap-3">
             <ThemeSwitcher />
+            <a
+              href="https://github.com/K-Arthur"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-sm font-medium text-foreground/80 hover:text-foreground rounded-full px-3"
+            >
+              GitHub
+            </a>
             <Button asChild variant="outline" size="default" className="rounded-full px-5 min-h-[44px]">
               <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download="Kevin_Arthur_Resume.pdf">
                 Download Resume

@@ -1,6 +1,6 @@
 'use client';
 
-import { FaLinkedin, FaBehanceSquare, FaEnvelope } from '@/lib/icons';
+import { FaLinkedin, FaGithub, FaBehanceSquare, FaEnvelope } from '@/lib/icons';
 import { usePathname } from 'next/navigation';
 import FooterLeadMagnet from './FooterLeadMagnet';
 
@@ -9,6 +9,11 @@ const socialLinks = [
     href: 'mailto:hello@kevinarthur.design',
     label: 'Email',
     icon: FaEnvelope,
+  },
+  {
+    href: 'https://github.com/K-Arthur',
+    label: 'GitHub',
+    icon: FaGithub,
   },
   {
     href: 'https://www.linkedin.com/in/kevinoarthur/',
@@ -22,7 +27,7 @@ const socialLinks = [
   },
 ];
 
-const Footer = ({ transparent = false, showLeadMagnet = true }) => {
+const Footer = ({ transparent = false, showLeadMagnet = false }) => {
   const pathname = usePathname();
   const currentYear = new Date().getFullYear();
 
@@ -31,8 +36,8 @@ const Footer = ({ transparent = false, showLeadMagnet = true }) => {
     return null;
   }
 
-  // Don't show lead magnet on lab page (already has them) or contact page
-  const hideLeadMagnet = pathname === '/lab' || pathname === '/contact';
+  // Lead magnets stay on /lab only — not on every page
+  const hideLeadMagnet = pathname !== '/lab';
 
   // Calculate exact height based on what's shown to prevent layout shift
   // Without lead magnet: ~120px, with lead magnet: ~280px

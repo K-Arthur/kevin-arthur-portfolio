@@ -27,8 +27,8 @@ const industryContent = {
         subtext: "I bridge the gap between complex AI and human intuition.",
     },
     general: {
-        headline: "Like what you see?",
-        subtext: "Let's explore how we can work together on your next project.",
+        headline: "Open to design engineer and frontend roles",
+        subtext: "Remote in Canada, or Vancouver. If you're hiring a designer who ships in React and TypeScript, get in touch.",
     },
 };
 
@@ -45,7 +45,7 @@ export default function ContextualCTA({
     industry = 'general',
     customHeadline,
     customSubtext,
-    schedulingUrl = 'https://calendly.com/arthurkevin27/15min',
+    schedulingUrl = '/contact',
     showEmailOption = true,
 }) {
     const content = industryContent[industry] || industryContent.general;
@@ -88,15 +88,14 @@ export default function ContextualCTA({
                     transition={{ duration: 0.5, delay: 0.3 }}
                     viewport={{ once: true }}
                 >
-                    {/* Primary CTA - Book a Call */}
+                    {/* Primary CTA */}
                     <a
                         href={schedulingUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        {...(/^https?:\/\//.test(schedulingUrl) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                         className="group inline-flex items-center justify-center gap-3 btn-primary-enhanced font-semibold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
                     >
                         <FaCalendarAlt className="w-4 h-4" />
-                        Book a free 15-min call
+                        Get in touch
                         <FaArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </a>
 
