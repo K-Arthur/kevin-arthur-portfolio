@@ -95,7 +95,6 @@ export default function RootLayout({ children }) {
         {/* Preconnect to external resources used above-the-fold */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
         {/* Icons - loaded with standard priority */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -127,33 +126,6 @@ export default function RootLayout({ children }) {
             strategy="lazyOnload"
           />
         )}
-        {/* Google Analytics - lazyOnload strategy for minimal performance impact */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-L805WXGTZS"
-          strategy="lazyOnload"
-        />
-        <Script
-          id="google-analytics"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-L805WXGTZS', {
-                cookie_flags: 'SameSite=None;Secure',
-                cookie_domain: 'auto',
-                cookie_expires: 63072000,
-                cookie_update: true,
-                allow_google_signals: false,
-                allow_ad_personalization_signals: false,
-                restricted_data_processing: true,
-                send_page_view: true,
-                transport_type: 'beacon'
-              });
-            `,
-          }}
-        />
 
         {/* Unregister the old home-page cache SW so returning visitors drop it */}
         <Script

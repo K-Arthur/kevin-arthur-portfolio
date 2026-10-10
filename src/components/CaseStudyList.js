@@ -23,8 +23,8 @@ const CaseStudyList = ({ posts }) => {
         return (
           <div
             key={id}
-            className="animate-fade-in-up"
-            style={{ animationDelay: `${index * 100}ms` }}
+            className={index === 0 ? undefined : 'animate-fade-in-up'}
+            style={index === 0 ? undefined : { animationDelay: `${index * 100}ms` }}
           >
             <CometCard rotateDepth={8} translateDepth={10}>
               <div className={`bg-card dark:bg-gradient-to-br dark:from-card/95 dark:via-card/90 dark:to-primary/5 border border-border/50 dark:border-primary/10 rounded-2xl overflow-hidden backdrop-blur-sm transition-all duration-300 hover:border-primary/40 shadow-lg ${isConcept ? 'opacity-90' : ''}`}>
@@ -38,6 +38,9 @@ const CaseStudyList = ({ posts }) => {
                           alt={title}
                           fill
                           preset="caseStudy"
+                          priority={index === 0}
+                          fetchPriority={index === 0 ? 'high' : undefined}
+                          loading={index === 0 ? 'eager' : undefined}
                           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
                         />

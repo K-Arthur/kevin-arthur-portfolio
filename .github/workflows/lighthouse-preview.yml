@@ -1,0 +1,141 @@
+name: Lighthouse Preview
+
+# Runs against Vercel preview deployment_status URLs (mobile + desktop).
+# Optional secret VERCEL_AUTOMATION_BYPASS_SECRET sends x-vercel-protection-bypass.
+# is-crawlable is skipped on previews (Vercel noindex).
+
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: lighthouse-preview-${{ github.event.deployment.sha }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    name: Lighthouse preview (mobile + desktop)
+    if: >-
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment_status.environment_url != '' &&
+      contains(github.event.deployment_status.environment, 'Preview')
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      LHCI_BASE_URL: ${{ github.event.deployment_status.environment_url }}
+      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.deployment.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lighthouse mobile
+        id: lh-mobile
+        run: LHCI_FORM_FACTOR=mobile npx --no-install lhci autorun --config=./lighthouserc.preview.js
+        continue-on-error: true
+
+      - name: Preserve mobile reports
+        if: always()
+        run: |
+          mkdir -p /tmp/lhci-mobile
+          if [ -d .lighthouseci ]; then cp -a .lighthouseci/. /tmp/lhci-mobile/; fi
+          rm -rf .lighthouseci
+
+      - name: Lighthouse desktop
+        id: lh-desktop
+        run: LHCI_FORM_FACTOR=desktop npx --no-install lhci autorun --config=./lighthouserc.preview.js
+        continue-on-error: true
+
+      - name: Merge report dirs
+        if: always()
+        run: |
+          mkdir -p .lighthouseci
+          if [ -d /tmp/lhci-mobile ]; then cp -a /tmp/lhci-mobile/. .lighthouseci/; fi
+
+      - name: Write Lighthouse summary
+        if: always()
+        run: node scripts/lhci-summary.js >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Lighthouse reports
+        uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: lighthouse-preview-reports
+          include-hidden-files: true
+          path: |
+            .lighthouseci/
+            !.lighthouseci/*.db
+          retention-days: 14
+
+      - name: Comment PR with median scores
+        uses: actions/github-script@v7
+        if: always()
+        continue-on-error: true
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const MARKER = '<!-- lighthouse-ci-medians -->';
+            let body;
+            try {
+              body = execSync('node scripts/lhci-pr-comment.js', { encoding: 'utf8' });
+            } catch (err) {
+              console.log(err.message);
+              return;
+            }
+            if (!body || !body.includes(MARKER)) {
+              body = `${MARKER}\nNo Lighthouse results found.`;
+            }
+            const sha = context.payload.deployment && context.payload.deployment.sha;
+            if (!sha) {
+              console.log('No deployment SHA');
+              return;
+            }
+            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: sha,
+            });
+            const pr = prs.find((p) => p.state === 'open') || prs[0];
+            if (!pr) {
+              console.log('No PR for', sha);
+              return;
+            }
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              per_page: 100,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(MARKER));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body,
+              });
+            }
+
+      - name: Fail if a Lighthouse collect failed
+        if: always() && (steps.lh-mobile.outcome == 'failure' || steps.lh-desktop.outcome == 'failure')
+        run: exit 1

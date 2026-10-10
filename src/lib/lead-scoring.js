@@ -273,16 +273,6 @@ async function trackLeadScoreEvent(actionKey, points, totalScore, tier) {
       });
     }
     
-    // Track with GA4 if available
-    if (window.gtag) {
-      window.gtag('event', 'lead_score_update', {
-        action: actionKey,
-        points_added: points,
-        total_score: totalScore,
-        tier,
-      });
-    }
-    
     // Send to our tracking API
     await fetch('/api/lead-score', {
       method: 'POST',

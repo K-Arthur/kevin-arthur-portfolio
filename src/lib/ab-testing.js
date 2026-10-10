@@ -131,16 +131,6 @@ export async function trackABTestEvent(testName, variant, eventType, metadata = 
       });
     }
     
-    // Track with GA4 if available
-    if (window.gtag) {
-      window.gtag('event', 'ab_test_event', {
-        test_name: testName,
-        variant,
-        event_type: eventType,
-        ...metadata,
-      });
-    }
-    
     // Send to our tracking API
     await fetch('/api/ab-test/track', {
       method: 'POST',

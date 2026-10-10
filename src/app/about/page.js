@@ -13,9 +13,9 @@ import PageBackdrop from '@/components/PageBackdrop';
 
 export const dynamic = 'force-static';
 
-function Section({ children }) {
+function Section({ children, reveal = true }) {
   return (
-    <section className="animate-fade-in-up" style={{ contain: 'layout' }}>
+    <section className={reveal ? 'animate-fade-in-up' : undefined} style={{ contain: 'layout' }}>
       {children}
     </section>
   );
@@ -38,7 +38,7 @@ export default function AboutPage() {
     <div className="relative min-h-screen">
       <PageBackdrop />
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
-        <Section>
+        <Section reveal={false}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 sm:gap-16 items-center">
             <div className="lg:col-span-2 space-y-6 sm:space-y-8">
               <div>

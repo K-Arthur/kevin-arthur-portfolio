@@ -147,7 +147,7 @@ export default async function CaseStudyPage({ params }) {
                   </div>
 
                   <h1
-                    className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground leading-[1.2] pb-1 animate-fade-in-down"
+                    className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground leading-[1.2] pb-1"
                     style={{
                       textShadow: '0 1px 2px rgba(0,0,0,0.05)',
                     }}

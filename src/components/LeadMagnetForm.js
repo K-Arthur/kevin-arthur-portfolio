@@ -178,16 +178,8 @@ export default function LeadMagnetForm({
 
       // Track conversion
       if (typeof window !== 'undefined') {
-        // Plausible
         if (window.plausible) {
           window.plausible('Lead Magnet Signup', { props: { resource } });
-        }
-        // GA4
-        if (window.gtag) {
-          window.gtag('event', 'lead_magnet_signup', {
-            resource_name: resource,
-            source: variant,
-          });
         }
       }
     } catch (error) {

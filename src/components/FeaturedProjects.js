@@ -4,7 +4,7 @@ import { FaArrowRight, FaLock } from '@/lib/icons';
 import { cn } from '@/lib/utils';
 import ScrollRevealContainer, { ScrollRevealItem } from './ui/ScrollRevealContainer';
 
-export function FeaturedProjects({ posts = [], titleAs: TitleTag = 'h2' }) {
+export function FeaturedProjects({ posts = [], titleAs: TitleTag = 'h2', priorityFirst = false }) {
     if (!posts || posts.length === 0) return null;
 
     return (
@@ -16,6 +16,7 @@ export function FeaturedProjects({ posts = [], titleAs: TitleTag = 'h2' }) {
                     <ScrollRevealContainer
                         key={post.id}
                         variant="fadeUp"
+                        immediate={priorityFirst && index === 0}
                         className="group relative w-full transition-transform duration-300 hover:-translate-y-1"
                     >
                         <div className={cn(
@@ -33,6 +34,9 @@ export function FeaturedProjects({ posts = [], titleAs: TitleTag = 'h2' }) {
                                             alt={post.heroImageAlt || post.title}
                                             fill
                                             preset="featured"
+                                            priority={priorityFirst && index === 0}
+                                            fetchPriority={priorityFirst && index === 0 ? 'high' : undefined}
+                                            loading={priorityFirst && index === 0 ? 'eager' : undefined}
                                             className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 750px"
                                         />

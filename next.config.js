@@ -16,13 +16,9 @@ const nextConfig = {
 
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   images: {
-    // Custom loader builds responsive, modern-format Cloudinary URLs
-    // (f_auto,q_auto,c_limit,w_<width>) for every <Image>. This keeps
-    // Cloudinary as the source of truth while letting Next.js auto-generate a
-    // device-width srcSet, fixing the "modern-image-formats" and
-    // "uses-responsive-images" opportunities site-wide.
-    loader: 'custom',
-    loaderFile: './src/lib/imageLoader.js',
+    // Default Next optimizer for local PNGs (AVIF/WebP + srcset).
+    // Cloudinary URLs pass `loader={cloudinaryLoader}` on the Image.
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -53,11 +49,11 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://www.googletagmanager.com https://plausible.io https://vercel.live",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://plausible.io https://vercel.live",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "img-src 'self' data: blob: https://res.cloudinary.com https://www.google-analytics.com https://www.googletagmanager.com",
+              "img-src 'self' data: blob: https://res.cloudinary.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://www.google-analytics.com https://plausible.io https://vercel.live https://vitals.vercel-insights.com",
+              "connect-src 'self' https://plausible.io https://vercel.live https://vitals.vercel-insights.com",
               "frame-src 'self' https://calendly.com https://vercel.live",
               "object-src 'none'",
               "base-uri 'self'",
