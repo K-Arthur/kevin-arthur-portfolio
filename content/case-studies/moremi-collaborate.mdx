@@ -2,7 +2,7 @@
 title: 'Moremi Collaborate: Clinical Peer Review and a Shared Design System'
 publishedAt: '2025-06-30'
 updatedAt: '2026-10-10'
-role: 'Lead Product Designer'
+role: 'Product Designer'
 duration: '3-month project'
 status: 'shipped'
 industry: 'healthtech'
@@ -13,49 +13,44 @@ tools:
   - UserTesting
 heroImage: 'https://res.cloudinary.com/dov1tv077/image/upload/v1768696844/Reports_Section_sltmqr.png'
 heroImageAlt: 'Telemedicine collaboration platform UI showing medical case review dashboard and team workflow'
-summary: 'I designed Moremi Collaborate — project-based case review, peer review, and a shared component system on minoHealth’s clinical-AI stack. Outcome figures below are Kevin to confirm.'
-metaDescription: 'Product design case study: Moremi Collaborate at minoHealth. Project-based case review, peer review, and a modular design system. Outcome metrics are Kevin to confirm.'
+summary: 'I designed Moremi Collaborate — project-based case review, peer review, and a shared component system on minoHealth’s clinical-AI stack.'
+metaDescription: 'Product design case study: Moremi Collaborate at minoHealth. Project-based case review, peer review, and a modular design system.'
 results:
   - value: "40%"
     label: "Faster Reviews"
-    context: "Kevin to confirm — average case review time reduction"
+    context: "Average case review time reduction"
+    confirmed: false
   - value: "45%"
     label: "Fewer UI Bugs"
-    context: "Kevin to confirm — post-launch vs. previous release"
+    context: "Post-launch vs. previous release"
+    confirmed: false
   - value: "NPS 72"
     label: "User Satisfaction"
-    context: "Kevin to confirm — among 47 beta testers"
+    context: "Among 47 beta testers"
+    confirmed: false
   - value: "2x"
     label: "Feature Velocity"
-    context: "Kevin to confirm — after design system implementation"
+    context: "After design system implementation"
+    confirmed: false
 ---
-
-{/* Kevin to confirm — 40% faster reviews, 45% fewer UI bugs, NPS 72, 2x feature velocity, 87% / 3+ tools, 3-month timeline, "Lead Product Designer" title. */}
-
-<ResultsHighlight results={[
-  { value: "40%", label: "Faster Reviews", context: "Kevin to confirm — average case review time reduction" },
-  { value: "45%", label: "Fewer UI Bugs", context: "Kevin to confirm — post-launch vs. previous release" },
-  { value: "NPS 72", label: "User Satisfaction", context: "Kevin to confirm — among 47 beta testers" },
-  { value: "2x", label: "Feature Velocity", context: "Kevin to confirm — after design system implementation" }
-]} />
 
 <CaseStudySummary 
   problem="Clinicians were splitting chat, file sharing, and case review across separate tools, and each new feature meant redesigning from scratch."
   solution="I designed a project-based collaboration surface on the existing Moremi chat stack, plus a modular design system so review, sharing, and reporting reuse the same patterns."
-  role="Lead Product Designer — platform UX and the underlying component system. Kevin to confirm title vs Product Designer on the core Moremi case study."
-  impact="Shipped inside a 3-month window. Outcome figures in the table below are Kevin to confirm."
+  role="Product Designer — platform UX and the underlying component system."
+  impact="Shipped the collaboration layer: project folders, sharing, centralized reports, and a peer-review path."
 />
 
-Moremi Collaborate sits on [minoHealth](https://www.minohealth.ai)’s clinical-AI stack — the same product family as the [core Moremi AI platform](/case-studies/moremi-ai-multimodal-medical-platform). I designed the collaboration layer: project folders for cases, sharing, centralized reports, and a peer-review path. Outcome numbers on this page are **Kevin to confirm**.
+Moremi Collaborate sits on [minoHealth](https://www.minohealth.ai)’s clinical-AI stack — the same product family as the [core Moremi AI platform](/case-studies/moremi-ai-multimodal-medical-platform). I designed the collaboration layer: project folders for cases, sharing, centralized reports, and a peer-review path.
 
 ---
 
 ## Business Constraint
 
 The existing AI chat was useful and fragmented:
-- Clinicians used multiple tools for remote collaboration (*Kevin to confirm — previous copy said 87% used 3+ platforms*)
+- Clinicians used multiple tools for remote collaboration
 - Each new feature meant redesigning from scratch — no systematic component reuse
-- Design-to-dev handoff was a recurring source of UI bugs (*Kevin to confirm — previous copy said 45% of all UI bugs*)
+- Design-to-dev handoff left too much room for UI bugs
 - No clear path to monetization beyond the core diagnostic tool
 
 The design question: unify chat, file sharing, and AI-generated reports without adding another surface clinicians have to learn.
@@ -81,7 +76,7 @@ Built a component library that treats medical workflows as **composable patterns
 
 **Engineering alignment:**
 - **Design tokens** translated directly to the Next.js/TypeScript implementation
-- **Component specs** eliminated ambiguity in requirements → 45% fewer UI bugs
+- **Component specs** eliminated ambiguity in requirements
 - **Systematic handoff patterns** that are now used across the entire MinoHealth product suite
 
 ### 2. Clinical-First Information Architecture
@@ -135,23 +130,13 @@ Designed a structured review system that turns medical expertise into a revenue 
 
 ---
 
-## Business Outcomes
-
-| Metric | Result | Context |
-|--------|--------|---------|
-| **Case Review Time** | 40% faster | Kevin to confirm — vs. fragmented toolset |
-| **UI Bugs** | 45% fewer | Kevin to confirm — post-launch vs. previous release |
-| **User Satisfaction** | NPS 72 | Kevin to confirm — among 47 beta testers |
-| **Feature Velocity** | 2x faster | Kevin to confirm — after design system |
-| **Implementation Time** | 40% reduction | Kevin to confirm — new features on the shared library |
-
-<EfficiencyCalculator />
+## What shipped
 
 ![Medical Cases Grid View](https://res.cloudinary.com/dov1tv077/image/upload/v1768696844/Reports_Section_sltmqr.png)
 *Medical cases grid showing imaging types, status tracking, and workflow management across specialties.*
 
 ### Business Impact
-- Peer-review marketplace as a monetization path (*Kevin to confirm — “new revenue stream”*)
+- Peer-review marketplace as a designed monetization path
 - Built upon MinoHealth's [clinical evaluation research](https://arxiv.org/abs/2211.00644)
 - Featured in the [official minoHealth launch announcement](https://www.minohealth.ai/blog/introducing-moremi-collaborate-generative-ai-powered-telemedicine-and-teleradiology) (May 2025)
 
@@ -162,8 +147,8 @@ The component library established during this project now powers the entire Mino
 
 ## Key Learnings
 
-1. **Design systems pay for themselves:** The upfront investment in component architecture directly halved feature delivery time and nearly halved UI bugs.
-2. **Monetization through expertise:** Creating a reviewer marketplace turned a cost center (peer review) into a revenue stream.
+1. **Design systems pay for themselves:** Shared review, sharing, and reporting patterns meant later features reused the same components.
+2. **Monetization through expertise:** The reviewer marketplace was designed so peer review could become a product path, not only a cost.
 3. **Integrate, don't replace:** Extend the existing AI chat rather than forcing a new tool.
 
 **Related work:** [Moremi AI](/case-studies/moremi-ai-multimodal-medical-platform) — the clinical platform this collaboration layer sits on. [Varve](/case-studies/varve) — design systems that ship as production code.

@@ -15,18 +15,19 @@ export const personalInfo = {
 };
 
 export const recognition = [
-  // Kevin to confirm — figures aligned with the resume, not the previous 50+ / 7+ years claims.
   {
     type: 'impact',
     value: '20+',
     label: 'Projects',
     context: 'Product design and frontend work across healthtech, SaaS, and tools',
+    confirmed: false,
   },
   {
     type: 'impact',
     value: '2018',
     label: 'Designing since',
     context: 'Independent design practice through product and engineering roles',
+    confirmed: false,
   },
 ];
 
@@ -110,10 +111,8 @@ export const professionalExperience = [
     period: 'November 2023 – May 2025',
     description: 'Owned product design for clinical-AI tools, including Moremi AI. Designed clinical workflows, AI-uncertainty states, and a WCAG 2.2-oriented component system used by clinicians on phones and desktops.',
     highlights: [
-      // Kevin to confirm — design metrics from the Moremi case study brief.
-      '+25% task success after design iteration',
-      '+15% workflow efficiency',
-      'WCAG 2.2-oriented design system in Figma and React/TypeScript',
+      'Clinical workflows and AI-uncertainty states',
+      'Component system used on phones and desktops',
     ],
   },
   {

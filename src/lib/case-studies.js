@@ -24,6 +24,20 @@ export function isListedCaseStudy(post) {
   return !post?.draft;
 }
 
+/** Only metrics Kevin has confirmed. Unconfirmed stay in MDX frontmatter for the docs list. */
+export function publicResults(results) {
+  if (!Array.isArray(results)) return [];
+  return results.filter((item) => item && item.confirmed !== false);
+}
+
+function toPublicPost(post) {
+  if (!post) return post;
+  return {
+    ...post,
+    results: publicResults(post.results),
+  };
+}
+
 export const getSortedCaseStudiesData = cache(() => {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
@@ -32,10 +46,10 @@ export const getSortedCaseStudiesData = cache(() => {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const matterResult = matter(fileContents);
 
-    return {
+    return toPublicPost({
       id,
       ...matterResult.data,
-    };
+    });
   });
 
   // Sort by strategic priority first, then by date for items not in the order list
@@ -89,11 +103,11 @@ export async function getCaseStudyData(id) {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
-    return {
+    return toPublicPost({
       id,
       content,
       ...data,
-    };
+    });
   } catch (error) {
     console.error(`Error loading case study ${id}:`, error);
     return null;
