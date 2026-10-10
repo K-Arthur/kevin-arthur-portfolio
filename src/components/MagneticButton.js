@@ -111,7 +111,7 @@ export default function MagneticButton({
 
     // Render as Link if href is provided
     if (href && !disabled) {
-        const isExternal = href.startsWith('http') || href.startsWith('mailto');
+        const isExternal = href.startsWith('http') || href.startsWith('mailto') || /\.(pdf|zip)(?:$|\?)/i.test(href);
 
         if (isExternal) {
             return (

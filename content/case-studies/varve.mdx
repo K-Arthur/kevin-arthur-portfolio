@@ -15,7 +15,7 @@ tools:
   - DTCG Tokens
   - Canvas2D
 heroImage: "/images/case-studies/varve/workspace-light.png"
-heroImageAlt: "Varve editor showing a poster design with vector shapes, layers panel, and properties inspector"
+heroImageAlt: "Varve editor in light mode: Layers of time poster on the canvas, layers list on the left, typography inspector on the right"
 summary: "I designed and engineered Varve, a free, local-first design suite now in public beta (v0.5.0, released 9 Oct 2026). A React/TypeScript editor sits on a Rust/WASM engine. Six task workspaces share one document. No account. Source-available under FSL-1.1-MIT."
 metaDescription: "Design engineering case study: Varve v0.5.0 — a local-first design suite I designed and shipped. React/TypeScript editor, Rust/WASM engine, DTCG tokens, six workspaces, Linux/macOS/Windows, browser demo. 25 GitHub stars (Oct 2026)."
 results:
@@ -26,7 +26,7 @@ results:
     label: "Task workspaces"
     context: "Design, Print, Draw, Photo, Motion, Email — one document"
   - value: "25"
-    label: "GitHub stars"
+    label: "GitHub stars (Oct 2026)"
     context: "As of Oct 2026"
   - value: "1,903"
     label: "Browser tests"
@@ -36,7 +36,7 @@ results:
 <ResultsHighlight results={[
   { value: "v0.5.0", label: "Public beta", context: "Released 9 Oct 2026 — Linux, macOS, Windows" },
   { value: "6", label: "Task workspaces", context: "Design, Print, Draw, Photo, Motion, Email — one document" },
-  { value: "25", label: "GitHub stars", context: "As of Oct 2026" },
+  { value: "25", label: "GitHub stars (Oct 2026)", context: "As of Oct 2026" },
   { value: "1,903", label: "Browser tests", context: "0.5.0 checkpoint — docs/how-varve-is-built.md" }
 ]} />
 
@@ -105,8 +105,11 @@ These were product constraints, not just engineering ones:
 
 v0.5.0 makes that opinion visible in the chrome: **six task workspaces** — Design, Print, Draw, Photo, Motion, Email — sharing one document. Logo tools stay in Design; code export is available from every workspace.
 
-![Varve workspace showing a poster design with vector shapes, text, and layout frames in the same document](/images/case-studies/varve/workspace-light.png)
-*The same document holds vector shapes, typed headlines, and layout frames — nodes in one scene graph, not imports.*
+![Varve Print workspace on the Layers of time poster: publishing pages, facing pages, and print-specific inspector controls](/images/case-studies/varve/workspaces-light.png)
+*Print workspace over the same poster document — Design, Print, Draw, Photo, Motion, and Email share the scene.*
+
+![Varve shared-workflow chrome: the same document open with workspace tools that stay available across disciplines](/images/case-studies/varve/workspace-shared-workflows-light.png)
+*Shared workflows stay on the document when the workspace changes — not a separate file per discipline.*
 
 ### IR-replay instead of pixel-push
 
@@ -169,8 +172,11 @@ const color = tokens.color.bg.panel; // DTCG → typed token
 
 > **What this means for the product:** the design system is not a separate deliverable. It is the living surface of the application. Token import is a designer workflow, not a build-only step.
 
-![Type controls for the selected text](/images/case-studies/varve/typography-light.png)
-*Typography edited on the canvas — the same token and type system that styles the inspector.*
+![Varve inspector with a rectangle fill bound to a semantic token alias](/images/case-studies/varve/design-tokens-alias-bound-light.png)
+*A canvas fill bound to a token alias — the inspector and the artwork share one DTCG value.*
+
+![Varve export dialog in light mode, listing code and file export targets](/images/case-studies/varve/export-dialog-light.png)
+*Export from the same tokens: CSS, React, and file formats from the live document.*
 
 ---
 
@@ -220,8 +226,6 @@ Nothing is trusted just because a tool wrote it. [How Varve is built](https://gi
 - Releases built in CI from the tagged commit, then checked on Linux, Windows, and macOS (upgrade, save and reopen, export)
 - SHA-256 checksums, SBOMs, and build provenance on every release
 - Installers are **not code-signed** yet
-
-Screenshots in this case study come from the deterministic capture pipeline in the Varve repo — seeded documents, not hand-edited marketing art.
 
 > **The distinction that matters:** "The function passed" is not the same as "the editor visibly behaved correctly."
 

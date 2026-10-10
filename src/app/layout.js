@@ -32,7 +32,7 @@ export const metadata = {
     default: 'Kevin Arthur | Design Engineer & Product Designer',
     template: '%s | Kevin Arthur Design'
   },
-  description: 'I design product interfaces and ship them in code. Design Engineer and Product Designer in Vancouver, open to remote roles in Canada. Founder of Varve (v0.5.0). React, TypeScript, Next.js.',
+  description: 'Kevin Arthur, Design Engineer in Vancouver. I design product interfaces and ship them in React and TypeScript. Founder of Varve, a local-first design suite.',
   keywords: ['Design Engineer', 'Product Designer', 'Frontend Engineer', 'React', 'TypeScript', 'Next.js', 'Vancouver', 'Canada remote', 'Varve'],
   metadataBase: new URL(siteUrl),
   alternates: {

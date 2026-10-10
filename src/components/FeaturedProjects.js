@@ -97,6 +97,12 @@ export function FeaturedProjects({ posts = [], titleAs: TitleTag = 'h2', priorit
                                     <p className="text-base md:text-lg text-muted-enhanced leading-relaxed text-pretty max-w-xl">
                                         {post.summary || post.metaDescription}
                                     </p>
+                                    {post.proof && (
+                                        <p className="text-sm text-muted-foreground leading-relaxed max-w-xl">
+                                            <span className="font-semibold text-foreground">Proof: </span>
+                                            {post.proof}
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Secondary Metrics */}
@@ -115,8 +121,7 @@ export function FeaturedProjects({ posts = [], titleAs: TitleTag = 'h2', priorit
                                     </div>
                                 )}
 
-                                {/* CTA */}
-                                <div className="pt-2">
+                                <div className="pt-2 flex flex-wrap items-center gap-x-5 gap-y-2">
                                     <Link
                                         href={`/case-studies/${post.id}`}
                                         className="inline-flex items-center gap-2 text-primary font-semibold text-base hover:text-primary/80 transition-colors group/link"
@@ -124,6 +129,17 @@ export function FeaturedProjects({ posts = [], titleAs: TitleTag = 'h2', priorit
                                         Explore Case Study
                                         <FaArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-1" />
                                     </Link>
+                                    {post.extraLinks?.map((link) => (
+                                        <a
+                                            key={link.href}
+                                            href={link.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center min-h-[44px] text-sm font-medium text-muted-foreground hover:text-primary underline-offset-4 hover:underline"
+                                        >
+                                            {link.label}
+                                        </a>
+                                    ))}
                                 </div>
 
                             </div>

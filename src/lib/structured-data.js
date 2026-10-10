@@ -16,7 +16,7 @@ export const personSchema = {
     "givenName": "Kevin",
     "familyName": "Arthur",
     "jobTitle": "Design Engineer & Product Designer",
-    "description": "Design Engineer and Product Designer who ships product interfaces in React and TypeScript. Founder of Varve. Based in Vancouver, Canada; open to remote roles in Canada. MSc Applied Computer Science at Fairleigh Dickinson University Vancouver, expected Dec 2026.",
+    "description": "Design Engineer and Product Designer who ships product interfaces in React and TypeScript. Founder of Varve. Based in Vancouver, Canada; open to remote roles in Canada.",
     "url": BASE_URL,
     "image": toAbsoluteUrl('/images/profile-image.jpg'),
     "sameAs": [
@@ -24,6 +24,16 @@ export const personSchema = {
         "https://www.behance.net/arthurkevin",
         "https://github.com/K-Arthur"
     ],
+    "founder": {
+        "@type": "Organization",
+        "name": "Varve",
+        "url": "https://varve.studio"
+    },
+    "worksFor": {
+        "@type": "Organization",
+        "name": "Varve",
+        "url": "https://varve.studio"
+    },
     "address": {
         "@type": "PostalAddress",
         "addressLocality": "Vancouver",
@@ -134,5 +144,41 @@ export const websiteSchema = {
         "@type": "Person",
         "@id": `${BASE_URL}/#person`,
         "name": "Kevin Arthur"
+    }
+};
+
+export const profilePageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${BASE_URL}/#profile`,
+    "name": "Kevin Arthur | Design Engineer & Product Designer",
+    "url": BASE_URL,
+    "mainEntity": {
+        "@id": `${BASE_URL}/#person`
+    },
+    "isPartOf": {
+        "@id": `${BASE_URL}/#website`
+    }
+};
+
+export const varveSoftwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://varve.studio/#app",
+    "name": "Varve",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Linux, macOS, Windows",
+    "url": "https://varve.studio",
+    "license": "https://github.com/K-Arthur/varve/blob/master/LICENSE.md",
+    "softwareVersion": "0.5.0",
+    "description": "Free, local-first design suite. Source-available under FSL-1.1-MIT. React/TypeScript editor on a Rust/WASM engine.",
+    "author": {
+        "@id": `${BASE_URL}/#person`
+    },
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Community Edition — free, no subscription, source-available (FSL-1.1-MIT)"
     }
 };

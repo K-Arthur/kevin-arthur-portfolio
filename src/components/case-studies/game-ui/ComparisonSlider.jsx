@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { MoveHorizontal } from 'lucide-react';
 
 export default function ComparisonSlider({
-    beforeImage = "https://res.cloudinary.com/dov1tv077/image/upload/v1769725624/Loading_Screen_llxrsj.png",
-    afterImage = "https://res.cloudinary.com/dov1tv077/image/upload/v1769725668/Mission_Select_vcdg2w.png",
+    beforeImage = "/images/case-studies/kamen-rider/loading-screen.webp",
+    afterImage = "/images/case-studies/kamen-rider/mission-select.webp",
     beforeLabel = "Raw Environment",
     afterLabel = "HUD Overlay"
 }) {

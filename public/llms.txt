@@ -1,0 +1,24 @@
+# Kevin Arthur
+
+Kevin Arthur is a design engineer and product designer based in Vancouver, Canada. He designs product interfaces and ships them in React and TypeScript. Open to remote roles in Canada.
+
+## Products
+
+- Varve (https://varve.studio) — free, local-first design suite. Public beta v0.5.0, October 2026. React/TypeScript editor on a Rust/WASM engine. Source-available under FSL-1.1-MIT. Source: https://github.com/K-Arthur/varve · Try: https://varve.studio/try/
+
+## Work
+
+- 2026–present — Founder, designer and engineer, Varve
+- 2023–2025 — Product designer for clinical-AI tools at minoHealth AI Labs (Moremi AI, Moremi Collaborate)
+
+## Site
+
+- Home: https://www.kevinarthur.design/
+- About: https://www.kevinarthur.design/about
+- Case studies: https://www.kevinarthur.design/case-studies
+- Varve case study: https://www.kevinarthur.design/case-studies/varve
+- Moremi AI: https://www.kevinarthur.design/case-studies/moremi-ai-multimodal-medical-platform
+- OpenCode Harness: https://www.kevinarthur.design/case-studies/opencode-harness
+- Contact: https://www.kevinarthur.design/contact
+- GitHub: https://github.com/K-Arthur
+- LinkedIn: https://www.linkedin.com/in/kevinoarthur/

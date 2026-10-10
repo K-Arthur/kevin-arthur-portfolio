@@ -8,7 +8,7 @@ export const personalInfo = {
   email: 'hello@kevinarthur.design',
   phone: '+1 672-380-2593',
   tel: '+16723802593',
-  summary: "I'm a Design Engineer and Product Designer. I take complex products from research and Figma to production React and TypeScript. I'm the founder and designer-engineer of Varve, a free, local-first design suite now in public beta (v0.5.0) on Linux, macOS and Windows. Before that I owned product design for clinical-AI tools at minoHealth AI Labs.",
+  summary: "I take complex products from research and Figma to production React and TypeScript. Based in Vancouver, open to remote roles in Canada.",
   heroTitle1: 'Design Engineer',
   heroTitle2: 'Product Designer',
   differentiationStatement: 'I design product interfaces and ship them in code — React, TypeScript, and Next.js — for teams that need both craft and implementation.',
@@ -36,7 +36,7 @@ export const featuredCaseStudy = {
   title: 'Varve: a local-first design suite I designed and shipped in code',
   summary: 'Founder and designer-engineer of Varve, a free, local-first design suite in public beta (v0.5.0) — six task workspaces on a React/TypeScript editor and a Rust/WASM engine.',
   heroImage: '/images/case-studies/varve/workspace-light.png',
-  heroImageAlt: 'Varve editor showing a poster design with vector shapes, layers panel, and properties inspector',
+  heroImageAlt: 'Varve editor in light mode: Layers of time poster on the canvas, layers list on the left, typography inspector on the right',
   role: 'Founder, Designer & Engineer',
   industry: 'creative-tools',
   results: [
